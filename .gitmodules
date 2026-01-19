@@ -1,0 +1,9 @@
+[submodule "skills/claude-scientific-skills"]
+	path = skills/claude-scientific-skills
+	url = https://github.com/K-Dense-AI/claude-scientific-skills
+[submodule "skills/ui-ux-pro-max-skill"]
+	path = skills/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+[submodule "skills/anthropics"]
+	path = skills/anthropics
+	url = https://github.com/anthropics/skills.git
