@@ -1,0 +1,26 @@
+---
+description: Standard Python development guidelines using uv
+alwaysApply: true
+---
+
+# Python (UV) Standards
+
+## Workflow
+1. **Manage Dependencies**: `uv sync`, `uv add <package>`.
+2. **Execution**: `uv run <script.py>`.
+3. **Linting**: `uv run ruff check`.
+4. **Formatting**: `uv run ruff format`.
+5. **Type Checking**: `uv run pyright` or `uv run mypy .`.
+6. **Testing**: `uv run pytest`.
+
+## Code Style
+- **Formatting**: Follow PEP 8. Use `ruff`.
+- **Imports**: Alphabetical order; group by stdlib, third-party, and local.
+- **Types**: Use type hints for all function signatures.
+- **Docs**: Use Google-style or NumPy-style docstrings.
+- **Constraint**: Do not generate README/docs proactively.
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`, `docs/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

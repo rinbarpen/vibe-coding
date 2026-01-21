@@ -1,0 +1,26 @@
+---
+description: Standard React frontend development guidelines
+alwaysApply: true
+---
+
+# React Frontend Standards
+
+## Workflow
+1. **Manage Dependencies**: `npm install`.
+2. **Development**: `npm run dev`.
+3. **Build**: `npm run build`.
+4. **Linting**: `npm run lint`.
+5. **Testing**: `npm test`.
+6. **Type Checking**: `npx tsc --noEmit`.
+
+## Code Style
+- **Framework**: Functional Components with Hooks.
+- **Styling**: Tailwind CSS (utility classes preferred).
+- **TypeScript**: Define interfaces/types for props and state.
+- **Components**: One component per file; small and focused.
+- **Naming**: `PascalCase` for components, `camelCase` for variables/functions.
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`, `docs/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

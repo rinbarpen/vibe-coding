@@ -1,0 +1,16 @@
+---
+description: Base guidance for generic projects
+alwaysApply: true
+---
+
+# Minimal Base Standards
+
+## Code Style & Rules
+- Follow existing codebase style.
+- Keep changes concise and focused.
+- Do not create documentation files unless explicitly requested.
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

@@ -1,0 +1,25 @@
+---
+description: Standard Go backend development guidelines
+alwaysApply: true
+---
+
+# Go Backend Standards
+
+## Workflow
+1. **Manage Dependencies**: `go mod tidy` and `go mod download`.
+2. **Build**: `go build ./...`.
+3. **Run**: `go run main.go`.
+4. **Test**: `go test ./...`. For specific tests: `go test -v -run TestName ./path/to/pkg`.
+5. **Lint & Format**: `golangci-lint run`, `go fmt ./...`, `goimports -w .`.
+
+## Code Style
+- **Conventions**: Follow [Effective Go](https://go.dev/doc/effective_go) and [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments).
+- **Naming**: Use `MixedCaps` (PascalCase/camelCase). Avoid underscores.
+- **Error Handling**: Handle all errors explicitly. Do not use `panic` for normal error flows.
+- **Concurrency**: Use `context.Context` for cancellation and timeouts in network/DB operations.
+- **Interfaces**: Keep interfaces small and define them where they are used (consumer side).
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`, `docs/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

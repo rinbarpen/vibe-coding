@@ -1,0 +1,17 @@
+---
+description: Procedures for modifying backend API endpoints in Rust projects
+alwaysApply: false
+---
+
+# API Modification Guidelines
+
+## Core Requirements
+1. **Frontend Impact Analysis**: Search for API usages in the frontend (e.g., `rg` or semantic search).
+2. **Documentation**: Update API documentation (OpenAPI, README, or crate docs).
+
+## Checklist
+- [ ] Check frontend for compatibility issues.
+- [ ] Update request/response structs and their serialization/deserialization logic.
+- [ ] Ensure documentation reflects new signatures/errors.
+- [ ] Update integration tests and mock data.
+- [ ] Verify error propagation and HTTP status codes.

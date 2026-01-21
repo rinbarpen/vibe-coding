@@ -1,0 +1,17 @@
+---
+description: Procedures for modifying backend API endpoints
+alwaysApply: false
+---
+
+# API Modification Guidelines
+
+## Core Requirements
+1. **Frontend Impact Analysis**: When modifying a backend API, search for all usages in the frontend codebase (e.g., `rg` or semantic search).
+2. **Documentation**: Update corresponding API documentation (OpenAPI/Swagger, README.md, or dedicated docs).
+
+## Checklist
+- [ ] Check if the frontend needs corresponding changes.
+- [ ] Ensure backward compatibility if external clients are affected.
+- [ ] Update response/request schemas in documentation.
+- [ ] Verify that error codes and messages are documented.
+- [ ] Update integration tests covering this API.

@@ -1,0 +1,17 @@
+---
+description: Procedures for modifying backend API endpoints or Server Actions
+alwaysApply: false
+---
+
+# API & Server Action Modification Guidelines
+
+## Core Requirements
+1. **Impact Analysis**: When modifying a Route Handler (`app/api/`) or a Server Action, check all frontend components that invoke them.
+2. **Documentation**: Update API documentation or internal docs if the signature or return type changes.
+
+## Checklist
+- [ ] Verify frontend components and hooks that consume the API/Action.
+- [ ] Update TypeScript types/interfaces shared between server and client.
+- [ ] Ensure Server Actions handle errors gracefully and return actionable feedback.
+- [ ] Check if documentation needs updates for modified endpoints.
+- [ ] Run type-checking (`npx tsc --noEmit`) to catch broken references.

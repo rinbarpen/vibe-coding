@@ -1,0 +1,25 @@
+---
+description: Standard scientific research and data analysis guidelines
+alwaysApply: true
+---
+
+# Scientific Research Lab Standards
+
+## Workflow
+1. **Manage Dependencies**: `uv sync` or `pip install -r requirements.txt`.
+2. **Environment**: `uv run jupyter lab`.
+3. **Execution**: `uv run python scripts/analyze_data.py`.
+4. **Linting**: `uv run ruff check`.
+5. **Testing**: `uv run pytest`.
+
+## Code Style & Rules
+- **Scientific Stack**: NumPy, Pandas, Scipy, Scikit-learn.
+- **Visualization**: Matplotlib or Seaborn.
+- **Critical Rule**: For Matplotlib plots, the font language **MUST be English**.
+- **Documentation**: Focus on clear naming and inline comments for mathematical logic.
+- **Data Management**: Raw data in `data/raw`, processed in `data/processed`. Do not commit large datasets.
+
+## Git Workflow
+- **Branches**: `feat/...`, `experiment/...`, `fix/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

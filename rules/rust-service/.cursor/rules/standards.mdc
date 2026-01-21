@@ -1,0 +1,26 @@
+---
+description: Standard Rust development guidelines
+alwaysApply: true
+---
+
+# Rust Service Standards
+
+## Workflow
+1. **Build**: `cargo build`.
+2. **Run**: `cargo run`.
+3. **Check**: `cargo check`.
+4. **Linting**: `cargo clippy`.
+5. **Formatting**: `cargo fmt`.
+6. **Testing**: `cargo test`.
+
+## Code Style
+- **Standards**: Follow [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/).
+- **Safety**: Prefer safe Rust. Document `unsafe` invariants.
+- **Error Handling**: Use `Result` and `Option`. Prefer `anyhow` or `thiserror`.
+- **Naming**: `snake_case` for functions/variables, `PascalCase` for types/traits.
+- **Formatting**: Consistent use of `cargo fmt`.
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`, `docs/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.

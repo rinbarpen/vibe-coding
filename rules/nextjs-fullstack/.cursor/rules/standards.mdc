@@ -1,0 +1,27 @@
+---
+description: Standard Next.js App Router development guidelines
+alwaysApply: true
+---
+
+# Next.js Fullstack Standards
+
+## Workflow
+1. **Manage Dependencies**: `npm install`.
+2. **Development**: `npm run dev`.
+3. **Build**: `npm run build`.
+4. **Type Checking**: `npx tsc --noEmit`.
+5. **Linting**: `npm run lint`.
+6. **Testing**: `npm test`.
+
+## Code Style
+- **Architecture**: App Router structure (`app/` directory).
+- **Server Components**: Use React Server Components (RSC) by default. Use `"use client"` only when necessary.
+- **Data Fetching**: Use Server Actions for mutations. Direct DB access or Server Actions for fetching in Server Components.
+- **API**: Use Route Handlers in `app/api/` for external clients or complex logic.
+- **Styling**: Tailwind CSS and Lucide React.
+- **Components**: Follow Shadcn UI patterns.
+
+## Git Workflow
+- **Branches**: `feat/...`, `fix/...`, `docs/...`.
+- **Pull Requests**: Use `gh pr create`.
+- **Safety**: Never push directly to `main`.
