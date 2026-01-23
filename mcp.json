@@ -1,0 +1,45 @@
+{
+    "mcpServers": {
+        "promptx-alpha": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "-f",
+                "dpml-prompt@alpha",
+                "mcp-server"
+            ]
+        },
+        "pdf-reader-mcp": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@sylphx/pdf-reader-mcp"
+            ]
+        },
+        "chrome-devtools": {
+            "command": "npx -y chrome-devtools-mcp@latest",
+            "env": {},
+            "args": []
+        },
+        "drawio": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "drawio-mcp-server"
+            ]
+        },
+        "claude-scientific-skills": {
+            "url": "https://mcp.k-dense.ai/claude-scientific-skills/mcp",
+            "headers": {}
+        },
+        "windows-mcp": {
+            "command": "uvx",
+            "args": [
+                "windows-mcp"
+            ],
+            "env": {
+                "ANONYMIZED_TELEMETRY": "false"
+            }
+        }
+    }
+}
