@@ -3,7 +3,7 @@ import json
 import re
 from pathlib import Path
 
-WORKSPACE_ROOT = Path("/home/rczx/workspace/rinbarpen/vibe-coding")
+WORKSPACE_ROOT = Path(__file__).parents[3]
 SKILLS_DIR = WORKSPACE_ROOT / "skills"
 # MCP 路径可能需要根据实际环境调整，这里使用之前探索到的路径
 MCPS_DIR = Path("/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps")

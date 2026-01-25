@@ -14,7 +14,7 @@ globs:
 **目的**: 扫描 `skills/` 和 `mcps/` 目录，提取元数据并生成结构化的标注文件 `skills/ANNOTATIONS.md`。
 
 **执行逻辑**:
-1. **运行脚本**: 执行 `python3 scripts/annotate_skills_mcp.py`。
+1. **运行脚本**: 执行 `python3 .cursor/commands/skill-mcp-annotation/annotate_skills_mcp.py`。
 2. **脚本功能**:
    - **扫描 Skills**: 递归扫描 `skills/` 目录，提取 `SKILL.md` 或 `AGENTS.md` 中的名称和描述。
    - **扫描 MCPs**: 扫描 `mcps/` 目录，提取 `SERVER_METADATA.json` 和 `INSTRUCTIONS.md` 中的信息。
