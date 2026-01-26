@@ -12,6 +12,11 @@
 - **Description**: Instructions for AI coding agents working with this codebase.
 - **Usage**: See description
 
+### Repository Guidelines
+- **Path**: `skills/drawio-skills`
+- **Description**: 本仓库是 drawio 技能与文档集合，核心内容集中在文档与 skill 说明。主要目录：
+- **Usage**: See description
+
 ### Skill Evolution Manager
 - **Path**: `skills/Khazix-Skills/skill-evolution-manager`
 - **Description**: 专门用于在对话结束时，根据用户反馈和对话内容总结优化并迭代现有 Skills 的核心工具。它通过吸取对话中的“精华”（如成功的解决方案、失败的教训、特定的代码规范）来持续演进 Skills 库。
@@ -537,6 +542,11 @@
 - **Description**: Comprehensive toolkit for preparing ISO 13485 certification documentation for medical device Quality Management Systems. Use when users need help with ISO 13485 QMS documentation, including (1) conducting gap analysis of existing documentation, (2) creating Quality Manuals, (3) developing required procedures and work instructions, (4) preparing Medical Device Files, (5) understanding ISO 13485 requirements, or (6) identifying missing documentation for medical device certification. Also use when users mention medical device regulations, QMS certification, FDA QMSR, EU MDR, or need help with quality system documentation.
 - **Usage**: Comprehensive toolkit for preparing ISO 13485 certification documentation for medical device Quality Management Systems. Use when users need help with ISO 13485 QMS documentation, including (1) conducting gap analysis of existing documentation, (2) creating Quality Manuals, (3) developing required procedures and work instructions, (4) preparing Medical Device Files, (5) understanding ISO 13485 requirements, or (6) identifying missing documentation for medical device certification. Also use when users mention medical device regulations, QMS certification, FDA QMSR, EU MDR, or need help with quality system documentation.
 
+### json-canvas
+- **Path**: `skills/obsidian-skills/skills/json-canvas`
+- **Description**: Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian.
+- **Usage**: Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian.
+
 ### jules
 - **Path**: `skills/ai-skills/skills/jules`
 - **Description**: Delegate coding tasks to Google Jules AI agent for asynchronous execution. Use when user says: 'have Jules fix', 'delegate to Jules', 'send to Jules', 'ask Jules to', 'check Jules sessions', 'pull Jules results', 'jules add tests', 'jules add docs', 'jules review pr'. Handles: bug fixes, documentation, features, tests, refactoring, code reviews. Works with GitHub repos, creates PRs.
@@ -676,6 +686,16 @@
 - **Path**: `skills/notebooklm-skill`
 - **Description**: Use this skill to query your Google NotebookLM notebooks directly from Claude Code for source-grounded, citation-backed answers from Gemini. Browser automation, library management, persistent auth. Drastically reduced hallucinations through document-only responses.
 - **Usage**: Use this skill to query your Google NotebookLM notebooks directly from Claude Code for source-grounded, citation-backed answers from Gemini. Browser automation, library management, persistent auth. Drastically reduced hallucinations through document-only responses.
+
+### obsidian-bases
+- **Path**: `skills/obsidian-skills/skills/obsidian-bases`
+- **Description**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+- **Usage**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+
+### obsidian-markdown
+- **Path**: `skills/obsidian-skills/skills/obsidian-markdown`
+- **Description**: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, or Obsidian notes.
+- **Usage**: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, or Obsidian notes.
 
 ### offer-k-dense-web
 - **Path**: `skills/claude-scientific-skills/scientific-skills/offer-k-dense-web`
@@ -1310,6 +1330,11 @@
 ### zinc-database
 - **Path**: `skills/claude-scientific-skills/scientific-skills/zinc-database`
 - **Description**: Access ZINC (230M+ purchasable compounds). Search by ZINC ID/SMILES, similarity searches, 3D-ready structures for docking, analog discovery, for virtual screening and drug discovery.
+- **Usage**: See description
+
+### 私人投资分析系统 v2.1
+- **Path**: `skills/ai-investment-advisor`
+- **Description**: 基于 Claude Code 的私人投资分析系统，支持多模型协同决策。
 - **Usage**: See description
 
 ## MCP Servers
