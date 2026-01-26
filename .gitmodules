@@ -10,3 +10,45 @@
 [submodule "skills/superpowers"]
 	path = skills/superpowers
 	url = https://github.com/obra/superpowers
+[submodule "skills/Agent-Skills-for-Context-Engineering"]
+	path = skills/Agent-Skills-for-Context-Engineering
+	url = https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git
+[submodule "skills/Khazix-Skills"]
+	path = skills/Khazix-Skills
+	url = https://github.com/KKKKhazix/Khazix-Skills.git
+[submodule "skills/agent-browser"]
+	path = skills/agent-browser
+	url = https://github.com/vercel-labs/agent-browser.git
+[submodule "skills/agent-skills"]
+	path = skills/agent-skills
+	url = https://github.com/vercel-labs/agent-skills.git
+[submodule "skills/ai-investment-advisor"]
+	path = skills/ai-investment-advisor
+	url = https://github.com/AllenAI2014/ai-investment-advisor.git
+[submodule "skills/ai-skills"]
+	path = skills/ai-skills
+	url = https://github.com/sanjay3290/ai-skills.git
+[submodule "skills/awesome-claude-skills"]
+	path = skills/awesome-claude-skills
+	url = https://github.com/ComposioHQ/awesome-claude-skills.git
+[submodule "skills/beautiful_prose"]
+	path = skills/beautiful_prose
+	url = https://github.com/SHADOWPR0/beautiful_prose.git
+[submodule "skills/drawio-skills"]
+	path = skills/drawio-skills
+	url = https://github.com/bahayonghang/drawio-skills.git
+[submodule "skills/humanizer"]
+	path = skills/humanizer
+	url = https://github.com/blader/humanizer.git
+[submodule "skills/marketingskills"]
+	path = skills/marketingskills
+	url = https://github.com/coreyhaines31/marketingskills.git
+[submodule "skills/notebooklm-skill"]
+	path = skills/notebooklm-skill
+	url = https://github.com/PleasePrompto/notebooklm-skill.git
+[submodule "skills/obsidian-skills"]
+	path = skills/obsidian-skills
+	url = https://github.com/kepano/obsidian-skills.git
+[submodule "skills/skills"]
+	path = skills/skills
+	url = https://github.com/better-auth/skills.git
