@@ -1,5 +1,7 @@
 # Skills & MCP 标注索引
 
+本文件为仓库内 Skills 与 MCP 的标注索引，按名称列出路径、简介与使用场景，便于快速查找并决定何时选用哪项技能或 MCP。
+
 ## 技能 (Skills)
 
 ### AGENTS.md
@@ -1270,6 +1272,11 @@
 ### venue-templates
 - **路径**: `skills/claude-scientific-skills/scientific-skills/venue-templates`
 - **简介**: Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR, CHI), research posters, and grant proposals (NSF, NIH, DOE, DARPA). This skill should be used when preparing manuscripts for journal submission, conference papers, research posters, or grant proposals and need venue-specific formatting requirements and templates.
+- **使用场景**: 见简介
+
+### video-summarizer
+- **路径**: `skills/video-summarizer/skills/video-summarizer`
+- **简介**: Download videos from YouTube, Bilibili, Twitter/X and 1800+ platforms; outputs MP4, MP3, subtitles, transcript and AI summary. Use when the user asks to summarize a video, download a video, transcribe a video, or get key points from a video URL.
 - **使用场景**: 见简介
 
 ### verification-before-completion

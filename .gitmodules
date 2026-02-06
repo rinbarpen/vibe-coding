@@ -52,3 +52,6 @@
 [submodule "skills/skills"]
 	path = skills/skills
 	url = https://github.com/better-auth/skills.git
+[submodule "skills/video-summarizer"]
+	path = skills/video-summarizer
+	url = https://github.com/liang121/video-summarizer.git

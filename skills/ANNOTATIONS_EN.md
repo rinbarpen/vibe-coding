@@ -1,5 +1,7 @@
 # Skills & MCP Annotations Index
 
+This file is an index of Skills and MCP annotations in the repository, listing path, description, and usage per entry for quick lookup and deciding when to use which skill or MCP.
+
 ## Skills
 
 ### AGENTS.md
@@ -1270,6 +1272,11 @@
 ### venue-templates
 - **Path**: `skills/claude-scientific-skills/scientific-skills/venue-templates`
 - **Description**: Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR, CHI), research posters, and grant proposals (NSF, NIH, DOE, DARPA). This skill should be used when preparing manuscripts for journal submission, conference papers, research posters, or grant proposals and need venue-specific formatting requirements and templates.
+- **Usage**: See description
+
+### video-summarizer
+- **Path**: `skills/video-summarizer/skills/video-summarizer`
+- **Description**: Download videos from YouTube, Bilibili, Twitter/X and 1800+ platforms; outputs MP4, MP3, subtitles, transcript and AI summary. Use when the user asks to summarize a video, download a video, transcribe a video, or get key points from a video URL.
 - **Usage**: See description
 
 ### verification-before-completion
