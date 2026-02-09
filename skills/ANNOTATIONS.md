@@ -1079,6 +1079,11 @@
 - **简介**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
 - **使用场景**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
 
+### skill-seekers
+- **路径**: `skills/skill-seekers`
+- **简介**: Use when converting documentation websites, GitHub repositories, or PDFs into Claude/Cursor skills; when scraping, analyzing, packaging, or uploading skills; or when configuring MCP or multi-source conflict detection for skill generation.
+- **使用场景**: 见简介
+
 ### skill-share
 - **路径**: `skills/awesome-claude-skills/skill-share`
 - **简介**: A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.
