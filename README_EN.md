@@ -42,6 +42,13 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Webapp Testing](skills/anthropics/skills/webapp-testing)**: Automatically write and run local application test cases using Playwright.
 *   **[Skill Creator](skills/anthropics/skills/skill-creator)**: Assist in developing and validating custom skills following the Agent Skills specification.
 
+### 5. 📦 More Community & Specialized Skills
+
+*   **[AI-Research-SKILLs](skills/AI-Research-SKILLs)**: 83+ AI/ML research engineering skills (model architecture, training, inference, evaluation, paper writing).
+*   **[Humanizer-zh](skills/Humanizer-zh)**: Remove AI-writing traces from Chinese text for more natural phrasing.
+*   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: High-quality Mermaid diagram rendering with multiple themes, SVG/ASCII output.
+*   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: Chapter-by-chapter Chinese fiction writing, long-form and multi-genre.
+
 ---
 
 ## 📂 Skills & MCP Index

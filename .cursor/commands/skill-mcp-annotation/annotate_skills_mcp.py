@@ -204,6 +204,13 @@ def update_readmes(counts):
 *   **[Webapp Testing](skills/anthropics/skills/webapp-testing)**: 使用 Playwright 自动编写并运行本地应用测试用例。
 *   **[Skill Creator](skills/anthropics/skills/skill-creator)**: 遵循 Agent Skills 规范，辅助您开发和校验自定义技能。
 
+### 5. 📦 更多社区与专项技能 (More Community & Specialized Skills)
+
+*   **[AI-Research-SKILLs](skills/AI-Research-SKILLs)**: 83+ AI/ML 研究工程技能（模型架构、训练、推理、评估、论文写作等）。
+*   **[Humanizer-zh](skills/Humanizer-zh)**: 去除中文文本的 AI 写作痕迹，使表述更自然。
+*   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: 高质量 Mermaid 图表渲染，多主题、SVG/ASCII 输出。
+*   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: 分章节中文小说创作，支持长篇与多题材。
+
 ---
 
 ## 📂 技能与 MCP 索引 (Index)
@@ -273,6 +280,13 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Web Artifacts Builder](skills/anthropics/skills/web-artifacts-builder)**: Quickly build interactive component previews with React + Tailwind + Lucide.
 *   **[Webapp Testing](skills/anthropics/skills/webapp-testing)**: Automatically write and run local application test cases using Playwright.
 *   **[Skill Creator](skills/anthropics/skills/skill-creator)**: Assist in developing and validating custom skills following the Agent Skills specification.
+
+### 5. 📦 More Community & Specialized Skills
+
+*   **[AI-Research-SKILLs](skills/AI-Research-SKILLs)**: 83+ AI/ML research engineering skills (model architecture, training, inference, evaluation, paper writing).
+*   **[Humanizer-zh](skills/Humanizer-zh)**: Remove AI-writing traces from Chinese text for more natural phrasing.
+*   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: High-quality Mermaid diagram rendering with multiple themes, SVG/ASCII output.
+*   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: Chapter-by-chapter Chinese fiction writing, long-form and multi-genre.
 
 ---
 

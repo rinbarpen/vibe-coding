@@ -1,7 +1,5 @@
 # Skills & MCP Annotations Index
 
-This file is an index of Skills and MCP annotations in the repository, listing path, description, and usage per entry for quick lookup and deciding when to use which skill or MCP.
-
 ## Skills
 
 ### AGENTS.md
@@ -27,6 +25,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 ### ab-test-setup
 - **Path**: `skills/marketingskills/skills/ab-test-setup`
 - **Description**: When the user wants to plan, design, or implement an A/B test or experiment. Also use when the user mentions "A/B test," "split test," "experiment," "test this change," "variant copy," "multivariate test," or "hypothesis." For tracking implementation, see analytics-tracking.
+- **Usage**: See description
+
+### academic-writing
+- **Path**: `skills/academic-writing`
+- **Description**: 综合论文编写技能，支持 plan-outline（概要规划）、write（章节写作与整合）、review（评审）、switch-venue（渠道切换）和 switch-language（语言切换）模式。集成去 AI 味、防幻觉引用工作流、顶级会议写作哲学及稳定绘图功能。
 - **Usage**: See description
 
 ### adaptyv
@@ -74,6 +77,26 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celestial coordinates, physical units, FITS files, cosmological calculations, time systems, tables, world coordinate systems (WCS), and astronomical data analysis. Use when tasks involve coordinate transformations, unit conversions, FITS file manipulation, cosmological distance calculations, time scale conversions, or astronomical data processing.
 - **Usage**: Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celestial coordinates, physical units, FITS files, cosmological calculations, time systems, tables, world coordinate systems (WCS), and astronomical data analysis. Use when tasks involve coordinate transformations, unit conversions, FITS file manipulation, cosmological distance calculations, time scale conversions, or astronomical data processing.
 
+### audiocraft-audio-generation
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/audiocraft`
+- **Description**: PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music from text descriptions, create sound effects, or perform melody-conditioned music generation.
+- **Usage**: PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music from text descriptions, create sound effects, or perform melody-conditioned music generation.
+
+### autogpt-agents
+- **Path**: `skills/AI-Research-SKILLs/14-agents/autogpt`
+- **Description**: Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent autonomous agents, or building complex multi-step AI automation systems.
+- **Usage**: Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent autonomous agents, or building complex multi-step AI automation systems.
+
+### awq-quantization
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/awq`
+- **Description**: Activation-aware weight quantization for 4-bit LLM compression with 3x speedup and minimal accuracy loss. Use when deploying large models (7B-70B) on limited GPU memory, when you need faster inference than GPTQ with better accuracy preservation, or for instruction-tuned and multimodal models. MLSys 2024 Best Paper Award winner.
+- **Usage**: Activation-aware weight quantization for 4-bit LLM compression with 3x speedup and minimal accuracy loss. Use when deploying large models (7B-70B) on limited GPU memory, when you need faster inference than GPTQ with better accuracy preservation, or for instruction-tuned and multimodal models. MLSys 2024 Best Paper Award winner.
+
+### axolotl
+- **Path**: `skills/AI-Research-SKILLs/03-fine-tuning/axolotl`
+- **Description**: Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support
+- **Usage**: See description
+
 ### beautiful-prose
 - **Path**: `skills/beautiful_prose`
 - **Description**: A hard-edged writing style contract for timeless, forceful English prose without modern AI tics. Use when users ask for prose or rewrites that must be clean, exact, concrete, and free of AI cadence, filler, or therapeutic tone.
@@ -108,6 +131,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/claude-scientific-skills/scientific-skills/bioservices`
 - **Description**: Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single workflow with consistent API. Best for cross-database analysis, ID mapping across services. For quick single-database lookups use gget; for sequence/file manipulation use biopython.
 - **Usage**: Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single workflow with consistent API. Best for cross-database analysis, ID mapping across services. For quick single-database lookups use gget; for sequence/file manipulation use biopython.
+
+### blip-2-vision-language
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/blip-2`
+- **Description**: Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answering, image-text retrieval, or multimodal chat with state-of-the-art zero-shot performance.
+- **Usage**: Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answering, image-text retrieval, or multimodal chat with state-of-the-art zero-shot performance.
 
 ### brainstorming
 - **Path**: `skills/superpowers/skills/brainstorming`
@@ -154,6 +182,26 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Query ChEMBL bioactive molecules and drug discovery data. Search compounds by structure/properties, retrieve bioactivity data (IC50, Ki), find inhibitors, perform SAR studies, for medicinal chemistry.
 - **Usage**: See description
 
+### chinese-copywriting-guidelines
+- **Path**: `skills/chinese-copywriting-guidelines`
+- **Description**: Applies Chinese copywriting and typesetting rules (spacing between CJK and Latin/numbers, punctuation, full-width vs half-width, proper noun capitalization). Use when writing or polishing Chinese text, Chinese-English mixed copy, UI/product copy, or when the user mentions Chinese typesetting, 中文排版, or the chinese-copywriting-guidelines.
+- **Usage**: Applies Chinese copywriting and typesetting rules (spacing between CJK and Latin/numbers, punctuation, full-width vs half-width, proper noun capitalization). Use when writing or polishing Chinese text, Chinese-English mixed copy, UI/product copy, or when the user mentions Chinese typesetting, 中文排版, or the chinese-copywriting-guidelines.
+
+### chinese-novelist
+- **Path**: `skills/chinese-novelist-skill`
+- **Description**: |
+- **Usage**: See description
+
+### chinese-patent
+- **Path**: `skills/chinese-patent`
+- **Description**: |
+- **Usage**: See description
+
+### chroma
+- **Path**: `skills/AI-Research-SKILLs/15-rag/chroma`
+- **Description**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.
+- **Usage**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.
+
 ### cirq
 - **Path**: `skills/claude-scientific-skills/scientific-skills/cirq`
 - **Description**: Google quantum computing framework. Use when targeting Google Quantum AI hardware, designing noise-aware circuits, or running quantum characterization experiments. Best for Google hardware, noise modeling, and low-level circuit design. For IBM hardware use qiskit; for quantum ML with autodiff use pennylane; for physics simulations use qutip.
@@ -189,6 +237,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Query NCBI ClinVar for variant clinical significance. Search by gene/position, interpret pathogenicity classifications, access via E-utilities API or FTP, annotate VCFs, for genomic medicine.
 - **Usage**: See description
 
+### clip
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/clip`
+- **Description**: OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpose image understanding.
+- **Usage**: OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpose image understanding.
+
 ### cobrapy
 - **Path**: `skills/claude-scientific-skills/scientific-skills/cobrapy`
 - **Description**: Constraint-based metabolic modeling (COBRA). FBA, FVA, gene knockouts, flux sampling, SBML models, for systems biology and metabolic engineering analysis.
@@ -213,6 +266,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/awesome-claude-skills/connect-apps`
 - **Description**: Connect Claude to external apps like Gmail, Slack, GitHub. Use this skill when the user wants to send emails, create issues, post messages, or take actions in external services.
 - **Usage**: Connect Claude to external apps like Gmail, Slack, GitHub. Use this skill when the user wants to send emails, create issues, post messages, or take actions in external services.
+
+### constitutional-ai
+- **Path**: `skills/AI-Research-SKILLs/07-safety-alignment/constitutional-ai`
+- **Description**: Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, then RLAIF (RL from AI Feedback). Use for safety alignment, reducing harmful outputs without human labels. Powers Claude's safety system.
+- **Usage**: Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, then RLAIF (RL from AI Feedback). Use for safety alignment, reducing harmful outputs without human labels. Powers Claude's safety system.
 
 ### content-research-writer
 - **Path**: `skills/awesome-claude-skills/content-research-writer`
@@ -244,6 +302,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Skill for creating auth layers in TypeScript/JavaScript apps using Better Auth.
 - **Usage**: See description
 
+### crewai-multi-agent
+- **Path**: `skills/AI-Research-SKILLs/14-agents/crewai`
+- **Description**: Multi-agent orchestration framework for autonomous AI collaboration. Use when building teams of specialized agents working together on complex tasks, when you need role-based agent collaboration with memory, or for production workflows requiring sequential/hierarchical execution. Built without LangChain dependencies for lean, fast execution.
+- **Usage**: Multi-agent orchestration framework for autonomous AI collaboration. Use when building teams of specialized agents working together on complex tasks, when you need role-based agent collaboration with memory, or for production workflows requiring sequential/hierarchical execution. Built without LangChain dependencies for lean, fast execution.
+
 ### dask
 - **Path**: `skills/claude-scientific-skills/scientific-skills/dask`
 - **Description**: Distributed computing for larger-than-RAM pandas/NumPy workflows. Use when you need to scale existing pandas/NumPy code beyond memory or across clusters. Best for parallel file processing, distributed ML, integration with existing pandas code. For out-of-core analytics on single machine use vaex; for in-memory speed use polars.
@@ -269,6 +332,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when you want extensive featurization options and MoleculeNet benchmarks. Best for quick experiments with pre-trained models, diverse molecular representations. For graph-first PyTorch workflows use torchdrug; for benchmark datasets use pytdc.
 - **Usage**: Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when you want extensive featurization options and MoleculeNet benchmarks. Best for quick experiments with pre-trained models, diverse molecular representations. For graph-first PyTorch workflows use torchdrug; for benchmark datasets use pytdc.
 
+### deepspeed
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/deepspeed`
+- **Description**: Expert guidance for distributed training with DeepSpeed - ZeRO optimization stages, pipeline parallelism, FP16/BF16/FP8, 1-bit Adam, sparse attention
+- **Usage**: See description
+
 ### deeptools
 - **Path**: `skills/claude-scientific-skills/scientific-skills/deeptools`
 - **Description**: NGS analysis toolkit. BAM to bigWig conversion, QC (correlation, PCA, fingerprints), heatmaps/profiles (TSS, peaks), for ChIP-seq, RNA-seq, ATAC-seq visualization.
@@ -293,6 +361,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/superpowers/skills/dispatching-parallel-agents`
 - **Description**: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
 - **Usage**: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
+
+### distributed-llm-pretraining-torchtitan
+- **Path**: `skills/AI-Research-SKILLs/01-model-architecture/torchtitan`
+- **Description**: Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1, DeepSeek V3, or custom models at scale from 8 to 512+ GPUs with Float8, torch.compile, and distributed checkpointing.
+- **Usage**: Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1, DeepSeek V3, or custom models at scale from 8 to 512+ GPUs with Float8, torch.compile, and distributed checkpointing.
 
 ### dnanexus-integration
 - **Path**: `skills/claude-scientific-skills/scientific-skills/dnanexus-integration`
@@ -329,6 +402,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Access and analyze comprehensive drug information from the DrugBank database including drug properties, interactions, targets, pathways, chemical structures, and pharmacology data. This skill should be used when working with pharmaceutical data, drug discovery research, pharmacology studies, drug-drug interaction analysis, target identification, chemical similarity searches, ADMET predictions, or any task requiring detailed drug and drug target information from DrugBank.
 - **Usage**: See description
 
+### dspy
+- **Path**: `skills/AI-Research-SKILLs/16-prompt-engineering/dspy`
+- **Description**: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming
+- **Usage**: See description
+
 ### email-sequence
 - **Path**: `skills/marketingskills/skills/email-sequence`
 - **Description**: When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program. Also use when the user mentions "email sequence," "drip campaign," "nurture sequence," "onboarding emails," "welcome sequence," "re-engagement emails," "email automation," or "lifecycle emails." For in-app onboarding, see onboarding-cro.
@@ -354,6 +432,21 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Phylogenetic tree toolkit (ETE). Tree manipulation (Newick/NHX), evolutionary event detection, orthology/paralogy, NCBI taxonomy, visualization (PDF/SVG), for phylogenomics.
 - **Usage**: See description
 
+### evaluating-code-models
+- **Path**: `skills/AI-Research-SKILLs/11-evaluation/bigcode-evaluation-harness`
+- **Description**: Evaluates code generation models across HumanEval, MBPP, MultiPL-E, and 15+ benchmarks with pass@k metrics. Use when benchmarking code models, comparing coding abilities, testing multi-language support, or measuring code generation quality. Industry standard from BigCode Project used by HuggingFace leaderboards.
+- **Usage**: Evaluates code generation models across HumanEval, MBPP, MultiPL-E, and 15+ benchmarks with pass@k metrics. Use when benchmarking code models, comparing coding abilities, testing multi-language support, or measuring code generation quality. Industry standard from BigCode Project used by HuggingFace leaderboards.
+
+### evaluating-llms-harness
+- **Path**: `skills/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness`
+- **Description**: Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Supports HuggingFace, vLLM, APIs.
+- **Usage**: Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Supports HuggingFace, vLLM, APIs.
+
+### excalidraw-diagram
+- **Path**: `skills/axton-obsidian-visual-skills/excalidraw-diagram`
+- **Description**: Generate Excalidraw diagrams from text content for Obsidian. Use when user asks to create diagrams, flowcharts, mind maps, or visual representations in Excalidraw format. Triggers on "Excalidraw", "画图", "流程图", "思维导图", "可视化", "diagram".
+- **Usage**: Generate Excalidraw diagrams from text content for Obsidian. Use when user asks to create diagrams, flowcharts, mind maps, or visual representations in Excalidraw format. Triggers on "Excalidraw", "画图", "流程图", "思维导图", "可视化", "diagram".
+
 ### executing-plans
 - **Path**: `skills/superpowers/skills/executing-plans`
 - **Description**: Use when you have a written implementation plan to execute in a separate session with review checkpoints
@@ -364,6 +457,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Perform comprehensive exploratory data analysis on scientific data files across 200+ file formats. This skill should be used when analyzing any scientific data file to understand its structure, content, quality, and characteristics. Automatically detects file type and generates detailed markdown reports with format-specific analysis, quality metrics, and downstream analysis recommendations. Covers chemistry, bioinformatics, microscopy, spectroscopy, proteomics, metabolomics, and general scientific data formats.
 - **Usage**: See description
 
+### faiss
+- **Path**: `skills/AI-Research-SKILLs/15-rag/faiss`
+- **Description**: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.
+- **Usage**: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.
+
 ### fda-database
 - **Path**: `skills/claude-scientific-skills/scientific-skills/fda-database`
 - **Description**: Query openFDA API for drugs, devices, adverse events, recalls, regulatory submissions (510k, PMA), substance identification (UNII), for FDA regulatory data analysis and safety research.
@@ -373,6 +471,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/awesome-claude-skills/file-organizer`
 - **Description**: Intelligently organizes your files and folders across your computer by understanding context, finding duplicates, suggesting better structures, and automating cleanup tasks. Reduces cognitive load and keeps your digital workspace tidy without manual effort.
 - **Usage**: See description
+
+### fine-tuning-with-trl
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/trl-fine-tuning`
+- **Description**: Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Transformers.
+- **Usage**: Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Transformers.
 
 ### finishing-a-development-branch
 - **Path**: `skills/superpowers/skills/finishing-a-development-branch`
@@ -439,6 +542,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Fast CLI/Python queries to 20+ bioinformatics databases. Use for quick lookups: gene info, BLAST searches, AlphaFold structures, enrichment analysis. Best for interactive exploration, simple queries. For batch processing or advanced BLAST use biopython; for multi-database Python workflows use bioservices.
 - **Usage**: Fast CLI/Python queries to 20+ bioinformatics databases. Use for quick lookups: gene info, BLAST searches, AlphaFold structures, enrichment analysis. Best for interactive exploration, simple queries. For batch processing or advanced BLAST use biopython; for multi-database Python workflows use bioservices.
 
+### gguf-quantization
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/gguf`
+- **Description**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
+- **Usage**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
+
 ### github-to-skills
 - **Path**: `skills/Khazix-Skills/github-to-skills`
 - **Description**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
@@ -479,10 +587,25 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: |
 - **Usage**: See description
 
+### gptq
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/gptq`
+- **Description**: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.
+- **Usage**: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.
+
+### grpo-rl-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/grpo-rl-training`
+- **Description**: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
+- **Usage**: See description
+
 ### gtars
 - **Path**: `skills/claude-scientific-skills/scientific-skills/gtars`
 - **Description**: High-performance toolkit for genomic interval analysis in Rust with Python bindings. Use when working with genomic regions, BED files, coverage tracks, overlap detection, tokenization for ML models, or fragment analysis in computational genomics and machine learning applications.
 - **Usage**: High-performance toolkit for genomic interval analysis in Rust with Python bindings. Use when working with genomic regions, BED files, coverage tracks, overlap detection, tokenization for ML models, or fragment analysis in computational genomics and machine learning applications.
+
+### guidance
+- **Path**: `skills/AI-Research-SKILLs/16-prompt-engineering/guidance`
+- **Description**: Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workflows with Guidance - Microsoft Research's constrained generation framework
+- **Usage**: See description
 
 ### gwas-database
 - **Path**: `skills/claude-scientific-skills/scientific-skills/gwas-database`
@@ -499,8 +622,28 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Access Human Metabolome Database (220K+ metabolites). Search by name/ID/structure, retrieve chemical properties, biomarker data, NMR/MS spectra, pathways, for metabolomics and identification.
 - **Usage**: See description
 
+### hqq-quantization
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/hqq`
+- **Description**: Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration datasets, for fast quantization workflows, or when deploying with vLLM or HuggingFace Transformers.
+- **Usage**: Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration datasets, for fast quantization workflows, or when deploying with vLLM or HuggingFace Transformers.
+
+### huggingface-accelerate
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/accelerate`
+- **Description**: Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Automatic device placement, mixed precision (FP16/BF16/FP8). Interactive config, single launch command. HuggingFace ecosystem standard.
+- **Usage**: See description
+
+### huggingface-tokenizers
+- **Path**: `skills/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers`
+- **Description**: Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in <20 seconds. Supports BPE, WordPiece, and Unigram algorithms. Train custom vocabularies, track alignments, handle padding/truncation. Integrates seamlessly with transformers. Use when you need high-performance tokenization or custom tokenizer training.
+- **Usage**: Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in <20 seconds. Supports BPE, WordPiece, and Unigram algorithms. Train custom vocabularies, track alignments, handle padding/truncation. Integrates seamlessly with transformers. Use when you need high-performance tokenization or custom tokenizer training.
+
 ### humanizer
 - **Path**: `skills/humanizer`
+- **Description**: |
+- **Usage**: See description
+
+### humanizer-zh
+- **Path**: `skills/Humanizer-zh`
 - **Description**: |
 - **Usage**: See description
 
@@ -522,6 +665,16 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 ### imagen
 - **Path**: `skills/ai-skills/skills/imagen`
 - **Description**: |
+- **Usage**: See description
+
+### implementing-llms-litgpt
+- **Path**: `skills/AI-Research-SKILLs/01-model-architecture/litgpt`
+- **Description**: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.
+- **Usage**: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.
+
+### instructor
+- **Path**: `skills/AI-Research-SKILLs/16-prompt-engineering/instructor`
+- **Description**: Extract structured data from LLM responses with Pydantic validation, retry failed extractions automatically, parse complex JSON with type safety, and stream partial results with Instructor - battle-tested structured output library
 - **Usage**: See description
 
 ### internal-comms
@@ -559,20 +712,40 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Direct REST API access to KEGG (academic use only). Pathway analysis, gene-pathway mapping, metabolic pathways, drug interactions, ID conversion. For Python workflows with multiple databases, prefer bioservices. Use this for direct HTTP/REST work or KEGG-specific control.
 - **Usage**: Direct REST API access to KEGG (academic use only). Pathway analysis, gene-pathway mapping, metabolic pathways, drug interactions, ID conversion. For Python workflows with multiple databases, prefer bioservices. Use this for direct HTTP/REST work or KEGG-specific control.
 
+### knowledge-distillation
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation`
+- **Description**: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
+- **Usage**: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
+
 ### labarchive-integration
 - **Path**: `skills/claude-scientific-skills/scientific-skills/labarchive-integration`
 - **Description**: Electronic lab notebook API integration. Access notebooks, manage entries/attachments, backup notebooks, integrate with Protocols.io/Jupyter/REDCap, for programmatic ELN workflows.
 - **Usage**: See description
+
+### lambda-labs-gpu-cloud
+- **Path**: `skills/AI-Research-SKILLs/09-infrastructure/lambda-labs`
+- **Description**: Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, persistent filesystems, or high-performance multi-node clusters for large-scale training.
+- **Usage**: Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, persistent filesystems, or high-performance multi-node clusters for large-scale training.
 
 ### lamindb
 - **Path**: `skills/claude-scientific-skills/scientific-skills/lamindb`
 - **Description**: This skill should be used when working with LaminDB, an open-source data framework for biology that makes data queryable, traceable, reproducible, and FAIR. Use when managing biological datasets (scRNA-seq, spatial, flow cytometry, etc.), tracking computational workflows, curating and validating data with biological ontologies, building data lakehouses, or ensuring data lineage and reproducibility in biological research. Covers data management, annotation, ontologies (genes, cell types, diseases, tissues), schema validation, integrations with workflow managers (Nextflow, Snakemake) and MLOps platforms (W&B, MLflow), and deployment strategies.
 - **Usage**: This skill should be used when working with LaminDB, an open-source data framework for biology that makes data queryable, traceable, reproducible, and FAIR. Use when managing biological datasets (scRNA-seq, spatial, flow cytometry, etc.), tracking computational workflows, curating and validating data with biological ontologies, building data lakehouses, or ensuring data lineage and reproducibility in biological research. Covers data management, annotation, ontologies (genes, cell types, diseases, tissues), schema validation, integrations with workflow managers (Nextflow, Snakemake) and MLOps platforms (W&B, MLflow), and deployment strategies.
 
+### langchain
+- **Path**: `skills/AI-Research-SKILLs/14-agents/langchain`
+- **Description**: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.
+- **Usage**: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.
+
 ### langsmith-fetch
 - **Path**: `skills/awesome-claude-skills/langsmith-fetch`
 - **Description**: Debug LangChain and LangGraph agents by fetching execution traces from LangSmith Studio. Use when debugging agent behavior, investigating errors, analyzing tool calls, checking memory operations, or examining agent performance. Automatically fetches recent traces and analyzes execution patterns. Requires langsmith-fetch CLI installed.
 - **Usage**: Debug LangChain and LangGraph agents by fetching execution traces from LangSmith Studio. Use when debugging agent behavior, investigating errors, analyzing tool calls, checking memory operations, or examining agent performance. Automatically fetches recent traces and analyzes execution patterns. Requires langsmith-fetch CLI installed.
+
+### langsmith-observability
+- **Path**: `skills/AI-Research-SKILLs/17-observability/langsmith`
+- **Description**: LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against datasets, monitoring production systems, or building systematic testing pipelines for AI applications.
+- **Usage**: LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against datasets, monitoring production systems, or building systematic testing pipelines for AI applications.
 
 ### latchbio-integration
 - **Path**: `skills/claude-scientific-skills/scientific-skills/latchbio-integration`
@@ -597,6 +770,41 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 ### literature-review
 - **Path**: `skills/claude-scientific-skills/scientific-skills/literature-review`
 - **Description**: Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.). This skill should be used when conducting systematic literature reviews, meta-analyses, research synthesis, or comprehensive literature searches across biomedical, scientific, and technical domains. Creates professionally formatted markdown documents and PDFs with verified citations in multiple citation styles (APA, Nature, Vancouver, etc.).
+- **Usage**: See description
+
+### llama-cpp
+- **Path**: `skills/AI-Research-SKILLs/12-inference-serving/llama-cpp`
+- **Description**: Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.
+- **Usage**: Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.
+
+### llama-factory
+- **Path**: `skills/AI-Research-SKILLs/03-fine-tuning/llama-factory`
+- **Description**: Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support
+- **Usage**: See description
+
+### llamaguard
+- **Path**: `skills/AI-Research-SKILLs/07-safety-alignment/llamaguard`
+- **Description**: Meta's 7-8B specialized moderation model for LLM input/output filtering. 6 safety categories - violence/hate, sexual content, weapons, substances, self-harm, criminal planning. 94-95% accuracy. Deploy with vLLM, HuggingFace, Sagemaker. Integrates with NeMo Guardrails.
+- **Usage**: See description
+
+### llamaindex
+- **Path**: `skills/AI-Research-SKILLs/14-agents/llamaindex`
+- **Description**: Data framework for building LLM applications with RAG. Specializes in document ingestion (300+ connectors), indexing, and querying. Features vector indices, query engines, agents, and multi-modal support. Use for document Q&A, chatbots, knowledge retrieval, or building RAG pipelines. Best for data-centric LLM applications.
+- **Usage**: Data framework for building LLM applications with RAG. Specializes in document ingestion (300+ connectors), indexing, and querying. Features vector indices, query engines, agents, and multi-modal support. Use for document Q&A, chatbots, knowledge retrieval, or building RAG pipelines. Best for data-centric LLM applications.
+
+### llava
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/llava`
+- **Description**: Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language chatbots or image understanding tasks. Best for conversational image analysis.
+- **Usage**: Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language chatbots or image understanding tasks. Best for conversational image analysis.
+
+### long-context
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/long-context`
+- **Description**: Extend context windows of transformer models using RoPE, YaRN, ALiBi, and position interpolation techniques. Use when processing long documents (32k-128k+ tokens), extending pre-trained models beyond original context limits, or implementing efficient positional encodings. Covers rotary embeddings, attention biases, interpolation methods, and extrapolation strategies for LLMs.
+- **Usage**: Extend context windows of transformer models using RoPE, YaRN, ALiBi, and position interpolation techniques. Use when processing long documents (32k-128k+ tokens), extending pre-trained models beyond original context limits, or implementing efficient positional encodings. Covers rotary embeddings, attention biases, interpolation methods, and extrapolation strategies for LLMs.
+
+### mamba-architecture
+- **Path**: `skills/AI-Research-SKILLs/01-model-architecture/mamba`
+- **Description**: State-space model with O(n) complexity vs Transformers' O(n²). 5× faster inference, million-token sequences, no KV cache. Selective SSM with hardware-aware design. Mamba-1 (d_state=16) and Mamba-2 (d_state=128, multi-head). Models 130M-2.8B on HuggingFace.
 - **Usage**: See description
 
 ### market-research-reports
@@ -644,6 +852,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
 - **Usage**: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
 
+### med-ai-writing
+- **Path**: `skills/med-ai-writing`
+- **Description**: 专门针对医学与 AI 交叉方向（Med-AI）的论文编写技能。支持临床验证逻辑检查、医学伦理合规性审查、跨学科叙事规划以及顶级医学 AI 刊物格式适配。继承 academic-writing 的所有核心功能，并针对医学场景进行了深度优化。
+- **Usage**: See description
+
 ### medchem
 - **Path**: `skills/claude-scientific-skills/scientific-skills/medchem`
 - **Description**: Medicinal chemistry filters. Apply drug-likeness rules (Lipinski, Veber), PAINS filters, structural alerts, complexity metrics, for compound prioritization and library filtering.
@@ -654,9 +867,29 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Perfect for professionals seeking to improve their communication and leadership skills.
 - **Usage**: See description
 
+### mermaid-visualizer
+- **Path**: `skills/axton-obsidian-visual-skills/mermaid-visualizer`
+- **Description**: Transform text content into professional Mermaid diagrams for presentations and documentation. Use when users ask to visualize concepts, create flowcharts, or make diagrams from text. Supports process flows, system architectures, comparisons, mindmaps, and more with built-in syntax error prevention.
+- **Usage**: Transform text content into professional Mermaid diagrams for presentations and documentation. Use when users ask to visualize concepts, create flowcharts, or make diagrams from text. Supports process flows, system architectures, comparisons, mindmaps, and more with built-in syntax error prevention.
+
 ### metabolomics-workbench-database
 - **Path**: `skills/claude-scientific-skills/scientific-skills/metabolomics-workbench-database`
 - **Description**: Access NIH Metabolomics Workbench via REST API (4,200+ studies). Query metabolites, RefMet nomenclature, MS/NMR data, m/z searches, study metadata, for metabolomics and biomarker discovery.
+- **Usage**: See description
+
+### miles-rl-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/miles`
+- **Description**: Provides guidance for enterprise-grade RL training using miles, a production-ready fork of slime. Use when training large MoE models with FP8/INT4, needing train-inference alignment, or requiring speculative RL for maximum throughput.
+- **Usage**: Provides guidance for enterprise-grade RL training using miles, a production-ready fork of slime. Use when training large MoE models with FP8/INT4, needing train-inference alignment, or requiring speculative RL for maximum throughput.
+
+### ml-paper-writing
+- **Path**: `skills/AI-Research-SKILLs/20-ml-paper-writing`
+- **Description**: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verification workflows.
+- **Usage**: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verification workflows.
+
+### mlflow
+- **Path**: `skills/AI-Research-SKILLs/13-mlops/mlflow`
+- **Description**: Track ML experiments, manage model registry with versioning, deploy models to production, and reproduce experiments with MLflow - framework-agnostic ML lifecycle platform
 - **Usage**: See description
 
 ### modal
@@ -664,10 +897,50 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Run Python code in the cloud with serverless containers, GPUs, and autoscaling. Use when deploying ML models, running batch processing jobs, scheduling compute-intensive tasks, or serving APIs that require GPU acceleration or dynamic scaling.
 - **Usage**: Run Python code in the cloud with serverless containers, GPUs, and autoscaling. Use when deploying ML models, running batch processing jobs, scheduling compute-intensive tasks, or serving APIs that require GPU acceleration or dynamic scaling.
 
+### modal-serverless-gpu
+- **Path**: `skills/AI-Research-SKILLs/09-infrastructure/modal`
+- **Description**: Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
+- **Usage**: Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
+
+### model-merging
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/model-merging`
+- **Description**: Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending domain-specific expertise (math + coding + chat), improving performance beyond single models, or experimenting rapidly with model variants. Covers SLERP, TIES-Merging, DARE, Task Arithmetic, linear merging, and production deployment strategies.
+- **Usage**: Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending domain-specific expertise (math + coding + chat), improving performance beyond single models, or experimenting rapidly with model variants. Covers SLERP, TIES-Merging, DARE, Task Arithmetic, linear merging, and production deployment strategies.
+
+### model-pruning
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/model-pruning`
+- **Description**: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
+- **Usage**: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
+
+### moe-training
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/moe-training`
+- **Description**: Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost reduction vs dense models), implementing sparse architectures like Mixtral 8x7B or DeepSeek-V3, or scaling model capacity without proportional compute increase. Covers MoE architectures, routing mechanisms, load balancing, expert parallelism, and inference optimization.
+- **Usage**: Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost reduction vs dense models), implementing sparse architectures like Mixtral 8x7B or DeepSeek-V3, or scaling model capacity without proportional compute increase. Covers MoE architectures, routing mechanisms, load balancing, expert parallelism, and inference optimization.
+
 ### molfeat
 - **Path**: `skills/claude-scientific-skills/scientific-skills/molfeat`
 - **Description**: Molecular featurization for ML (100+ featurizers). ECFP, MACCS, descriptors, pretrained models (ChemBERTa), convert SMILES to features, for QSAR and molecular ML.
 - **Usage**: See description
+
+### nanogpt
+- **Path**: `skills/AI-Research-SKILLs/01-model-architecture/nanogpt`
+- **Description**: Educational GPT implementation in ~300 lines. Reproduces GPT-2 (124M) on OpenWebText. Clean, hackable code for learning transformers. By Andrej Karpathy. Perfect for understanding GPT architecture from scratch. Train on Shakespeare (CPU) or OpenWebText (multi-GPU).
+- **Usage**: See description
+
+### nemo-curator
+- **Path**: `skills/AI-Research-SKILLs/05-data-processing/nemo-curator`
+- **Description**: GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filtering (30+ heuristics), semantic deduplication, PII redaction, NSFW detection. Scales across GPUs with RAPIDS. Use for preparing high-quality training datasets, cleaning web data, or deduplicating large corpora.
+- **Usage**: GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filtering (30+ heuristics), semantic deduplication, PII redaction, NSFW detection. Scales across GPUs with RAPIDS. Use for preparing high-quality training datasets, cleaning web data, or deduplicating large corpora.
+
+### nemo-evaluator-sdk
+- **Path**: `skills/AI-Research-SKILLs/11-evaluation/nemo-evaluator`
+- **Description**: Evaluates LLMs across 100+ benchmarks from 18+ harnesses (MMLU, HumanEval, GSM8K, safety, VLM) with multi-backend execution. Use when needing scalable evaluation on local Docker, Slurm HPC, or cloud platforms. NVIDIA's enterprise-grade platform with container-first architecture for reproducible benchmarking.
+- **Usage**: Evaluates LLMs across 100+ benchmarks from 18+ harnesses (MMLU, HumanEval, GSM8K, safety, VLM) with multi-backend execution. Use when needing scalable evaluation on local Docker, Slurm HPC, or cloud platforms. NVIDIA's enterprise-grade platform with container-first architecture for reproducible benchmarking.
+
+### nemo-guardrails
+- **Path**: `skills/AI-Research-SKILLs/07-safety-alignment/nemo-guardrails`
+- **Description**: NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination detection, PII filtering, toxicity detection. Uses Colang 2.0 DSL for programmable rails. Production-ready, runs on T4 GPU.
+- **Usage**: NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination detection, PII filtering, toxicity detection. Uses Colang 2.0 DSL for programmable rails. Production-ready, runs on T4 GPU.
 
 ### networkx
 - **Path**: `skills/claude-scientific-skills/scientific-skills/networkx`
@@ -684,6 +957,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Neuropixels neural recording analysis. Load SpikeGLX/OpenEphys data, preprocess, motion correction, Kilosort4 spike sorting, quality metrics, Allen/IBL curation, AI-assisted visual analysis, for Neuropixels 1.0/2.0 extracellular electrophysiology. Use when working with neural recordings, spike sorting, extracellular electrophysiology, or when the user mentions Neuropixels, SpikeGLX, Open Ephys, Kilosort, quality metrics, or unit curation.
 - **Usage**: Neuropixels neural recording analysis. Load SpikeGLX/OpenEphys data, preprocess, motion correction, Kilosort4 spike sorting, quality metrics, Allen/IBL curation, AI-assisted visual analysis, for Neuropixels 1.0/2.0 extracellular electrophysiology. Use when working with neural recordings, spike sorting, extracellular electrophysiology, or when the user mentions Neuropixels, SpikeGLX, Open Ephys, Kilosort, quality metrics, or unit curation.
 
+### nnsight-remote-interpretability
+- **Path**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/nnsight`
+- **Description**: Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when needing to run interpretability experiments on massive models (70B+) without local GPU resources, or when working with any PyTorch architecture.
+- **Usage**: Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when needing to run interpretability experiments on massive models (70B+) without local GPU resources, or when working with any PyTorch architecture.
+
 ### notebooklm
 - **Path**: `skills/notebooklm-skill`
 - **Description**: Use this skill to query your Google NotebookLM notebooks directly from Claude Code for source-grounded, citation-backed answers from Gemini. Browser automation, library management, persistent auth. Drastically reduced hallucinations through document-only responses.
@@ -693,6 +971,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/obsidian-skills/skills/obsidian-bases`
 - **Description**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
 - **Usage**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+
+### obsidian-canvas-creator
+- **Path**: `skills/axton-obsidian-visual-skills/obsidian-canvas-creator`
+- **Description**: Create Obsidian Canvas files from text content, supporting both MindMap and freeform layouts. Use this skill when users want to visualize content as an interactive canvas, create mind maps, or organize information spatially in Obsidian format.
+- **Usage**: Create Obsidian Canvas files from text content, supporting both MindMap and freeform layouts. Use this skill when users want to visualize content as an interactive canvas, create mind maps, or organize information spatially in Obsidian format.
 
 ### obsidian-markdown
 - **Path**: `skills/obsidian-skills/skills/obsidian-markdown`
@@ -719,6 +1002,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Query and analyze scholarly literature using the OpenAlex database. This skill should be used when searching for academic papers, analyzing research trends, finding works by authors or institutions, tracking citations, discovering open access publications, or conducting bibliometric analysis across 240M+ scholarly works. Use for literature searches, research output analysis, citation analysis, and academic database queries.
 - **Usage**: Query and analyze scholarly literature using the OpenAlex database. This skill should be used when searching for academic papers, analyzing research trends, finding works by authors or institutions, tracking citations, discovering open access publications, or conducting bibliometric analysis across 240M+ scholarly works. Use for literature searches, research output analysis, citation analysis, and academic database queries.
 
+### openrlhf-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/openrlhf`
+- **Description**: High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, vLLM, ZeRO-3. 2× faster than DeepSpeedChat with distributed architecture and GPU resource sharing.
+- **Usage**: High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, vLLM, ZeRO-3. 2× faster than DeepSpeedChat with distributed architecture and GPU resource sharing.
+
 ### opentargets-database
 - **Path**: `skills/claude-scientific-skills/scientific-skills/opentargets-database`
 - **Description**: Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.
@@ -729,10 +1017,20 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Official Opentrons Protocol API for OT-2 and Flex robots. Use when writing protocols specifically for Opentrons hardware with full access to Protocol API v2 features. Best for production Opentrons protocols, official API compatibility. For multi-vendor automation or broader equipment control use pylabrobot.
 - **Usage**: Official Opentrons Protocol API for OT-2 and Flex robots. Use when writing protocols specifically for Opentrons hardware with full access to Protocol API v2 features. Best for production Opentrons protocols, official API compatibility. For multi-vendor automation or broader equipment control use pylabrobot.
 
+### optimizing-attention-flash
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/flash-attention`
+- **Description**: Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (>512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA, flash-attn library, H100 FP8, and sliding window attention.
+- **Usage**: Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (>512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA, flash-attn library, H100 FP8, and sliding window attention.
+
 ### outline
 - **Path**: `skills/ai-skills/skills/outline`
 - **Description**: Search, read, and manage Outline wiki documents. Use when: (1) searching wiki for documentation, (2) reading wiki pages or articles, (3) listing wiki collections or documents, (4) creating or updating wiki content, (5) exporting documents as markdown. Works with any Outline wiki instance (self-hosted or cloud).
 - **Usage**: Search, read, and manage Outline wiki documents. Use when: (1) searching wiki for documentation, (2) reading wiki pages or articles, (3) listing wiki collections or documents, (4) creating or updating wiki content, (5) exporting documents as markdown. Works with any Outline wiki instance (self-hosted or cloud).
+
+### outlines
+- **Path**: `skills/AI-Research-SKILLs/16-prompt-engineering/outlines`
+- **Description**: Guarantee valid JSON/XML/code structure during generation, use Pydantic models for type-safe outputs, support local models (Transformers, vLLM), and maximize inference speed with Outlines - dottxt.ai's structured generation library
+- **Usage**: See description
 
 ### page-cro
 - **Path**: `skills/marketingskills/skills/page-cro`
@@ -784,6 +1082,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Structured manuscript/grant review with checklist-based evaluation. Use when writing formal peer reviews with specific criteria methodology assessment, statistical validity, reporting standards compliance (CONSORT/STROBE), and constructive feedback. Best for actual review writing, manuscript revision. For evaluating claims/evidence quality use scientific-critical-thinking; for quantitative scoring frameworks use scholar-evaluation.
 - **Usage**: Structured manuscript/grant review with checklist-based evaluation. Use when writing formal peer reviews with specific criteria methodology assessment, statistical validity, reporting standards compliance (CONSORT/STROBE), and constructive feedback. Best for actual review writing, manuscript revision. For evaluating claims/evidence quality use scientific-critical-thinking; for quantitative scoring frameworks use scholar-evaluation.
 
+### peft-fine-tuning
+- **Path**: `skills/AI-Research-SKILLs/03-fine-tuning/peft`
+- **Description**: Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train <1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library integrated with transformers ecosystem.
+- **Usage**: Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train <1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library integrated with transformers ecosystem.
+
 ### pennylane
 - **Path**: `skills/claude-scientific-skills/scientific-skills/pennylane`
 - **Description**: Hardware-agnostic quantum ML framework with automatic differentiation. Use when training quantum circuits via gradients, building hybrid quantum-classical models, or needing device portability across IBM/Google/Rigetti/IonQ. Best for variational algorithms (VQE, QAOA), quantum neural networks, and integration with PyTorch/JAX/TensorFlow. For hardware-specific optimizations use qiskit (IBM) or cirq (Google); for open quantum systems use qutip.
@@ -793,6 +1096,16 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/claude-scientific-skills/scientific-skills/perplexity-search`
 - **Description**: Perform AI-powered web searches with real-time information using Perplexity models via LiteLLM and OpenRouter. This skill should be used when conducting web searches for current information, finding recent scientific literature, getting grounded answers with source citations, or accessing information beyond the model knowledge cutoff. Provides access to multiple Perplexity models including Sonar Pro, Sonar Pro Search (advanced agentic search), and Sonar Reasoning Pro through a single OpenRouter API key.
 - **Usage**: See description
+
+### phoenix-observability
+- **Path**: `skills/AI-Research-SKILLs/17-observability/phoenix`
+- **Description**: Open-source AI observability platform for LLM tracing, evaluation, and monitoring. Use when debugging LLM applications with detailed traces, running evaluations on datasets, or monitoring production AI systems with real-time insights.
+- **Usage**: Open-source AI observability platform for LLM tracing, evaluation, and monitoring. Use when debugging LLM applications with detailed traces, running evaluations on datasets, or monitoring production AI systems with real-time insights.
+
+### pinecone
+- **Path**: `skills/AI-Research-SKILLs/15-rag/pinecone`
+- **Description**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
+- **Usage**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
 
 ### plotly
 - **Path**: `skills/claude-scientific-skills/scientific-skills/plotly`
@@ -834,6 +1147,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
 - **Usage**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
 
+### pretty-mermaid
+- **Path**: `skills/Pretty-mermaid-skills`
+- **Description**: |
+- **Usage**: See description
+
 ### pricing-strategy
 - **Path**: `skills/marketingskills/skills/pricing-strategy`
 - **Description**: When the user wants help with pricing decisions, packaging, or monetization strategy. Also use when the user mentions 'pricing,' 'pricing tiers,' 'freemium,' 'free trial,' 'packaging,' 'price increase,' 'value metric,' 'Van Westendorp,' 'willingness to pay,' or 'monetization.' This skill covers pricing research, tier structure, and packaging strategy.
@@ -842,6 +1160,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 ### programmatic-seo
 - **Path**: `skills/marketingskills/skills/programmatic-seo`
 - **Description**: When the user wants to create SEO-driven pages at scale using templates and data. Also use when the user mentions "programmatic SEO," "template pages," "pages at scale," "directory pages," "location pages," "[keyword] + [city] pages," "comparison pages," "integration pages," or "building many pages for SEO." For auditing existing SEO issues, see seo-audit.
+- **Usage**: See description
+
+### prompt-guard
+- **Path**: `skills/AI-Research-SKILLs/07-safety-alignment/prompt-guard`
+- **Description**: Meta's 86M prompt injection and jailbreak detector. Filters malicious prompts and third-party data for LLM apps. 99%+ TPR, <1% FPR. Fast (<2ms GPU). Multilingual (8 languages). Deploy with HuggingFace or batch processing for RAG security.
 - **Usage**: See description
 
 ### protocolsio-integration
@@ -914,15 +1237,40 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Therapeutics Data Commons. AI-ready drug discovery datasets (ADME, toxicity, DTI), benchmarks, scaffold splits, molecular oracles, for therapeutic ML and pharmacological prediction.
 - **Usage**: See description
 
+### pytorch-fsdp2
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/pytorch-fsdp2`
+- **Description**: Adds PyTorch FSDP2 (fully_shard) to training scripts with correct init, sharding, mixed precision/offload config, and distributed checkpointing. Use when models exceed single-GPU memory or when you need DTensor-based sharding with DeviceMesh.
+- **Usage**: Adds PyTorch FSDP2 (fully_shard) to training scripts with correct init, sharding, mixed precision/offload config, and distributed checkpointing. Use when models exceed single-GPU memory or when you need DTensor-based sharding with DeviceMesh.
+
 ### pytorch-lightning
 - **Path**: `skills/claude-scientific-skills/scientific-skills/pytorch-lightning`
 - **Description**: Deep learning framework (PyTorch Lightning). Organize PyTorch code into LightningModules, configure Trainers for multi-GPU/TPU, implement data pipelines, callbacks, logging (W&B, TensorBoard), distributed training (DDP, FSDP, DeepSpeed), for scalable neural network training.
 - **Usage**: See description
 
+### pytorch-lightning
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/pytorch-lightning`
+- **Description**: High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerplate. Scales from laptop to supercomputer with same code. Use when you want clean training loops with built-in best practices.
+- **Usage**: High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerplate. Scales from laptop to supercomputer with same code. Use when you want clean training loops with built-in best practices.
+
+### pyvene-interventions
+- **Path**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/pyvene`
+- **Description**: Provides guidance for performing causal interventions on PyTorch models using pyvene's declarative intervention framework. Use when conducting causal tracing, activation patching, interchange intervention training, or testing causal hypotheses about model behavior.
+- **Usage**: Provides guidance for performing causal interventions on PyTorch models using pyvene's declarative intervention framework. Use when conducting causal tracing, activation patching, interchange intervention training, or testing causal hypotheses about model behavior.
+
+### qdrant-vector-search
+- **Path**: `skills/AI-Research-SKILLs/15-rag/qdrant`
+- **Description**: High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast nearest neighbor search, hybrid search with filtering, or scalable vector storage with Rust-powered performance.
+- **Usage**: High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast nearest neighbor search, hybrid search with filtering, or scalable vector storage with Rust-powered performance.
+
 ### qiskit
 - **Path**: `skills/claude-scientific-skills/scientific-skills/qiskit`
 - **Description**: IBM quantum computing framework. Use when targeting IBM Quantum hardware, working with Qiskit Runtime for production workloads, or needing IBM optimization tools. Best for IBM hardware execution, quantum error mitigation, and enterprise quantum computing. For Google hardware use cirq; for gradient-based quantum ML use pennylane; for open quantum system simulations use qutip.
 - **Usage**: IBM quantum computing framework. Use when targeting IBM Quantum hardware, working with Qiskit Runtime for production workloads, or needing IBM optimization tools. Best for IBM hardware execution, quantum error mitigation, and enterprise quantum computing. For Google hardware use cirq; for gradient-based quantum ML use pennylane; for open quantum system simulations use qutip.
+
+### quantizing-models-bitsandbytes
+- **Path**: `skills/AI-Research-SKILLs/10-optimization/bitsandbytes`
+- **Description**: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.
+- **Usage**: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.
 
 ### qutip
 - **Path**: `skills/claude-scientific-skills/scientific-skills/qutip`
@@ -933,6 +1281,16 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/awesome-claude-skills/raffle-winner-picker`
 - **Description**: Picks random winners from lists, spreadsheets, or Google Sheets for giveaways, raffles, and contests. Ensures fair, unbiased selection with transparency.
 - **Usage**: See description
+
+### ray-data
+- **Path**: `skills/AI-Research-SKILLs/05-data-processing/ray-data`
+- **Description**: Scalable data processing for ML workloads. Streaming execution across CPU/GPU, supports Parquet/CSV/JSON/images. Integrates with Ray Train, PyTorch, TensorFlow. Scales from single machine to 100s of nodes. Use for batch inference, data preprocessing, multi-modal data loading, or distributed ETL pipelines.
+- **Usage**: Scalable data processing for ML workloads. Streaming execution across CPU/GPU, supports Parquet/CSV/JSON/images. Integrates with Ray Train, PyTorch, TensorFlow. Scales from single machine to 100s of nodes. Use for batch inference, data preprocessing, multi-modal data loading, or distributed ETL pipelines.
+
+### ray-train
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/ray-train`
+- **Description**: Distributed training orchestration across clusters. Scales PyTorch/TensorFlow/HuggingFace from laptop to 1000s of nodes. Built-in hyperparameter tuning with Ray Tune, fault tolerance, elastic scaling. Use when training massive models across multiple machines or running distributed hyperparameter sweeps.
+- **Usage**: Distributed training orchestration across clusters. Scales PyTorch/TensorFlow/HuggingFace from laptop to 1000s of nodes. Built-in hyperparameter tuning with Ray Tune, fault tolerance, elastic scaling. Use when training massive models across multiple machines or running distributed hyperparameter sweeps.
 
 ### rdkit
 - **Path**: `skills/claude-scientific-skills/scientific-skills/rdkit`
@@ -973,6 +1331,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/claude-scientific-skills/scientific-skills/rowan`
 - **Description**: Cloud-based quantum chemistry platform with Python API. Preferred for computational chemistry workflows including pKa prediction, geometry optimization, conformer searching, molecular property calculations, protein-ligand docking (AutoDock Vina), and AI protein cofolding (Chai-1, Boltz-1/2). Use when tasks involve quantum chemistry calculations, molecular property prediction, DFT or semiempirical methods, neural network potentials (AIMNet2), protein-ligand binding predictions, or automated computational chemistry pipelines. Provides cloud compute resources with no local setup required.
 - **Usage**: Cloud-based quantum chemistry platform with Python API. Preferred for computational chemistry workflows including pKa prediction, geometry optimization, conformer searching, molecular property calculations, protein-ligand docking (AutoDock Vina), and AI protein cofolding (Chai-1, Boltz-1/2). Use when tasks involve quantum chemistry calculations, molecular property prediction, DFT or semiempirical methods, neural network potentials (AIMNet2), protein-ligand binding predictions, or automated computational chemistry pipelines. Provides cloud compute resources with no local setup required.
+
+### rwkv-architecture
+- **Path**: `skills/AI-Research-SKILLs/01-model-architecture/rwkv`
+- **Description**: RNN+Transformer hybrid with O(n) inference. Linear time, infinite context, no KV cache. Train like GPT (parallel), infer like RNN (sequential). Linux Foundation AI project. Production at Windows, Office, NeMo. RWKV-7 (March 2025). Models up to 14B parameters.
+- **Usage**: See description
 
 ### scanpy
 - **Path**: `skills/claude-scientific-skills/scientific-skills/scanpy`
@@ -1044,10 +1407,35 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Statistical visualization with pandas integration. Use for quick exploration of distributions, relationships, and categorical comparisons with attractive defaults. Best for box plots, violin plots, pair plots, heatmaps. Built on matplotlib. For interactive plots use plotly; for publication styling use scientific-visualization.
 - **Usage**: Statistical visualization with pandas integration. Use for quick exploration of distributions, relationships, and categorical comparisons with attractive defaults. Best for box plots, violin plots, pair plots, heatmaps. Built on matplotlib. For interactive plots use plotly; for publication styling use scientific-visualization.
 
+### segment-anything-model
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/segment-anything`
+- **Description**: Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or masks as prompts, or automatically generate all object masks in an image.
+- **Usage**: Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or masks as prompts, or automatically generate all object masks in an image.
+
+### sentence-transformers
+- **Path**: `skills/AI-Research-SKILLs/15-rag/sentence-transformers`
+- **Description**: Framework for state-of-the-art sentence, text, and image embeddings. Provides 5000+ pre-trained models for semantic similarity, clustering, and retrieval. Supports multilingual, domain-specific, and multimodal models. Use for generating embeddings for RAG, semantic search, or similarity tasks. Best for production embedding generation.
+- **Usage**: Framework for state-of-the-art sentence, text, and image embeddings. Provides 5000+ pre-trained models for semantic similarity, clustering, and retrieval. Supports multilingual, domain-specific, and multimodal models. Use for generating embeddings for RAG, semantic search, or similarity tasks. Best for production embedding generation.
+
+### sentencepiece
+- **Path**: `skills/AI-Research-SKILLs/02-tokenization/sentencepiece`
+- **Description**: Language-independent tokenizer treating text as raw Unicode. Supports BPE and Unigram algorithms. Fast (50k sentences/sec), lightweight (6MB memory), deterministic vocabulary. Used by T5, ALBERT, XLNet, mBART. Train on raw text without pre-tokenization. Use when you need multilingual support, CJK languages, or reproducible tokenization.
+- **Usage**: Language-independent tokenizer treating text as raw Unicode. Supports BPE and Unigram algorithms. Fast (50k sentences/sec), lightweight (6MB memory), deterministic vocabulary. Used by T5, ALBERT, XLNet, mBART. Train on raw text without pre-tokenization. Use when you need multilingual support, CJK languages, or reproducible tokenization.
+
 ### seo-audit
 - **Path**: `skills/marketingskills/skills/seo-audit`
 - **Description**: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," or "SEO health check." For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema-markup.
 - **Usage**: See description
+
+### serving-llms-vllm
+- **Path**: `skills/AI-Research-SKILLs/12-inference-serving/vllm`
+- **Description**: Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), and tensor parallelism.
+- **Usage**: Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), and tensor parallelism.
+
+### sglang
+- **Path**: `skills/AI-Research-SKILLs/12-inference-serving/sglang`
+- **Description**: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you need 5× faster inference than vLLM with prefix sharing. Powers 300,000+ GPUs at xAI, AMD, NVIDIA, and LinkedIn.
+- **Usage**: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you need 5× faster inference than vLLM with prefix sharing. Powers 300,000+ GPUs at xAI, AMD, NVIDIA, and LinkedIn.
 
 ### shap
 - **Path**: `skills/claude-scientific-skills/scientific-skills/shap`
@@ -1058,6 +1446,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/marketingskills/skills/signup-flow-cro`
 - **Description**: When the user wants to optimize signup, registration, account creation, or trial activation flows. Also use when the user mentions "signup conversions," "registration friction," "signup form optimization," "free trial signup," "reduce signup dropoff," or "account creation flow." For post-signup onboarding, see onboarding-cro. For lead capture forms (not account creation), see form-cro.
 - **Usage**: See description
+
+### simpo-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/simpo`
+- **Description**: Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO.
+- **Usage**: Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO.
 
 ### simpy
 - **Path**: `skills/claude-scientific-skills/scientific-skills/simpy`
@@ -1079,10 +1472,20 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
 - **Usage**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
 
+### skill-seekers
+- **Path**: `skills/skill-seekers`
+- **Description**: Use when converting documentation websites, GitHub repositories, or PDFs into Claude/Cursor skills; when scraping, analyzing, packaging, or uploading skills; or when configuring MCP or multi-source conflict detection for skill generation.
+- **Usage**: Use when converting documentation websites, GitHub repositories, or PDFs into Claude/Cursor skills; when scraping, analyzing, packaging, or uploading skills; or when configuring MCP or multi-source conflict detection for skill generation.
+
 ### skill-share
 - **Path**: `skills/awesome-claude-skills/skill-share`
 - **Description**: A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.
 - **Usage**: See description
+
+### skypilot-multi-cloud-orchestration
+- **Path**: `skills/AI-Research-SKILLs/09-infrastructure/skypilot`
+- **Description**: Multi-cloud orchestration for ML workloads with automatic cost optimization. Use when you need to run training or batch jobs across multiple clouds, leverage spot instances with auto-recovery, or optimize GPU costs across providers.
+- **Usage**: Multi-cloud orchestration for ML workloads with automatic cost optimization. Use when you need to run training or batch jobs across multiple clouds, leverage spot instances with auto-recovery, or optimize GPU costs across providers.
 
 ### slack-gif-creator
 - **Path**: `skills/anthropics/skills/slack-gif-creator`
@@ -1094,15 +1497,35 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Toolkit for creating animated GIFs optimized for Slack, with validators for size constraints and composable animation primitives. This skill applies when users request animated GIFs or emoji animations for Slack from descriptions like "make me a GIF for Slack of X doing Y".
 - **Usage**: See description
 
+### slime-rl-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/slime`
+- **Description**: Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom data generation workflows, or needing tight Megatron-LM integration for RL scaling.
+- **Usage**: Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom data generation workflows, or needing tight Megatron-LM integration for RL scaling.
+
 ### social-content
 - **Path**: `skills/marketingskills/skills/social-content`
 - **Description**: When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms. Also use when the user mentions 'LinkedIn post,' 'Twitter thread,' 'social media,' 'content calendar,' 'social scheduling,' 'engagement,' or 'viral content.' This skill covers content creation, repurposing, and platform-specific strategies.
 - **Usage**: See description
 
+### sparse-autoencoder-training
+- **Path**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/saelens`
+- **Description**: Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpretable features. Use when discovering interpretable features, analyzing superposition, or studying monosemantic representations in language models.
+- **Usage**: Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpretable features. Use when discovering interpretable features, analyzing superposition, or studying monosemantic representations in language models.
+
+### speculative-decoding
+- **Path**: `skills/AI-Research-SKILLs/19-emerging-techniques/speculative-decoding`
+- **Description**: Accelerate LLM inference using speculative decoding, Medusa multiple heads, and lookahead decoding techniques. Use when optimizing inference speed (1.5-3.6× speedup), reducing latency for real-time applications, or deploying models with limited compute. Covers draft models, tree-based attention, Jacobi iteration, parallel token generation, and production deployment strategies.
+- **Usage**: Accelerate LLM inference using speculative decoding, Medusa multiple heads, and lookahead decoding techniques. Use when optimizing inference speed (1.5-3.6× speedup), reducing latency for real-time applications, or deploying models with limited compute. Covers draft models, tree-based attention, Jacobi iteration, parallel token generation, and production deployment strategies.
+
 ### stable-baselines3
 - **Path**: `skills/claude-scientific-skills/scientific-skills/stable-baselines3`
 - **Description**: Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experiments, quick prototyping, and well-documented algorithm implementations. Best for single-agent RL with Gymnasium environments. For high-performance parallel training, multi-agent systems, or custom vectorized environments, use pufferlib instead.
 - **Usage**: Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experiments, quick prototyping, and well-documented algorithm implementations. Best for single-agent RL with Gymnasium environments. For high-performance parallel training, multi-agent systems, or custom vectorized environments, use pufferlib instead.
+
+### stable-diffusion-image-generation
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/stable-diffusion`
+- **Description**: State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines.
+- **Usage**: State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines.
 
 ### statistical-analysis
 - **Path**: `skills/claude-scientific-skills/scientific-skills/statistical-analysis`
@@ -1149,6 +1572,16 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Replace with description of the skill and when Claude should use it.
 - **Usage**: See description
 
+### tensorboard
+- **Path**: `skills/AI-Research-SKILLs/13-mlops/tensorboard`
+- **Description**: Visualize training metrics, debug models with histograms, compare experiments, visualize model graphs, and profile performance with TensorBoard - Google's ML visualization toolkit
+- **Usage**: See description
+
+### tensorrt-llm
+- **Path**: `skills/AI-Research-SKILLs/12-inference-serving/tensorrt-llm`
+- **Description**: Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H100), when you need 10-100x faster inference than PyTorch, or for serving models with quantization (FP8/INT4), in-flight batching, and multi-GPU scaling.
+- **Usage**: Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H100), when you need 10-100x faster inference than PyTorch, or for serving models with quantization (FP8/INT4), in-flight batching, and multi-GPU scaling.
+
 ### test-driven-development
 - **Path**: `skills/superpowers/skills/test-driven-development`
 - **Description**: Use when implementing any feature or bugfix, before writing implementation code
@@ -1173,6 +1606,21 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/claude-scientific-skills/scientific-skills/torchdrug`
 - **Description**: PyTorch-native graph neural networks for molecules and proteins. Use when building custom GNN architectures for drug discovery, protein modeling, or knowledge graph reasoning. Best for custom model development, protein property prediction, retrosynthesis. For pre-trained models and diverse featurizers use deepchem; for benchmark datasets use pytdc.
 - **Usage**: PyTorch-native graph neural networks for molecules and proteins. Use when building custom GNN architectures for drug discovery, protein modeling, or knowledge graph reasoning. Best for custom model development, protein property prediction, retrosynthesis. For pre-trained models and diverse featurizers use deepchem; for benchmark datasets use pytdc.
+
+### torchforge-rl-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/torchforge`
+- **Description**: Provides guidance for PyTorch-native agentic RL using torchforge, Meta's library separating infra from algorithms. Use when you want clean RL abstractions, easy algorithm experimentation, or scalable training with Monarch and TorchTitan.
+- **Usage**: Provides guidance for PyTorch-native agentic RL using torchforge, Meta's library separating infra from algorithms. Use when you want clean RL abstractions, easy algorithm experimentation, or scalable training with Monarch and TorchTitan.
+
+### training-llms-megatron
+- **Path**: `skills/AI-Research-SKILLs/08-distributed-training/megatron-core`
+- **Description**: Trains large language models (2B-462B parameters) using NVIDIA Megatron-Core with advanced parallelism strategies. Use when training models >1B parameters, need maximum GPU efficiency (47% MFU on H100), or require tensor/pipeline/sequence/context/expert parallelism. Production-ready framework used for Nemotron, LLaMA, DeepSeek.
+- **Usage**: Trains large language models (2B-462B parameters) using NVIDIA Megatron-Core with advanced parallelism strategies. Use when training models >1B parameters, need maximum GPU efficiency (47% MFU on H100), or require tensor/pipeline/sequence/context/expert parallelism. Production-ready framework used for Nemotron, LLaMA, DeepSeek.
+
+### transformer-lens-interpretability
+- **Path**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/transformer-lens`
+- **Description**: Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookPoints and activation caching. Use when reverse-engineering model algorithms, studying attention patterns, or performing activation patching experiments.
+- **Usage**: Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookPoints and activation caching. Use when reverse-engineering model algorithms, studying attention patterns, or performing activation patching experiments.
 
 ### transformers
 - **Path**: `skills/claude-scientific-skills/scientific-skills/transformers`
@@ -1249,6 +1697,11 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Direct REST API access to UniProt. Protein searches, FASTA retrieval, ID mapping, Swiss-Prot/TrEMBL. For Python workflows with multiple databases, prefer bioservices (unified interface to 40+ services). Use this for direct HTTP/REST work or UniProt-specific control.
 - **Usage**: Direct REST API access to UniProt. Protein searches, FASTA retrieval, ID mapping, Swiss-Prot/TrEMBL. For Python workflows with multiple databases, prefer bioservices (unified interface to 40+ services). Use this for direct HTTP/REST work or UniProt-specific control.
 
+### unsloth
+- **Path**: `skills/AI-Research-SKILLs/03-fine-tuning/unsloth`
+- **Description**: Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization
+- **Usage**: See description
+
 ### using-git-worktrees
 - **Path**: `skills/superpowers/skills/using-git-worktrees`
 - **Description**: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
@@ -1274,15 +1727,20 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Description**: Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR, CHI), research posters, and grant proposals (NSF, NIH, DOE, DARPA). This skill should be used when preparing manuscripts for journal submission, conference papers, research posters, or grant proposals and need venue-specific formatting requirements and templates.
 - **Usage**: See description
 
-### video-summarizer
-- **Path**: `skills/video-summarizer/skills/video-summarizer`
-- **Description**: Download videos from YouTube, Bilibili, Twitter/X and 1800+ platforms; outputs MP4, MP3, subtitles, transcript and AI summary. Use when the user asks to summarize a video, download a video, transcribe a video, or get key points from a video URL.
-- **Usage**: See description
-
 ### verification-before-completion
 - **Path**: `skills/superpowers/skills/verification-before-completion`
 - **Description**: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
 - **Usage**: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
+
+### verl-rl-training
+- **Path**: `skills/AI-Research-SKILLs/06-post-training/verl`
+- **Description**: Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL). Use when implementing RLHF, GRPO, PPO, or other RL algorithms for LLM post-training at scale with flexible infrastructure backends.
+- **Usage**: Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL). Use when implementing RLHF, GRPO, PPO, or other RL algorithms for LLM post-training at scale with flexible infrastructure backends.
+
+### video-summarizer
+- **Path**: `skills/video-summarizer/skills/video-summarizer`
+- **Description**: Download videos from 1800+ platforms (YouTube, Bilibili, Twitter/X, TikTok, Vimeo, Instagram, etc.) and generate complete resource package with video, audio, subtitles, and AI summary. Actions: summarize, download, transcribe, extract video content. Platforms: youtube.com, bilibili.com, twitter.com, x.com, tiktok.com, vimeo.com, instagram.com, twitch.tv. Outputs: MP4 video, MP3 audio, VTT subtitles with timestamps, TXT transcript, MD AI summary. Auto-installs uv, yt-dlp, ffmpeg. Python dependencies managed by uv.
+- **Usage**: See description
 
 ### web-artifacts-builder
 - **Path**: `skills/anthropics/skills/web-artifacts-builder`
@@ -1298,6 +1756,16 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 - **Path**: `skills/awesome-claude-skills/webapp-testing`
 - **Description**: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
 - **Usage**: See description
+
+### weights-and-biases
+- **Path**: `skills/AI-Research-SKILLs/13-mlops/weights-and-biases`
+- **Description**: Track ML experiments with automatic logging, visualize training in real-time, optimize hyperparameters with sweeps, and manage model registry with W&B - collaborative MLOps platform
+- **Usage**: See description
+
+### whisper
+- **Path**: `skills/AI-Research-SKILLs/18-multimodal/whisper`
+- **Description**: OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio processing. Best for robust, multilingual ASR.
+- **Usage**: OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio processing. Best for robust, multilingual ASR.
 
 ### writing-plans
 - **Path**: `skills/superpowers/skills/writing-plans`
@@ -1354,11 +1822,6 @@ This file is an index of Skills and MCP annotations in the repository, listing p
 ### claude-scientific-skills
 - **Path**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/user-claude-scientific-skills`
 - **Description**: 
-- **Usage**: See description
-
-### cursor-browser-extension
-- **Path**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/cursor-browser-extension`
-- **Description**: The cursor-browser-extension is an MCP server that allows you to navigate the web and interact with the page. Please use this server if the user is asking about questions or tasks related to frontend / webapp development, and you are encouraged to test any of your code changes by using the tools from this MCP server.
 - **Usage**: See description
 
 ### cursor-ide-browser

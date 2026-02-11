@@ -1,7 +1,5 @@
 # Skills & MCP 标注索引
 
-本文件为仓库内 Skills 与 MCP 的标注索引，按名称列出路径、简介与使用场景，便于快速查找并决定何时选用哪项技能或 MCP。
-
 ## 技能 (Skills)
 
 ### AGENTS.md
@@ -27,6 +25,11 @@
 ### ab-test-setup
 - **路径**: `skills/marketingskills/skills/ab-test-setup`
 - **简介**: When the user wants to plan, design, or implement an A/B test or experiment. Also use when the user mentions "A/B test," "split test," "experiment," "test this change," "variant copy," "multivariate test," or "hypothesis." For tracking implementation, see analytics-tracking.
+- **使用场景**: 见简介
+
+### academic-writing
+- **路径**: `skills/academic-writing`
+- **简介**: 综合论文编写技能，支持 plan-outline（概要规划）、write（章节写作与整合）、review（评审）、switch-venue（渠道切换）和 switch-language（语言切换）模式。集成去 AI 味、防幻觉引用工作流、顶级会议写作哲学及稳定绘图功能。
 - **使用场景**: 见简介
 
 ### adaptyv
@@ -74,6 +77,26 @@
 - **简介**: Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celestial coordinates, physical units, FITS files, cosmological calculations, time systems, tables, world coordinate systems (WCS), and astronomical data analysis. Use when tasks involve coordinate transformations, unit conversions, FITS file manipulation, cosmological distance calculations, time scale conversions, or astronomical data processing.
 - **使用场景**: Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celestial coordinates, physical units, FITS files, cosmological calculations, time systems, tables, world coordinate systems (WCS), and astronomical data analysis. Use when tasks involve coordinate transformations, unit conversions, FITS file manipulation, cosmological distance calculations, time scale conversions, or astronomical data processing.
 
+### audiocraft-audio-generation
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/audiocraft`
+- **简介**: PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music from text descriptions, create sound effects, or perform melody-conditioned music generation.
+- **使用场景**: PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music from text descriptions, create sound effects, or perform melody-conditioned music generation.
+
+### autogpt-agents
+- **路径**: `skills/AI-Research-SKILLs/14-agents/autogpt`
+- **简介**: Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent autonomous agents, or building complex multi-step AI automation systems.
+- **使用场景**: Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent autonomous agents, or building complex multi-step AI automation systems.
+
+### awq-quantization
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/awq`
+- **简介**: Activation-aware weight quantization for 4-bit LLM compression with 3x speedup and minimal accuracy loss. Use when deploying large models (7B-70B) on limited GPU memory, when you need faster inference than GPTQ with better accuracy preservation, or for instruction-tuned and multimodal models. MLSys 2024 Best Paper Award winner.
+- **使用场景**: Activation-aware weight quantization for 4-bit LLM compression with 3x speedup and minimal accuracy loss. Use when deploying large models (7B-70B) on limited GPU memory, when you need faster inference than GPTQ with better accuracy preservation, or for instruction-tuned and multimodal models. MLSys 2024 Best Paper Award winner.
+
+### axolotl
+- **路径**: `skills/AI-Research-SKILLs/03-fine-tuning/axolotl`
+- **简介**: Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support
+- **使用场景**: 见简介
+
 ### beautiful-prose
 - **路径**: `skills/beautiful_prose`
 - **简介**: A hard-edged writing style contract for timeless, forceful English prose without modern AI tics. Use when users ask for prose or rewrites that must be clean, exact, concrete, and free of AI cadence, filler, or therapeutic tone.
@@ -108,6 +131,11 @@
 - **路径**: `skills/claude-scientific-skills/scientific-skills/bioservices`
 - **简介**: Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single workflow with consistent API. Best for cross-database analysis, ID mapping across services. For quick single-database lookups use gget; for sequence/file manipulation use biopython.
 - **使用场景**: Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single workflow with consistent API. Best for cross-database analysis, ID mapping across services. For quick single-database lookups use gget; for sequence/file manipulation use biopython.
+
+### blip-2-vision-language
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/blip-2`
+- **简介**: Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answering, image-text retrieval, or multimodal chat with state-of-the-art zero-shot performance.
+- **使用场景**: Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answering, image-text retrieval, or multimodal chat with state-of-the-art zero-shot performance.
 
 ### brainstorming
 - **路径**: `skills/superpowers/skills/brainstorming`
@@ -154,6 +182,26 @@
 - **简介**: Query ChEMBL bioactive molecules and drug discovery data. Search compounds by structure/properties, retrieve bioactivity data (IC50, Ki), find inhibitors, perform SAR studies, for medicinal chemistry.
 - **使用场景**: 见简介
 
+### chinese-copywriting-guidelines
+- **路径**: `skills/chinese-copywriting-guidelines`
+- **简介**: Applies Chinese copywriting and typesetting rules (spacing between CJK and Latin/numbers, punctuation, full-width vs half-width, proper noun capitalization). Use when writing or polishing Chinese text, Chinese-English mixed copy, UI/product copy, or when the user mentions Chinese typesetting, 中文排版, or the chinese-copywriting-guidelines.
+- **使用场景**: Applies Chinese copywriting and typesetting rules (spacing between CJK and Latin/numbers, punctuation, full-width vs half-width, proper noun capitalization). Use when writing or polishing Chinese text, Chinese-English mixed copy, UI/product copy, or when the user mentions Chinese typesetting, 中文排版, or the chinese-copywriting-guidelines.
+
+### chinese-novelist
+- **路径**: `skills/chinese-novelist-skill`
+- **简介**: |
+- **使用场景**: 见简介
+
+### chinese-patent
+- **路径**: `skills/chinese-patent`
+- **简介**: |
+- **使用场景**: 见简介
+
+### chroma
+- **路径**: `skills/AI-Research-SKILLs/15-rag/chroma`
+- **简介**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.
+- **使用场景**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.
+
 ### cirq
 - **路径**: `skills/claude-scientific-skills/scientific-skills/cirq`
 - **简介**: Google quantum computing framework. Use when targeting Google Quantum AI hardware, designing noise-aware circuits, or running quantum characterization experiments. Best for Google hardware, noise modeling, and low-level circuit design. For IBM hardware use qiskit; for quantum ML with autodiff use pennylane; for physics simulations use qutip.
@@ -189,6 +237,11 @@
 - **简介**: Query NCBI ClinVar for variant clinical significance. Search by gene/position, interpret pathogenicity classifications, access via E-utilities API or FTP, annotate VCFs, for genomic medicine.
 - **使用场景**: 见简介
 
+### clip
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/clip`
+- **简介**: OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpose image understanding.
+- **使用场景**: OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpose image understanding.
+
 ### cobrapy
 - **路径**: `skills/claude-scientific-skills/scientific-skills/cobrapy`
 - **简介**: Constraint-based metabolic modeling (COBRA). FBA, FVA, gene knockouts, flux sampling, SBML models, for systems biology and metabolic engineering analysis.
@@ -213,6 +266,11 @@
 - **路径**: `skills/awesome-claude-skills/connect-apps`
 - **简介**: Connect Claude to external apps like Gmail, Slack, GitHub. Use this skill when the user wants to send emails, create issues, post messages, or take actions in external services.
 - **使用场景**: Connect Claude to external apps like Gmail, Slack, GitHub. Use this skill when the user wants to send emails, create issues, post messages, or take actions in external services.
+
+### constitutional-ai
+- **路径**: `skills/AI-Research-SKILLs/07-safety-alignment/constitutional-ai`
+- **简介**: Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, then RLAIF (RL from AI Feedback). Use for safety alignment, reducing harmful outputs without human labels. Powers Claude's safety system.
+- **使用场景**: Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, then RLAIF (RL from AI Feedback). Use for safety alignment, reducing harmful outputs without human labels. Powers Claude's safety system.
 
 ### content-research-writer
 - **路径**: `skills/awesome-claude-skills/content-research-writer`
@@ -244,6 +302,11 @@
 - **简介**: Skill for creating auth layers in TypeScript/JavaScript apps using Better Auth.
 - **使用场景**: 见简介
 
+### crewai-multi-agent
+- **路径**: `skills/AI-Research-SKILLs/14-agents/crewai`
+- **简介**: Multi-agent orchestration framework for autonomous AI collaboration. Use when building teams of specialized agents working together on complex tasks, when you need role-based agent collaboration with memory, or for production workflows requiring sequential/hierarchical execution. Built without LangChain dependencies for lean, fast execution.
+- **使用场景**: Multi-agent orchestration framework for autonomous AI collaboration. Use when building teams of specialized agents working together on complex tasks, when you need role-based agent collaboration with memory, or for production workflows requiring sequential/hierarchical execution. Built without LangChain dependencies for lean, fast execution.
+
 ### dask
 - **路径**: `skills/claude-scientific-skills/scientific-skills/dask`
 - **简介**: Distributed computing for larger-than-RAM pandas/NumPy workflows. Use when you need to scale existing pandas/NumPy code beyond memory or across clusters. Best for parallel file processing, distributed ML, integration with existing pandas code. For out-of-core analytics on single machine use vaex; for in-memory speed use polars.
@@ -269,6 +332,11 @@
 - **简介**: Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when you want extensive featurization options and MoleculeNet benchmarks. Best for quick experiments with pre-trained models, diverse molecular representations. For graph-first PyTorch workflows use torchdrug; for benchmark datasets use pytdc.
 - **使用场景**: Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when you want extensive featurization options and MoleculeNet benchmarks. Best for quick experiments with pre-trained models, diverse molecular representations. For graph-first PyTorch workflows use torchdrug; for benchmark datasets use pytdc.
 
+### deepspeed
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/deepspeed`
+- **简介**: Expert guidance for distributed training with DeepSpeed - ZeRO optimization stages, pipeline parallelism, FP16/BF16/FP8, 1-bit Adam, sparse attention
+- **使用场景**: 见简介
+
 ### deeptools
 - **路径**: `skills/claude-scientific-skills/scientific-skills/deeptools`
 - **简介**: NGS analysis toolkit. BAM to bigWig conversion, QC (correlation, PCA, fingerprints), heatmaps/profiles (TSS, peaks), for ChIP-seq, RNA-seq, ATAC-seq visualization.
@@ -293,6 +361,11 @@
 - **路径**: `skills/superpowers/skills/dispatching-parallel-agents`
 - **简介**: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
 - **使用场景**: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
+
+### distributed-llm-pretraining-torchtitan
+- **路径**: `skills/AI-Research-SKILLs/01-model-architecture/torchtitan`
+- **简介**: Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1, DeepSeek V3, or custom models at scale from 8 to 512+ GPUs with Float8, torch.compile, and distributed checkpointing.
+- **使用场景**: Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1, DeepSeek V3, or custom models at scale from 8 to 512+ GPUs with Float8, torch.compile, and distributed checkpointing.
 
 ### dnanexus-integration
 - **路径**: `skills/claude-scientific-skills/scientific-skills/dnanexus-integration`
@@ -329,6 +402,11 @@
 - **简介**: Access and analyze comprehensive drug information from the DrugBank database including drug properties, interactions, targets, pathways, chemical structures, and pharmacology data. This skill should be used when working with pharmaceutical data, drug discovery research, pharmacology studies, drug-drug interaction analysis, target identification, chemical similarity searches, ADMET predictions, or any task requiring detailed drug and drug target information from DrugBank.
 - **使用场景**: 见简介
 
+### dspy
+- **路径**: `skills/AI-Research-SKILLs/16-prompt-engineering/dspy`
+- **简介**: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming
+- **使用场景**: 见简介
+
 ### email-sequence
 - **路径**: `skills/marketingskills/skills/email-sequence`
 - **简介**: When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program. Also use when the user mentions "email sequence," "drip campaign," "nurture sequence," "onboarding emails," "welcome sequence," "re-engagement emails," "email automation," or "lifecycle emails." For in-app onboarding, see onboarding-cro.
@@ -354,6 +432,21 @@
 - **简介**: Phylogenetic tree toolkit (ETE). Tree manipulation (Newick/NHX), evolutionary event detection, orthology/paralogy, NCBI taxonomy, visualization (PDF/SVG), for phylogenomics.
 - **使用场景**: 见简介
 
+### evaluating-code-models
+- **路径**: `skills/AI-Research-SKILLs/11-evaluation/bigcode-evaluation-harness`
+- **简介**: Evaluates code generation models across HumanEval, MBPP, MultiPL-E, and 15+ benchmarks with pass@k metrics. Use when benchmarking code models, comparing coding abilities, testing multi-language support, or measuring code generation quality. Industry standard from BigCode Project used by HuggingFace leaderboards.
+- **使用场景**: Evaluates code generation models across HumanEval, MBPP, MultiPL-E, and 15+ benchmarks with pass@k metrics. Use when benchmarking code models, comparing coding abilities, testing multi-language support, or measuring code generation quality. Industry standard from BigCode Project used by HuggingFace leaderboards.
+
+### evaluating-llms-harness
+- **路径**: `skills/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness`
+- **简介**: Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Supports HuggingFace, vLLM, APIs.
+- **使用场景**: Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Supports HuggingFace, vLLM, APIs.
+
+### excalidraw-diagram
+- **路径**: `skills/axton-obsidian-visual-skills/excalidraw-diagram`
+- **简介**: Generate Excalidraw diagrams from text content for Obsidian. Use when user asks to create diagrams, flowcharts, mind maps, or visual representations in Excalidraw format. Triggers on "Excalidraw", "画图", "流程图", "思维导图", "可视化", "diagram".
+- **使用场景**: Generate Excalidraw diagrams from text content for Obsidian. Use when user asks to create diagrams, flowcharts, mind maps, or visual representations in Excalidraw format. Triggers on "Excalidraw", "画图", "流程图", "思维导图", "可视化", "diagram".
+
 ### executing-plans
 - **路径**: `skills/superpowers/skills/executing-plans`
 - **简介**: Use when you have a written implementation plan to execute in a separate session with review checkpoints
@@ -364,6 +457,11 @@
 - **简介**: Perform comprehensive exploratory data analysis on scientific data files across 200+ file formats. This skill should be used when analyzing any scientific data file to understand its structure, content, quality, and characteristics. Automatically detects file type and generates detailed markdown reports with format-specific analysis, quality metrics, and downstream analysis recommendations. Covers chemistry, bioinformatics, microscopy, spectroscopy, proteomics, metabolomics, and general scientific data formats.
 - **使用场景**: 见简介
 
+### faiss
+- **路径**: `skills/AI-Research-SKILLs/15-rag/faiss`
+- **简介**: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.
+- **使用场景**: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.
+
 ### fda-database
 - **路径**: `skills/claude-scientific-skills/scientific-skills/fda-database`
 - **简介**: Query openFDA API for drugs, devices, adverse events, recalls, regulatory submissions (510k, PMA), substance identification (UNII), for FDA regulatory data analysis and safety research.
@@ -373,6 +471,11 @@
 - **路径**: `skills/awesome-claude-skills/file-organizer`
 - **简介**: Intelligently organizes your files and folders across your computer by understanding context, finding duplicates, suggesting better structures, and automating cleanup tasks. Reduces cognitive load and keeps your digital workspace tidy without manual effort.
 - **使用场景**: 见简介
+
+### fine-tuning-with-trl
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/trl-fine-tuning`
+- **简介**: Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Transformers.
+- **使用场景**: Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Transformers.
 
 ### finishing-a-development-branch
 - **路径**: `skills/superpowers/skills/finishing-a-development-branch`
@@ -439,6 +542,11 @@
 - **简介**: Fast CLI/Python queries to 20+ bioinformatics databases. Use for quick lookups: gene info, BLAST searches, AlphaFold structures, enrichment analysis. Best for interactive exploration, simple queries. For batch processing or advanced BLAST use biopython; for multi-database Python workflows use bioservices.
 - **使用场景**: Fast CLI/Python queries to 20+ bioinformatics databases. Use for quick lookups: gene info, BLAST searches, AlphaFold structures, enrichment analysis. Best for interactive exploration, simple queries. For batch processing or advanced BLAST use biopython; for multi-database Python workflows use bioservices.
 
+### gguf-quantization
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/gguf`
+- **简介**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
+- **使用场景**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
+
 ### github-to-skills
 - **路径**: `skills/Khazix-Skills/github-to-skills`
 - **简介**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
@@ -479,10 +587,25 @@
 - **简介**: |
 - **使用场景**: 见简介
 
+### gptq
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/gptq`
+- **简介**: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.
+- **使用场景**: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.
+
+### grpo-rl-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/grpo-rl-training`
+- **简介**: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
+- **使用场景**: 见简介
+
 ### gtars
 - **路径**: `skills/claude-scientific-skills/scientific-skills/gtars`
 - **简介**: High-performance toolkit for genomic interval analysis in Rust with Python bindings. Use when working with genomic regions, BED files, coverage tracks, overlap detection, tokenization for ML models, or fragment analysis in computational genomics and machine learning applications.
 - **使用场景**: High-performance toolkit for genomic interval analysis in Rust with Python bindings. Use when working with genomic regions, BED files, coverage tracks, overlap detection, tokenization for ML models, or fragment analysis in computational genomics and machine learning applications.
+
+### guidance
+- **路径**: `skills/AI-Research-SKILLs/16-prompt-engineering/guidance`
+- **简介**: Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workflows with Guidance - Microsoft Research's constrained generation framework
+- **使用场景**: 见简介
 
 ### gwas-database
 - **路径**: `skills/claude-scientific-skills/scientific-skills/gwas-database`
@@ -499,8 +622,28 @@
 - **简介**: Access Human Metabolome Database (220K+ metabolites). Search by name/ID/structure, retrieve chemical properties, biomarker data, NMR/MS spectra, pathways, for metabolomics and identification.
 - **使用场景**: 见简介
 
+### hqq-quantization
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/hqq`
+- **简介**: Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration datasets, for fast quantization workflows, or when deploying with vLLM or HuggingFace Transformers.
+- **使用场景**: Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration datasets, for fast quantization workflows, or when deploying with vLLM or HuggingFace Transformers.
+
+### huggingface-accelerate
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/accelerate`
+- **简介**: Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Automatic device placement, mixed precision (FP16/BF16/FP8). Interactive config, single launch command. HuggingFace ecosystem standard.
+- **使用场景**: 见简介
+
+### huggingface-tokenizers
+- **路径**: `skills/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers`
+- **简介**: Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in <20 seconds. Supports BPE, WordPiece, and Unigram algorithms. Train custom vocabularies, track alignments, handle padding/truncation. Integrates seamlessly with transformers. Use when you need high-performance tokenization or custom tokenizer training.
+- **使用场景**: Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in <20 seconds. Supports BPE, WordPiece, and Unigram algorithms. Train custom vocabularies, track alignments, handle padding/truncation. Integrates seamlessly with transformers. Use when you need high-performance tokenization or custom tokenizer training.
+
 ### humanizer
 - **路径**: `skills/humanizer`
+- **简介**: |
+- **使用场景**: 见简介
+
+### humanizer-zh
+- **路径**: `skills/Humanizer-zh`
 - **简介**: |
 - **使用场景**: 见简介
 
@@ -522,6 +665,16 @@
 ### imagen
 - **路径**: `skills/ai-skills/skills/imagen`
 - **简介**: |
+- **使用场景**: 见简介
+
+### implementing-llms-litgpt
+- **路径**: `skills/AI-Research-SKILLs/01-model-architecture/litgpt`
+- **简介**: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.
+- **使用场景**: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.
+
+### instructor
+- **路径**: `skills/AI-Research-SKILLs/16-prompt-engineering/instructor`
+- **简介**: Extract structured data from LLM responses with Pydantic validation, retry failed extractions automatically, parse complex JSON with type safety, and stream partial results with Instructor - battle-tested structured output library
 - **使用场景**: 见简介
 
 ### internal-comms
@@ -559,20 +712,40 @@
 - **简介**: Direct REST API access to KEGG (academic use only). Pathway analysis, gene-pathway mapping, metabolic pathways, drug interactions, ID conversion. For Python workflows with multiple databases, prefer bioservices. Use this for direct HTTP/REST work or KEGG-specific control.
 - **使用场景**: Direct REST API access to KEGG (academic use only). Pathway analysis, gene-pathway mapping, metabolic pathways, drug interactions, ID conversion. For Python workflows with multiple databases, prefer bioservices. Use this for direct HTTP/REST work or KEGG-specific control.
 
+### knowledge-distillation
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation`
+- **简介**: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
+- **使用场景**: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
+
 ### labarchive-integration
 - **路径**: `skills/claude-scientific-skills/scientific-skills/labarchive-integration`
 - **简介**: Electronic lab notebook API integration. Access notebooks, manage entries/attachments, backup notebooks, integrate with Protocols.io/Jupyter/REDCap, for programmatic ELN workflows.
 - **使用场景**: 见简介
+
+### lambda-labs-gpu-cloud
+- **路径**: `skills/AI-Research-SKILLs/09-infrastructure/lambda-labs`
+- **简介**: Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, persistent filesystems, or high-performance multi-node clusters for large-scale training.
+- **使用场景**: Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, persistent filesystems, or high-performance multi-node clusters for large-scale training.
 
 ### lamindb
 - **路径**: `skills/claude-scientific-skills/scientific-skills/lamindb`
 - **简介**: This skill should be used when working with LaminDB, an open-source data framework for biology that makes data queryable, traceable, reproducible, and FAIR. Use when managing biological datasets (scRNA-seq, spatial, flow cytometry, etc.), tracking computational workflows, curating and validating data with biological ontologies, building data lakehouses, or ensuring data lineage and reproducibility in biological research. Covers data management, annotation, ontologies (genes, cell types, diseases, tissues), schema validation, integrations with workflow managers (Nextflow, Snakemake) and MLOps platforms (W&B, MLflow), and deployment strategies.
 - **使用场景**: This skill should be used when working with LaminDB, an open-source data framework for biology that makes data queryable, traceable, reproducible, and FAIR. Use when managing biological datasets (scRNA-seq, spatial, flow cytometry, etc.), tracking computational workflows, curating and validating data with biological ontologies, building data lakehouses, or ensuring data lineage and reproducibility in biological research. Covers data management, annotation, ontologies (genes, cell types, diseases, tissues), schema validation, integrations with workflow managers (Nextflow, Snakemake) and MLOps platforms (W&B, MLflow), and deployment strategies.
 
+### langchain
+- **路径**: `skills/AI-Research-SKILLs/14-agents/langchain`
+- **简介**: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.
+- **使用场景**: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.
+
 ### langsmith-fetch
 - **路径**: `skills/awesome-claude-skills/langsmith-fetch`
 - **简介**: Debug LangChain and LangGraph agents by fetching execution traces from LangSmith Studio. Use when debugging agent behavior, investigating errors, analyzing tool calls, checking memory operations, or examining agent performance. Automatically fetches recent traces and analyzes execution patterns. Requires langsmith-fetch CLI installed.
 - **使用场景**: Debug LangChain and LangGraph agents by fetching execution traces from LangSmith Studio. Use when debugging agent behavior, investigating errors, analyzing tool calls, checking memory operations, or examining agent performance. Automatically fetches recent traces and analyzes execution patterns. Requires langsmith-fetch CLI installed.
+
+### langsmith-observability
+- **路径**: `skills/AI-Research-SKILLs/17-observability/langsmith`
+- **简介**: LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against datasets, monitoring production systems, or building systematic testing pipelines for AI applications.
+- **使用场景**: LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against datasets, monitoring production systems, or building systematic testing pipelines for AI applications.
 
 ### latchbio-integration
 - **路径**: `skills/claude-scientific-skills/scientific-skills/latchbio-integration`
@@ -597,6 +770,41 @@
 ### literature-review
 - **路径**: `skills/claude-scientific-skills/scientific-skills/literature-review`
 - **简介**: Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.). This skill should be used when conducting systematic literature reviews, meta-analyses, research synthesis, or comprehensive literature searches across biomedical, scientific, and technical domains. Creates professionally formatted markdown documents and PDFs with verified citations in multiple citation styles (APA, Nature, Vancouver, etc.).
+- **使用场景**: 见简介
+
+### llama-cpp
+- **路径**: `skills/AI-Research-SKILLs/12-inference-serving/llama-cpp`
+- **简介**: Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.
+- **使用场景**: Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.
+
+### llama-factory
+- **路径**: `skills/AI-Research-SKILLs/03-fine-tuning/llama-factory`
+- **简介**: Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support
+- **使用场景**: 见简介
+
+### llamaguard
+- **路径**: `skills/AI-Research-SKILLs/07-safety-alignment/llamaguard`
+- **简介**: Meta's 7-8B specialized moderation model for LLM input/output filtering. 6 safety categories - violence/hate, sexual content, weapons, substances, self-harm, criminal planning. 94-95% accuracy. Deploy with vLLM, HuggingFace, Sagemaker. Integrates with NeMo Guardrails.
+- **使用场景**: 见简介
+
+### llamaindex
+- **路径**: `skills/AI-Research-SKILLs/14-agents/llamaindex`
+- **简介**: Data framework for building LLM applications with RAG. Specializes in document ingestion (300+ connectors), indexing, and querying. Features vector indices, query engines, agents, and multi-modal support. Use for document Q&A, chatbots, knowledge retrieval, or building RAG pipelines. Best for data-centric LLM applications.
+- **使用场景**: Data framework for building LLM applications with RAG. Specializes in document ingestion (300+ connectors), indexing, and querying. Features vector indices, query engines, agents, and multi-modal support. Use for document Q&A, chatbots, knowledge retrieval, or building RAG pipelines. Best for data-centric LLM applications.
+
+### llava
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/llava`
+- **简介**: Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language chatbots or image understanding tasks. Best for conversational image analysis.
+- **使用场景**: Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language chatbots or image understanding tasks. Best for conversational image analysis.
+
+### long-context
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/long-context`
+- **简介**: Extend context windows of transformer models using RoPE, YaRN, ALiBi, and position interpolation techniques. Use when processing long documents (32k-128k+ tokens), extending pre-trained models beyond original context limits, or implementing efficient positional encodings. Covers rotary embeddings, attention biases, interpolation methods, and extrapolation strategies for LLMs.
+- **使用场景**: Extend context windows of transformer models using RoPE, YaRN, ALiBi, and position interpolation techniques. Use when processing long documents (32k-128k+ tokens), extending pre-trained models beyond original context limits, or implementing efficient positional encodings. Covers rotary embeddings, attention biases, interpolation methods, and extrapolation strategies for LLMs.
+
+### mamba-architecture
+- **路径**: `skills/AI-Research-SKILLs/01-model-architecture/mamba`
+- **简介**: State-space model with O(n) complexity vs Transformers' O(n²). 5× faster inference, million-token sequences, no KV cache. Selective SSM with hardware-aware design. Mamba-1 (d_state=16) and Mamba-2 (d_state=128, multi-head). Models 130M-2.8B on HuggingFace.
 - **使用场景**: 见简介
 
 ### market-research-reports
@@ -644,6 +852,11 @@
 - **简介**: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
 - **使用场景**: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
 
+### med-ai-writing
+- **路径**: `skills/med-ai-writing`
+- **简介**: 专门针对医学与 AI 交叉方向（Med-AI）的论文编写技能。支持临床验证逻辑检查、医学伦理合规性审查、跨学科叙事规划以及顶级医学 AI 刊物格式适配。继承 academic-writing 的所有核心功能，并针对医学场景进行了深度优化。
+- **使用场景**: 见简介
+
 ### medchem
 - **路径**: `skills/claude-scientific-skills/scientific-skills/medchem`
 - **简介**: Medicinal chemistry filters. Apply drug-likeness rules (Lipinski, Veber), PAINS filters, structural alerts, complexity metrics, for compound prioritization and library filtering.
@@ -654,9 +867,29 @@
 - **简介**: Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Perfect for professionals seeking to improve their communication and leadership skills.
 - **使用场景**: 见简介
 
+### mermaid-visualizer
+- **路径**: `skills/axton-obsidian-visual-skills/mermaid-visualizer`
+- **简介**: Transform text content into professional Mermaid diagrams for presentations and documentation. Use when users ask to visualize concepts, create flowcharts, or make diagrams from text. Supports process flows, system architectures, comparisons, mindmaps, and more with built-in syntax error prevention.
+- **使用场景**: Transform text content into professional Mermaid diagrams for presentations and documentation. Use when users ask to visualize concepts, create flowcharts, or make diagrams from text. Supports process flows, system architectures, comparisons, mindmaps, and more with built-in syntax error prevention.
+
 ### metabolomics-workbench-database
 - **路径**: `skills/claude-scientific-skills/scientific-skills/metabolomics-workbench-database`
 - **简介**: Access NIH Metabolomics Workbench via REST API (4,200+ studies). Query metabolites, RefMet nomenclature, MS/NMR data, m/z searches, study metadata, for metabolomics and biomarker discovery.
+- **使用场景**: 见简介
+
+### miles-rl-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/miles`
+- **简介**: Provides guidance for enterprise-grade RL training using miles, a production-ready fork of slime. Use when training large MoE models with FP8/INT4, needing train-inference alignment, or requiring speculative RL for maximum throughput.
+- **使用场景**: Provides guidance for enterprise-grade RL training using miles, a production-ready fork of slime. Use when training large MoE models with FP8/INT4, needing train-inference alignment, or requiring speculative RL for maximum throughput.
+
+### ml-paper-writing
+- **路径**: `skills/AI-Research-SKILLs/20-ml-paper-writing`
+- **简介**: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verification workflows.
+- **使用场景**: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verification workflows.
+
+### mlflow
+- **路径**: `skills/AI-Research-SKILLs/13-mlops/mlflow`
+- **简介**: Track ML experiments, manage model registry with versioning, deploy models to production, and reproduce experiments with MLflow - framework-agnostic ML lifecycle platform
 - **使用场景**: 见简介
 
 ### modal
@@ -664,10 +897,50 @@
 - **简介**: Run Python code in the cloud with serverless containers, GPUs, and autoscaling. Use when deploying ML models, running batch processing jobs, scheduling compute-intensive tasks, or serving APIs that require GPU acceleration or dynamic scaling.
 - **使用场景**: Run Python code in the cloud with serverless containers, GPUs, and autoscaling. Use when deploying ML models, running batch processing jobs, scheduling compute-intensive tasks, or serving APIs that require GPU acceleration or dynamic scaling.
 
+### modal-serverless-gpu
+- **路径**: `skills/AI-Research-SKILLs/09-infrastructure/modal`
+- **简介**: Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
+- **使用场景**: Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
+
+### model-merging
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/model-merging`
+- **简介**: Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending domain-specific expertise (math + coding + chat), improving performance beyond single models, or experimenting rapidly with model variants. Covers SLERP, TIES-Merging, DARE, Task Arithmetic, linear merging, and production deployment strategies.
+- **使用场景**: Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending domain-specific expertise (math + coding + chat), improving performance beyond single models, or experimenting rapidly with model variants. Covers SLERP, TIES-Merging, DARE, Task Arithmetic, linear merging, and production deployment strategies.
+
+### model-pruning
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/model-pruning`
+- **简介**: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
+- **使用场景**: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
+
+### moe-training
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/moe-training`
+- **简介**: Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost reduction vs dense models), implementing sparse architectures like Mixtral 8x7B or DeepSeek-V3, or scaling model capacity without proportional compute increase. Covers MoE architectures, routing mechanisms, load balancing, expert parallelism, and inference optimization.
+- **使用场景**: Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost reduction vs dense models), implementing sparse architectures like Mixtral 8x7B or DeepSeek-V3, or scaling model capacity without proportional compute increase. Covers MoE architectures, routing mechanisms, load balancing, expert parallelism, and inference optimization.
+
 ### molfeat
 - **路径**: `skills/claude-scientific-skills/scientific-skills/molfeat`
 - **简介**: Molecular featurization for ML (100+ featurizers). ECFP, MACCS, descriptors, pretrained models (ChemBERTa), convert SMILES to features, for QSAR and molecular ML.
 - **使用场景**: 见简介
+
+### nanogpt
+- **路径**: `skills/AI-Research-SKILLs/01-model-architecture/nanogpt`
+- **简介**: Educational GPT implementation in ~300 lines. Reproduces GPT-2 (124M) on OpenWebText. Clean, hackable code for learning transformers. By Andrej Karpathy. Perfect for understanding GPT architecture from scratch. Train on Shakespeare (CPU) or OpenWebText (multi-GPU).
+- **使用场景**: 见简介
+
+### nemo-curator
+- **路径**: `skills/AI-Research-SKILLs/05-data-processing/nemo-curator`
+- **简介**: GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filtering (30+ heuristics), semantic deduplication, PII redaction, NSFW detection. Scales across GPUs with RAPIDS. Use for preparing high-quality training datasets, cleaning web data, or deduplicating large corpora.
+- **使用场景**: GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filtering (30+ heuristics), semantic deduplication, PII redaction, NSFW detection. Scales across GPUs with RAPIDS. Use for preparing high-quality training datasets, cleaning web data, or deduplicating large corpora.
+
+### nemo-evaluator-sdk
+- **路径**: `skills/AI-Research-SKILLs/11-evaluation/nemo-evaluator`
+- **简介**: Evaluates LLMs across 100+ benchmarks from 18+ harnesses (MMLU, HumanEval, GSM8K, safety, VLM) with multi-backend execution. Use when needing scalable evaluation on local Docker, Slurm HPC, or cloud platforms. NVIDIA's enterprise-grade platform with container-first architecture for reproducible benchmarking.
+- **使用场景**: Evaluates LLMs across 100+ benchmarks from 18+ harnesses (MMLU, HumanEval, GSM8K, safety, VLM) with multi-backend execution. Use when needing scalable evaluation on local Docker, Slurm HPC, or cloud platforms. NVIDIA's enterprise-grade platform with container-first architecture for reproducible benchmarking.
+
+### nemo-guardrails
+- **路径**: `skills/AI-Research-SKILLs/07-safety-alignment/nemo-guardrails`
+- **简介**: NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination detection, PII filtering, toxicity detection. Uses Colang 2.0 DSL for programmable rails. Production-ready, runs on T4 GPU.
+- **使用场景**: NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination detection, PII filtering, toxicity detection. Uses Colang 2.0 DSL for programmable rails. Production-ready, runs on T4 GPU.
 
 ### networkx
 - **路径**: `skills/claude-scientific-skills/scientific-skills/networkx`
@@ -684,6 +957,11 @@
 - **简介**: Neuropixels neural recording analysis. Load SpikeGLX/OpenEphys data, preprocess, motion correction, Kilosort4 spike sorting, quality metrics, Allen/IBL curation, AI-assisted visual analysis, for Neuropixels 1.0/2.0 extracellular electrophysiology. Use when working with neural recordings, spike sorting, extracellular electrophysiology, or when the user mentions Neuropixels, SpikeGLX, Open Ephys, Kilosort, quality metrics, or unit curation.
 - **使用场景**: Neuropixels neural recording analysis. Load SpikeGLX/OpenEphys data, preprocess, motion correction, Kilosort4 spike sorting, quality metrics, Allen/IBL curation, AI-assisted visual analysis, for Neuropixels 1.0/2.0 extracellular electrophysiology. Use when working with neural recordings, spike sorting, extracellular electrophysiology, or when the user mentions Neuropixels, SpikeGLX, Open Ephys, Kilosort, quality metrics, or unit curation.
 
+### nnsight-remote-interpretability
+- **路径**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/nnsight`
+- **简介**: Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when needing to run interpretability experiments on massive models (70B+) without local GPU resources, or when working with any PyTorch architecture.
+- **使用场景**: Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when needing to run interpretability experiments on massive models (70B+) without local GPU resources, or when working with any PyTorch architecture.
+
 ### notebooklm
 - **路径**: `skills/notebooklm-skill`
 - **简介**: Use this skill to query your Google NotebookLM notebooks directly from Claude Code for source-grounded, citation-backed answers from Gemini. Browser automation, library management, persistent auth. Drastically reduced hallucinations through document-only responses.
@@ -693,6 +971,11 @@
 - **路径**: `skills/obsidian-skills/skills/obsidian-bases`
 - **简介**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
 - **使用场景**: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+
+### obsidian-canvas-creator
+- **路径**: `skills/axton-obsidian-visual-skills/obsidian-canvas-creator`
+- **简介**: Create Obsidian Canvas files from text content, supporting both MindMap and freeform layouts. Use this skill when users want to visualize content as an interactive canvas, create mind maps, or organize information spatially in Obsidian format.
+- **使用场景**: Create Obsidian Canvas files from text content, supporting both MindMap and freeform layouts. Use this skill when users want to visualize content as an interactive canvas, create mind maps, or organize information spatially in Obsidian format.
 
 ### obsidian-markdown
 - **路径**: `skills/obsidian-skills/skills/obsidian-markdown`
@@ -719,6 +1002,11 @@
 - **简介**: Query and analyze scholarly literature using the OpenAlex database. This skill should be used when searching for academic papers, analyzing research trends, finding works by authors or institutions, tracking citations, discovering open access publications, or conducting bibliometric analysis across 240M+ scholarly works. Use for literature searches, research output analysis, citation analysis, and academic database queries.
 - **使用场景**: Query and analyze scholarly literature using the OpenAlex database. This skill should be used when searching for academic papers, analyzing research trends, finding works by authors or institutions, tracking citations, discovering open access publications, or conducting bibliometric analysis across 240M+ scholarly works. Use for literature searches, research output analysis, citation analysis, and academic database queries.
 
+### openrlhf-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/openrlhf`
+- **简介**: High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, vLLM, ZeRO-3. 2× faster than DeepSpeedChat with distributed architecture and GPU resource sharing.
+- **使用场景**: High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, vLLM, ZeRO-3. 2× faster than DeepSpeedChat with distributed architecture and GPU resource sharing.
+
 ### opentargets-database
 - **路径**: `skills/claude-scientific-skills/scientific-skills/opentargets-database`
 - **简介**: Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.
@@ -729,10 +1017,20 @@
 - **简介**: Official Opentrons Protocol API for OT-2 and Flex robots. Use when writing protocols specifically for Opentrons hardware with full access to Protocol API v2 features. Best for production Opentrons protocols, official API compatibility. For multi-vendor automation or broader equipment control use pylabrobot.
 - **使用场景**: Official Opentrons Protocol API for OT-2 and Flex robots. Use when writing protocols specifically for Opentrons hardware with full access to Protocol API v2 features. Best for production Opentrons protocols, official API compatibility. For multi-vendor automation or broader equipment control use pylabrobot.
 
+### optimizing-attention-flash
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/flash-attention`
+- **简介**: Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (>512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA, flash-attn library, H100 FP8, and sliding window attention.
+- **使用场景**: Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (>512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA, flash-attn library, H100 FP8, and sliding window attention.
+
 ### outline
 - **路径**: `skills/ai-skills/skills/outline`
 - **简介**: Search, read, and manage Outline wiki documents. Use when: (1) searching wiki for documentation, (2) reading wiki pages or articles, (3) listing wiki collections or documents, (4) creating or updating wiki content, (5) exporting documents as markdown. Works with any Outline wiki instance (self-hosted or cloud).
 - **使用场景**: Search, read, and manage Outline wiki documents. Use when: (1) searching wiki for documentation, (2) reading wiki pages or articles, (3) listing wiki collections or documents, (4) creating or updating wiki content, (5) exporting documents as markdown. Works with any Outline wiki instance (self-hosted or cloud).
+
+### outlines
+- **路径**: `skills/AI-Research-SKILLs/16-prompt-engineering/outlines`
+- **简介**: Guarantee valid JSON/XML/code structure during generation, use Pydantic models for type-safe outputs, support local models (Transformers, vLLM), and maximize inference speed with Outlines - dottxt.ai's structured generation library
+- **使用场景**: 见简介
 
 ### page-cro
 - **路径**: `skills/marketingskills/skills/page-cro`
@@ -784,6 +1082,11 @@
 - **简介**: Structured manuscript/grant review with checklist-based evaluation. Use when writing formal peer reviews with specific criteria methodology assessment, statistical validity, reporting standards compliance (CONSORT/STROBE), and constructive feedback. Best for actual review writing, manuscript revision. For evaluating claims/evidence quality use scientific-critical-thinking; for quantitative scoring frameworks use scholar-evaluation.
 - **使用场景**: Structured manuscript/grant review with checklist-based evaluation. Use when writing formal peer reviews with specific criteria methodology assessment, statistical validity, reporting standards compliance (CONSORT/STROBE), and constructive feedback. Best for actual review writing, manuscript revision. For evaluating claims/evidence quality use scientific-critical-thinking; for quantitative scoring frameworks use scholar-evaluation.
 
+### peft-fine-tuning
+- **路径**: `skills/AI-Research-SKILLs/03-fine-tuning/peft`
+- **简介**: Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train <1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library integrated with transformers ecosystem.
+- **使用场景**: Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train <1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library integrated with transformers ecosystem.
+
 ### pennylane
 - **路径**: `skills/claude-scientific-skills/scientific-skills/pennylane`
 - **简介**: Hardware-agnostic quantum ML framework with automatic differentiation. Use when training quantum circuits via gradients, building hybrid quantum-classical models, or needing device portability across IBM/Google/Rigetti/IonQ. Best for variational algorithms (VQE, QAOA), quantum neural networks, and integration with PyTorch/JAX/TensorFlow. For hardware-specific optimizations use qiskit (IBM) or cirq (Google); for open quantum systems use qutip.
@@ -793,6 +1096,16 @@
 - **路径**: `skills/claude-scientific-skills/scientific-skills/perplexity-search`
 - **简介**: Perform AI-powered web searches with real-time information using Perplexity models via LiteLLM and OpenRouter. This skill should be used when conducting web searches for current information, finding recent scientific literature, getting grounded answers with source citations, or accessing information beyond the model knowledge cutoff. Provides access to multiple Perplexity models including Sonar Pro, Sonar Pro Search (advanced agentic search), and Sonar Reasoning Pro through a single OpenRouter API key.
 - **使用场景**: 见简介
+
+### phoenix-observability
+- **路径**: `skills/AI-Research-SKILLs/17-observability/phoenix`
+- **简介**: Open-source AI observability platform for LLM tracing, evaluation, and monitoring. Use when debugging LLM applications with detailed traces, running evaluations on datasets, or monitoring production AI systems with real-time insights.
+- **使用场景**: Open-source AI observability platform for LLM tracing, evaluation, and monitoring. Use when debugging LLM applications with detailed traces, running evaluations on datasets, or monitoring production AI systems with real-time insights.
+
+### pinecone
+- **路径**: `skills/AI-Research-SKILLs/15-rag/pinecone`
+- **简介**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
+- **使用场景**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
 
 ### plotly
 - **路径**: `skills/claude-scientific-skills/scientific-skills/plotly`
@@ -834,6 +1147,11 @@
 - **简介**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
 - **使用场景**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
 
+### pretty-mermaid
+- **路径**: `skills/Pretty-mermaid-skills`
+- **简介**: |
+- **使用场景**: 见简介
+
 ### pricing-strategy
 - **路径**: `skills/marketingskills/skills/pricing-strategy`
 - **简介**: When the user wants help with pricing decisions, packaging, or monetization strategy. Also use when the user mentions 'pricing,' 'pricing tiers,' 'freemium,' 'free trial,' 'packaging,' 'price increase,' 'value metric,' 'Van Westendorp,' 'willingness to pay,' or 'monetization.' This skill covers pricing research, tier structure, and packaging strategy.
@@ -842,6 +1160,11 @@
 ### programmatic-seo
 - **路径**: `skills/marketingskills/skills/programmatic-seo`
 - **简介**: When the user wants to create SEO-driven pages at scale using templates and data. Also use when the user mentions "programmatic SEO," "template pages," "pages at scale," "directory pages," "location pages," "[keyword] + [city] pages," "comparison pages," "integration pages," or "building many pages for SEO." For auditing existing SEO issues, see seo-audit.
+- **使用场景**: 见简介
+
+### prompt-guard
+- **路径**: `skills/AI-Research-SKILLs/07-safety-alignment/prompt-guard`
+- **简介**: Meta's 86M prompt injection and jailbreak detector. Filters malicious prompts and third-party data for LLM apps. 99%+ TPR, <1% FPR. Fast (<2ms GPU). Multilingual (8 languages). Deploy with HuggingFace or batch processing for RAG security.
 - **使用场景**: 见简介
 
 ### protocolsio-integration
@@ -914,15 +1237,40 @@
 - **简介**: Therapeutics Data Commons. AI-ready drug discovery datasets (ADME, toxicity, DTI), benchmarks, scaffold splits, molecular oracles, for therapeutic ML and pharmacological prediction.
 - **使用场景**: 见简介
 
+### pytorch-fsdp2
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/pytorch-fsdp2`
+- **简介**: Adds PyTorch FSDP2 (fully_shard) to training scripts with correct init, sharding, mixed precision/offload config, and distributed checkpointing. Use when models exceed single-GPU memory or when you need DTensor-based sharding with DeviceMesh.
+- **使用场景**: Adds PyTorch FSDP2 (fully_shard) to training scripts with correct init, sharding, mixed precision/offload config, and distributed checkpointing. Use when models exceed single-GPU memory or when you need DTensor-based sharding with DeviceMesh.
+
 ### pytorch-lightning
 - **路径**: `skills/claude-scientific-skills/scientific-skills/pytorch-lightning`
 - **简介**: Deep learning framework (PyTorch Lightning). Organize PyTorch code into LightningModules, configure Trainers for multi-GPU/TPU, implement data pipelines, callbacks, logging (W&B, TensorBoard), distributed training (DDP, FSDP, DeepSpeed), for scalable neural network training.
 - **使用场景**: 见简介
 
+### pytorch-lightning
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/pytorch-lightning`
+- **简介**: High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerplate. Scales from laptop to supercomputer with same code. Use when you want clean training loops with built-in best practices.
+- **使用场景**: High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerplate. Scales from laptop to supercomputer with same code. Use when you want clean training loops with built-in best practices.
+
+### pyvene-interventions
+- **路径**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/pyvene`
+- **简介**: Provides guidance for performing causal interventions on PyTorch models using pyvene's declarative intervention framework. Use when conducting causal tracing, activation patching, interchange intervention training, or testing causal hypotheses about model behavior.
+- **使用场景**: Provides guidance for performing causal interventions on PyTorch models using pyvene's declarative intervention framework. Use when conducting causal tracing, activation patching, interchange intervention training, or testing causal hypotheses about model behavior.
+
+### qdrant-vector-search
+- **路径**: `skills/AI-Research-SKILLs/15-rag/qdrant`
+- **简介**: High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast nearest neighbor search, hybrid search with filtering, or scalable vector storage with Rust-powered performance.
+- **使用场景**: High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast nearest neighbor search, hybrid search with filtering, or scalable vector storage with Rust-powered performance.
+
 ### qiskit
 - **路径**: `skills/claude-scientific-skills/scientific-skills/qiskit`
 - **简介**: IBM quantum computing framework. Use when targeting IBM Quantum hardware, working with Qiskit Runtime for production workloads, or needing IBM optimization tools. Best for IBM hardware execution, quantum error mitigation, and enterprise quantum computing. For Google hardware use cirq; for gradient-based quantum ML use pennylane; for open quantum system simulations use qutip.
 - **使用场景**: IBM quantum computing framework. Use when targeting IBM Quantum hardware, working with Qiskit Runtime for production workloads, or needing IBM optimization tools. Best for IBM hardware execution, quantum error mitigation, and enterprise quantum computing. For Google hardware use cirq; for gradient-based quantum ML use pennylane; for open quantum system simulations use qutip.
+
+### quantizing-models-bitsandbytes
+- **路径**: `skills/AI-Research-SKILLs/10-optimization/bitsandbytes`
+- **简介**: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.
+- **使用场景**: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.
 
 ### qutip
 - **路径**: `skills/claude-scientific-skills/scientific-skills/qutip`
@@ -933,6 +1281,16 @@
 - **路径**: `skills/awesome-claude-skills/raffle-winner-picker`
 - **简介**: Picks random winners from lists, spreadsheets, or Google Sheets for giveaways, raffles, and contests. Ensures fair, unbiased selection with transparency.
 - **使用场景**: 见简介
+
+### ray-data
+- **路径**: `skills/AI-Research-SKILLs/05-data-processing/ray-data`
+- **简介**: Scalable data processing for ML workloads. Streaming execution across CPU/GPU, supports Parquet/CSV/JSON/images. Integrates with Ray Train, PyTorch, TensorFlow. Scales from single machine to 100s of nodes. Use for batch inference, data preprocessing, multi-modal data loading, or distributed ETL pipelines.
+- **使用场景**: Scalable data processing for ML workloads. Streaming execution across CPU/GPU, supports Parquet/CSV/JSON/images. Integrates with Ray Train, PyTorch, TensorFlow. Scales from single machine to 100s of nodes. Use for batch inference, data preprocessing, multi-modal data loading, or distributed ETL pipelines.
+
+### ray-train
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/ray-train`
+- **简介**: Distributed training orchestration across clusters. Scales PyTorch/TensorFlow/HuggingFace from laptop to 1000s of nodes. Built-in hyperparameter tuning with Ray Tune, fault tolerance, elastic scaling. Use when training massive models across multiple machines or running distributed hyperparameter sweeps.
+- **使用场景**: Distributed training orchestration across clusters. Scales PyTorch/TensorFlow/HuggingFace from laptop to 1000s of nodes. Built-in hyperparameter tuning with Ray Tune, fault tolerance, elastic scaling. Use when training massive models across multiple machines or running distributed hyperparameter sweeps.
 
 ### rdkit
 - **路径**: `skills/claude-scientific-skills/scientific-skills/rdkit`
@@ -973,6 +1331,11 @@
 - **路径**: `skills/claude-scientific-skills/scientific-skills/rowan`
 - **简介**: Cloud-based quantum chemistry platform with Python API. Preferred for computational chemistry workflows including pKa prediction, geometry optimization, conformer searching, molecular property calculations, protein-ligand docking (AutoDock Vina), and AI protein cofolding (Chai-1, Boltz-1/2). Use when tasks involve quantum chemistry calculations, molecular property prediction, DFT or semiempirical methods, neural network potentials (AIMNet2), protein-ligand binding predictions, or automated computational chemistry pipelines. Provides cloud compute resources with no local setup required.
 - **使用场景**: Cloud-based quantum chemistry platform with Python API. Preferred for computational chemistry workflows including pKa prediction, geometry optimization, conformer searching, molecular property calculations, protein-ligand docking (AutoDock Vina), and AI protein cofolding (Chai-1, Boltz-1/2). Use when tasks involve quantum chemistry calculations, molecular property prediction, DFT or semiempirical methods, neural network potentials (AIMNet2), protein-ligand binding predictions, or automated computational chemistry pipelines. Provides cloud compute resources with no local setup required.
+
+### rwkv-architecture
+- **路径**: `skills/AI-Research-SKILLs/01-model-architecture/rwkv`
+- **简介**: RNN+Transformer hybrid with O(n) inference. Linear time, infinite context, no KV cache. Train like GPT (parallel), infer like RNN (sequential). Linux Foundation AI project. Production at Windows, Office, NeMo. RWKV-7 (March 2025). Models up to 14B parameters.
+- **使用场景**: 见简介
 
 ### scanpy
 - **路径**: `skills/claude-scientific-skills/scientific-skills/scanpy`
@@ -1044,10 +1407,35 @@
 - **简介**: Statistical visualization with pandas integration. Use for quick exploration of distributions, relationships, and categorical comparisons with attractive defaults. Best for box plots, violin plots, pair plots, heatmaps. Built on matplotlib. For interactive plots use plotly; for publication styling use scientific-visualization.
 - **使用场景**: Statistical visualization with pandas integration. Use for quick exploration of distributions, relationships, and categorical comparisons with attractive defaults. Best for box plots, violin plots, pair plots, heatmaps. Built on matplotlib. For interactive plots use plotly; for publication styling use scientific-visualization.
 
+### segment-anything-model
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/segment-anything`
+- **简介**: Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or masks as prompts, or automatically generate all object masks in an image.
+- **使用场景**: Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or masks as prompts, or automatically generate all object masks in an image.
+
+### sentence-transformers
+- **路径**: `skills/AI-Research-SKILLs/15-rag/sentence-transformers`
+- **简介**: Framework for state-of-the-art sentence, text, and image embeddings. Provides 5000+ pre-trained models for semantic similarity, clustering, and retrieval. Supports multilingual, domain-specific, and multimodal models. Use for generating embeddings for RAG, semantic search, or similarity tasks. Best for production embedding generation.
+- **使用场景**: Framework for state-of-the-art sentence, text, and image embeddings. Provides 5000+ pre-trained models for semantic similarity, clustering, and retrieval. Supports multilingual, domain-specific, and multimodal models. Use for generating embeddings for RAG, semantic search, or similarity tasks. Best for production embedding generation.
+
+### sentencepiece
+- **路径**: `skills/AI-Research-SKILLs/02-tokenization/sentencepiece`
+- **简介**: Language-independent tokenizer treating text as raw Unicode. Supports BPE and Unigram algorithms. Fast (50k sentences/sec), lightweight (6MB memory), deterministic vocabulary. Used by T5, ALBERT, XLNet, mBART. Train on raw text without pre-tokenization. Use when you need multilingual support, CJK languages, or reproducible tokenization.
+- **使用场景**: Language-independent tokenizer treating text as raw Unicode. Supports BPE and Unigram algorithms. Fast (50k sentences/sec), lightweight (6MB memory), deterministic vocabulary. Used by T5, ALBERT, XLNet, mBART. Train on raw text without pre-tokenization. Use when you need multilingual support, CJK languages, or reproducible tokenization.
+
 ### seo-audit
 - **路径**: `skills/marketingskills/skills/seo-audit`
 - **简介**: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," or "SEO health check." For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema-markup.
 - **使用场景**: 见简介
+
+### serving-llms-vllm
+- **路径**: `skills/AI-Research-SKILLs/12-inference-serving/vllm`
+- **简介**: Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), and tensor parallelism.
+- **使用场景**: Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), and tensor parallelism.
+
+### sglang
+- **路径**: `skills/AI-Research-SKILLs/12-inference-serving/sglang`
+- **简介**: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you need 5× faster inference than vLLM with prefix sharing. Powers 300,000+ GPUs at xAI, AMD, NVIDIA, and LinkedIn.
+- **使用场景**: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you need 5× faster inference than vLLM with prefix sharing. Powers 300,000+ GPUs at xAI, AMD, NVIDIA, and LinkedIn.
 
 ### shap
 - **路径**: `skills/claude-scientific-skills/scientific-skills/shap`
@@ -1058,6 +1446,11 @@
 - **路径**: `skills/marketingskills/skills/signup-flow-cro`
 - **简介**: When the user wants to optimize signup, registration, account creation, or trial activation flows. Also use when the user mentions "signup conversions," "registration friction," "signup form optimization," "free trial signup," "reduce signup dropoff," or "account creation flow." For post-signup onboarding, see onboarding-cro. For lead capture forms (not account creation), see form-cro.
 - **使用场景**: 见简介
+
+### simpo-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/simpo`
+- **简介**: Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO.
+- **使用场景**: Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO.
 
 ### simpy
 - **路径**: `skills/claude-scientific-skills/scientific-skills/simpy`
@@ -1082,12 +1475,17 @@
 ### skill-seekers
 - **路径**: `skills/skill-seekers`
 - **简介**: Use when converting documentation websites, GitHub repositories, or PDFs into Claude/Cursor skills; when scraping, analyzing, packaging, or uploading skills; or when configuring MCP or multi-source conflict detection for skill generation.
-- **使用场景**: 见简介
+- **使用场景**: Use when converting documentation websites, GitHub repositories, or PDFs into Claude/Cursor skills; when scraping, analyzing, packaging, or uploading skills; or when configuring MCP or multi-source conflict detection for skill generation.
 
 ### skill-share
 - **路径**: `skills/awesome-claude-skills/skill-share`
 - **简介**: A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.
 - **使用场景**: 见简介
+
+### skypilot-multi-cloud-orchestration
+- **路径**: `skills/AI-Research-SKILLs/09-infrastructure/skypilot`
+- **简介**: Multi-cloud orchestration for ML workloads with automatic cost optimization. Use when you need to run training or batch jobs across multiple clouds, leverage spot instances with auto-recovery, or optimize GPU costs across providers.
+- **使用场景**: Multi-cloud orchestration for ML workloads with automatic cost optimization. Use when you need to run training or batch jobs across multiple clouds, leverage spot instances with auto-recovery, or optimize GPU costs across providers.
 
 ### slack-gif-creator
 - **路径**: `skills/anthropics/skills/slack-gif-creator`
@@ -1099,15 +1497,35 @@
 - **简介**: Toolkit for creating animated GIFs optimized for Slack, with validators for size constraints and composable animation primitives. This skill applies when users request animated GIFs or emoji animations for Slack from descriptions like "make me a GIF for Slack of X doing Y".
 - **使用场景**: 见简介
 
+### slime-rl-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/slime`
+- **简介**: Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom data generation workflows, or needing tight Megatron-LM integration for RL scaling.
+- **使用场景**: Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom data generation workflows, or needing tight Megatron-LM integration for RL scaling.
+
 ### social-content
 - **路径**: `skills/marketingskills/skills/social-content`
 - **简介**: When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms. Also use when the user mentions 'LinkedIn post,' 'Twitter thread,' 'social media,' 'content calendar,' 'social scheduling,' 'engagement,' or 'viral content.' This skill covers content creation, repurposing, and platform-specific strategies.
 - **使用场景**: 见简介
 
+### sparse-autoencoder-training
+- **路径**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/saelens`
+- **简介**: Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpretable features. Use when discovering interpretable features, analyzing superposition, or studying monosemantic representations in language models.
+- **使用场景**: Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpretable features. Use when discovering interpretable features, analyzing superposition, or studying monosemantic representations in language models.
+
+### speculative-decoding
+- **路径**: `skills/AI-Research-SKILLs/19-emerging-techniques/speculative-decoding`
+- **简介**: Accelerate LLM inference using speculative decoding, Medusa multiple heads, and lookahead decoding techniques. Use when optimizing inference speed (1.5-3.6× speedup), reducing latency for real-time applications, or deploying models with limited compute. Covers draft models, tree-based attention, Jacobi iteration, parallel token generation, and production deployment strategies.
+- **使用场景**: Accelerate LLM inference using speculative decoding, Medusa multiple heads, and lookahead decoding techniques. Use when optimizing inference speed (1.5-3.6× speedup), reducing latency for real-time applications, or deploying models with limited compute. Covers draft models, tree-based attention, Jacobi iteration, parallel token generation, and production deployment strategies.
+
 ### stable-baselines3
 - **路径**: `skills/claude-scientific-skills/scientific-skills/stable-baselines3`
 - **简介**: Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experiments, quick prototyping, and well-documented algorithm implementations. Best for single-agent RL with Gymnasium environments. For high-performance parallel training, multi-agent systems, or custom vectorized environments, use pufferlib instead.
 - **使用场景**: Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experiments, quick prototyping, and well-documented algorithm implementations. Best for single-agent RL with Gymnasium environments. For high-performance parallel training, multi-agent systems, or custom vectorized environments, use pufferlib instead.
+
+### stable-diffusion-image-generation
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/stable-diffusion`
+- **简介**: State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines.
+- **使用场景**: State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines.
 
 ### statistical-analysis
 - **路径**: `skills/claude-scientific-skills/scientific-skills/statistical-analysis`
@@ -1154,6 +1572,16 @@
 - **简介**: Replace with description of the skill and when Claude should use it.
 - **使用场景**: 见简介
 
+### tensorboard
+- **路径**: `skills/AI-Research-SKILLs/13-mlops/tensorboard`
+- **简介**: Visualize training metrics, debug models with histograms, compare experiments, visualize model graphs, and profile performance with TensorBoard - Google's ML visualization toolkit
+- **使用场景**: 见简介
+
+### tensorrt-llm
+- **路径**: `skills/AI-Research-SKILLs/12-inference-serving/tensorrt-llm`
+- **简介**: Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H100), when you need 10-100x faster inference than PyTorch, or for serving models with quantization (FP8/INT4), in-flight batching, and multi-GPU scaling.
+- **使用场景**: Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H100), when you need 10-100x faster inference than PyTorch, or for serving models with quantization (FP8/INT4), in-flight batching, and multi-GPU scaling.
+
 ### test-driven-development
 - **路径**: `skills/superpowers/skills/test-driven-development`
 - **简介**: Use when implementing any feature or bugfix, before writing implementation code
@@ -1178,6 +1606,21 @@
 - **路径**: `skills/claude-scientific-skills/scientific-skills/torchdrug`
 - **简介**: PyTorch-native graph neural networks for molecules and proteins. Use when building custom GNN architectures for drug discovery, protein modeling, or knowledge graph reasoning. Best for custom model development, protein property prediction, retrosynthesis. For pre-trained models and diverse featurizers use deepchem; for benchmark datasets use pytdc.
 - **使用场景**: PyTorch-native graph neural networks for molecules and proteins. Use when building custom GNN architectures for drug discovery, protein modeling, or knowledge graph reasoning. Best for custom model development, protein property prediction, retrosynthesis. For pre-trained models and diverse featurizers use deepchem; for benchmark datasets use pytdc.
+
+### torchforge-rl-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/torchforge`
+- **简介**: Provides guidance for PyTorch-native agentic RL using torchforge, Meta's library separating infra from algorithms. Use when you want clean RL abstractions, easy algorithm experimentation, or scalable training with Monarch and TorchTitan.
+- **使用场景**: Provides guidance for PyTorch-native agentic RL using torchforge, Meta's library separating infra from algorithms. Use when you want clean RL abstractions, easy algorithm experimentation, or scalable training with Monarch and TorchTitan.
+
+### training-llms-megatron
+- **路径**: `skills/AI-Research-SKILLs/08-distributed-training/megatron-core`
+- **简介**: Trains large language models (2B-462B parameters) using NVIDIA Megatron-Core with advanced parallelism strategies. Use when training models >1B parameters, need maximum GPU efficiency (47% MFU on H100), or require tensor/pipeline/sequence/context/expert parallelism. Production-ready framework used for Nemotron, LLaMA, DeepSeek.
+- **使用场景**: Trains large language models (2B-462B parameters) using NVIDIA Megatron-Core with advanced parallelism strategies. Use when training models >1B parameters, need maximum GPU efficiency (47% MFU on H100), or require tensor/pipeline/sequence/context/expert parallelism. Production-ready framework used for Nemotron, LLaMA, DeepSeek.
+
+### transformer-lens-interpretability
+- **路径**: `skills/AI-Research-SKILLs/04-mechanistic-interpretability/transformer-lens`
+- **简介**: Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookPoints and activation caching. Use when reverse-engineering model algorithms, studying attention patterns, or performing activation patching experiments.
+- **使用场景**: Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookPoints and activation caching. Use when reverse-engineering model algorithms, studying attention patterns, or performing activation patching experiments.
 
 ### transformers
 - **路径**: `skills/claude-scientific-skills/scientific-skills/transformers`
@@ -1254,6 +1697,11 @@
 - **简介**: Direct REST API access to UniProt. Protein searches, FASTA retrieval, ID mapping, Swiss-Prot/TrEMBL. For Python workflows with multiple databases, prefer bioservices (unified interface to 40+ services). Use this for direct HTTP/REST work or UniProt-specific control.
 - **使用场景**: Direct REST API access to UniProt. Protein searches, FASTA retrieval, ID mapping, Swiss-Prot/TrEMBL. For Python workflows with multiple databases, prefer bioservices (unified interface to 40+ services). Use this for direct HTTP/REST work or UniProt-specific control.
 
+### unsloth
+- **路径**: `skills/AI-Research-SKILLs/03-fine-tuning/unsloth`
+- **简介**: Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization
+- **使用场景**: 见简介
+
 ### using-git-worktrees
 - **路径**: `skills/superpowers/skills/using-git-worktrees`
 - **简介**: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
@@ -1279,15 +1727,20 @@
 - **简介**: Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR, CHI), research posters, and grant proposals (NSF, NIH, DOE, DARPA). This skill should be used when preparing manuscripts for journal submission, conference papers, research posters, or grant proposals and need venue-specific formatting requirements and templates.
 - **使用场景**: 见简介
 
-### video-summarizer
-- **路径**: `skills/video-summarizer/skills/video-summarizer`
-- **简介**: Download videos from YouTube, Bilibili, Twitter/X and 1800+ platforms; outputs MP4, MP3, subtitles, transcript and AI summary. Use when the user asks to summarize a video, download a video, transcribe a video, or get key points from a video URL.
-- **使用场景**: 见简介
-
 ### verification-before-completion
 - **路径**: `skills/superpowers/skills/verification-before-completion`
 - **简介**: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
 - **使用场景**: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
+
+### verl-rl-training
+- **路径**: `skills/AI-Research-SKILLs/06-post-training/verl`
+- **简介**: Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL). Use when implementing RLHF, GRPO, PPO, or other RL algorithms for LLM post-training at scale with flexible infrastructure backends.
+- **使用场景**: Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL). Use when implementing RLHF, GRPO, PPO, or other RL algorithms for LLM post-training at scale with flexible infrastructure backends.
+
+### video-summarizer
+- **路径**: `skills/video-summarizer/skills/video-summarizer`
+- **简介**: Download videos from 1800+ platforms (YouTube, Bilibili, Twitter/X, TikTok, Vimeo, Instagram, etc.) and generate complete resource package with video, audio, subtitles, and AI summary. Actions: summarize, download, transcribe, extract video content. Platforms: youtube.com, bilibili.com, twitter.com, x.com, tiktok.com, vimeo.com, instagram.com, twitch.tv. Outputs: MP4 video, MP3 audio, VTT subtitles with timestamps, TXT transcript, MD AI summary. Auto-installs uv, yt-dlp, ffmpeg. Python dependencies managed by uv.
+- **使用场景**: 见简介
 
 ### web-artifacts-builder
 - **路径**: `skills/anthropics/skills/web-artifacts-builder`
@@ -1303,6 +1756,16 @@
 - **路径**: `skills/awesome-claude-skills/webapp-testing`
 - **简介**: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
 - **使用场景**: 见简介
+
+### weights-and-biases
+- **路径**: `skills/AI-Research-SKILLs/13-mlops/weights-and-biases`
+- **简介**: Track ML experiments with automatic logging, visualize training in real-time, optimize hyperparameters with sweeps, and manage model registry with W&B - collaborative MLOps platform
+- **使用场景**: 见简介
+
+### whisper
+- **路径**: `skills/AI-Research-SKILLs/18-multimodal/whisper`
+- **简介**: OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio processing. Best for robust, multilingual ASR.
+- **使用场景**: OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio processing. Best for robust, multilingual ASR.
 
 ### writing-plans
 - **路径**: `skills/superpowers/skills/writing-plans`
@@ -1359,11 +1822,6 @@
 ### claude-scientific-skills
 - **路径**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/user-claude-scientific-skills`
 - **简介**: 
-- **使用场景**: 见简介
-
-### cursor-browser-extension
-- **路径**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/cursor-browser-extension`
-- **简介**: The cursor-browser-extension is an MCP server that allows you to navigate the web and interact with the page. Please use this server if the user is asking about questions or tasks related to frontend / webapp development, and you are encouraged to test any of your code changes by using the tools from this MCP server.
 - **使用场景**: 见简介
 
 ### cursor-ide-browser
