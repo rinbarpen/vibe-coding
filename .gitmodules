@@ -55,3 +55,12 @@
 [submodule "skills/video-summarizer"]
 	path = skills/video-summarizer
 	url = https://github.com/liang121/video-summarizer.git
+[submodule "skills/data-structure-protocol"]
+	path = skills/data-structure-protocol
+	url = https://github.com/k-kolomeitsev/data-structure-protocol.git
+[submodule "skills/ai-design-components"]
+	path = skills/ai-design-components
+	url = https://github.com/ancoleman/ai-design-components
+[submodule "skills/x-research-skill"]
+	path = skills/x-research-skill
+	url = https://github.com/rohunvora/x-research-skill
