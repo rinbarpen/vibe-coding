@@ -48,6 +48,21 @@
 *   **[Humanizer-zh](skills/Humanizer-zh)**: 去除中文文本的 AI 写作痕迹，使表述更自然。
 *   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: 高质量 Mermaid 图表渲染，多主题、SVG/ASCII 输出。
 *   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: 分章节中文小说创作，支持长篇与多题材。
+*   **[X Research](skills/x-research-skill)**: 通用的 X/Twitter 调研助手，支持实时搜索、推文分析与专家观点提取。
+
+---
+
+## 🏗️ Vibe Coding 配置 (Manifests)
+
+本项目提供了一系列适配不同场景的 Vibe Coding 配置文件 (Manifests)，可直接用于初始化新项目或优化现有项目的 AI 上下文：
+
+*   **[Vibe Coding (Core)](manifests/vibe-coding)**: 核心 Vibe Coding 流程配置，包含 `CLAUDE.md` 和 `AGENTS.md` 模板。
+*   **[Academic Writing](manifests/academic-writing)**: 专为学术写作优化的配置，包含论文润色、引用管理等规则。
+*   **[Fund Proposal](manifests/fund-proposal)**: 基金申请书/项目建议书编写配置，集成调研、评审与视觉化技能。
+*   **[Market Analysis](manifests/market-analysis)**: 市场分析与竞品调研配置。
+*   **[Research](manifests/research)**: 通用科学研究与实验室协同配置。
+*   **[Social Media](manifests/social-media)**: 社交媒体内容创作与运营配置。
+*   **[Novel Writing](manifests/novel-writing)**: 小说创作与文学写作配置。
 
 ---
 
