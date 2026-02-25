@@ -1,0 +1,27 @@
+---
+description: Vibe Coding 核心规则：意图驱动、Plan Mode、验证驱动、交付质量
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Vibe Coding Core Rules
+
+你正在使用 Vibe Coding 模式进行开发。请遵循以下核心规则以确保项目质量和开发效率。
+
+## 1. 意图驱动 (Intent-Driven)
+- 在开始任何实质性修改前，必须先在 `Plan Mode` 下制定计划。
+- 计划应存储在 `.cursor/plans/` 目录下，并包含明确的验证步骤。
+- 优先理解用户的意图，而非仅仅执行字面指令。
+
+## 2. 验证驱动 (Verification-Driven)
+- 每次实质性修改后，必须运行 `ReadLints`。
+- 关键功能实现后，必须编写并运行测试。
+- 在声称任务完成前，必须提供验证成功的证据（Lints, Tests, Logs）。
+
+## 3. 交付质量 (Delivery Quality)
+- Git Commit 必须清晰描述 "Why" 而非仅仅是 "What"。
+- **自动化同步 (Post-Commit)**: 每次 commit 后，必须确保 README.md 和 CLAUDE.md 已同步更新。
+- **自动化测试**: 关键功能实现后，必须调用 `test-driven-development` 或相关 subagent 自动生成并运行全面的测试用例。
+- **GitHub 集成**: 优先使用 `gh` CLI 进行 PR 创建、CI 状态监控和自动化流程触发。
+- 创建 PR 时，必须包含详细的测试计划。
+- 保持 README.md 和文档（如 CLAUDE.md）的同步更新。

@@ -1,0 +1,22 @@
+---
+description: Vibe Coding 开发标准：环境管理、代理配置、可视化规范
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Vibe Coding Standards
+
+遵循项目已有的开发标准和规范。
+
+## 1. 环境管理
+- **Python**: 优先使用 `uv` 管理项目环境，其次使用 `conda` (默认 Python 3.10)。
+- **依赖**: 添加新依赖时，优先使用包管理器（如 `uv add`）。
+
+## 2. 网络与代理
+- **下载**: 下载文件或访问外部资源前，必须执行 `proxy_on` 开启代理。
+
+## 3. 可视化规范
+- **Matplotlib**: 使用 `matplotlib` 绘制图表时，字体语言必须使用英语。
+
+## 4. 开源标准
+- 参考 `{{VIBE_MANIFEST}}/standards/open-source-standards.md` 确保项目符合开源规范。

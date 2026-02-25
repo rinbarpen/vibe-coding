@@ -1,0 +1,25 @@
+---
+description: CLAUDE.md 维护规则：确保项目上下文实时更新
+globs: ["**/CLAUDE.md", "**/AGENTS.md"]
+alwaysApply: true
+---
+
+# CLAUDE.md Maintenance
+
+CLAUDE.md 是 AI 获取项目上下文的核心文件，必须保持其准确性和简洁性。
+
+## 1. 维护触发时机
+- **架构变更**: 新增/删除核心目录或改变模块关系。
+- **命令变更**: 修改了 build, test, lint, dev 等常用命令。
+- **关键文件**: 增加了重要的配置文件或入口文件。
+- **约定变更**: 引入了新的编码规范或非直观模式 (Gotchas)。
+
+## 2. 维护原则
+- **简洁性**: 保持内容密集且易读，避免冗余。
+- **准确性**: 所有命令必须是可执行的，路径必须是真实的。
+- **质量审计**: 当用户要求“审计 CLAUDE.md”时，调用 `claude-md-improver` skill。
+
+## 3. 自动化建议
+- 在完成重大功能实现并准备交付前，检查并更新 CLAUDE.md。
+- **Commit 后强制同步**: 每次 `git commit` 后，必须运行 `/update-claude-md` 或 `vibe-post-commit.sh` 以确保上下文实时。
+- 遵循 `{{VIBE_MANIFEST}}/standards/claude-md-maintenance.md` 中的维护标准。

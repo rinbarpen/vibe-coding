@@ -1,0 +1,22 @@
+---
+description: API 优先规则：强制执行 OpenAPI/Swagger 优先，确保前后端分离与多端兼容
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Vibe Coding API-First Rules
+
+确保多端（Web, Mobile, Desktop）接入的一致性与前后端高效协作。
+
+## 1. 契约优先 (Contract First)
+- **定义先行**: 在编写后端逻辑前，必须先定义 OpenAPI (Swagger) 或 GraphQL Schema。
+- **Mock 服务**: 前端开发应基于定义的契约使用 Mock 数据，不依赖后端进度。
+
+## 2. 多端兼容性
+- **通用响应格式**: 所有 API 必须遵循统一的响应结构（如 `{ "code": 200, "data": ..., "message": "" }`）。
+- **版本控制**: API 路径应包含版本号（如 `/api/v1/...`），确保向后兼容。
+- **跨域处理**: 必须配置合理的 CORS 策略以支持多域名接入。
+
+## 3. 类型安全
+- **代码生成**: 鼓励从 API 定义自动生成前端类型定义 (TypeScript) 或客户端 SDK。
+- **校验**: 后端必须对所有输入进行严格的 Schema 校验。

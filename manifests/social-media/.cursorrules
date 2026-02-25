@@ -1,0 +1,28 @@
+# Social Media Creation Rules
+
+Rules for social media content creation, focusing on Chinese typesetting and professional prose.
+
+## Chinese Copywriting & Typesetting
+
+- **Spacing**: Always add a space between Chinese characters and English words/numbers.
+  - Correct: `在 Cursor 中使用 AI`
+  - Incorrect: `在Cursor中使用AI`
+- **Punctuation**: Use full-width Chinese punctuation in Chinese sentences.
+- **Numbers**: Use half-width numbers unless for specific design alignment.
+- **Refer**: See `skills/chinese-copywriting-guidelines/SKILL.md` for full details.
+
+## Professional Prose (Beautiful Prose)
+
+- **Forceful Writing**: Avoid modern AI filler ("In a world where...", "Ultimately...", "It's important to note...").
+- **Concrete Imagery**: Prefer specific nouns and strong verbs over abstractions and adverbs.
+- **Refer**: See `skills/beautiful_prose/SKILL.md` for style constraints.
+
+## Visuals & Charts
+
+- **Matplotlib**: All labels, titles, and legends in charts MUST be in English.
+- **Image Prompts**: When generating image prompts, focus on lighting, composition, and style (e.g., "minimalist flat vector", "cinematic lighting").
+
+## Workflow Integration
+
+- **Plan First**: Always start with a content plan in `content/plans/`.
+- **Audit**: Before finishing, run a "vibe-check" on the text for spacing and tone.

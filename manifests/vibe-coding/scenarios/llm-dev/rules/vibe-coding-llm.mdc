@@ -1,0 +1,29 @@
+---
+description: LLM 开发核心规则：提示词工程、评估流程、数据集管理与模型调用规范
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Vibe Coding LLM Development Rules
+
+针对大语言模型 (LLM) 应用开发的规范，重点在于 Prompt 质量、评估体系与数据闭环。
+
+## 1. 提示词工程 (Prompt Engineering)
+- **版本化**: 所有的 Prompt 模板必须独立于代码进行版本控制。
+- **结构化**: 推荐使用 XML 标签或 Markdown 结构来组织 Prompt，区分指令、上下文和示例。
+- **Few-shot**: 关键任务必须包含高质量的 Few-shot 示例。
+
+## 2. 评估体系 (Evaluation)
+- **基准测试**: 必须建立针对特定任务的测试集 (Golden Dataset)。
+- **自动化评估**: 推荐使用 LLM-as-a-judge 或确定性指标（如 ROUGE, BLEU, Exact Match）进行回归测试。
+- **成本监控**: 记录每次实验的 Token 消耗与响应延迟。
+
+## 3. 数据集管理
+- **多样性**: 确保训练/评估数据覆盖边界情况 (Edge Cases)。
+- **清洗与脱敏**: 严禁将包含敏感信息 (PII) 的数据发送至公有云 LLM。
+- **格式统一**: 数据集推荐使用 JSONL 格式存储。
+
+## 4. 模型调用
+- **流式响应**: 面向用户的应用必须支持 Streaming。
+- **降级策略**: 实现多模型备份（如 GPT-4 失败后切换至 Claude 3）。
+- **参数控制**: 明确设置 `temperature`, `top_p`, `max_tokens` 等参数，确保输出稳定性。
