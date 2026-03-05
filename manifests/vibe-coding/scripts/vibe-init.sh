@@ -63,4 +63,16 @@ fi
 [ ! -f README.md ] && cp "$MANIFEST_DIR/core/README.md" README.md || true
 [ ! -f CONTRIBUTING.md ] && cp "$MANIFEST_DIR/core/CONTRIBUTING.md" CONTRIBUTING.md || true
 
+# 7. 复制 commands 到 .cursor/commands/
+COMMANDS_SOURCE="$(dirname "$0")/../commands"
+if [ -d "$COMMANDS_SOURCE" ]; then
+    echo "Installing commands..."
+    for cmd_dir in "$COMMANDS_SOURCE"/*/; do
+        [ -d "$cmd_dir" ] || continue
+        cmd_name=$(basename "$cmd_dir")
+        mkdir -p ".cursor/commands/$cmd_name"
+        cp -r "$cmd_dir"* ".cursor/commands/$cmd_name/" 2>/dev/null || true
+    done
+fi
+
 echo "Project initialized successfully with scenarios: ${SCENARIOS:-default}"

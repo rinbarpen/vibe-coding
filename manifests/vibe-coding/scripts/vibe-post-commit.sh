@@ -16,6 +16,12 @@ if [ -f ".cursor/commands/update-readme/update_readme.py" ]; then
     python3 .cursor/commands/update-readme/update_readme.py
 fi
 
+for cmd in update-docker update-docs update-examples update-scripts; do
+    if [ -f ".cursor/commands/$cmd/update_${cmd#update-}.py" ]; then
+        python3 ".cursor/commands/$cmd/update_${cmd#update-}.py"
+    fi
+done
+
 # 2. 自动化测试生成与运行 (建议调用 subagent 或特定工具)
 echo "🧪 Checking for test coverage and generating tests if needed..."
 # 这里可以集成具体的测试生成逻辑或提示用户启动 subagent

@@ -12,6 +12,10 @@
 | `vibe-claude-md-audit` | 审计 CLAUDE.md 质量（调用 claude-md-improver skill） | `CallMcpTool("claude-md-improver", "audit", ...)` |
 | `/update-readme` | 自动更新项目 README.md 文档 | `/update-readme [更新说明]` |
 | `/update-claude-md` | 自动更新 CLAUDE.md 项目上下文 | `/update-claude-md` |
+| `/update-docker` | 同步 Docker 配置与项目状态 | `/update-docker` |
+| `/update-docs` | 同步 docs/ 文档与实现 | `/update-docs [可选说明]` |
+| `/update-examples` | 同步 examples/ 示例代码 | `/update-examples [可选说明]` |
+| `/update-scripts` | 同步 scripts/ 工具脚本 | `/update-scripts [可选说明]` |
 | `gh pr create` | 自动创建 GitHub PR | `gh pr create --title "..." --body "..."` |
 | `vibe-ci-check` | 监控 GitHub CI 状态 | `gh pr checks` 或启动 `ci-watcher` subagent |
 
