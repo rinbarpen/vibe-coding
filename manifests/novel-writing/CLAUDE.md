@@ -20,9 +20,28 @@
   outline/     # 大纲与剧情线
   characters/  # 角色设定文件
   world/       # 世界观、地理、力量体系
-  research/    # 资料收集与参考
+  research/    # 资料收集与参考（项目特定资料）
+  references/  # 通用知识域参考（神秘学、神话等）
   drafts/      # 废弃稿件与灵感碎片
 ```
+
+## 知识参考 (Knowledge References)
+
+创作涉及神秘学或神话元素时，AI 应优先查阅以下参考以保持术语与典故的准确性：
+
+| 领域 | 文件 |
+|------|------|
+| 神秘学 | `references/occult-knowledge.md` |
+| 希腊神话 | `references/greek-mythology.md` |
+| 北欧神话 | `references/norse-mythology.md` |
+| 中式神话 | `references/chinese-mythology.md` |
+| 日式神话 | `references/japanese-mythology.md` |
+| 修仙 | `references/cultivation-knowledge.md` |
+| 异世界 | `references/isekai-knowledge.md` |
+| SCP 基金会 | `references/scp-foundation.md` |
+| 灵能 | `references/psionic-knowledge.md` |
+
+- `references/` 为通用知识域，`research/` 为项目特定资料。
 
 ## 关键文件
 
