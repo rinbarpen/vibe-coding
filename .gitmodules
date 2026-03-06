@@ -16,8 +16,8 @@
 [submodule "skills/Khazix-Skills"]
 	path = skills/Khazix-Skills
 	url = https://github.com/KKKKhazix/Khazix-Skills.git
-[submodule "skills/agent-browser"]
-	path = skills/agent-browser
+[submodule "manifests/agent-browser"]
+	path = manifests/agent-browser
 	url = https://github.com/vercel-labs/agent-browser.git
 [submodule "skills/agent-skills"]
 	path = skills/agent-skills
@@ -64,3 +64,24 @@
 [submodule "skills/x-research-skill"]
 	path = skills/x-research-skill
 	url = https://github.com/rohunvora/x-research-skill
+[submodule "skills/chinese-copywriting-guidelines"]
+	path = skills/chinese-copywriting-guidelines
+	url = https://github.com/sparanoid/chinese-copywriting-guidelines.git
+[submodule "skills/chinese-novelist-skill"]
+	path = skills/chinese-novelist-skill
+	url = https://github.com/PenglongHuang/chinese-novelist-skill.git
+[submodule "skills/axton-obsidian-visual-skills"]
+	path = skills/axton-obsidian-visual-skills
+	url = https://github.com/axtonliu/axton-obsidian-visual-skills.git
+[submodule "skills/AI-Research-SKILLs"]
+	path = skills/AI-Research-SKILLs
+	url = https://github.com/Orchestra-Research/AI-Research-SKILLs.git
+[submodule "skills/Humanizer-zh"]
+	path = skills/Humanizer-zh
+	url = https://github.com/op7418/Humanizer-zh.git
+[submodule "skills/Pretty-mermaid-skills"]
+	path = skills/Pretty-mermaid-skills
+	url = https://github.com/imxv/Pretty-mermaid-skills.git
+[submodule "skills/skill-seekers"]
+	path = skills/skill-seekers
+	url = https://github.com/yusufkaraaslan/Skill_Seekers.git
