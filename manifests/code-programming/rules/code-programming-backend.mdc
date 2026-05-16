@@ -1,0 +1,69 @@
+---
+description: Backend Design rules — API design, service architecture, database design,
+  authentication, security, middleware
+globs: ["**/*.{go,rs,py,ts,js,java,kt}"]
+alwaysApply: false
+---
+
+# Backend Design Rules
+
+## API-First Design
+
+- Define API contracts BEFORE writing implementation code
+- REST: OpenAPI 3.x specification in `api/openapi.yaml`
+- gRPC: Protobuf definitions in `api/proto/`
+- Generate client/server stubs from the contract
+- The contract is the source of truth. Implementation must match it.
+
+## API Design Standards
+
+- RESTful resource naming: plural nouns, not verbs (`/users`, not `/getUsers`)
+- Consistent envelope for all responses:
+  - Success: `{ data: T, meta?: { total, page, limit } }`
+  - Error: `{ error: { code, message, details? } }`
+- Pagination: cursor-based for large datasets, offset-based for small, stable ones
+- Versioning: URL prefix (`/v1/`) or header (`Accept: application/vnd.api+json;version=1`)
+- Idempotency keys on mutation endpoints (POST/PUT/DELETE with `Idempotency-Key` header)
+- Rate limiting on all public endpoints (per-IP and per-user)
+
+## Database Design
+
+- Migrations are version-controlled, sequential, and reversible
+- Every migration MUST have a down/rollback script
+- Use schema-based ORM or query builder: Prisma (TS), sqlc (Go), SQLAlchemy (Python), Diesel (Rust), Flyway (Java)
+- Index on query patterns, not on guesses. Use `EXPLAIN ANALYZE` to verify.
+- N+1 query prevention: use JOINs or batch loading (DataLoader pattern)
+- Connection pooling: configure per-service (pgbouncer, r2d2, HikariCP)
+
+## Authentication & Authorization
+
+- JWT with short access token expiry (15 min) + refresh token rotation
+- OAuth2 for third-party authentication
+- Passwords: bcrypt (cost >= 12) or argon2id
+- Authorization: RBAC (role-based) or ABAC (attribute-based). Never just check "is authenticated."
+- API keys for service-to-service communication
+- Rate limit auth endpoints aggressively (login, register, password reset)
+
+## Middleware Stack (Typical Order)
+
+1. Request logging (structured JSON, with request ID and trace ID)
+2. Recovery/panic handler (never crash the process)
+3. CORS (configured for known origins, not `Access-Control-Allow-Origin: *` in production)
+4. Authentication (extract + validate token, inject user context)
+5. Rate limiting
+6. Request validation
+7. Business logic handler
+
+## Service Architecture
+
+- Stateless horizontally-scalable services (session state in Redis, not in-process)
+- Graceful shutdown: handle SIGTERM, drain connections, finish in-flight requests
+- Health check endpoints: `/healthz` (liveness) and `/readyz` (readiness)
+- Structured logging: JSON format, consistent field names across services
+- Distributed tracing: OpenTelemetry with W3C TraceContext propagation
+
+## References
+
+- Skills: `backend-patterns`, `api-design`, `database-migrations`
+- Rules: `~/.claude/rules/common/security.md`
+- Agents: `code-architect`

@@ -1,0 +1,71 @@
+---
+description: Frontend Design rules — state management, data fetching, routing,
+  bundle optimization, Core Web Vitals
+globs: ["**/*.{ts,tsx,js,jsx,svelte,vue}"]
+alwaysApply: false
+---
+
+# Frontend Design Rules
+
+## State Management
+
+Separate concerns by state origin:
+
+| State Type | Tool | Rule |
+|------------|------|------|
+| Server state | TanStack Query / SWR / tRPC | Cache with stale-while-revalidate. Never copy server state into client stores. |
+| Client state | Zustand / Jotai / signals | Only UI-specific state (theme, sidebar open, form draft). Keep it minimal. |
+| URL state | searchParams, route params | Shareable state (filters, sort, page, active tab) belongs in the URL. |
+| Form state | React Hook Form / Zod | Validate with schema. Submit via server action or mutation hook. |
+
+## Data Fetching
+
+- Stale-while-revalidate paradigm: show cached data immediately, refetch in background
+- Parallel loading: fetch independent data in parallel (not in parent-child waterfall)
+- Prefetch likely next routes (link hover, viewport entry)
+- Optimistic updates: snapshot → apply → rollback on error → show toast on failure
+- Error boundaries for each data-fetching section (don't crash the whole page)
+
+## Bundle Budget
+
+| Page Type | JS Budget (gzipped) | CSS Budget |
+|-----------|---------------------|------------|
+| Landing page | < 150KB | < 30KB |
+| App page | < 300KB | < 50KB |
+| Microsite | < 80KB | < 15KB |
+
+- Enforce budget in CI. Fail builds that exceed budget.
+- Dynamic import heavy libraries: `const ThreeScene = await import('./ThreeScene')`
+- Route-based code splitting mandatory for all SPA routes
+- Analyze bundle composition: `npx vite-bundle-analyzer` or `nextjs bundle-analyzer`
+
+## Core Web Vitals Targets
+
+| Metric | Target |
+|--------|--------|
+| Largest Contentful Paint (LCP) | < 2.5s |
+| First Input Delay (INP) | < 200ms |
+| Cumulative Layout Shift (CLS) | < 0.1 |
+| First Contentful Paint (FCP) | < 1.5s |
+| Time to Interactive (TTI) | < 3.8s |
+
+## Component Architecture
+
+- Container/Presentational separation: containers load data, presenters render UI
+- Compound components for related widgets (Tabs, Select, Accordion)
+- Custom hooks for reusable stateful logic (not HOCs or render props)
+- Server components by default (Next.js); client components only when interactivity is needed
+
+## TypeScript Rules (for Frontend)
+
+- `strict: true` in tsconfig
+- Props typed with `interface` (extendable)
+- No `any`. Use `unknown` and narrow with type guards.
+- Discriminated unions for state machine patterns
+- Zod schemas for runtime validation at API boundaries
+
+## References
+
+- Skill: `frontend-patterns`
+- Rules: `~/.claude/rules/web/patterns.md`, `~/.claude/rules/web/performance.md`
+- Agent: `typescript-reviewer`

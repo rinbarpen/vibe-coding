@@ -1,0 +1,55 @@
+---
+description: Code Programming core rules — intent-driven development, plan-first,
+  verify-every-change, multi-language quality standards
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Code Programming Core Rules
+
+## Intent-Driven Development
+
+- Every non-trivial change starts with intent: what problem are you solving?
+- Document the intent in the plan, not in code comments
+- If you cannot state the intent in one sentence, you need more research, not more code
+
+## Plan-First
+
+- Create a plan in `.cursor/plans/` before any architectural or multi-file change
+- Plans must include: problem statement, approach, files to change, test strategy, risk assessment
+- Plans must be approved by the user before implementation begins
+- A plan is not a design document; it is an actionable step list
+
+## Verification-Driven
+
+- After every substantive change, verify with appropriate tooling:
+  - Lint: language-appropriate linter with zero warnings
+  - Test: all existing tests still pass
+  - Build: project compiles without errors
+- Provide evidence of verification (test output, lint results) — do not assert "it works"
+
+## Language-Appropriate Code
+
+- Write idiomatic code for each language, not translated patterns from another language
+- Go: use goroutines and channels, not thread pools
+- Rust: use ownership and traits, not class hierarchies
+- Python: use duck typing and protocols, not interface implementations
+- TypeScript: use structural types and discriminated unions
+- Java: use records, sealed classes, pattern matching (modern Java style)
+- When uncertain, consult `references/language-specs/` for the target language
+
+## Quality Gates
+
+Before every commit, all 5 gates must pass:
+
+1. **Lint Gate**: Zero warnings (golangci-lint, clippy, ruff, eslint, checkstyle)
+2. **Test Gate**: All tests pass, coverage >= 80%
+3. **Security Gate**: No secrets in diff, no injection vulnerabilities
+4. **Review Gate**: Language-appropriate reviewer agent approval
+5. **Doc Gate**: CLAUDE.md and README.md reflect current state
+
+## Git-Native Workflow
+
+- Conventional commits: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`, `perf:`, `ci:`
+- PRs must include: summary of changes, test plan, evidence of quality gate passing
+- Use `gh` CLI for all GitHub interactions

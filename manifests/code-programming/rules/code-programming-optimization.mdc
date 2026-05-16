@@ -1,0 +1,78 @@
+---
+description: System Optimization rules — profiling, caching, memory management,
+  concurrency optimization, performance standards
+globs: ["**/*.{go,rs,py,ts,js,java}"]
+alwaysApply: false
+---
+
+# System Optimization Rules
+
+## Profile Before Optimizing
+
+**NEVER optimize without measurement.** Guessing is wrong more often than right.
+
+- CPU: Use `pprof` (Go), `perf` + `flamegraph` (Rust), `cProfile` + `snakeviz` (Python), `clinic` (Node.js), `JFR` (Java)
+- Memory: Use `pprof` (Go), `heaptrack` (Rust), `memray` (Python), `clinic heap` (Node.js), `JFR` + `jmap` (Java)
+- Database: Use `EXPLAIN ANALYZE` and `pg_stat_statements` (PostgreSQL) or equivalent
+- Production: Use continuous profiling tools (Pyroscope, Parca, Google Cloud Profiler)
+
+## Cache Strategy
+
+| Pattern | When to Use | Gotcha |
+|---------|-------------|--------|
+| Cache-Aside | Most common pattern | Cache miss storm on cold start (add jitter to TTLs) |
+| Read-Through | Consistent read patterns | Stale data until TTL expires |
+| Write-Through | Write-then-read-immediately | Write amplification (every write hits both stores) |
+| Write-Behind | High-throughput writes | Data loss risk if cache fails before persistence |
+
+- TTLs should be short (seconds to minutes) unless the data is truly static
+- Add random jitter (10-20%) to TTLs to prevent cache stampedes
+- Never cache user-specific data without the user ID in the cache key
+- Use Redis for most caching needs; use CDN (CloudFront, Cloudflare) for static assets
+
+## Database Optimization
+
+- Index columns used in WHERE, JOIN, and ORDER BY clauses
+- Composite indexes: column order matters (equality first, then range)
+- Avoid SELECT * — fetch only the columns you need
+- Use `EXPLAIN ANALYZE` to verify query plans
+- Connection pooling with sensible limits (not unlimited connections)
+- Read replicas for read-heavy workloads
+- Partition large tables (by time for time-series data)
+
+## Concurrency
+
+Match the concurrency model to the language:
+
+| Language | Model | When to Use |
+|----------|-------|-------------|
+| Go | Goroutines + channels | Default for concurrent work. Lightweight, fast, easy. |
+| Rust | async/await + tokio | I/O-bound work needing maximum throughput. |
+| Rust | std::thread | CPU-bound parallel work. |
+| Python | async/await + asyncio | I/O-bound work (web requests, file I/O). |
+| Python | multiprocessing | CPU-bound work (GIL bypass). |
+| TypeScript | async/await + event loop | I/O-bound work. Default for Node.js. |
+| TypeScript | worker_threads | CPU-bound work in Node.js. |
+| Java | Virtual threads (Loom, 21+) | Default for concurrent I/O-bound work. |
+| Java | Platform threads + executor | CPU-bound work, or pre-Loom. |
+
+## Memory Management
+
+- **Go**: Use `sync.Pool` for frequently allocated temporary objects
+- **Rust**: Prefer stack allocation; use `Box`/`Arc` only when necessary; use `Cow` for copy-on-write
+- **Python**: Watch for circular references; use `__slots__` on hot classes; prefer generators over lists
+- **TypeScript**: Avoid large object literals in hot paths; use `TypedArray` for numeric data
+- **Java**: Tune GC (G1GC for throughput, ZGC for low-latency); watch for object allocation rate
+
+## General Rules
+
+- Single most impactful optimization: reduce I/O (disk, network, database calls)
+- Batch database operations (INSERT in batches, not row by row)
+- Use connection pooling for databases, Redis, and HTTP clients
+- Compress responses (gzip/brotli for HTTP, columnar compression for analytical data)
+- Measure latency percentiles (p50, p95, p99, p999) — not just averages
+
+## References
+
+- Agent: `performance-optimizer`
+- Rules: `~/.claude/rules/common/performance.md`, `~/.claude/rules/web/performance.md`

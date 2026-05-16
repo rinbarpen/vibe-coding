@@ -1,0 +1,16 @@
+---
+description: Fullstack Web scenario rules — Next.js + Go/TS backend, PostgreSQL,
+  OpenAPI-first, type-safe data flow between frontend and backend
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Fullstack Web Scenario Rules
+
+- OpenAPI spec in `api/openapi.yaml` is the source of truth for all endpoints
+- Generate TypeScript types from OpenAPI spec on spec changes
+- Prisma or sqlc for type-safe database access
+- Docker Compose with profiles: `docker compose up` for full stack locally
+- Playwright E2E tests in `tests/e2e/`
+- Frontend tests in `__tests__/` co-located with components
+- Backend tests in `internal/` or `pkg/` Go directories, or `__tests__/` for TS backend

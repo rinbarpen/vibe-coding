@@ -1,0 +1,72 @@
+---
+description: System Deployment rules — CI/CD, containerization, cloud deployment,
+  monitoring, rollback strategies, release management
+globs: ["**/*.{yml,yaml,json,sh,tf,dockerfile}"]
+alwaysApply: false
+---
+
+# System Deployment Rules
+
+## Infrastructure as Code
+
+- All infrastructure is defined as code (Terraform, Pulumi, CloudFormation, CDK)
+- No manual click-ops in cloud consoles
+- Infrastructure changes go through the same review and CI process as application code
+- State files are stored remotely (S3 + DynamoDB for Terraform), never locally
+
+## Containerization
+
+- Multi-stage Docker builds: build stage → minimal runtime stage
+- Runtime image uses non-root user (never `USER root`)
+- Use distroless or scratch base images for Go/Rust; `-slim` for Python/Node
+- Image tagging: `git-sha` (immutable) + semantic version tag
+- Pin base image digests, not tags (prevent unexpected updates)
+- Dockerfile `HEALTHCHECK` matching the application's `/healthz` endpoint
+
+## CI/CD Pipeline
+
+- Every PR triggers: lint, type check, unit test, integration test, build, security scan
+- Main branch is always deployable (passes all checks)
+- CI pipeline takes < 10 minutes (optimize if longer)
+- Secrets in CI: use CI platform's secret store, never in repository variables
+- Artifact registry: store immutable build artifacts (container images, binaries)
+
+## Monitoring and Observability
+
+Follow the **RED** method for every service:
+
+| Metric | What | Why |
+|--------|------|-----|
+| Rate | Requests per second | Traffic volume, anomaly detection |
+| Errors | Failed requests / total | Error rate, SLO tracking |
+| Duration | Latency distribution (p50/p95/p99) | Performance, regression detection |
+
+Plus:
+- **Structured logging**: JSON format, consistent field names across all languages
+- **Distributed tracing**: W3C TraceContext propagation, OpenTelemetry SDK
+- **Dashboards**: At least one per service showing RED metrics
+- **Alerts**: Pager-worthy alerts on error rate spikes, latency degradation, and disk/CPU/memory thresholds
+
+## Rollback Strategy
+
+- Every deployment has a documented rollback plan
+- Automated rollback on error rate spike (health check failure threshold)
+- Database rollback: test the down migration in staging before production
+- Feature flags decouple deployment from release (canary new features behind flags)
+- Blue-green deployments preferred for zero-downtime
+
+## Pre-Deployment Checklist
+
+- [ ] All quality gates passed (lint, test, security, review, docs)
+- [ ] CI/CD pipeline green
+- [ ] Docker image built and pushed (multi-stage, non-root)
+- [ ] Database migration tested (can rollback?)
+- [ ] Environment variables configured for target environment
+- [ ] Rollback plan exists and is tested
+- [ ] Monitoring dashboards and alerts configured
+- [ ] Release notes drafted
+
+## References
+
+- Skills: `deployment-patterns`, `docker-patterns`
+- Rules: `~/.claude/rules/common/security.md`

@@ -1,0 +1,17 @@
+---
+description: Data Pipeline scenario rules — Python, Prefect/Dagster, pandas/polars,
+  parquet storage, idempotent steps, data validation
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Data Pipeline Scenario Rules
+
+- Each pipeline step is idempotent (re-running produces identical results)
+- Data validation at every stage with Pydantic or Great Expectations
+- Steps are unit-testable in isolation (mock external dependencies)
+- Raw data is append-only; processed data is versioned
+- Schema changes: add columns gracefully, backfill with defaults for historical
+- Partition data by date for incremental processing
+- Monitor: data quality metrics, step duration, row counts per step
+- Airflow/Dagster DAG is version-controlled in `pipelines/`

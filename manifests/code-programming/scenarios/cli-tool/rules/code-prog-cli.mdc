@@ -1,0 +1,16 @@
+---
+description: CLI Tool scenario rules — Go (cobra) or Rust (clap), single binary,
+  structured output, XDG-compliant config, auto-completion
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# CLI Tool Scenario Rules
+
+- Entry point in `cmd/<tool>/main.go` (Go) or `src/main.rs` (Rust)
+- Library code in `pkg/` (Go) or `src/lib.rs` (Rust)
+- Progress output to stderr, data output to stdout (Unix pipeline philosophy)
+- Support `--json` flag for machine-readable output
+- Auto-completion scripts in `completions/` directory
+- Man page or `--help` output documents all flags and subcommands
+- Tests cover: happy path, error paths, edge cases, and output format

@@ -1,0 +1,86 @@
+---
+description: Full engineering lifecycle phases with entry/exit gates — each phase
+  has mandatory criteria that must be met before proceeding
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Engineering Lifecycle Gates
+
+## Phase 1: Research & Language Selection
+
+Entry: Requirements exist (even if rough)
+Exit: Language selected, dependencies audited, rationale documented
+
+**Gate criteria:**
+- [ ] Requirements clarified
+- [ ] Language selected with documented rationale (see language-selection.md)
+- [ ] Key dependencies identified and audited for security/maintenance
+- [ ] Existing solutions researched (no reinventing wheels)
+
+## Phase 2: Architecture Design
+
+Entry: Language selected, requirements clear
+Exit: Plan written in `.cursor/plans/`, architecture validated
+
+**Gate criteria:**
+- [ ] Architecture pattern chosen (microservices, monolith, event-driven, etc.)
+- [ ] Data model designed (entities, relationships, storage)
+- [ ] API contracts defined (OpenAPI / Protobuf)
+- [ ] Plan document created with approach, file manifest, test strategy, risks
+- [ ] Plan approved by user
+
+## Phase 3: Implementation
+
+Entry: Approved plan exists
+Exit: All tests pass, lint clean, coverage >= 80%
+
+**Gate criteria:**
+- [ ] TDD followed: RED (failing test) → GREEN (minimal impl) → IMPROVE (refactor)
+- [ ] Lint gate: zero warnings
+- [ ] Test gate: all tests pass
+- [ ] Security gate: no secrets, inputs validated
+- [ ] Coverage >= 80%
+- [ ] Commit with conventional message
+
+## Phase 4: Code Review
+
+Entry: Quality gates passed, code committed
+Exit: No CRITICAL or HIGH issues, reviewer approved
+
+**Gate criteria:**
+- [ ] Language-appropriate reviewer agent dispatched
+- [ ] Security reviewer dispatched for auth/payments/user-data code
+- [ ] All CRITICAL and HIGH issues resolved
+- [ ] MEDIUM issues documented or resolved
+
+## Phase 5: Deployment
+
+Entry: Code reviewed and approved
+Exit: Deployment verified, monitoring confirms health
+
+**Gate criteria:**
+- [ ] Docker image built with multi-stage, non-root user
+- [ ] CI/CD pipeline green
+- [ ] Database migration tested and reversible
+- [ ] Environment variables configured in target environment
+- [ ] Rollback plan documented
+- [ ] Monitoring and alerting configured
+
+## Phase 6: Maintenance
+
+Entry: System is deployed
+Exit: (ongoing — no terminal exit, but periodic checkpoints)
+
+**Gate criteria (periodic):**
+- [ ] CLAUDE.md and README.md reflect current state
+- [ ] Technical debt documented in `.cursor/plans/debt.md`
+- [ ] Dependencies checked for security updates
+- [ ] Performance baseline re-measured
+
+## Blocking Rules
+
+- You CANNOT skip phases
+- You CANNOT implement without an approved plan (Phase 2 exit)
+- You CANNOT deploy without review approval (Phase 4 exit)
+- You CANNOT bypass quality gates with "I'll fix it later"

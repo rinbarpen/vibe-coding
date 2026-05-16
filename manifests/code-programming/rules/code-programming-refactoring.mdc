@@ -1,0 +1,75 @@
+---
+description: Code Refactoring rules — migration patterns, backward compatibility,
+  dead code removal, extraction strategies
+globs: ["**/*.{go,rs,py,ts,js,java}"]
+alwaysApply: false
+---
+
+# Code Refactoring Rules
+
+## General Principles
+
+- **Characterize before you change**: Write tests that capture existing behavior before refactoring. If you don't understand what the code does, you can't safely change it.
+- **One thing at a time**: Do not refactor and add features in the same commit. They are separate concerns.
+- **Small, safe steps**: Each commit should leave the codebase in a working state. No long-lived branches that can't be merged.
+- **Delete, don't comment**: Dead code is removed, not commented out. Git history preserves it. Commented-out code is noise.
+
+## Strangler Fig Pattern
+
+For replacing a component or service incrementally:
+
+1. Build the new implementation alongside the old one
+2. Route a small percentage of traffic to the new implementation
+3. Gradually increase traffic as confidence grows
+4. Once 100% traffic is on the new implementation, remove the old one
+5. Delete the old code and routing logic
+
+This applies to APIs, database schemas, service architectures, and UI components.
+
+## Backward Compatibility
+
+- Old API versions are supported for a documented deprecation window (e.g., N releases or N months)
+- Deprecated APIs return a `Sunset` or `Deprecation` header
+- API version removal is a documented, scheduled event
+- Database schema changes follow expand-contract: add new column → migrate data → remove old column (never in one release)
+
+## Parallel Change (Expand-Contract) for Databases
+
+1. **Expand phase**: Add new columns/tables without removing old ones. Write to both old and new.
+2. **Migrate phase**: Backfill data from old to new.
+3. **Contract phase**: Remove old columns/tables. Update reads to use new structure.
+
+Each phase is a separate deployment. Never combine expand and contract in one release.
+
+## Dead Code Removal
+
+- Run dead code detection tools: `staticcheck` (Go), `cargo-deadlinks` (Rust), `vulture` or `pyright` (Python), `ts-prune` (TypeScript), `UCDetector` (Java)
+- Remove unused exports, functions, variables, and imports
+- Remove unused dependencies from `go.mod`, `Cargo.toml`, `pyproject.toml`, `package.json`
+- After removal, run the full test suite to verify nothing broke
+- After removal, run coverage to verify coverage didn't drop
+
+## When to Refactor
+
+| Trigger | Action |
+|---------|--------|
+| Module is "hard to work with" | Extract smaller modules with clearer boundaries |
+| Same change in 3+ places | Extract a shared function or utility |
+| Test setup > test logic | Simplify the module interface |
+| Dependency unmaintained | Extract an adapter interface; swap implementations |
+| Performance no longer meets needs | Profile first, then optimize hot paths |
+| Pattern knowledge has improved | Document the better pattern; schedule gradual migration |
+
+## Refactoring Checklist
+
+- [ ] Characterization tests written and passing before refactoring begins
+- [ ] No behavioral changes during refactoring (diff is purely structural)
+- [ ] All existing tests pass after each refactoring step
+- [ ] Coverage >= 80% (or at least not lower than before)
+- [ ] Commit message distinguishes refactoring from feature work
+- [ ] Dead code removed, not commented
+
+## References
+
+- Agent: `refactor-cleaner`
+- Rules: `~/.claude/rules/common/testing.md`, `~/.claude/rules/common/coding-style.md`

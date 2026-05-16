@@ -1,0 +1,61 @@
+---
+description: UI Design rules — design systems, accessibility, responsive layouts,
+  visual design quality standards
+globs: ["**/*.{tsx,jsx,css,html,svelte,vue}"]
+alwaysApply: false
+---
+
+# UI Design Rules
+
+## Design Tokens as Source of Truth
+
+- Define colors, typography, spacing, and shadows as design tokens (CSS custom properties or platform-native tokens)
+- Never hardcode palette values in component files
+- Token naming: `--color-surface`, `--color-text`, `--space-md`, `--text-body`
+
+## Accessibility (WCAG 2.1 AA Minimum)
+
+- Color contrast ratio >= 4.5:1 for normal text, >= 3:1 for large text
+- All interactive elements must be keyboard-navigable (tabindex, focus management)
+- Form inputs must have associated labels
+- Images must have alt text (decorative images: `alt=""`)
+- ARIA landmarks on major layout sections (nav, main, complementary)
+- Use `prefers-reduced-motion` for users with motion sensitivity
+- Use `prefers-color-scheme` for theme support
+
+## Responsive-First
+
+- Design mobile layout first, then enhance for larger screens
+- Breakpoints: 320px (mobile), 768px (tablet), 1024px (desktop), 1440px (wide)
+- Test against all 4 breakpoints before marking UI work complete
+- No horizontal scrolling at any breakpoint
+
+## Visual Regression Testing
+
+- Any component change requires visual regression verification
+- Screenshot key states: default, hover, focus, active, disabled, error, loading, empty
+- Test both themes (light/dark) when applicable
+- Use Playwright screenshot comparison or Chromatic for component libraries
+
+## Animation Guidelines
+
+- Animate compositor-friendly properties only: `transform`, `opacity`, `clip-path`, `filter` (sparingly)
+- Never animate layout properties: width, height, top, left, margin, padding, border
+- Duration: 200-300ms for micro-interactions, 300-500ms for transitions
+- Easing: prefer `cubic-bezier(0.16, 1, 0.3, 1)` for natural motion
+- `prefers-reduced-motion: reduce` disables all non-essential animation
+
+## Design Quality Standards
+
+Before shipping any UI:
+- [ ] Clear hierarchy through scale and spacing contrast
+- [ ] Intentional rhythm (not uniform padding everywhere)
+- [ ] Interactive states feel designed (hover, focus, active, disabled)
+- [ ] Typography pairing feels intentional, not default
+- [ ] Color used semantically, not just decoratively
+- [ ] No generic template-looking UI (cards, gradients, centering)
+
+## References
+
+- Skill: `frontend-design`, `canvas-design`
+- Rules: `~/.claude/rules/web/design-quality.md`, `~/.claude/rules/web/coding-style.md`

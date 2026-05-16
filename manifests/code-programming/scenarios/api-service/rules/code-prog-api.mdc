@@ -1,0 +1,17 @@
+---
+description: API Service scenario rules — Go/Python/TS backend, PostgreSQL, Redis,
+  OpenAPI-first, health checks, structured logging
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# API Service Scenario Rules
+
+- OpenAPI 3.x spec in `api/openapi.yaml` — generate server stubs from it
+- Health endpoints: `GET /healthz` (always 200), `GET /readyz` (dependency check)
+- Middleware order: logging → recovery → CORS → auth → rate limit → request validation
+- All mutations: accept and validate `Idempotency-Key` header
+- Rate limit: per-IP (unauthenticated) and per-user (authenticated)
+- Structured JSON logging with request ID and trace ID
+- Graceful shutdown: SIGTERM → drain connections → finish in-flight → exit
+- Tests: unit + integration (with testcontainers or in-memory DB)
