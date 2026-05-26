@@ -1,0 +1,28 @@
+# Project Roadmap
+
+> Last updated: 2025-06-15
+
+## Vision
+
+一句话描述项目的长期愿景。
+
+## Milestones
+
+| Milestone | Status | Target | Key Deliverables |
+|-----------|--------|--------|------------------|
+| v1.0 MVP | ✅ Done | 2025-Q1 | Core API, authentication |
+| v1.1 | 🔄 In Progress | 2025-Q2 | Dashboard, webhooks |
+| v2.0 | 📋 Planned | 2025-Q3 | Multi-tenant support |
+| v2.1 | 📋 Planned | 2025-Q4 | Enterprise SSO |
+
+### Status Legend
+
+- ✅ Done — 已完成
+- 🔄 In Progress — 进行中
+- 📋 Planned — 已规划
+- ⏸️ Paused — 暂停
+- ❌ Cancelled — 已取消
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get involved.

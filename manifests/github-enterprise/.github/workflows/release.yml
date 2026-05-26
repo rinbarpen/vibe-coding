@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract version from tag
+        id: tag
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "version=$TAG" >> $GITHUB_OUTPUT
+          echo "Release tag: $TAG"
+      - name: Check CHANGELOG entry
+        run: |
+          VERSION="${{ steps.tag.outputs.version }}"
+          if grep -q "^## \[${VERSION#v}\]" CHANGELOG.md 2>/dev/null; then
+            echo "✓ CHANGELOG.md has entry for $VERSION"
+          else
+            echo "✗ CHANGELOG.md is missing entry for $VERSION"
+            exit 1
+          fi
+      - name: Version consistency check
+        run: |
+          VERSION="${{ steps.tag.outputs.version }}"
+          # Check pyproject.toml if exists
+          if [ -f pyproject.toml ]; then
+            PKG_VER=$(grep -E '^version\s*=' pyproject.toml | sed 's/.*"\(.*\)".*/\1/')
+            if [ "v$PKG_VER" != "$VERSION" ]; then
+              echo "✗ pyproject.toml version (v$PKG_VER) does not match tag ($VERSION)"
+              exit 1
+            fi
+            echo "✓ pyproject.toml version matches tag"
+          fi
+          # Check package.json if exists
+          if [ -f package.json ]; then
+            PKG_VER=$(node -p "require('./package.json').version")
+            if [ "v$PKG_VER" != "$VERSION" ]; then
+              echo "✗ package.json version (v$PKG_VER) does not match tag ($VERSION)"
+              exit 1
+            fi
+            echo "✓ package.json version matches tag"
+          fi
+
+  ci:
+    needs: verify
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build distribution
+        run: |
+          pip install build
+          python -m build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  github-release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract changelog section
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -n "/^## \[${VERSION}\]/,/^## \[/p" CHANGELOG.md | head -n -1 > release_notes.md
+          if [ ! -s release_notes.md ]; then
+            echo "Release $GITHUB_REF_NAME" > release_notes.md
+          fi
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_notes.md
+          files: |
+            dist/*.tar.gz
+            dist/*.whl
+          generate_release_notes: false

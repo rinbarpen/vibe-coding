@@ -1,0 +1,43 @@
+name: Task
+description: 内部任务或技术改进
+title: "[Task]: "
+labels: ["task"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 任务描述
+      description: 需要做什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: dod
+    attributes:
+      label: 完成标准 (Definition of Done)
+      description: 什么样的状态算完成？
+      placeholder: |
+        - [ ] 代码实现完成
+        - [ ] 测试覆盖
+        - [ ] 文档更新
+        - [ ] CI 通过
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: 预估工作量
+      options:
+        - XS（几小时）
+        - S（1天）
+        - M（2-3天）
+        - L（1周）
+        - XL（1周+）
+
+  - type: input
+    id: depends
+    attributes:
+      label: 依赖项
+      description: 这个任务依赖哪些 issue？
+      placeholder: "#42, #87"

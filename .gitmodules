@@ -13,9 +13,6 @@
 [submodule "skills/Agent-Skills-for-Context-Engineering"]
 	path = skills/Agent-Skills-for-Context-Engineering
 	url = https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git
-[submodule "skills/Khazix-Skills"]
-	path = skills/Khazix-Skills
-	url = https://github.com/KKKKhazix/Khazix-Skills.git
 [submodule "manifests/agent-browser"]
 	path = manifests/agent-browser
 	url = https://github.com/vercel-labs/agent-browser.git
@@ -85,3 +82,9 @@
 [submodule "skills/skill-seekers"]
 	path = skills/skill-seekers
 	url = https://github.com/yusufkaraaslan/Skill_Seekers.git
+[submodule "skills/academic-research-skills"]
+	path = skills/academic-research-skills
+	url = https://github.com/Imbad0202/academic-research-skills.git
+[submodule "skills/academic-research-skills-codex"]
+	path = skills/academic-research-skills-codex
+	url = https://github.com/Imbad0202/academic-research-skills-codex.git

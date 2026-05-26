@@ -1,0 +1,17 @@
+# Figure Specification
+
+## Figure 1: <!-- Title -->
+
+- **Type**: architecture / result / comparison / algorithm / illustration
+- **Format**: SVG / PNG
+- **Description**:
+  <!-- 图的核心内容和要传达的信息 -->
+- **Key Elements**:
+  - ...
+- **Data Source**:
+  <!-- 如果数据驱动，数据来自哪个实验 -->
+- **Style Reference**:
+  <!-- 参考图风格描述或示例 -->
+
+## Figure 2: <!-- Title -->
+- ...

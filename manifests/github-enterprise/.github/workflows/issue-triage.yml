@@ -1,0 +1,54 @@
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label by template
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.issue.title || '';
+            let labels = [];
+
+            if (title.startsWith('[Bug]')) {
+              labels.push('bug');
+            } else if (title.startsWith('[Feature]')) {
+              labels.push('enhancement');
+            } else if (title.startsWith('[Docs]')) {
+              labels.push('documentation');
+            } else if (title.startsWith('[Epic]')) {
+              labels.push('epic');
+            } else if (title.startsWith('[Task]')) {
+              labels.push('task');
+            }
+
+            if (labels.length > 0) {
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: labels
+              });
+            }
+
+  notify-critical:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for critical severity
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            if (body.includes('critical')) {
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['priority/critical']
+              });
+            }

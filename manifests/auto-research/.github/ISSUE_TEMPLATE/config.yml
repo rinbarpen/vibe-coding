@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 研究文档
+    url: https://github.com/${ORG_NAME}/${REPO_NAME}/blob/main/README.md
+    about: 先查阅研究项目文档
+  - name: 讨论
+    url: https://github.com/${ORG_NAME}/${REPO_NAME}/discussions
+    about: 研究讨论和提问
