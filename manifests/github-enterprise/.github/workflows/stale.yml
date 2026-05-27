@@ -1,0 +1,39 @@
+name: Stale
+
+on:
+  schedule:
+    - cron: "17 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Issue settings
+          days-before-issue-stale: 60
+          days-before-issue-close: 7
+          stale-issue-label: "stale"
+          stale-issue-message: >
+            此 issue 已 60 天无活动。将在一周后自动关闭。
+            如有需要，请回复以保持开放。
+          close-issue-message: >
+            此 issue 因长时间无活动已自动关闭。
+            如有需要，请重新打开或创建新 issue。
+          exempt-issue-labels: "epic,pinned,security,bug,enhancement"
+
+          # PR settings
+          days-before-pr-stale: 60
+          days-before-pr-close: 7
+          stale-pr-label: "stale"
+          stale-pr-message: >
+            此 PR 已 60 天无活动。将在一周后自动关闭。
+          close-pr-message: >
+            此 PR 因长时间无活动已自动关闭。
+          exempt-pr-labels: "dependencies,pinned"

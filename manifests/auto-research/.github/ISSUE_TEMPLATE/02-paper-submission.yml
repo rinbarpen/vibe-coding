@@ -1,0 +1,50 @@
+name: Paper Submission
+description: 提交论文草稿请求自动评审
+title: "[Review]: "
+labels: ["paper-review"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 论文标题
+    validations:
+      required: true
+
+  - type: textarea
+    id: abstract
+    attributes:
+      label: 摘要
+      description: 论文摘要
+    validations:
+      required: true
+
+  - type: dropdown
+    id: venue
+    attributes:
+      label: 目标会议/期刊
+      options:
+        - NeurIPS
+        - ICML
+        - ICLR
+        - CVPR
+        - AAAI
+        - ACL
+        - IEEE Transactions
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: review_level
+    attributes:
+      label: 评审难度
+      options:
+        - medium
+        - hard
+        - nightmare
+
+  - type: textarea
+    id: focus
+    attributes:
+      label: 评审重点关注
+      description: 希望评审特别关注哪些方面？（method / experiment / writing / clarity 等）

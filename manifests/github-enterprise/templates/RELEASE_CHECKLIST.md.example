@@ -1,0 +1,44 @@
+# Release Checklist
+
+> 发布前逐项检查，确保发布质量。
+
+## 版本信息
+
+- 版本号：`v1.2.3`
+- 发布日期：YYYY-MM-DD
+- Release Manager：
+
+## 检查项
+
+### 代码质量
+
+- [ ] CHANGELOG.md 已更新（包含本次发布的所有变更）
+- [ ] 版本号在所有文件中一致（`pyproject.toml` / `package.json` / `__init__.py` 等）
+- [ ] 所有 CI 通过（lint → test → build → coverage）
+- [ ] 测试覆盖率 >= 80%
+
+### 安全
+
+- [ ] CodeQL 扫描无 critical 告警
+- [ ] Dependabot 依赖无已知漏洞
+- [ ] API 兼容性已确认（无意外 breaking change）
+
+### 文档
+
+- [ ] README 已更新（如有必要）
+- [ ] 文档站点已同步最新变更
+- [ ] API 文档已更新
+
+### 发布准备
+
+- [ ] tag 已创建并 GPG 签名
+- [ ] tag 版本号与代码一致
+- [ ] 相关 issue/PR 已关闭
+- [ ] 发布说明已准备好
+
+## 发布后
+
+- [ ] GitHub Release 已创建
+- [ ] 包已成功发布到 registry
+- [ ] 部署已验证
+- [ ] 相关团队已通知

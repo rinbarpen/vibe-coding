@@ -1,0 +1,44 @@
+# Paper Outline
+
+## Meta
+- Title:
+- Venue:
+- Word/Page limit:
+
+## Sections
+
+### 1. Introduction
+- Hook:
+- Problem statement:
+- Contributions: (numbered list)
+
+### 2. Related Work
+- Topic 1:
+- Topic 2:
+
+### 3. Method
+- Overview:
+- Component A:
+- Component B:
+
+### 4. Experiments
+- Setup:
+- Main results:
+- Ablation:
+- Analysis:
+
+### 5. Conclusion
+- Summary:
+- Limitations:
+- Future work:
+
+## Figures Planned
+| Figure | Type | Description |
+|--------|------|-------------|
+| 1 | architecture | Model architecture |
+| 2 | result | Main comparison |
+
+## Claim-Evidence Matrix
+| Claim | Evidence | Figure/Table |
+|-------|----------|--------------|
+| | | |

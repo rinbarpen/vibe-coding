@@ -1,0 +1,57 @@
+name: Auto-Research CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "paper/**"
+      - "figures/**"
+      - "MANIFEST.md"
+  workflow_dispatch:
+
+jobs:
+  verify-figures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check figure references
+        run: |
+          if [ -f paper/main.tex ]; then
+            # Check all referenced figures exist
+            for fig in $(grep -oP '\\includegraphics\{[^}]+\}' paper/main.tex | sed 's/\\includegraphics{\(.*\)}/\1/'); do
+              if [ ! -f "$fig" ] && [ ! -f "${fig}.pdf" ] && [ ! -f "${fig}.png" ]; then
+                echo "✗ Missing figure: $fig"
+                exit 1
+              fi
+              echo "✓ Figure found: $fig"
+            done
+          fi
+
+  verify-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check MANIFEST.md
+        run: |
+          if [ -f MANIFEST.md ]; then
+            HEADER=$(head -1 MANIFEST.md)
+            if [ "$HEADER" != "# Research Output Manifest" ]; then
+              echo "✗ MANIFEST.md header mismatch"
+              exit 1
+            fi
+            echo "✓ MANIFEST.md is valid"
+          else
+            echo "! No MANIFEST.md found (this is ok for new projects)"
+          fi
+
+  verify-paper-compiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check LaTeX compiles
+        if: hashFiles('paper/main.tex') != ''
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: paper/main.tex
+          working_directory: paper/
+          continue_on_error: true

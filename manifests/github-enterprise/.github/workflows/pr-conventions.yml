@@ -1,0 +1,92 @@
+name: PR Conventions
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled, unlabeled]
+
+jobs:
+  title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if echo "$TITLE" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|chore|ci)(\(.+\))?: .{1,}$'; then
+            echo "✓ PR title follows conventional commit format"
+          else
+            echo "✗ PR title must follow format: <type>(<scope>): <description>"
+            echo "  Types: feat, fix, docs, style, refactor, perf, test, chore, ci"
+            echo "  Example: feat(api): add user login endpoint"
+            exit 1
+          fi
+
+  size-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Calculate PR size
+        id: size
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          CHANGES=$(git diff --diff-filter=AM "$BASE_SHA"..."$HEAD_SHA" | wc -l | tr -d ' ')
+          if [ "$CHANGES" -le 10 ]; then
+            SIZE="xs"
+          elif [ "$CHANGES" -le 50 ]; then
+            SIZE="s"
+          elif [ "$CHANGES" -le 200 ]; then
+            SIZE="m"
+          elif [ "$CHANGES" -le 800 ]; then
+            SIZE="l"
+          else
+            SIZE="xl"
+          fi
+          echo "changes=$CHANGES" >> $GITHUB_OUTPUT
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "This PR: $CHANGES lines changed → size/$SIZE"
+      - name: Remove old size labels
+        run: |
+          for label in "size/xs" "size/s" "size/m" "size/l" "size/xl"; do
+            if echo "${{ github.event.pull_request.labels.*.name }}" | grep -q "$label"; then
+              gh pr edit ${{ github.event.pull_request.number }} --remove-label "$label" 2>/dev/null || true
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Add size label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['size/${{ steps.size.outputs.size }}']
+            })
+      - name: Warn on XL PR
+        if: steps.size.outputs.size == 'xl'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ This PR changes **${{ steps.size.outputs.changes }}** lines (XL). Consider splitting it into smaller PRs for faster review.'
+            })
+
+  body-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR body content
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if [ -z "$BODY" ] || [ "$BODY" = "null" ]; then
+            echo "✗ PR description is empty. Please fill in the PR template."
+            exit 1
+          fi
+          echo "✓ PR description is provided"
