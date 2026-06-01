@@ -17,10 +17,7 @@
 - **Description**: 本仓库是 drawio 技能与文档集合，核心内容集中在文档与 skill 说明。主要目录：
 - **Usage**: See description
 
-### Skill Evolution Manager
-- **Path**: `skills/Khazix-Skills/skill-evolution-manager`
-- **Description**: 专门用于在对话结束时，根据用户反馈和对话内容总结优化并迭代现有 Skills 的核心工具。它通过吸取对话中的“精华”（如成功的解决方案、失败的教训、特定的代码规范）来持续演进 Skills 库。
-- **Usage**: See description
+
 
 ### ab-test-setup
 - **Path**: `skills/marketingskills/skills/ab-test-setup`
@@ -547,10 +544,7 @@
 - **Description**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
 - **Usage**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
 
-### github-to-skills
-- **Path**: `skills/Khazix-Skills/github-to-skills`
-- **Description**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
-- **Usage**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
+
 
 ### gmail
 - **Path**: `skills/ai-skills/skills/gmail`
@@ -1042,6 +1036,11 @@
 - **Description**: When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X, or other ad platforms. Also use when the user mentions 'PPC,' 'paid media,' 'ad copy,' 'ad creative,' 'ROAS,' 'CPA,' 'ad campaign,' 'retargeting,' or 'audience targeting.' This skill covers campaign strategy, ad creation, audience targeting, and optimization.
 - **Usage**: See description
 
+### paper-writing
+- **Path**: `skills/aris/skills/paper-writing`
+- **Description**: Workflow 3: Full paper writing pipeline. Orchestrates plan→figure→write→compile→improvement-loop, generates polished PDF from narrative report. Use when user says "paper writing", "write paper".
+- **Usage**: See description
+
 ### paper-2-web
 - **Path**: `skills/claude-scientific-skills/scientific-skills/paper-2-web`
 - **Description**: This skill should be used when converting academic papers into promotional and presentation formats including interactive websites (Paper2Web), presentation videos (Paper2Video), and conference posters (Paper2Poster). Use this skill for tasks involving paper dissemination, conference preparation, creating explorable academic homepages, generating video abstracts, or producing print-ready posters from LaTeX or PDF sources.
@@ -1140,6 +1139,11 @@
 ### pptx
 - **Path**: `skills/awesome-claude-skills/document-skills/pptx`
 - **Description**: Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks
+- **Usage**: See description
+
+### ppt-master
+- **Path**: `skills/ppt-master/skills/ppt-master`
+- **Description**: AI generates natively editable PPTX from PDF/DOCX/URL/Markdown — real PowerPoint shapes (not images), every element is clickable and editable in PowerPoint. Use when user says "make PPT", "generate PPT", "create presentation from PDF".
 - **Usage**: See description
 
 ### pptx-posters
@@ -1317,6 +1321,21 @@
 - **Description**: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 - **Usage**: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 
+### research-pipeline
+- **Path**: `skills/aris/skills/research-pipeline`
+- **Description**: Full research pipeline: idea discovery → implementation → experiments → paper writing → submission. End-to-end autonomous research workflow. Use when user says "full pipeline", "end-to-end research".
+- **Usage**: See description
+
+### research-wiki
+- **Path**: `skills/aris/skills/research-wiki`
+- **Description**: Persistent research knowledge base that accumulates papers, ideas, experiments, claims and relationships. Inspired by Karpathy's LLM Wiki. Use when user says "research wiki", "knowledge base", "add paper".
+- **Usage**: See description
+
+### rebuttal
+- **Path**: `skills/aris/skills/rebuttal`
+- **Description**: Workflow 4: Submission rebuttal pipeline. Parses external reviews, drafts safe rebuttal under character limits, manages follow-up rounds. Use when user says "rebuttal", "reply to reviewers".
+- **Usage**: See description
+
 ### research-grants
 - **Path**: `skills/claude-scientific-skills/scientific-skills/research-grants`
 - **Description**: Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC. Agency-specific formatting, review criteria, budget preparation, broader impacts, significance statements, innovation narratives, and compliance with submission requirements.
@@ -1467,10 +1486,7 @@
 - **Description**: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.
 - **Usage**: See description
 
-### skill-manager
-- **Path**: `skills/Khazix-Skills/skill-manager`
-- **Description**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
-- **Usage**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
+
 
 ### skill-seekers
 - **Path**: `skills/skill-seekers`

@@ -2,9 +2,11 @@
 """
 Convert patent specification HTML to docx for online filing.
 Uses pandoc; runs from the HTML file's directory so relative image paths resolve.
+By default, TeX math delimiters in HTML (\\(...\\), $$...$$) are converted to Word equations.
 Usage:
   python html_to_docx.py <input.html> -o <output.docx>
   python html_to_docx.py <input.html> -o <output.docx> --reference-doc=templates/reference.docx
+  python html_to_docx.py <input.html> -o <output.docx> --no-tex-math
 """
 
 import argparse
@@ -39,6 +41,14 @@ def main() -> int:
         default=None,
         help="Optional reference .docx for styling (e.g. templates/reference.docx)",
     )
+    parser.add_argument(
+        "--no-tex-math",
+        action="store_true",
+        help=(
+            "Disable pandoc TeX math parsing for HTML input. "
+            "By default, \\(...\\) and $$...$$ are converted to Word equations."
+        ),
+    )
     args = parser.parse_args()
 
     pandoc = find_pandoc()
@@ -71,8 +81,14 @@ def main() -> int:
         if default_ref.exists():
             reference_doc = default_ref
 
+    input_format = "html"
+    if not args.no_tex_math:
+        input_format = "html+tex_math_dollars+tex_math_single_backslash"
+
     cmd = [
         str(pandoc),
+        "-f",
+        input_format,
         "-s",
         str(html_path),
         "-o",

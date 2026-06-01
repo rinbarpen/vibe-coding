@@ -41,4 +41,5 @@ test('ahToDrawioXml emits numeric mxCell ids and numeric edge references', () =>
 
   assert.match(xml, /data-id="N1"/)
   assert.match(xml, /data-id="N2"/)
+  assert.match(xml, /fontSize=15/)
 })

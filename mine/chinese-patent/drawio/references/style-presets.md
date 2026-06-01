@@ -26,7 +26,7 @@ This reference provides copy-paste style string presets for consistent, professi
 
 ```
 rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;
-fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontColor=#000000;
+fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontColor=#000000;
 spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 ```
 
@@ -34,7 +34,7 @@ spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 
 ```
 rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;
-fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontColor=#000000;
+fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontColor=#000000;
 spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 ```
 
@@ -42,7 +42,7 @@ spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 
 ```
 rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;
-fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontColor=#000000;
+fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;fontColor=#000000;
 spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 ```
 
@@ -50,7 +50,7 @@ spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6
 
 ```
 rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;
-fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=16;fontColor=#000000;
+fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=15;fontColor=#000000;
 spacingLeft=12;spacingRight=12;spacingTop=8;spacingBottom=8
 ```
 
@@ -60,7 +60,7 @@ spacingLeft=12;spacingRight=12;spacingTop=8;spacingBottom=8
 
 ```
 rounded=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;
-fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;fontColor=#333333;
+fillColor=#f5f5f5;strokeColor=#999999;fontSize=15;fontColor=#333333;
 spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10
 ```
 
@@ -69,7 +69,7 @@ spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10
 ```
 rounded=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;
 fillColor=#f5f5f5;strokeColor=#999999;dashed=1;dashPattern=4 4;
-fontSize=12;fontColor=#333333;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10
+fontSize=15;fontColor=#333333;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10
 ```
 
 ## Presets: Edges (Connectors)
@@ -101,4 +101,3 @@ endArrow=block;endFill=1;strokeColor=#666666;strokeWidth=1;html=1
 - Keep 40–80px spacing between nodes.
 - Avoid edge crossings; prefer routing around containers.
 - When exporting, enable crop to remove whitespace.
-

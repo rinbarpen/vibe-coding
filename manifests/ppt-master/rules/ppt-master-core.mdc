@@ -1,0 +1,42 @@
+---
+description: PPT Master 核心生成规则 —— SVG 技术约束、视觉参数纪律、顺序生成要求
+globs: "*.svg,*.md"
+alwaysApply: false
+---
+
+# PPT Master 核心规则
+
+## SVG 技术约束（红线）
+
+以下特性**禁止使用**，违反将导致 PPTX 导出失败或渲染异常：
+
+- `rgba()` — 必须使用 `rgb()` + 独立 `opacity` 属性
+- `<style>` — 禁止内联样式表，所有样式必须内联在元素属性上
+- `class` — 禁止 CSS 类选择器
+- `foreignObject` — 禁止外部对象嵌入
+- `textPath` — 禁止文本路径
+- `@font-face` — 禁止字体嵌入声明
+- `<animate*>` — 禁止 SMIL 动画元素
+- `<script>` — 禁止脚本
+- `<g opacity="...">` — 禁止组级透明度（影响 Office 兼容性）
+
+## 视觉参数纪律
+
+- 所有颜色值必须来源于 `spec_lock.md`，不得臆造或使用"看起来差不多"的颜色
+- 字体栈必须使用 `spec_lock.md` 中定义的字体，不得混用
+- 图标库不得混合使用（一页内使用同一图标库）
+- 文本换行必须使用 `<tspan>` + 手动计算，不得使用 `<foreignObject>`
+- 图片透明度必须通过叠加蒙版层实现：`<rect fill="背景色" opacity="0.x"/>`
+
+## 生成纪律
+
+- 每页 SVG 生成前必须重新读取 `spec_lock.md`
+- 必须逐页按顺序生成，不得跳过或批量打包
+- 页面编号严格按 `P01`, `P02`, ... 格式
+- SVG 生成必须由主 Agent 完成，不得委托子 Agent
+
+## 参考路径
+
+- 技术规范完整版: `skills/ppt-master/skills/ppt-master/references/shared-standards.md`
+- 执行器通用规范: `skills/ppt-master/skills/ppt-master/references/executor-base.md`
+- 图标嵌入指南: `skills/ppt-master/skills/ppt-master/references/svg-image-embedding.md`

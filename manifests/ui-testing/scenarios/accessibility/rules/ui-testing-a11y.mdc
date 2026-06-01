@@ -1,0 +1,40 @@
+---
+description: Accessibility testing rules — WCAG standards, axe-core, violation handling
+globs: ["**/*.a11y.spec.*", "**/a11y/**", "**/accessibility/**"]
+alwaysApply: false
+---
+
+# Accessibility Testing Rules
+
+## WCAG Standard
+
+- **Minimum**: WCAG 2.1 Level AA
+- **Tags**: `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`
+- **Optional**: WCAG 2.2 Level A/AA when available (use latest stable)
+
+## Violation Handling
+
+| Impact | Action |
+|--------|--------|
+| Critical | BLOCK — must fix before merge |
+| Serious | BLOCK — must fix before merge |
+| Moderate | WARN — should fix, add to tech debt tracker |
+| Minor | INFO — consider fixing |
+
+## Auto-Run Scope
+
+Each unique page template gets an a11y audit. Focus on:
+- Login / authentication pages
+- Primary content pages (home, search results, detail view)
+- Forms and data entry screens
+- Navigation components
+
+## Known Issues
+
+If an a11y violation is accepted:
+```typescript
+// Exclude with a tracked issue link
+const results = await new AxeBuilder({ page })
+  .withRules(['color-contrast'])  // tracked in ISSUE-1234: third-party widget
+  .analyze();
+```

@@ -1,0 +1,51 @@
+---
+description: 电子表格数据处理与分析规范：数据清洗、公式标准、图表设计、性能优化与数据安全保障
+globs: ["**/*.py", "**/*.xlsx"]
+alwaysApply: false
+---
+
+# Spreadsheet Data Analysis Rules
+
+Rules for consistent, reliable spreadsheet creation and data analysis.
+
+## 1. Data Safety (CRITICAL — Always Applied)
+
+- **Copy-First**: Never modify `original.xlsx` directly. Always `cp original.xlsx working.xlsx` first.
+- **Validate Before Replace**: After modification, verify the working copy: all sheets present, row/column counts match expectations, formulas written correctly.
+- **Backup**: Before replacing the original, move it to `_backups/original-{timestamp}.xlsx`.
+- **Git Branch**: Every modification happens on a dedicated `excel/<task>` branch.
+- **Python Only**: All operations go through openpyxl. Never open and manually edit a workbook.
+
+## 2. Data Import and Cleaning
+
+- **Type Validation**: Verify each column's data type on import (str, float, int, datetime).
+- **Missing Handling**: Identify and document strategy for missing values (drop, impute, flag).
+- **Duplicate Detection**: Check for and document duplicate rows before analysis.
+- **Standardization**: Normalize date formats, string casing, and categorical values.
+
+## 3. Formula Best Practices
+
+- **Absolute vs Relative**: Use absolute references (`$A$1`) for constants and lookup ranges; relative for per-row formulas.
+- **Named Ranges**: Define named ranges for data sources to make formulas readable.
+- **Error Handling**: Wrap lookup formulas with `IFERROR` to handle missing values.
+- **Avoid Hardcoding**: Define parameters in dedicated cells, not embedded in formulas.
+- **Array Formulas**: Use modern dynamic array functions (SORT, FILTER, UNIQUE) where available.
+
+## 4. Chart Design
+
+- **Chart Type Selection**: Bar/column for comparisons, line for trends, scatter for relationships, pie for composition (limited categories only).
+- **Axis Labels**: Always label both axes. Include units in parentheses.
+- **Color Accessibility**: Use colorblind-friendly palettes. Do not rely on color alone for data distinction.
+- **Data-Ink Ratio**: Minimize non-data ink (gridlines, borders, 3D effects). Prefer clean 2D charts.
+
+## 5. Pivot Tables
+
+- **Source Data**: Pivot source must be a contiguous range with headers in the first row.
+- **Refresh**: Pivot tables do not auto-refresh when source data changes. Rebuild after data updates.
+- **Calculated Fields**: Document custom calculated fields with their formulas.
+
+## 6. Performance Guidelines
+
+- **Large Datasets**: For 100k+ rows, consider using pandas for analysis and export only the summary to xlsx.
+- **Volatile Functions**: Minimize use of INDIRECT, OFFSET, TODAY, NOW in large workbooks.
+- **Conditional Formatting**: Apply to specific ranges, not entire columns, to avoid performance degradation.

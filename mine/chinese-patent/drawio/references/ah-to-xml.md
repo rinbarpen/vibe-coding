@@ -26,13 +26,18 @@ The generator is implemented here:
 
 Recommended workflow:
 
-1. Ask the model to output a strict A–H spec using `references/structured-diagram-prompts.md`.
+1. Start from raw drawing requirements, then ask the model to strengthen them into a strict A–H spec using `references/structured-diagram-prompts.md`.
 2. Convert the A–H spec to draw.io XML with `ahToDrawioXml`.
 3. Use MCP tools:
    - `start_session`
    - `create_new_diagram` (send the generated XML)
    - `edit_diagram` for refinements
    - `export_diagram`
+
+For Chinese patent structure/relationship diagrams:
+- Keep figure labels inside draw.io at `15px` (default in this repo's A–H generator).
+- Do not place figure numbers/captions inside the image.
+- Put captions in the patent document below each image (`图N xxx`).
 
 ## Example A–H Input (Minimal)
 

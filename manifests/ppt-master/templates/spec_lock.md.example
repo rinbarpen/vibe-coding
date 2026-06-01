@@ -1,0 +1,36 @@
+# Execution Lock
+
+> 此文件为机器可读契约，Executor 每页生成前必读。
+> 与 design_spec.md 冲突时，以此文件为准。
+
+## canvas
+- viewBox: 0 0 1280 720
+- format: PPT 16:9
+
+## colors
+- bg: #FFFFFF
+- primary: #1A56DB
+- accent: #F59E0B
+- text: #111827
+- text_secondary: #6B7280
+
+## typography
+- font_family: "Microsoft YaHei", Arial, sans-serif
+- title: 36
+- subtitle: 24
+- body: 18
+- caption: 14
+
+## icons
+- library: chunk-filled
+- color: primary
+
+## page_rhythm
+- P01: anchor (封面)
+- P02: anchor (目录)
+- P03: content (内容页)
+- P04: content (内容页)
+- P_last: anchor (结束页)
+
+## images
+<!-- 图片清单由 Strategist 阶段填充 -->

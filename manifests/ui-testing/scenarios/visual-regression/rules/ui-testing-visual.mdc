@@ -1,0 +1,43 @@
+---
+description: Visual regression testing rules — snapshots, baselines, diff thresholds
+globs: ["**/*.visual.spec.*", "**/__screenshots__/**"]
+alwaysApply: false
+---
+
+# Visual Regression Rules
+
+## Snapshot Convention
+
+- Name files with `.visual.spec.ts` suffix for easy filtering
+- Organize snapshots in `__screenshots__/` directory (configurable in Playwright config)
+- One snapshot per meaningful visual state (default, hover, loading, error, empty)
+
+```typescript
+test('homepage default state @visual', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveScreenshot('homepage-default.png', {
+    fullPage: true,
+    maxDiffPixelRatio: 0.02,
+  });
+});
+```
+
+## Baseline Management
+
+- Playwright: commit `__screenshots__/` to git — review snapshot changes in PRs
+- Percy/Chromatic: baselines stored in cloud — approve/reject in web UI
+- Update baselines intentionally: `npx playwright test --update-snapshots`
+- Never update baselines as part of other changes — make a dedicated commit
+
+## Diff Thresholds
+
+- Default: 2% maxDiffPixelRatio
+- Documentation-heavy pages: 1% (less visual, more text)
+- Animation-heavy pages: 5% (accept minor rendering differences)
+- Document threshold exceptions at the test level with a comment
+
+## Environment Consistency
+
+- Run visual tests in CI (Docker) — local environments vary too much
+- Pin system fonts: install the same fonts in CI as in development
+- Freeze dynamic content: mock dates, disable animations, use static test data

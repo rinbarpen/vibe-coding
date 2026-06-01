@@ -159,9 +159,9 @@ function buildXml({ modules, nodes, edges, page }) {
   }
 
   const containerStyle =
-    'rounded=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;fontColor=#333333;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10'
+    'rounded=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#999999;fontSize=15;fontColor=#333333;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10'
   const nodeStyle =
-    'rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontColor=#000000;spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6'
+    'rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontColor=#000000;spacingLeft=10;spacingRight=10;spacingTop=6;spacingBottom=6'
   const edgeStyle =
     'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;html=1'
   const dashedEdgeStyle =

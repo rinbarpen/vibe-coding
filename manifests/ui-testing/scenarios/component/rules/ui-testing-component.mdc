@@ -1,0 +1,45 @@
+---
+description: Component testing rules — Testing Library queries, userEvent, provider wrapping
+globs: ["src/**/*.test.{tsx,jsx,ts}", "tests/unit/**", "tests/integration/**"]
+alwaysApply: false
+---
+
+# Component Testing Rules
+
+## Testing Library Queries
+
+Priority order (highest to lowest):
+1. `getByRole` — accessible semantics (buttons, headings, links)
+2. `getByLabelText` — form inputs
+3. `getByTestId` — non-semantic containers, complex widgets
+4. `getByText` / `getByPlaceholderText` — content-based (brittle with i18n)
+
+## User Interactions
+
+- ALWAYS use `@testing-library/user-event` for interactions
+- NEVER use `fireEvent` — it doesn't simulate real browser events
+- Create user instance once per test: `const user = userEvent.setup()`
+
+```typescript
+// GOOD
+const user = userEvent.setup();
+await user.type(screen.getByLabelText('Name'), 'Alice');
+await user.click(screen.getByRole('button'));
+
+// BAD
+fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Alice' } });
+fireEvent.click(screen.getByRole('button'));
+```
+
+## Provider Wrapping
+
+- Create a single `test-utils.tsx` with all providers
+- Re-export `render` from test-utils, not from @testing-library/react
+- Include: MemoryRouter (if routing), context providers, i18n, theme
+
+## What NOT to Test
+
+- Internal state of custom hooks (test the component that uses them)
+- CSS classes or inline styles
+- Private methods or implementation details
+- Third-party library internals

@@ -1,22 +1,179 @@
 ---
-description: 科研场景规则：实验追踪、数据一致性、快速验证 (MVP) 流程
+description: 科研实验全流程规则：实验配置、生命周期、数据声明、消融对比、可视化、tricks 与一键命令
 globs: ["**/*"]
 alwaysApply: false
 ---
 
 # Vibe Coding Research Rules
 
-针对科研与快速验证场景的开发规范，强调数据可追溯性与实验严谨性。
+科研实验从设计到归档的完整规范，确保每个实验可复现、可对比、可追溯。
 
-## 1. 实验追踪 (Experiment Tracking)
-- **版本控制**: 每次实验运行必须记录代码版本 (Git Hash) 和配置参数。
-- **结果持久化**: 实验结果必须与元数据（时间、环境、输入数据摘要）一同存储。
-- **日志规范**: 关键计算步骤必须记录详细日志，以便复现。
+---
 
-## 2. 数据一致性
-- **不可变数据**: 原始科研数据应视为不可变，所有处理过程应生成新的数据集。
-- **校验和**: 对大型数据集进行处理前，应验证其校验和 (Checksum)。
+## 1. 实验配置 (Config Schema)
 
-## 3. 快速验证 (MVP)
-- **原型优先**: 优先实现核心算法/逻辑，UI 保持极简。
-- **模块化**: 计算密集型任务应与 Web 服务解耦，支持异步处理。
+**强制规则**:
+- 每次实验必须在 `experiments/{exp_name}/config.yaml` 中填写完整的标准化配置
+- `idea`、`hypothesis`、`data.known_bias`、`data.why_this_dataset` 为必填字段，不允许为空
+- `seed` 必须显式设定，不得使用随机种子
+- `num_runs` 不得小于 3（用于误差棒），推荐 5
+- 禁止在代码中硬编码超参数 —— 超参一律从 config.yaml 读取
+
+**Config 完整性检查**:
+- `data` 块：`dataset`, `version`, `source`, `license`, `why_this_dataset`, `known_bias` 全部必填
+- `training` 块：`mixed_precision` 和 `gradient_clip` 必须有显式值
+- `evaluation` 块：`primary_metric` 和 `statistical_test` 必须指定
+- `ablation` 块：若 `enabled: true`，`variable`, `baseline_value`, `variants` 全部必填
+
+---
+
+## 2. 实验全生命周期
+
+每个实验必须遵循 7 个阶段，不可跳跃：
+
+| # | 阶段 | 输入 | 输出 | 门禁条件（不通过则停止） |
+|---|------|------|------|--------------------------|
+| 1 | **设计** | IDEA + 文献 | config.yaml | 假设可证伪、变量单一、指标定义明确 |
+| 2 | **准备** | config.yaml | 目录 + 数据校验 | 数据 checksum 通过、种子锁定、环境快照保存 |
+| 3 | **运行** | config + data | metrics, logs, ckpt | 无 NaN/Inf、GPU 利用率 > 60%、首个 epoch loss 有意义 |
+| 4 | **监控** | 运行中实验 | 实时指标 | loss 非单调爆炸、内存使用稳定、无 OOM |
+| 5 | **分析** | metrics + logs | 分析报告 + 图表 | 统计显著性（p<0.05）、误差分析完成 |
+| 6 | **对比** | 2+ 实验 metrics | 对比表 + 消融表 | 变量唯一（消融）、统计检验已执行 |
+| 7 | **归档** | 完整实验目录 | 只读 + 论文映射 | 已关联论文 Figure/Table 编号、INDEX.yaml 已更新 |
+
+**阶段衔接规则**:
+- 前一阶段门禁未通过，禁止进入下一阶段
+- `vibe-exp all` 自动顺序执行并在门禁失败时终止并报错
+- 任何阶段失败都必须将错误写入 `logs/stderr.log`
+
+---
+
+## 3. 数据集声明（显式）
+
+**强制规则**:
+- 数据集选择必须显式回答：来源、版本、划分策略、预处理管线、数据增强、已知偏差、使用许可、选择理由 —— 共 8 项
+- `known_bias` 字段：若不填写具体偏差，须写 `"none"` 并附带一句理由（如 "数据集经人工平衡采样"）
+- `why_this_dataset` 字段：必须说明与 IDEA 的关联，不得写 "常用" 或 "大家都用" 等模糊理由
+- 使用非公开数据集时，必须在 `data.source` 中说明获取流程和权限
+
+**数据一致性**:
+- 原始数据不可变，所有处理过程必须生成新文件
+- 对 >1GB 的数据集，处理前必须验证 checksum（SHA-256），并记录到 `logs/data_checksum.log`
+- 训练/验证/测试集划分必须由 config 中的 `split_strategy` 参数控制，禁止手工划分
+
+---
+
+## 4. 实验命名与组织
+
+**命名强制格式**: `{YYYY-MM-DD}_{category}_{key-variable}_{dataset}`
+
+- `category` 必须为以下之一: `baseline`, `ablation`, `hyperparam`, `comparison`, `exploratory`
+- `key-variable` 不得为空，不得包含下划线以外的特殊字符
+- `dataset` 使用数据集简称（小写、无空格）
+- 同一日期 + 同一 category + 同一变量的实验，自动追加 `_r{N}` 后缀（如 `_r2`）
+
+**目录结构强制**:
+- 每个实验目录下 `config.yaml` 和 `metrics.json` 为强制文件，缺一不可
+- `INDEX.yaml` 位于 `experiments/` 根目录，每次实验启动和归档时必须更新
+- `archive/` 目录下的实验为只读，禁止任何修改
+
+**INDEX.yaml 格式**:
+```yaml
+# experiments/INDEX.yaml
+experiments:
+  - name: "2026-05-24_baseline_resnet50_imagenet"
+    status: archived          # running | completed | archived | failed
+    idea: "验证 ResNet50 在 ImageNet 上的基线性能"
+    primary_metric: {name: accuracy, value: 76.3, std: 0.2}
+    paper_link: "Figure 2, Table 1"
+    config_hash: "a1b2c3d4"
+```
+
+---
+
+## 5. 消融与对比实验
+
+**消融实验 (Ablation Study)**:
+- 必须遵循**单变量原则**：一次只改变一个组件，其余参数与 baseline 完全一致
+- `config.yaml` 中 `ablation.enabled=true` 时，必须填写 `variable`, `baseline_value`, `variants`
+- 消融结果必须生成瀑布图，标注每个组件相对 baseline 的 Δ 值
+- 消融表按 primary_metric 降序排列，最大 Δ 行高亮
+
+**对比实验 (Comparison)**:
+- 与外部 SOTA 对比时，必须注明数据出处和复现条件（same data split? same metric? same seed range?）
+- 所有对比必须包含统计检验（bootstrap / t-test / McNemar），显著性水平标注在图表中
+- 结果表自动输出 LaTeX 格式，最优值加粗
+
+**可视化对比**:
+- 多实验学习曲线必须叠图并附带误差带（mean±std）
+- 柱状对比图必须自动高亮本方法（加粗 + 深色 + `*` 显著性标注）
+- 雷达图用于多指标综合对比（需先归一化各指标到 [0,1]）
+
+---
+
+## 6. 实验提点 (Tricks)
+
+AI agent 在协助实验时必须主动应用以下检查：
+
+**训练前 —— Pipeline 健全性**:
+- 提示用户先用 100 样本做过拟合测试（overfit a small batch），确认 loss→0
+- 自定义层/损失函数必须验证梯度（gradient checking）
+- 执行 LR range test 确定合理初始学习率
+- 抽查一个 batch 的数据（可视化或打印统计量），确认预处理正确
+
+**训练中 —— 主动预警**:
+- 监控 gradient norm：异常波动应主动提示用户
+- 出现 NaN 时自动启用 `torch.autograd.set_detect_anomaly(True)` 协助定位
+- Checkpoint 保存策略：best（按 primary_metric 择优）+ periodic（每 N epoch）+ latest（兜底）
+- 混合精度训练默认推荐开启
+
+**调参 —— 效率优先**:
+- 引导用户按顺序调参：lr → batch_size → optimizer params → architecture → regularization
+- 推荐 Bayesian 搜索（如 Optuna），主动劝阻全量 Grid Search
+- 不同 seed 重复 3-5 次，报告 mean±std —— 不满足此条件的实验结果标记为 "不可靠"
+
+**Debug 自动诊断**:
+- AI agent 应在用户报告训练异常时，按症状主动给出排查顺序（参考 CLAUDE.md Debug 速查表）
+
+---
+
+## 7. 可视化规范
+
+**语言**: Matplotlib/Seaborn 绘图中所有文字（坐标轴、图例、标题）必须使用英语
+
+**格式**:
+- 论文配图保存为矢量格式（`.pdf`, `.svg`）用于投稿 + `.png` (300 DPI) 用于预览
+- 字体大小不得小于 8pt（单栏）或 6pt（双栏），确保打印可读
+
+**配色**:
+- 必须使用色盲友好配色方案
+- 连续色图推荐 `viridis` / `cividis` / `magma`
+- 分类色图使用模板预设的 6-8 色调色板
+
+**紧扣 IDEA**:
+- 图标题/说明必须包含 IDEA 关键词（从 `config.idea` 提取）
+- 本方法在所有对比图中必须视觉突出（加粗、深色、显著标注）
+- 消融图必须标注最大贡献组件及其量化增益
+
+**模板选择指引**:
+- 投 NeurIPS/ICML/ICLR → `neurips` 模板（极简无衬线）
+- 投 CVPR/ICCV/ECCV → `cvpr` 模板（定性结果网格）
+- 投 ACL/EMNLP/NAACL → `acl` 模板（注意力热力图+表格）
+- 通用/学位论文 → `general` 模板（高 DPI、中英文兼容）
+
+---
+
+## 8. MVP 与快速验证
+
+- **原型优先**: 先验证核心 IDEA 的可行性，UI 保持极简
+- **模块化**: 计算密集型任务与 Web 服务解耦，支持异步和离线执行
+- **快速迭代**: 使用 `vibe-exp all` 一键串联完整流程，减少人工等待和切换
+
+---
+
+## 9. 论文写作辅助
+
+- **LaTeX 协作**: 保持 `.tex` 文件结构清晰，公式必须符合学术规范
+- **文献引用**: 确保 `references.bib` 格式正确，Citation Key 命名统一（如 `author2024title`）
+- **AI 辅助**: 使用 AI 润色时必须保持原意，严禁捏造事实或虚构文献
+- **实验-论文映射**: 归档时必须填写 `paper_link` 字段（关联 Figure/Table 编号）

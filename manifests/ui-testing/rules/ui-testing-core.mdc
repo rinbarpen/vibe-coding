@@ -1,0 +1,70 @@
+---
+description: UI testing core methodology — selector strategy, waiting, isolation, failure handling
+globs: ["**/*.test.*", "**/*.spec.*", "**/tests/**", "**/e2e/**", "playwright.config.*", "vitest.config.*"]
+alwaysApply: true
+---
+
+# UI Testing Core Rules
+
+## Test Determinism (Highest Priority)
+
+Tests MUST be deterministic. A test that passes locally but fails in CI, or passes on one run but fails on another, is a BUG.
+
+- No dependence on external services (use API mocking)
+- No shared mutable state between tests
+- No time-of-day / random / environment-specific values in assertions
+
+## Testing Pyramid
+
+Follow the 70:20:10 ratio:
+
+| Level | Ratio | Tooling | Purpose |
+|-------|-------|---------|---------|
+| Unit/Component | 70% | Vitest + Testing Library | Test logic and user interaction in isolation |
+| Integration | 20% | Vitest + MSW | Test feature workflows with real API contracts |
+| E2E | 10% | Playwright | Test critical user journeys in a real browser |
+
+## Selector Strategy
+
+Priority order (highest to lowest):
+
+1. **`getByRole`** / **`getByLabelText`** — accessible, semantic (PREFERRED)
+2. **`getByTestId`** — pragmatic fallback for non-semantic elements
+3. **`getByText`** / **`getByPlaceholderText`** — content-based (brittle with i18n)
+4. **CSS selectors** — last resort, annotate why role/label isn't feasible
+
+```typescript
+// GOOD: accessible queries
+await page.getByRole('button', { name: /submit/i }).click();
+screen.getByRole('heading', { level: 1, name: /dashboard/i });
+
+// GOOD: testid for non-semantic containers
+await page.getByTestId('toolbar').hover();
+
+// BAD: CSS selectors when role works
+await page.locator('.btn-submit').click();
+```
+
+## Waiting Strategy
+
+**NEVER use `sleep()`, `waitForTimeout()`, or fixed delays.**
+
+- Use locator actions — they auto-wait for element to be actionable
+- Use `waitForURL`, `waitForResponse`, `waitForLoadState` for navigation/network
+- Use `toHaveText`, `toBeVisible`, `toBeEnabled` for assertions with auto-retry
+- Set reasonable timeouts at framework level (config), not in individual tests
+
+## Test Isolation
+
+- Each test MUST be independently runnable
+- No test depends on another test's side effects
+- Use `beforeEach` for setup, `afterEach` for cleanup
+- E2E: reset DB state between test files (not between every test — too slow)
+- Component: unmount between tests (Vitest jsdom handles this automatically)
+
+## Failure Handling
+
+- E2E failure → screenshot + trace.zip (configured in `playwright.config.ts`)
+- Component failure → DOM snapshot on failure (built into Testing Library)
+- CI: retry flaky tests up to 2 times, but track retry rate — >5% means investigate
+- Never add a skipped (`test.skip`) test without a tracked issue link

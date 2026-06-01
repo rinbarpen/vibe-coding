@@ -1,0 +1,105 @@
+---
+description: CI integration rules for UI testing — parallel execution, retries, artifacts, coverage gates
+globs: [".github/workflows/*.yml", ".github/workflows/*.yaml", "**/ci.yml", "**/ci.yaml"]
+alwaysApply: true
+---
+
+# UI Testing CI Rules
+
+## Parallel Execution
+
+Split E2E tests across CI shards for faster feedback.
+
+```yaml
+# GitHub Actions — Playwright sharding
+- name: Run Playwright tests
+  run: npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-count }}
+  strategy:
+    matrix:
+      shard: [1, 2, 3, 4]
+```
+
+- Minimum 2 shards for any project with E2E tests
+- Component tests in a separate job (fast, no sharding needed)
+- Unit tests first, E2E in parallel (fail-fast: unit gate)
+
+## Retry Strategy
+
+| Test Type | Retries (CI) | Retries (Local) | Cap |
+|-----------|-------------|-----------------|-----|
+| E2E | 2 | 0 | Retry rate < 5% total |
+| Component | 0 | 0 | N/A |
+| Visual Regression | 1 | 0 | Manual verify on diff |
+
+```typescript
+// playwright.config.ts
+retries: process.env.CI ? 2 : 0,
+```
+
+Track retry rate. If >5% of CI runs trigger retries, stop and investigate flakiness before adding more tests.
+
+## Artifact Management
+
+On failure, ALWAYS persist diagnostic artifacts.
+
+```yaml
+- uses: actions/upload-artifact@v4
+  if: failure()
+  with:
+    name: playwright-artifacts-${{ matrix.shard }}
+    path: |
+      test-results/
+      playwright-report/
+    retention-days: 7
+```
+
+- E2E: screenshots + traces (configured in `playwright.config.ts`)
+- Component: coverage report on failure (re-run with `--coverage`)
+- Retention: max 7 days for CI artifacts
+
+## Coverage Gate
+
+Fail CI if coverage drops below threshold.
+
+```typescript
+// vitest.config.ts
+test: {
+  coverage: {
+    thresholds: {
+      lines: 80,
+      branches: 80,
+      functions: 80,
+      statements: 80,
+    },
+  },
+}
+```
+
+- Gate applies to the full project, not per-file
+- If coverage legitimately drops (deleting dead code), adjust threshold consciously — document the change
+- Coverage runs in a separate CI step, not as a test gate
+
+## CI Pipeline Layout
+
+```
+unit-and-component:    # Fast feedback (~2 min)
+  → vitest run --coverage
+  → coverage gate check
+
+e2e:                   # Slower, parallelized (~10 min total)
+  → start dev server
+  → playwright test (sharded 4x)
+  → upload artifacts on failure
+
+visual-regression:     # Optional, separate workflow
+  → start dev server
+  → percy/chromatic snapshot
+  → upload diffs
+
+accessibility:         # Optional, weekly or on-demand
+  → start dev server
+  → axe-core scan
+  → report violations
+```
+
+Separate workflows allow independent retries and failure notifications.

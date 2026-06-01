@@ -26,6 +26,7 @@ This skill enables Claude Code to create, edit, and manage draw.io diagrams thro
 - **Animated Connectors**: Create dynamic and animated connectors between diagram elements
 - **Structured Diagram Extraction**: Extract structured diagrams from text or images using the A–H format with domain-specific configurations (software, business, industrial, research, etc.)
 - **Math Typesetting**: Put LaTeX/AsciiMath equations in shape labels (MathJax rendering in draw.io)
+- **Patent-Ready Conventions**: For Chinese patent structure/relationship diagrams, use 15px in-figure text and keep captions outside images
 
 ## Installation
 
@@ -169,6 +170,17 @@ When you ask Claude to create or edit a diagram:
 3. **Real-time Update**: The diagram appears in your browser immediately
 4. **Iterative Editing**: You can ask Claude to modify the diagram, and changes appear in real-time
 5. **Export**: When satisfied, Claude can export the diagram to a `.drawio` file
+
+### Chinese Patent Workflow (Structure/Relationship Figures)
+
+When generating patent figures for direct filing usage:
+
+1. **Prompt Strengthening First**: Start from raw user intent, then use the model to rewrite it into strict A–H format.
+2. **Generate in draw.io**: Create the diagram using the strengthened A–H spec.
+3. **Typography Rule**: Keep in-figure text at `15px` for structure/relationship figures.
+4. **Caption Placement Rule**: Do not include figure title/number (e.g., 图1) inside the image.
+5. **Document Caption**: Add caption below the figure in the patent document as `图N xxx`.
+6. **Math Rule**: Keep mathematical labels in LaTeX delimiters (`\\(...\\)` or `$$...$$`).
 
 ## Best Practices
 

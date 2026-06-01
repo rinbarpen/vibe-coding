@@ -29,13 +29,27 @@ description: |
 ### HTML 规范（便于转 docx）
 - **标签**：使用语义化标签（`<h1>`~`<h3>`, `<p>`, `<ul>`/`<ol>`）。
 - **表格**：使用 `<table class="patent-table" border="1">`，内容使用宋体。
-- **图片**：必须使用本地路径（如 `images/图1.png`）。支持使用 Python 脚本（matplotlib, graphviz 等）生成附图并保存至 `images/` 目录。
+- **图片路径**：必须使用本地路径（如 `images/图1.png`）。
+- **图片图注**：使用 `<figure><img ... /><figcaption>图1 xxx</figcaption></figure>`，图注放在图片下方；图注不得写入图片像素。
+- **数学表达**：正文数学表达使用 LaTeX（如 `\(...\)` 或 `$$...$$`），并通过 `scripts/html_to_docx.py` 导出可渲染的 Word 公式。
 - **格式**：正文建议小四宋体，1.5 倍行距。
 
-### 工作流
-1. **统一到 HTML**：若输入为 docx，先用 `pandoc 现有.docx -o 当前.html` 转换。
-2. **编辑与绘图**：在 HTML 中修改内容，如有需要则运行脚本生成新附图。
-3. **导出 docx**：执行 `pandoc -s 说明书.html -o 说明书.docx` 或使用 `scripts/html_to_docx.py`。
+### 附图工作流（申请书推荐）
+1. **原始需求整理**：先整理发明对象、模块、流程、输入输出。
+2. **模型强化 prompt**：先由当前会话模型将原始需求改写为 A–H 结构化绘图规格（见 `drawio/references/structured-diagram-prompts.md`）。
+3. **按图类型绘制**：
+   - 结构图/关系图：使用 drawio（`drawio/SKILL.md`），图中文字统一 `15px`。
+   - 数据图（曲线、统计图）：可使用 matplotlib，字号按可读性设置。
+4. **插入说明书 HTML**：以 `figure+figcaption` 插入图片，编号格式统一为 `图1/图2/...`。
+5. **导出 docx**：执行 `python scripts/html_to_docx.py 说明书.html -o 说明书.docx`。
+
+### 申请书可用性（严格提交级）
+提交前必须检查：
+1. **结构完整**：技术领域、背景技术、发明内容、附图说明、具体实施方式、权利要求书、摘要齐全。
+2. **术语一致**：说明书与权利要求书关键术语一致，无同义混用导致歧义。
+3. **图文一致**：附图说明、正文引用、文件名（`图N`）一一对应。
+4. **图注合规**：图注位于文档图片下方，格式为“图N xxx”，图内无图号/图题像素文字。
+5. **数学可渲染**：LaTeX 表达在导出 docx 后应为可编辑公式对象，而非纯文本分隔符。
 
 ---
 
@@ -59,5 +73,6 @@ description: |
 
 - **详细规范**：[reference.md](./reference.md)（含用语规范、常见错误速查）。
 - **转换脚本**：[scripts/html_to_docx.py](./scripts/html_to_docx.py)。
-- **绘图示例**：[scripts/generate_figure_example.py](./scripts/generate_figure_example.py)。
+- **绘图示例（数据图）**：[scripts/generate_figure_example.py](./scripts/generate_figure_example.py)。
+- **drawio（结构图/关系图）**：[drawio/SKILL.md](./drawio/SKILL.md)。
 - **空白模板**：[templates/patent_spec_template.html](./templates/patent_spec_template.html)。

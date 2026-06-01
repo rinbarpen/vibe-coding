@@ -17,10 +17,7 @@
 - **简介**: 本仓库是 drawio 技能与文档集合，核心内容集中在文档与 skill 说明。主要目录：
 - **使用场景**: 见简介
 
-### Skill Evolution Manager
-- **路径**: `skills/Khazix-Skills/skill-evolution-manager`
-- **简介**: 专门用于在对话结束时，根据用户反馈和对话内容总结优化并迭代现有 Skills 的核心工具。它通过吸取对话中的“精华”（如成功的解决方案、失败的教训、特定的代码规范）来持续演进 Skills 库。
-- **使用场景**: 见简介
+
 
 ### ab-test-setup
 - **路径**: `skills/marketingskills/skills/ab-test-setup`
@@ -547,10 +544,7 @@
 - **简介**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
 - **使用场景**: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
 
-### github-to-skills
-- **路径**: `skills/Khazix-Skills/github-to-skills`
-- **简介**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
-- **使用场景**: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
+
 
 ### gmail
 - **路径**: `skills/ai-skills/skills/gmail`
@@ -1042,6 +1036,11 @@
 - **简介**: When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X, or other ad platforms. Also use when the user mentions 'PPC,' 'paid media,' 'ad copy,' 'ad creative,' 'ROAS,' 'CPA,' 'ad campaign,' 'retargeting,' or 'audience targeting.' This skill covers campaign strategy, ad creation, audience targeting, and optimization.
 - **使用场景**: 见简介
 
+### paper-writing
+- **路径**: `skills/aris/skills/paper-writing`
+- **简介**: Workflow 3：完整论文写作流程。自动编排 plan→figure→write→compile→improvement-loop，从研究报告生成 polished PDF。用户说"写论文"、"paper writing"时触发。
+- **使用场景**: 见简介
+
 ### paper-2-web
 - **路径**: `skills/claude-scientific-skills/scientific-skills/paper-2-web`
 - **简介**: This skill should be used when converting academic papers into promotional and presentation formats including interactive websites (Paper2Web), presentation videos (Paper2Video), and conference posters (Paper2Poster). Use this skill for tasks involving paper dissemination, conference preparation, creating explorable academic homepages, generating video abstracts, or producing print-ready posters from LaTeX or PDF sources.
@@ -1140,6 +1139,11 @@
 ### pptx
 - **路径**: `skills/awesome-claude-skills/document-skills/pptx`
 - **简介**: Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks
+- **使用场景**: 见简介
+
+### ppt-master
+- **路径**: `skills/ppt-master/skills/ppt-master`
+- **简介**: AI 从 PDF/DOCX/URL/Markdown 生成原生可编辑 PPTX，真正的 PowerPoint shapes（非图片），每个元素都可点击编辑。用户说"做PPT"、"生成PPT"、"从PDF生成PPT"时触发。
 - **使用场景**: 见简介
 
 ### pptx-posters
@@ -1317,6 +1321,21 @@
 - **简介**: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 - **使用场景**: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 
+### research-pipeline
+- **路径**: `skills/aris/skills/research-pipeline`
+- **简介**: 完整研究流程：从 idea 发现 → 实现 → 实验 → 论文写作 → 投稿。端到端自主研究工作流，用户说"全流程"、"从找idea到投稿"时触发。
+- **使用场景**: 见简介
+
+### research-wiki
+- **路径**: `skills/aris/skills/research-wiki`
+- **简介**: 持久化研究知识库，积累论文、idea、实验、claim 及关系。灵感来自 Karpathy's LLM Wiki。用户说"知识库"、"查知识库"时触发。
+- **使用场景**: 见简介
+
+### rebuttal
+- **路径**: `skills/aris/skills/rebuttal`
+- **简介**: Workflow 4：投稿 rebuttal 流程。解析审稿意见，在字符限制内撰写安全的回复，处理 follow-up 轮次。用户说"rebuttal"、"回复审稿"时触发。
+- **使用场景**: 见简介
+
 ### research-grants
 - **路径**: `skills/claude-scientific-skills/scientific-skills/research-grants`
 - **简介**: Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC. Agency-specific formatting, review criteria, budget preparation, broader impacts, significance statements, innovation narratives, and compliance with submission requirements.
@@ -1467,10 +1486,7 @@
 - **简介**: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.
 - **使用场景**: 见简介
 
-### skill-manager
-- **路径**: `skills/Khazix-Skills/skill-manager`
-- **简介**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
-- **使用场景**: Lifecycle manager for GitHub-based skills. Use this to batch scan your skills directory, check for updates on GitHub, and perform guided upgrades of your skill wrappers.
+
 
 ### skill-seekers
 - **路径**: `skills/skill-seekers`

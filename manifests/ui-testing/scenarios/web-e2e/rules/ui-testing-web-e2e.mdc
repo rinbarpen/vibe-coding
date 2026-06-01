@@ -1,0 +1,43 @@
+---
+description: Web E2E testing rules — cross-browser, mobile emulation, network interception
+globs: ["**/e2e/**", "**/*.spec.ts", "**/*.spec.js", "playwright.config.*"]
+alwaysApply: false
+---
+
+# Web E2E Testing Rules
+
+## Browser Targets
+
+- **Default**: Chromium (all tests)
+- **Parallel smoke**: Firefox + WebKit (tagged `@smoke`, 10% of suite)
+- Mobile: iPhone 14 viewport (390x844) for critical user flows
+
+```typescript
+// playwright.config.ts
+projects: [
+  { name: 'chromium', use: { browserName: 'chromium' } },
+  { name: 'firefox', use: { browserName: 'firefox' } },
+  { name: 'webkit', use: { browserName: 'webkit' } },
+  { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+  { name: 'mobile-safari', use: { ...devices['iPhone 14'] } },
+],
+```
+
+## Network Interception
+
+- Mock external APIs with `page.route()` — never hit real production APIs
+- Assert on network responses when testing loading/error states
+- Use `page.waitForResponse()` for mutation operations
+
+## Test Data
+
+- Seed test data through API calls (not UI) in `beforeAll`
+- Clean up created data in `afterAll`
+- Never hardcode user-specific IDs — query by role/label/text
+- Use isolated test accounts or auth tokens
+
+## Reporting
+
+- Always capture trace on retry: `trace: 'on-first-retry'`
+- Screenshot on failure: `screenshots: 'only-on-failure'`
+- Video on failure: `video: 'retain-on-failure'`

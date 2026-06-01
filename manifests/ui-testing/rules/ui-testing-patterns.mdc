@@ -1,0 +1,111 @@
+---
+description: UI testing patterns and anti-patterns — POM, component testing, API mocking, fixtures
+globs: ["**/*.test.*", "**/*.spec.*", "**/tests/**", "**/e2e/**"]
+alwaysApply: true
+---
+
+# UI Testing Patterns
+
+## Page Object Model (E2E)
+
+E2E tests MUST use Page Object Model. Each page/screen gets a class encapsulating locators and interactions.
+
+```typescript
+// GOOD: Page Object
+class LoginPage {
+  readonly usernameInput = this.page.getByLabel('Username');
+  readonly passwordInput = this.page.getByLabel('Password');
+  readonly submitButton = this.page.getByRole('button', { name: /log in/i });
+
+  constructor(private readonly page: Page) {}
+
+  async login(username: string, password: string) {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.submitButton.click();
+  }
+}
+```
+
+**Page Object rules:**
+- Locators only — NO assertions inside page objects
+- Public methods describe user intent (`login`, `search`), not UI actions (`clickButton`)
+- Keep thin — extract shared fragments (nav, toolbar) into separate objects
+
+## Component Testing
+
+Test user-visible behavior, not implementation details.
+
+```typescript
+// GOOD: test what the user sees and does
+test('shows error when email is invalid', async () => {
+  render(<EmailForm />);
+  await userEvent.type(screen.getByLabelText('Email'), 'not-an-email');
+  await userEvent.click(screen.getByRole('button', { name: /submit/i }));
+  expect(screen.getByText(/invalid email/i)).toBeVisible();
+});
+
+// BAD: testing implementation details
+test('sets error state', () => {
+  const { container } = render(<EmailForm />);
+  expect(container.querySelector('.error')).toBeTruthy();
+});
+```
+
+- Use `screen.getByRole/LabelText/TestId` (not `container.querySelector`)
+- Use `@testing-library/user-event` (not `fireEvent`)
+- Wrap providers (router, context, i18n) in a custom `render` function
+
+## API Mocking
+
+Mock at the network level, not the module level.
+
+```typescript
+// GOOD: MSW at the network level
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+
+const server = setupServer(
+  http.get('/api/users', () => HttpResponse.json([{ id: 1, name: 'Alice' }])),
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+```
+
+- MSW for integration tests (Vitest + jsdom/node)
+- Page/Context route interception for E2E tests (Playwright `page.route()`)
+- Share handler definitions between tests — don't duplicate
+
+## Fixture Factories
+
+Prefer factory functions over static JSON fixtures.
+
+```typescript
+// GOOD: factory with defaults + overrides
+function createUser(overrides?: Partial<User>) {
+  return {
+    id: 1,
+    name: 'Default User',
+    email: 'default@example.com',
+    role: 'viewer',
+    ...overrides,
+  };
+}
+
+// Use in tests
+const admin = createUser({ role: 'admin' });
+```
+
+- Factories compose: `createUser(createProfile())` for related entities
+- Overrides are explicit — test intent is clear
+- No magic defaults that change meaning between tests
+
+## Data Cleanup
+
+Each test leaves the environment clean.
+
+- E2E: use `project.dependencies` in Playwright config for setup/teardown projects
+- Integration: `afterEach` resets MSW handlers and mocks
+- Component: unmount + cleanup is automatic with Testing Library + Vitest

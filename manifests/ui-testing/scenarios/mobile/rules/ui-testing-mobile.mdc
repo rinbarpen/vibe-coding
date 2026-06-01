@@ -1,0 +1,39 @@
+---
+description: Mobile UI testing rules — device management, gestures, native interactions
+globs: ["**/*.test.{ts,js}", ".detoxrc.*", "e2e/**"]
+alwaysApply: false
+---
+
+# Mobile UI Testing Rules
+
+## Device Management
+
+- One device type per CI shard (iOS simulator, Android emulator)
+- Boot devices before test suite, shut down after
+- Use cloud device farm (BrowserStack, Saucelabs) for physical device coverage
+- Set explicit timeouts — mobile tests are slower than web
+
+## Gesture Testing
+
+- Use framework-native gesture APIs, not coordinate-based swipes
+- Test scroll then tap patterns (lazy-loaded content)
+- Test keyboard dismiss before form submission
+
+```typescript
+// Detox — gesture API
+await element(by.id('list')).swipe('up', 'fast', 0.5);
+await element(by.id('submit-button')).tap();
+```
+
+## Native Interactions
+
+- System alerts (permissions, push notifications): handle in setup
+- Deep links: test both cold start and warm start
+- Background/foreground: test app state restoration
+- Orientation: test critical flows at portrait and landscape
+
+## Performance Budget
+
+- Screen transitions: < 500ms
+- List scroll: 60fps
+- App cold start: < 2s

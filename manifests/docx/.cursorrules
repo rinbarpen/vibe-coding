@@ -1,0 +1,29 @@
+# Word 文档创建与排版核心规则
+
+针对 Word 文档创建、PreTeXt 排版和 python-docx 程序化操作的顶层指导原则。
+
+## 核心准则
+
+- **PreTeXt 优先**: 文档内容以 PreTeXt XML 为唯一真实来源 (Source of Truth)，DOCX/PDF/HTML 均为派生输出。
+- **Copy-First**: 修改 docx 文件前必须先 `cp original.docx working.docx`，在副本上操作。
+- **验证后替换**: 每次修改后必须验证 working copy 结构完整（sections、paragraphs、styles），再替换原始文件。
+- **Git 分支隔离**: 每次操作在独立分支 `docx/<task>` 上进行，支持回滚。
+- **自动备份**: 原始文件被替换前，存入 `_backups/original-{timestamp}.docx`。
+- **内容与样式分离**: XML 负责内容，XSL/CSS/Publisher 配置负责呈现。不要混在一起。
+
+## 常用指令
+
+- `pretext build`: 编译 PreTeXt 源文件，生成 HTML/PDF
+- `pretext view`: 启动本地预览服务器
+- `vibe-docx-merge <files>`: 合并多个 docx 文件
+- `vibe-docx-templating <template> <data>`: 模板数据填充
+- `vibe-docx-convert <input> <format>`: 跨格式转换
+- `vibe-docx-stats`: 文档统计信息
+- `vibe-docx-validate <file>`: 验证文档结构完整性
+
+## 详细规则
+
+更多关于 PreTeXt 编写、文档样式、数据安全及 Git 工作流的详细规则，请参阅：
+`rules/docx-writing.mdc`
+`rules/docx-pretext.mdc`
+`rules/docx-safety.mdc`

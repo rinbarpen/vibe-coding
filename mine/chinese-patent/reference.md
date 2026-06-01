@@ -31,11 +31,18 @@
 
 当附图可由程序绘制时，用 Python 脚本生成 PNG 等文件，保存到 `images/`，再在 HTML 中引用。
 
-- **matplotlib**：框图、曲线图、结构示意。图中文字（标注、图例、轴标签）使用英文。
+- **drawio（结构图/关系图优先）**：在绘图前先用模型将原始需求强化为 A–H 结构化规格，再生成 drawio 图；结构图/关系图内文字统一 `15px`。
+- **matplotlib（数据图）**：曲线图、统计图、实验数据可视化。图中文字按可读性设置，不强制 15px。
 - **graphviz**（`pip install graphviz`，另需安装 Graphviz）：流程图、框图、关系图；节点/边文字宜用英文。
 - **diagrams**（`pip install diagrams`）：系统架构、模块关系图；输出 PNG 到 `images/`。
 - **输出**：统一保存为 `images/图N.png`（N 与附图说明编号一致），脚本可在说明书 HTML 同级目录运行，或指定 `--output-dir images/`。
 - **示例**：见 skill 内 `scripts/generate_figure_example.py`，用 matplotlib 生成框图并保存；可据此改写为实际专利附图。依赖见 skill 根目录 `requirements.txt`（matplotlib）。
+
+### drawio 推荐流程（申请书场景）
+1. 先整理原始绘图需求（实体、流程、关系、输入输出）。
+2. 使用会话模型将需求强化为 A–H 绘图规格（见 `drawio/references/structured-diagram-prompts.md`）。
+3. 使用 drawio 按强化后的 A–H 规格绘图并导出。
+4. 在 HTML 中以 `figure+figcaption` 插入图，并写“图N xxx”图注。
 
 ## 具体实施方式
 
@@ -95,9 +102,16 @@
 - **分辨率**：72 DPI 至 300 DPI 之间。
 - **物理尺寸**：最大不得超过 **165mm × 245mm**。
 - **图号标注**：图号（如“图1”、“图2”）应在 HTML 正文中以文字形式编写，**严禁**包含在图片像素内。
+- **图注位置**：图注必须位于图片下方，推荐 HTML 写法：
+  `<figure><img ... /><figcaption>图1 结构示意图</figcaption></figure>`。
 - **绘图字体**：图片内的标注文字应使用英文，字体清晰可辨。
 - **格式**：推荐使用 PNG 或 JPEG。
 
-### 4. 段落与章节
+### 4. LaTeX 数学表达（docx 可渲染）
+- 正文数学公式使用 LaTeX：行内 `\(...\)`，行间 `$$...$$`。
+- 使用 `scripts/html_to_docx.py` 导出时，默认会将上述 LaTeX 公式转换为 Word 公式对象（OMML）。
+- 如需保留旧行为（不转换数学），可使用 `--no-tex-math` 参数。
+
+### 5. 段落与章节
 - 章节标题（如“技术领域”）应加粗或使用较大的字号（如三号或四号）。
 - 段落首行缩进 2 个字符。

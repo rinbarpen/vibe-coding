@@ -1,0 +1,45 @@
+---
+description: 演示文稿创建规范：幻灯片结构与内容、视觉设计、动画与过渡、演讲者备注、导出与交付标准
+globs: ["**/*.py", "**/*.yaml", "**/*.json"]
+alwaysApply: false
+---
+
+# Presentation Creation Rules
+
+Rules for professional slide deck creation and automation.
+
+## 1. Slide Structure and Content
+
+- **One Idea Per Slide**: Each slide should communicate exactly one key message.
+- **Bullet Limit**: Maximum 6 bullets per slide; each bullet at most 2 lines.
+- **Avoid Paragraphs**: Use short phrases, not full sentences, on slides (speaker notes carry the narrative).
+- **Title Convention**: Every slide must have a unique, descriptive title (not "Slide 1" or "Overview").
+
+## 2. Visual Design
+
+- **Template First**: Apply the slide master template before adding content to ensure consistent styling.
+- **Color Discipline**: Use a maximum of 3 colors per slide from the defined palette.
+- **Font Pairing**: One font for headings (bold, 28-36pt), one for body (24-28pt). No more.
+- **Image Quality**: All images at 150 DPI minimum. Prefer PNG for graphics, JPEG for photographs.
+- **Chart Cleanliness**: Remove default gridlines, legends placed inside chart area, direct labels where possible.
+- **Consistency**: Use a single slide master throughout the deck.
+
+## 3. Animations and Transitions
+
+- **Purposeful**: Use animation to reveal complex information progressively, never for decoration.
+- **Consistent Transition**: Use a single transition type throughout the deck (e.g., Fade or Push).
+- **Timing**: Set uniform transition duration (0.5-1.0 seconds). Avoid auto-advance for content slides.
+- **Restraint**: Maximum 2 animation effects per slide. No bouncing, swivel, or whimsical effects in professional decks.
+
+## 4. Speaker Notes
+
+- **Narrative**: Speaker notes should read as spoken narrative, not slide content rephrased.
+- **Timing Cues**: Include approximate speaking time per slide in notes (e.g., "[2 min]").
+- **Technical Notes**: Note transitions requiring manual intervention or presenter click-through.
+
+## 5. Export and Delivery
+
+- **PDF Export**: Use `ppt-master export pdf` or python-pptx for distribution to non-PowerPoint users.
+- **File Size**: Compress images before embedding. Target <5MB for standard decks, <20MB for image-heavy decks.
+- **Compatibility**: Save in .pptx format. Verify backward compatibility with target PowerPoint version.
+- **Multiple Formats**: Generate PDF for print, PPTX for live presentation, PNG sequence for web embedding when needed.
