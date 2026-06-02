@@ -1,0 +1,4 @@
+interface:
+  display_name: "PaperReview AI Review"
+  short_description: "Submit papers to paperreview.ai and fetch reviews"
+  default_prompt: "Use $paperreview-ai-review to submit my PDF to paperreview.ai and return the review."

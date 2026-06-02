@@ -13,6 +13,7 @@
 | `aris/paper-illustration "desc"` | AI 论文插图生成 |
 | `aris/paper-figure "results"` | 数据驱动图表生成 |
 | `aris/rebuttal "reviews"` | 自动生成审稿回复 |
+| `mine/paperreview-ai-review "paper.pdf"` | paperreview.ai 自动论文评审 |
 | `aris/research-lit "query"` | 文献调研与综述 |
 | `aris/citation-audit` | 引用校验 (DBLP/arXiv) |
 | `aris/paper-claim-audit` | 数值声明校验 |

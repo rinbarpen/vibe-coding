@@ -10,6 +10,7 @@
 | `ars/academic-paper "topic"` | 12-agent 论文写作（10 种模式） |
 | `ars/academic-paper-reviewer "paper"` | 5 角色独立评审（6 种模式） |
 | `ars/academic-pipeline "topic"` | 10 阶段端到端学术流水线 |
+| `mine/paperreview-ai-review "paper.pdf"` | paperreview.ai 自动论文评审 |
 
 ## 仓库结构
 

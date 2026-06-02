@@ -25,10 +25,11 @@
 1. 使用 `aris/paper-plan` 生成论文大纲
 2. 使用 `aris/paper-write` 撰写论文草稿
 3. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）
-4. 使用 `aris/paper-claim-audit` 校验数值声明一致性
-5. 使用 `aris/citation-audit` 校验引用
-6. 使用 `aris/auto-paper-improvement-loop` 改进论文
-7. 产出：评审意见 + 改进清单
+4. 使用 `mine/paperreview-ai-review` 提交 paperreview.ai 外部评审
+5. 使用 `aris/paper-claim-audit` 校验数值声明一致性
+6. 使用 `aris/citation-audit` 校验引用
+7. 使用 `aris/auto-paper-improvement-loop` 改进论文
+8. 产出：评审意见 + 改进清单
 
 ### Phase 4: Polish
 图表生成 → 论文编译 → 终稿

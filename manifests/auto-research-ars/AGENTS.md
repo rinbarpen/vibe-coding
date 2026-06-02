@@ -23,6 +23,11 @@ ars/academic-paper-reviewer "paper" — 选择模式
 模式: full / re-review / quick / methodology / socratic / calibration
 ```
 
+额外评审渠道：
+```
+mine/paperreview-ai-review /path/to/paper.pdf --email you@example.com --venue ICLR --poll
+```
+
 ### 4. 端到端流水线 (academic-pipeline)
 一键执行全部阶段：
 ```
