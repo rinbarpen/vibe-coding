@@ -1,0 +1,27 @@
+# Anything CLI 核心规则
+
+CLI-Anything 生成和管理 AI Agent CLI 的顶层指导原则。
+
+## 核心准则
+
+- **一键生成**: 能用 `/cli-anything` 自动生成的，绝不手动编写 CLI
+- **Agent 原生设计**: 所有 CLI 必须支持 `--json` 输出和 `--help` 自描述
+- **源隔离**: 生成的 CLI 放置在独立目录，不修改原始代码库
+- **测试优先**: 生成的 CLI 必须有单元测试、集成测试和 E2E 测试
+- **命名空间隔离**: 使用 `cli_anything.*` 命名空间避免包冲突
+
+## 常用指令
+
+- `pip install cli-anything-hub`: 安装 CLI-Hub
+- `cli-hub search <query>`: 搜索 CLI
+- `cli-hub install <name>`: 安装 CLI
+- `/cli-anything <path>`: 生成 CLI
+- `/cli-anything:refine [focus]`: 优化 CLI
+- `/cli-anything:validate <path>`: 验证 CLI
+
+## 架构约束
+
+- 生成的 CLI 使用 Click 库构建
+- 默认入口为 REPL 模式
+- 全局会话状态支持撤销/重做
+- CLI 通过 console_scripts 注册到 PATH

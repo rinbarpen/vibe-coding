@@ -13,9 +13,6 @@
 [submodule "skills/Agent-Skills-for-Context-Engineering"]
 	path = skills/Agent-Skills-for-Context-Engineering
 	url = https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git
-[submodule "manifests/agent-browser"]
-	path = manifests/agent-browser
-	url = https://github.com/vercel-labs/agent-browser.git
 [submodule "skills/agent-skills"]
 	path = skills/agent-skills
 	url = https://github.com/vercel-labs/agent-skills.git

@@ -1,0 +1,27 @@
+# Office CLI 核心规则
+
+统一办公文档 CLI 操作的顶层指导原则。
+
+## 核心准则
+
+- **Copy-First**: 修改任何办公文档前先 `cp original working`，在副本上操作
+- **验证后替换**: 每次修改后验证结构完整性，再替换原始文件
+- **模板复用**: 优先使用模板而非逐页手动设置格式
+- **Git 分支隔离**: 每次操作在独立分支 `office/<task>` 上进行
+- **自动备份**: 原始文件替换前存入 `_backups/`
+- **Dry-Run 优先**: 批量操作先 `--dry-run` 预览，再实际执行
+
+## 常用指令
+
+- `office-cli docx create <template> <data>`: 从模板创建文档
+- `office-cli docx merge <files>`: 合并文档
+- `office-cli xlsx analyze <file>`: 分析表格结构
+- `office-cli xlsx chart <file> <config>`: 生成图表
+- `office-cli ppt create <template> <slides>`: 创建演示文稿
+- `office-cli batch <config>`: 批量处理
+
+## 详细规则
+
+- `rules/office-cli-safety.mdc`: 数据安全规则
+- `rules/office-cli-conversion.mdc`: 格式转换规则
+- `rules/office-cli-templating.mdc`: 模板处理规则
