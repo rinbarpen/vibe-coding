@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: vibe-tool
+Version: 0.1.0
+Summary: Unified CLI for managing manifests and skills in the vibe-coding ecosystem
+Requires-Python: >=3.10

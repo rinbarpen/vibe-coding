@@ -1,0 +1,14 @@
+pyproject.toml
+src/vibe_tool/__init__.py
+src/vibe_tool/__main__.py
+src/vibe_tool/cli.py
+src/vibe_tool/config.py
+src/vibe_tool/discovery.py
+src/vibe_tool/manifest.py
+src/vibe_tool/skill.py
+src/vibe_tool/types.py
+src/vibe_tool.egg-info/PKG-INFO
+src/vibe_tool.egg-info/SOURCES.txt
+src/vibe_tool.egg-info/dependency_links.txt
+src/vibe_tool.egg-info/entry_points.txt
+src/vibe_tool.egg-info/top_level.txt
