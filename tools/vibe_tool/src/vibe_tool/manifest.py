@@ -17,6 +17,13 @@ from .types import ManifestInfo
 _SCRIPT_FLAG_MAP: dict[str, dict[str, str]] = {
     "vibe-coding": {
         "scenario": "--scenario={value}",
+        "owner": "-o {value}",
+        "org": "--org {value}",
+        "repo": "--repo {value}",
+        "email": "--email {value}",
+        "cloud": "--cloud={value}",
+        "force": "-f",
+        "dry_run": "-n",
     },
     "github-enterprise": {
         "owner": "-o {value}",

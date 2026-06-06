@@ -1,42 +1,71 @@
-# Vibe Coding Toolkit 快捷开发命令清单
+# Vibe Coding Commands
 
-本清单列出了 `vibe-coding-toolkit` 提供的常用命令和 subagent 调度指令。
+Complete command index for the unified development manifest. All commands are available after initialization under `.cursor/commands/`.
 
-## 1. 自动化脚本 (Scripts)
+## Planning & Architecture
 
-| 命令 | 描述 | 用法 |
-| :--- | :--- | :--- |
-| `vibe-init` | 初始化项目结构（目录、.cursor/rules/*.mdc, CLAUDE.md, AGENTS.md 模板） | `./manifests/vibe-coding/scripts/vibe-init.sh` (路径需根据实际位置调整) |
-| `vibe-skill-fetch` | 快捷调用 `skill-seekers` 抓取文档或 GitHub 仓库 | `./manifests/vibe-coding/scripts/vibe-skill-fetch.sh <URL_OR_REPO> [NAME]` |
-| `vibe-post-commit` | Commit 后的自动化维护（同步文档、检查测试、GitHub 状态） | `./manifests/vibe-coding/scripts/vibe-post-commit.sh` |
-| `vibe-claude-md-audit` | 审计 CLAUDE.md 质量（调用 claude-md-improver skill） | `CallMcpTool("claude-md-improver", "audit", ...)` |
-| `/update-readme` | 自动更新项目 README.md 文档 | `/update-readme [更新说明]` |
-| `/update-claude-md` | 自动更新 CLAUDE.md 项目上下文 | `/update-claude-md` |
-| `/update-docker` | 同步 Docker 配置与项目状态 | `/update-docker` |
-| `/update-docs` | 同步 docs/ 文档与实现 | `/update-docs [可选说明]` |
-| `/update-examples` | 同步 examples/ 示例代码 | `/update-examples [可选说明]` |
-| `/update-scripts` | 同步 scripts/ 工具脚本 | `/update-scripts [可选说明]` |
-| `gh pr create` | 自动创建 GitHub PR | `gh pr create --title "..." --body "..."` |
-| `vibe-ci-check` | 监控 GitHub CI 状态 | `gh pr checks` 或启动 `ci-watcher` subagent |
+| Command | File | Description |
+|---------|------|-------------|
+| `/plan <domain>` | `plan/COMMAND.md` | Create implementation plan with problem statement, approach, files to change, test strategy, risk assessment |
+| `/lang-select <context>` | `lang-select/COMMAND.md` | Get language recommendation with rationale based on decision tree and spec references |
 
-## 2. Subagent 调度指令 (Subagent Dispatching)
+## Development
 
-在对话中，你可以直接要求我启动以下 subagent：
+| Command | File | Description |
+|---------|------|-------------|
+| `/scaffold <language> <archetype>` | `scaffold/COMMAND.md` | Bootstrap new project from scenario template with language-appropriate structure |
+| `/implement <task>` | `implement/COMMAND.md` | Implement a feature following TDD: RED (failing test) → GREEN (minimal impl) → IMPROVE (refactor) |
 
-- **`explore`**: "启动 explore subagent 帮我分析项目结构。"
-- **`code-architect`**: "启动 code-architect subagent 设计一个新的插件系统。"
-- **`code-reviewer`**: "启动 code-reviewer subagent 评审我刚才的代码修改。"
-- **`shell`**: "启动 shell subagent 处理 Git 合并冲突。"
+## Quality Assurance
 
-## 3. 核心流程参考 (Flow Reference)
+| Command | File | Description |
+|---------|------|-------------|
+| `/quality-gate` | `quality-gate/COMMAND.md` | Run all 5 quality gates: Lint, Test (80%+), Security, Review, Doc |
+| `/deploy-check` | `deploy-check/COMMAND.md` | Pre-deployment verification: CI status, migration reversibility, rollback plan, env vars |
 
-1.  **Plan**: `SwitchMode(plan)` 制定详细计划。
-2.  **Explore**: 使用 `vibe-skill-fetch` 摄取文档。
-3.  **Implement**: `SwitchMode(agent)` 编写代码。
-4.  **Verify**: 运行 `ReadLints` 和单元测试。
-5.  **Maintain**: 更新 `CLAUDE.md` 反映架构和命令变更。
-6.  **Review**: 调用 `code-reviewer` 评审。
-7.  **Ship**: 提交 PR 并更新文档。
+## Deployment
+
+| Command | File | Description |
+|---------|------|-------------|
+| `/cloud-deploy <target> <platform>` | `cloud-deploy/COMMAND.md` | Deploy to cloud platform (vercel/cloudflare/tencent/alibaba/huawei) |
+| `/release` | `release/COMMAND.md` | Execute enterprise release workflow: version bump, CHANGELOG update, GPG-signed tag, GitHub Release |
+
+## Maintenance
+
+| Command | File | Description |
+|---------|------|-------------|
+| `/update-docker` | `update-docker/COMMAND.md` | Sync Docker configuration with project state |
+| `/update-docs` | `update-docs/COMMAND.md` | Sync docs/ documentation with current implementation |
+| `/update-examples` | `update-examples/COMMAND.md` | Sync examples/ with current implementation |
+| `/update-scripts` | `update-scripts/COMMAND.md` | Sync scripts/ utilities with project state |
+
+## GitHub Operations
+
+| Command | Description |
+|---------|-------------|
+| `gh pr create --fill` | Create PR from current branch |
+| `gh pr checks` | Monitor CI/CD status |
+| `gh pr status` | View PR state |
+| `gh pr view --web` | Open PR in browser |
+| `gh run list` | View recent GitHub Actions runs |
+| `gh release create v1.2.3` | Create GitHub Release |
+| `git tag -s v1.2.3 -m "v1.2.3"` | Create GPG-signed tag |
+
+## Subagent Dispatch
+
+Actively dispatch these agents based on task context:
+
+| Agent | When | Effect |
+|-------|------|--------|
+| `code-architect` | Architecture changes | Design review, module boundaries |
+| `code-reviewer` | All code changes | Code quality, patterns |
+| `security-reviewer` | Auth/payments/data | Security audit |
+| `tdd-guide` | New features | TDD workflow enforcement |
+| `performance-optimizer` | Slow code | Profile, optimize |
+| `refactor-cleaner` | Tech debt | Clean up, extract |
+| `build-error-resolver` | Build fails | Fix compilation errors |
+| `ci-watcher` | After PR | Monitor CI until pass |
 
 ---
-*注：所有脚本路径均为相对于项目根目录的路径。*
+
+*Commands are installed during `vibe-init.sh` under `.cursor/commands/` in the target project.*

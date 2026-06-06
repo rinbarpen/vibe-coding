@@ -1,0 +1,77 @@
+---
+description: Enterprise Governance — branch protection, CODEOWNERS, release management, security compliance
+globs: ["**/.github/**", "**/CHANGELOG.md", "**/SECURITY.md"]
+alwaysApply: true
+---
+
+# Enterprise Governance Rules
+
+## 1. Repository Governance
+
+- CODEOWNERS assigns ownership per directory/path for automated review assignments.
+- CODE_OF_CONDUCT.md and SECURITY.md are required in every repository.
+- Branch protection on `main`: requires 2+ reviews, all status checks passing, up-to-date branch.
+
+## 2. Release Management
+
+1. Only release managers can create and push tags.
+2. All releases must have a corresponding CHANGELOG.md entry.
+3. Hotfixes must go through the hotfix branch process — never modify a release tag directly.
+4. Version numbers must be consistent: git tag = package version = CHANGELOG entry.
+5. All release tags must be GPG signed.
+
+## 3. Release Workflow
+
+```
+feature branch → PR → squash merge to main
+                      ↓
+                 release branch → merge commit
+                      ↓
+              git tag -s vX.Y.Z → push tag → release.yml triggered
+                      ↓
+              hotfix branch (from tag) → merge commit → new tag
+```
+
+## 4. Security Compliance
+
+- CodeQL analysis runs on every PR and weekly schedule.
+- Dependabot auto-creates dependency update PRs.
+- Dependency Review checks license and known vulnerabilities on every PR.
+- SECURITY.md defines the vulnerability disclosure process.
+- Critical security issues auto-notify project owner.
+
+## 5. Issue & Task Management
+
+| Issue Type | Template | Labels |
+|-----------|----------|--------|
+| Bug Report | 01-bug-report.yml | bug |
+| Feature Request | 02-feature-request.yml | enhancement |
+| Task | 03-task.yml | task |
+| Documentation | 04-documentation.yml | docs |
+| Epic | 05-epic.yml | epic |
+
+## 6. CI/CD Workflows (12 workflows)
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `ci.yml` | Push to any branch | Build, lint, matrix test, coverage |
+| `pr-conventions.yml` | PR opened/edited | Title format, size check |
+| `pr-auto-assign.yml` | PR opened | Auto-assign reviewer from CODEOWNERS |
+| `merge-queue.yml` | Merge queue | Validate before merge |
+| `codeql-analysis.yml` | PR + schedule | Security code scanning |
+| `dependency-review.yml` | PR | License + CVE checks |
+| `release.yml` | Tag push | Build, test, publish artifacts |
+| `release-branch.yml` | Branch `release/*` | Release branch CI |
+| `hotfix.yml` | Branch `hotfix/*` | Hotfix CI + deploy |
+| `deploy-pages.yml` | Push to main | GitHub Pages deployment |
+| `issue-triage.yml` | Issue opened/edited | Auto-label, assign |
+| `stale.yml` | Schedule | Mark/close stale issues and PRs |
+
+## 7. Environment Variables (Required for CI)
+
+| Variable | Permission | Purpose |
+|----------|-----------|---------|
+| `GITHUB_TOKEN` | `contents: write`, `pull-requests: write` | PR/Release operations |
+| `CODECOV_TOKEN` | N/A | Coverage reporting |
+| `DOCKER_USERNAME` / `DOCKER_PASSWORD` | N/A | Docker Hub publishing |
+| `NPM_TOKEN` / `PYPI_TOKEN` | N/A | Package registry publishing |
