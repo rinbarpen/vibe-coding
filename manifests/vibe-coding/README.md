@@ -5,9 +5,9 @@ Full lifecycle engineering manifest covering 0-to-1 project building → develop
 ## What's Included
 
 - **CLAUDE.md / AGENTS.md**: Comprehensive AI instructions for full lifecycle development.
-- **10 Scenarios**: agent-dev, api-service, cli-tool, cross-platform, data-pipeline, distributed, fullstack-web, llm-dev, research, saas.
-- **14 Rules**: Core, standards, collaboration, lifecycle, deployment, backend, frontend, testing, refactoring, optimization, UI design, cloud, enterprise, CLAUDE.md maintenance.
-- **12 Commands**: plan, scaffold, implement, quality-gate, deploy-check, lang-select, cloud-deploy, release, update-docker, update-docs, update-examples, update-scripts.
+- **14 Scenarios**: agent-dev, api-service, cli-tool, cross-platform, data-pipeline, distributed, frontend, fullstack-web, llm-dev, research, saas, desktop-electron, desktop-tauri, desktop-flutter.
+- **17 Rules**: Core, standards, collaboration, lifecycle, deployment, backend, frontend, testing, refactoring, optimization, UI design, cloud, enterprise, agent-dev, desktop, frontend-scenario, CLAUDE.md maintenance.
+- **15 Commands**: plan, scaffold, implement, quality-gate, deploy-check, lang-select, cloud-deploy, release, agent-eval, frontend-check, desktop-build, update-docker, update-docs, update-examples, update-scripts.
 - **5 Cloud Platform References**: Vercel, Cloudflare, Tencent Cloud, Alibaba Cloud, Huawei Cloud.
 - **5 Language Specs + Decision Trees**: Go, Rust, Python, TypeScript/JavaScript, Java.
 - **GitHub Enterprise Governance**: 12 CI/CD workflows, issue/PR templates, CODEOWNERS, SECURITY.md, dependabot config.
@@ -30,8 +30,10 @@ bash manifests/vibe-coding/scripts/vibe-init.sh \
 ### Available Init Flags
 
 ```
---scenario=<name>[,<name>...]   10 scenarios (agent-dev, api-service, cli-tool, cross-platform,
-                                  data-pipeline, distributed, fullstack-web, llm-dev, research, saas)
+--scenario=<name>[,<name>...]   14 scenarios (agent-dev, api-service, cli-tool, cross-platform,
+                                  data-pipeline, distributed, frontend, fullstack-web,
+                                  llm-dev, research, saas,
+                                  desktop-electron, desktop-tauri, desktop-flutter)
 --cloud=<provider>              vercel / cloudflare / tencent / alibaba / huawei
 -o, --owner <owner>             CODEOWNERS default owner
 --org <org>                     GitHub organization
@@ -56,6 +58,10 @@ bash manifests/vibe-coding/scripts/vibe-init.sh \
 | `llm-dev` | LLM applications | Python, TypeScript |
 | `research` | Research/experimentation | Python |
 | `saas` | SaaS products | TypeScript + Go/Python |
+| `frontend` | Pure frontend apps | TypeScript |
+| `desktop-electron` | Electron desktop | TypeScript + Node.js |
+| `desktop-tauri` | Tauri desktop | TypeScript + Rust |
+| `desktop-flutter` | Flutter desktop | Dart |
 
 ## Language Support
 
@@ -81,6 +87,16 @@ bash manifests/vibe-coding/scripts/vibe-init.sh \
 | Alibaba Cloud | `fun deploy` | `references/cloud-platforms/alibaba-cloud.md` |
 | Huawei Cloud | `fgs deploy` | `references/cloud-platforms/huawei-cloud.md` |
 
+## Desktop Frameworks
+
+| Framework | Best For | Reference |
+|-----------|----------|-----------|
+| Electron | Full Node.js + Chromium access, mature ecosystem | `scenarios/desktop-electron/` |
+| Tauri | Minimal binary, Rust backend, best security | `scenarios/desktop-tauri/` |
+| Flutter Desktop | Shared mobile+desktop codebase | `scenarios/desktop-flutter/` |
+
+See `references/desktop-frameworks.md` for full comparison and decision guide.
+
 ## Dependencies
 
 - **Bash**: Init and maintenance scripts.
@@ -91,4 +107,4 @@ bash manifests/vibe-coding/scripts/vibe-init.sh \
 
 ## File Count
 
-~90 files total covering the complete engineering lifecycle from idea to production.
+~150 files total covering the complete engineering lifecycle from idea to production.

@@ -18,6 +18,9 @@ Unified Development Manifest — full lifecycle engineering from idea to product
 | `/update-docs` | Sync documentation with implementation |
 | `/update-examples` | Sync examples with current implementation |
 | `/update-scripts` | Sync utility scripts |
+| `/agent-eval <mode>` | Run agent performance evaluation suite |
+| `/frontend-check <mode>` | Frontend quality check (a11y, perf, bundle, visual) |
+| `/desktop-build <framework> <platform>` | Build, package, sign desktop application |
 | `gh pr create --fill` | Create PR from current branch |
 | `gh pr checks` | Monitor CI status |
 
@@ -57,6 +60,10 @@ Unified Development Manifest — full lifecycle engineering from idea to product
 | `llm-dev` | LLM application development | Python, TypeScript |
 | `research` | Research and experimentation | Python |
 | `saas` | SaaS product development | TypeScript + Go/Python |
+| `frontend` | Pure frontend application | TypeScript |
+| `desktop-electron` | Electron desktop application | TypeScript + Node.js |
+| `desktop-tauri` | Tauri desktop application | TypeScript + Rust |
+| `desktop-flutter` | Flutter desktop application | Dart |
 
 ## Language Selection
 
@@ -70,6 +77,9 @@ Unified Development Manifest — full lifecycle engineering from idea to product
 | Data science / ML/AI | Python | Dominant ecosystem |
 | Enterprise / large-scale | Java | Mature JVM, Spring ecosystem |
 | Rapid prototyping | Python or TypeScript | Fastest path to working code |
+| Desktop app (Electron) | TypeScript | Mature web UI + full Node.js access |
+| Desktop app (Tauri) | TypeScript + Rust | Minimal binary, best performance, web UI |
+| Desktop app (Flutter) | Dart | Shared mobile+desktop codebase |
 
 See `references/decision-trees/language-selection.md` for the full decision tree.
 
@@ -158,6 +168,11 @@ Secrets managed via environment variables or platform secret stores. Never hardc
 - Environment parity: dev/staging/prod mismatch is the #1 deployment failure cause
 - Run `proxy_on` before downloading external data
 - Matplotlib plots must use English labels
+- Electron bundle size is large (~150MB); reconsider if Tauri can meet the same need
+- Tauri requires Rust for backend commands — ensure IPC is properly bridged, not bypassed
+- Flutter Desktop is stable but still has UI quirks on Windows/Linux — test on all platforms
+- Desktop auto-update config is a common failure point — wrong version manifests break updates
+- Code signing should be tested in CI, not just done manually before release
 
 ## Workflow
 

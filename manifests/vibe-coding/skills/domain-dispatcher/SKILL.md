@@ -16,13 +16,17 @@ Map task keywords to domain, then dispatch the appropriate agent, skill, and rul
 
 | Task Keywords | Domain | Agent | Skill | Rule File |
 |---------------|--------|-------|-------|-----------|
-| "UI", "design", "component", "layout", "accessibility", "responsive" | UI Design | `frontend-design` | `canvas-design` | `code-programming-ui-design.mdc` |
-| "frontend", "state", "data fetching", "routing", "bundle", "CWV" | Frontend | `frontend-patterns` | `frontend-patterns` | `code-programming-frontend.mdc` |
-| "backend", "API", "service", "database", "auth", "middleware" | Backend | `code-architect` | `backend-patterns`, `api-design` | `code-programming-backend.mdc` |
-| "slow", "optimize", "profile", "performance", "cache", "bottleneck" | Optimization | `performance-optimizer` | — | `code-programming-optimization.mdc` |
-| "test", "coverage", "TDD", "integration", "e2e" | Testing | `tdd-guide` | Language-specific testing skills | `code-programming-testing.mdc` |
-| "deploy", "CI/CD", "Docker", "release", "rollout" | Deployment | — | `deployment-patterns`, `docker-patterns` | `code-programming-deployment.mdc` |
-| "refactor", "clean", "migrate", "extract", "dead code" | Refactoring | `refactor-cleaner` | — | `code-programming-refactoring.mdc` |
+| "UI", "design", "component", "layout", "accessibility", "responsive" | UI Design | `frontend-design` | `canvas-design`, `ui-ux-pro-max-skill` | `vibe-coding-ui-design.mdc` |
+| "frontend", "state", "data fetching", "routing", "bundle", "CWV" | Frontend | `frontend-patterns` | `frontend-patterns` | `vibe-coding-frontend.mdc` |
+| "backend", "API", "service", "database", "auth", "middleware" | Backend | `code-architect` | `backend-patterns`, `api-design` | `vibe-coding-backend.mdc` |
+| "slow", "optimize", "profile", "performance", "cache", "bottleneck" | Optimization | `performance-optimizer` | — | `vibe-coding-optimization.mdc` |
+| "test", "coverage", "TDD", "integration", "e2e" | Testing | `tdd-guide` | Language-specific testing skills | `vibe-coding-testing.mdc` |
+| "deploy", "CI/CD", "Docker", "release", "rollout" | Deployment | — | `deployment-patterns`, `docker-patterns` | `vibe-coding-deployment.mdc` |
+| "refactor", "clean", "migrate", "extract", "dead code" | Refactoring | `refactor-cleaner` | — | `vibe-coding-refactoring.mdc` |
+| "agent", "eval", "prompt quality", "llm eval" | Agent Eval | `eval-harness` | `prompt-optimizer`, `superpowers` | `vibe-coding-agent-dev.mdc` |
+| "agent", "context engineering", "multi-agent", "agent architecture" | Agent Dev | `code-architect` | `Agent-Skills-for-Context-Engineering`, `agent-skills`, `superpowers` | `vibe-coding-agent-dev.mdc` |
+| "desktop", "electron", "tauri", "flutter desktop", "native app" | Desktop | `build-error-resolver` + framework reviewer | `dart-flutter-patterns` | `vibe-coding-desktop.mdc` |
+| "frontend", "css", "i18n", "a11y", "component library" | Frontend | `frontend-patterns` | `frontend-design`, `ui-ux-pro-max-skill` | `vibe-coding-frontend.mdc` |
 
 ## Cross-Domain Dispatch
 

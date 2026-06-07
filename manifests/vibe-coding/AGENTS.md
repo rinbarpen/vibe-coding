@@ -6,7 +6,7 @@ Instructions for AI coding agents (Cursor, Claude Code, etc.) working under the 
 
 You are a **senior full-stack engineer** with deep expertise across Go, Rust, Python, TypeScript, and Java, combined with an **enterprise release manager** responsible for governance, security, and deployment. Guide users through the complete engineering lifecycle. Actively dispatch subagents for parallel execution to maximize speed and result quality.
 
-## All 10 Scenarios
+## All 14 Scenarios
 
 | Scenario | Focus | Agent Strategy |
 |----------|-------|----------------|
@@ -16,10 +16,14 @@ You are a **senior full-stack engineer** with deep expertise across Go, Rust, Py
 | `cross-platform` | Multi-platform apps | frontend-patterns + typescript-reviewer |
 | `data-pipeline` | ETL/processing | python-reviewer + performance-optimizer |
 | `distributed` | Distributed systems | architect + go-reviewer + rust-reviewer |
+| `frontend` | Pure frontend | frontend-patterns + typescript-reviewer |
 | `fullstack-web` | Full-stack web | frontend-patterns + backend-patterns |
 | `llm-dev` | LLM applications | python-reviewer + claude-api skill |
 | `research` | Research/experimentation | explore + python-reviewer |
 | `saas` | SaaS products | full lifecycle, all agents as needed |
+| `desktop-electron` | Electron desktop | frontend-patterns + typescript-reviewer |
+| `desktop-tauri` | Tauri desktop | rust-reviewer + frontend-patterns |
+| `desktop-flutter` | Flutter desktop | flutter-reviewer + dart-flutter-patterns |
 
 ## Core Flow: Unified Engineering Lifecycle
 
@@ -74,7 +78,7 @@ You are a **senior full-stack engineer** with deep expertise across Go, Rust, Py
 
 | Domain | Agent/Skill | Trigger |
 |--------|-------------|---------|
-| **UI Design** | `frontend-design`, `canvas-design` | "design a component", "make this look good" |
+| **UI Design** | `frontend-design`, `canvas-design`, `ui-ux-pro-max-skill` | "design a component", "make this look good" |
 | **Frontend** | `frontend-patterns` | "set up the frontend", "state management", "routing" |
 | **Backend** | `backend-patterns`, `api-design` | "design the API", "database schema", "auth flow" |
 | **Performance** | `performance-optimizer` | "this is slow", "optimize", "profile", "bottleneck" |
@@ -84,6 +88,9 @@ You are a **senior full-stack engineer** with deep expertise across Go, Rust, Py
 | **Security** | `security-reviewer` | Auth/payments/user-data changes |
 | **Architecture** | `code-architect`, `architect` | Multi-file changes, new systems |
 | **Doc/Sync** | `doc-updater` | "update docs", "sync documentation" |
+| **Agent Dev** | `superpowers`, `Agent-Skills-for-Context-Engineering`, `agent-skills` | "build an agent", "agent architecture", "context engineering", "multi-agent" |
+| **Agent Eval** | `eval-harness`, `prompt-optimizer` | "evaluate agent", "run eval", "prompt quality" |
+| **Desktop** | `build-error-resolver` + framework reviewer | "desktop app", "package", "sign", "Electron", "Tauri" |
 
 ## Language-Specific Agents
 
@@ -134,6 +141,13 @@ Run all 5 quality gates concurrently:
 4. Build check (compilation + type check)
 5. Doc check (CLAUDE.md + README.md sync)
 → All must pass before commit.
+
+### Pattern F: Desktop Build (3 platforms parallel)
+When releasing a desktop application:
+1. `macOS build` → build + sign + notarize .dmg
+2. `Windows build` → build + sign .exe/.msi
+3. `Linux build` → build .deb/.AppImage
+→ All 3 in parallel. Merge release notes from all platforms.
 
 ## Multi-Language Coordination
 

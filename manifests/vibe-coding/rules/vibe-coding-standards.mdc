@@ -66,6 +66,7 @@ alwaysApply: true
 | Microservices | ★★★ | ★★ | ★ | ★★ | ★★★ |
 | Rapid Prototyping | ★ | — | ★★★ | ★★★ | — |
 | Cloud / Serverless | ★★★ | ★ | ★★ | ★★★ | ★ |
+| Desktop App | ★ | ★★ | — | ★★ | ★ |
 
 ★★★ = excellent fit, ★★ = good fit, ★ = possible, — = not recommended
 
@@ -86,3 +87,4 @@ When a project spans multiple languages:
 - Using Rust for a simple CRUD API when Go would be faster to develop and maintain
 - Using Java for a small CLI tool when Go would produce a smaller binary faster
 - Mixing 3+ languages in a single project without clear service boundaries
+- Using Electron for a simple desktop app when Tauri (Rust) produces a smaller, faster app

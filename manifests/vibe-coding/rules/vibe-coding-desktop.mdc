@@ -1,0 +1,115 @@
+---
+description: Desktop Application Development rules — Electron, Tauri, Flutter Desktop,
+  IPC patterns, packaging, code signing, auto-update, platform store deployment
+globs: ["**/*.{ts,tsx,js,jsx,dart,rs,kt,cpp,cs}"]
+alwaysApply: false
+---
+
+# Desktop Application Development Rules
+
+## 1. Framework Selection
+
+| Criteria | Electron | Tauri | Flutter Desktop |
+|----------|----------|-------|-----------------|
+| Bundle size | ~150MB | ~5MB | ~20MB |
+| Memory usage | ~200MB | ~50MB | ~80MB |
+| Startup time | ~2s | ~0.3s | ~0.5s |
+| UI technology | HTML/CSS/JS | HTML/CSS/JS | Skia (Dart) |
+| Backend language | Node.js | Rust | Dart |
+| Ecosystem | Mature | Growing | Emerging |
+
+**Decision guide**:
+- **Electron**: When you need full Node.js + Chromium access, rich ecosystem, or large team. Avoid for simple apps that could be Tauri.
+- **Tauri**: When bundle size and performance matter. Rust backend + Web UI. Best for new projects.
+- **Flutter Desktop**: When sharing mobile+desktop codebase. Custom pixel-level UI. Not for web-heavy workflows.
+- **.NET MAUI**: Windows-first or existing .NET team. Not covered in depth here.
+
+## 2. IPC (Inter-Process Communication)
+
+### Electron
+- `contextBridge` + `ipcRenderer.invoke` / `ipcMain.handle` — never expose `remote`.
+- `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`.
+- Preload scripts are the ONLY bridge between renderer and main process.
+
+### Tauri
+- Frontend calls `invoke('command_name', args)` → Rust `#[tauri::command]` function.
+- No direct filesystem/OS access from frontend — all goes through Rust commands.
+- Generate TypeScript types from Rust command signatures.
+
+### Principle of Least Privilege
+- Expose only the commands each window needs.
+- Validate all IPC parameters on the backend side.
+- For large data: use streaming or chunking, not serialized giant JSON.
+
+## 3. Security Model
+
+- **CSP headers**: Always configure Content-Security-Policy for renderer windows.
+- **Input validation**: All IPC parameters must be sanitized at backend level.
+- **File system scope**: Limit to `app_data_dir` and `app_config_dir` only.
+- **No eval-like patterns**: Never `eval()` or `Function()` user/LLM content in renderer.
+
+## 4. Packaging & Distribution
+
+### Platform Targets
+
+| Platform | Electron | Tauri | Flutter |
+|----------|----------|-------|---------|
+| macOS | .dmg, .pkg (electron-builder) | .dmg (tauri-bundler) | .app bundle |
+| Windows | .exe, .msi (NSIS/MSI) | .msi, .exe (WiX) | .exe |
+| Linux | .deb, .rpm, .AppImage | .deb, .AppImage | .deb, .AppImage |
+
+### Config
+- Electron: `electron-builder.yml` or `forge.config.js`
+- Tauri: `tauri.conf.json > bundle` section
+- Flutter: `flutter_distributor` or platform-specific configs
+
+## 5. Code Signing & Notarization
+
+### macOS
+```bash
+codesign --deep --force --verify --verbose --sign "Developer ID" MyApp.app
+xcrun notarytool submit MyApp.dmg --apple-id $APPLE_ID --team-id $TEAM_ID --wait
+xcrun stapler staple MyApp.dmg
+```
+
+### Windows
+```bash
+signtool sign /fd SHA256 /a /f certificate.pfx /p $CERT_PASSWORD MyApp.exe
+```
+
+### Linux
+- Flatpak/Flathub: repository signing, no local code signing required.
+- Debian/Ubuntu: `debsign` with GPG key.
+
+Store certificates in CI secret vaults (GitHub Secrets, Azure Key Vault). Never in repo.
+
+## 6. Auto-Update
+
+| Framework | Solution | Update Source |
+|-----------|----------|---------------|
+| Electron | `electron-updater` | GitHub Releases, S3 |
+| Tauri | `@tauri-apps/plugin-updater` | JSON manifest with signature hash |
+| Flutter | `shorebird` / `sparkle_flutter` | Shorebird servers or self-hosted |
+
+Update strategy: silent background download + user prompt to restart. Always provide rollback capability.
+
+## 7. Platform Store Deployment
+
+| Store | Requirement |
+|-------|-------------|
+| Mac App Store | Sandbox entitlement, receipt validation, MAS-specific Electron config |
+| Microsoft Store | MSIX packaging, Partner Center submission, automatic updates |
+| Flathub | Flatpak manifest, CI integration, automated metadata validation |
+
+## 8. Debugging & Crash Reporting
+
+- Electron: DevTools in renderer, `--inspect` for main process, `crashReporter`
+- Tauri: `RUST_LOG=debug` + `tauri dev --inspect`, Rust backtraces
+- Crash reporting: Sentry / Crashpad / custom crash log upload
+- Always include app version + OS version + stack trace in crash reports
+
+## References
+
+- Skills: `dart-flutter-patterns`, `swiftui-patterns`
+- Scenarios: `scenarios/desktop-electron/`, `scenarios/desktop-tauri/`, `scenarios/desktop-flutter/`
+- Reference: `references/desktop-frameworks.md` — full framework comparison

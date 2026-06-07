@@ -50,6 +50,12 @@ CLI / dev tool:
 Mobile:
   Kotlin/Swift (native) or TypeScript (React Native/Expo)
   (Go/Rust/Python/Java are not recommended for mobile UI)
+
+	Desktop:
+	  Electron (TypeScript) — if web UI and full Node.js access needed
+	  Tauri (TypeScript + Rust) — if minimal binary + best performance
+	  Flutter Desktop (Dart) — if mobile codebase sharing
+	  .NET MAUI (C#) — if Windows-only or existing .NET team
 ```
 
 **Q7: Team expertise and project constraints**
@@ -80,6 +86,7 @@ After all the technical analysis, the best language is the one your team can shi
 | Cloud / Serverless | ★★★ | ★ | ★★ | ★★★ | ★ |
 | Real-time / WebSocket | ★★★ | ★★★ | ★ | ★★★ | ★★ |
 | Game Development | ★ | ★★★ | ★ | ★★ | ★★ |
+| Desktop App | ★ | ★★ | — | ★★ | ★ |
 
 ★★★ = excellent fit, ★★ = good fit, ★ = possible, — = not recommended
 
@@ -101,3 +108,6 @@ When the same project uses multiple languages, use this pattern:
 | Infrastructure / operators | Go | CNCF ecosystem standard |
 | Data pipeline orchestration | Python | Airflow, Prefect, Dagster |
 | Enterprise integration layer | Java | Existing middleware ecosystem |
+| Desktop app (Electron) | TypeScript | Mature web UI + Node.js ecosystem |
+| Desktop app (Tauri) | TypeScript + Rust | Minimal binary, best performance |
+| Desktop app (Flutter) | Dart | Shared mobile+desktop Dart code |

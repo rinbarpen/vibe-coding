@@ -39,8 +39,9 @@ Initialize a project with the Unified Vibe Coding Manifest.
 Scenarios:
   --scenario=<name>[,<name>...]    One or more scenarios to activate
                                      agent-dev / api-service / cli-tool / cross-platform /
-                                     data-pipeline / distributed / fullstack-web /
-                                     llm-dev / research / saas
+                                     data-pipeline / distributed / frontend / fullstack-web /
+                                     llm-dev / research / saas /
+                                     desktop-electron / desktop-tauri / desktop-flutter
 
 Cloud Platform:
   --cloud=<provider>               Configure cloud deployment support

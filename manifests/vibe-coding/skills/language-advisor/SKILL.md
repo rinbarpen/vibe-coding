@@ -35,3 +35,6 @@ triggers:
 | Rapid prototype | Python or TypeScript | — |
 | Event processing | Go | Rust (low-latency) |
 | Data pipeline | Python | Go (high throughput) |
+| Desktop (Electron) | TypeScript | Rust (via Tauri) |
+| Desktop (Tauri) | TypeScript + Rust | — |
+| Desktop (Flutter) | Dart | — |

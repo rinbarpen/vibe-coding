@@ -1,0 +1,49 @@
+---
+description: Electron Desktop scenario rules — preload isolation, window management,
+  build configuration, macOS/Windows platform specifics
+globs: ["**/*.{ts,tsx,js,jsx,json,yml,yaml}"]
+alwaysApply: false
+---
+
+# Electron Desktop Rules
+
+## 1. Security
+
+- `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true` — non-negotiable.
+- CSP: `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'`.
+- `contextBridge.exposeInMainWorld('api', { ... })` — expose only named functions, never entire modules.
+- Never `webPreferences.preload` with `nodeIntegration: true`.
+- Validate all IPC parameters in main process before acting on them.
+
+## 2. Build & Packaging
+
+- Use `electron-vite` or `vite-plugin-electron` for fast dev + HMR.
+- `electron-builder.yml`: separate configs for mac/win/linux targets.
+- asar packaging: true. Unpack native modules only.
+- Bundle analysis: `electron-builder --dir` to inspect size before packaging.
+
+## 3. Window Management
+
+- Single instance lock: `app.requestSingleInstanceLock()` + `second-instance` event.
+- Protocol handling: `app.setAsDefaultProtocolClient('myapp')` + `open-url` event.
+- Tray support: show/hide main window, quit action.
+- Restore window position/size from persisted config.
+
+## 4. Platform Specifics
+
+### macOS
+- `app.dock.setMenu()` for custom dock menu.
+- `app.on('open-file')` for file association.
+- `systemPreferences.askForMediaAccess()` for microphone/camera.
+
+### Windows
+- Auto-start: `app.setLoginItemSettings()` in HKCU registry.
+- NSIS installer: custom install path, start menu shortcut.
+- Windows notifications: `electron-windows-notifications` or native Notification API.
+
+## 5. Auto-Update
+
+- `electron-updater`: publish to GitHub Releases or S3.
+- Check on app start + periodically (every 4 hours).
+- Download in background, prompt user to restart.
+- Version rollback: keep previous version in `app.getPath('exe')` backup.

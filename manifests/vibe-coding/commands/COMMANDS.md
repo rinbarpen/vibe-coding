@@ -16,6 +16,12 @@ Complete command index for the unified development manifest. All commands are av
 | `/scaffold <language> <archetype>` | `scaffold/COMMAND.md` | Bootstrap new project from scenario template with language-appropriate structure |
 | `/implement <task>` | `implement/COMMAND.md` | Implement a feature following TDD: RED (failing test) → GREEN (minimal impl) → IMPROVE (refactor) |
 
+## Agent Development
+
+| Command | File | Description |
+|---------|------|-------------|
+| `/agent-eval <mode>` | `agent-eval/COMMAND.md` | Run agent eval suite (regression/benchmark/adversarial) with metrics & reporting |
+
 ## Quality Assurance
 
 | Command | File | Description |
@@ -29,6 +35,8 @@ Complete command index for the unified development manifest. All commands are av
 |---------|------|-------------|
 | `/cloud-deploy <target> <platform>` | `cloud-deploy/COMMAND.md` | Deploy to cloud platform (vercel/cloudflare/tencent/alibaba/huawei) |
 | `/release` | `release/COMMAND.md` | Execute enterprise release workflow: version bump, CHANGELOG update, GPG-signed tag, GitHub Release |
+| `/frontend-check <mode>` | `frontend-check/COMMAND.md` | Frontend quality check: a11y, performance (CWV), bundle size, visual regression |
+| `/desktop-build <framework> <platform>` | `desktop-build/COMMAND.md` | Build, package, sign desktop app (Electron/Tauri/Flutter × mac/win/linux) |
 
 ## Maintenance
 

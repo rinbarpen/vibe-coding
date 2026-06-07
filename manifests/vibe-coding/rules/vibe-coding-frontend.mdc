@@ -64,8 +64,69 @@ Separate concerns by state origin:
 - Discriminated unions for state machine patterns
 - Zod schemas for runtime validation at API boundaries
 
+## CSS Methodology
+
+| Approach | When to Use | Avoid |
+|----------|-------------|-------|
+| Tailwind CSS | Utility-first for layout, spacing, typography. Default choice. | `@apply` for everything — extract repeated patterns only |
+| CSS Modules | Scoped class names, component-local styles, `composes:` for shared | Global styles leaking via `:global` |
+| styled-components | Dynamic props-driven styling (runtime theme switching) | Performance-sensitive pages (runtime overhead) |
+| vanilla-extract / linaria | Zero-runtime CSS-in-JS, type-safe design tokens | Projects where Tailwind is already established |
+
+- Responsive: `sm:` / `md:` / `lg:` / `xl:` Tailwind breakpoints, or `@media` queries for CSS Modules.
+- Design tokens as CSS custom properties: `--color-surface`, `--text-base`, `--space-section`.
+- No inline styles except for genuinely dynamic values (e.g., progress bar width).
+
+## Component Library & Design System
+
+- **shadcn/ui**: Copy/modify pattern. Best for custom design systems. Not a dependency.
+- **Radix UI / Ark UI**: Headless primitives. Full style control, full accessibility built in.
+- **MUI / Ant Design**: Full design systems. Use when design velocity > customization needs.
+- **Storybook / Histoire**: Isolated component development + visual regression testing.
+- Design tokens as single source of truth → CSS custom properties → shared with design tools (Figma).
+- Compound component pattern for complex widgets: `<Select.Trigger>`, `<Select.Options>` etc.
+
+## Form Design Patterns
+
+- React Hook Form (RHF) + Zod for schema validation — default approach.
+- Uncontrolled inputs by default (better performance). Controlled only for conditional fields.
+- Validation strategies: `onBlur` (standard), `onChange` (real-time feedback), `onSubmit` (fallback).
+- Server-side validation errors must be merged back into client form state via `setError`.
+- File upload: drag-and-drop zone + chunked upload + blob storage. Show progress bar.
+- Form accessibility: every input has `<label>`, errors linked via `aria-describedby`.
+
+## Internationalization (i18n)
+
+- **next-intl** (Next.js), **react-i18next** (React), **vue-i18n** (Vue) — framework-native solutions.
+- All user-visible strings stored in `locales/<lang>.json`. Zero hardcoded UI strings.
+- Type-safe message keys: `@formatjs/cli` (React) or `typesafe-i18n`.
+- ICU message syntax for plurals, gender, and nesting: `{count, plural, =1 {1 item} other {# items}}`.
+- RTL support: `dir="rtl"` + logical CSS properties (`margin-inline-start` not `margin-left`).
+- Date/number formatting: `Intl.DateTimeFormat` / `Intl.NumberFormat` — locale-aware.
+
+## Icons, Images, Fonts
+
+### Icons
+- `lucide-react` / `lucide-vue` — tree-shakeable, consistent design, 1000+ icons.
+- Custom SVG: sprite sheet with `<use href="/sprite.svg#icon-name">`. Avoid inline `<svg>` duplication.
+- SVGR for importing SVGs as React components when custom styling is required.
+- All icons: `aria-hidden="true"` (decorative) or `aria-label="icon name"` (informative).
+
+### Images
+- Next.js `<Image>` (auto-optimize) or manual `<picture>` with AVIF/WebP sources.
+- Always set explicit `width` and `height` — prevents Cumulative Layout Shift.
+- `loading="lazy"` for below-fold. `fetchpriority="high"` for hero only.
+- Responsive `srcset` with at least 3 breakpoints (mobile, tablet, desktop).
+
+### Fonts
+- `next/font` for self-hosted variable fonts, `@fontsource` for npm packages.
+- Preload critical font weights (400, 700 for body; custom weights for headings).
+- `font-display: swap` mandatory. Accept FOUT, never FOIT.
+- Maximum 2 font families per project unless justified.
+
 ## References
 
-- Skill: `frontend-patterns`
+- Skill: `frontend-patterns`, `frontend-design`
 - Rules: `~/.claude/rules/web/patterns.md`, `~/.claude/rules/web/performance.md`
-- Agent: `typescript-reviewer`
+- Agent: `typescript-reviewer`, `a11y-architect`
+- Scenario: `scenarios/frontend/`

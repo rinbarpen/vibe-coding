@@ -1,0 +1,57 @@
+---
+description: Flutter Desktop scenario rules — platform adaptation, window management,
+  MethodChannel patterns, packaging and distribution for macOS/Windows/Linux
+globs: ["**/*.{dart,yaml,json}"]
+alwaysApply: false
+---
+
+# Flutter Desktop Rules
+
+## 1. Platform Adaptation
+
+- Use `Theme.of(context).platform` to detect the running platform.
+- Material 3 as baseline. Cupertino styling for macOS-specific widgets (buttons, dialogs, nav).
+- `defaultTargetPlatform` for platform-specific behavior in tests.
+- Avoid platform-conditional imports. Use `dart:io` Platform check + service abstraction instead.
+
+## 2. Window Management
+
+- `WindowManager` from `window_manager` package: set size, position, minimum constraints.
+- Listen to `windowManager.addListener` for resize/move events — update layout accordingly.
+- Multiple windows: `desktop_multi_window` package. Each window has its own controller.
+- Save/restore window position to `shared_preferences`.
+
+## 3. Platform Channels (MethodChannel / Pigeon)
+
+- Define API contracts with `pigeon` → generates typed host+client code.
+- One `MethodChannel` per feature domain (e.g., `com.myapp.notifications`, `com.myapp.filesystem`).
+- Handle `MissingPluginException` gracefully — user may be on unsupported platform.
+- All platform channel calls must have timeout + fallback.
+
+## 4. Menu Bar & System Tray
+
+- `MenuBar` widget for native macOS menu bar (`PlatformMenuBar` for Windows fallback).
+- System tray: `system_tray` package with `initSystemTray()` and menu items.
+- Keyboard shortcuts: `Shortcuts` + `Intent` with platform-appropriate key bindings (Cmd on macOS, Ctrl on Windows).
+
+## 5. File System & Dialogs
+
+- `file_picker` for open dialogs. `path_provider` for app directories.
+- `save_file_dialog` from `file_picker` for save-as workflows.
+- App data: `getApplicationSupportDirectory()` for SQLite/drift databases.
+- Never hardcode paths. Always use `path_provider` APIs.
+
+## 6. Packaging & Distribution
+
+- Build: `flutter build macos --release` / `flutter build windows --release` / `flutter build linux --release`.
+- Package: `flutter_distributor` for .dmg (macOS), .msi (Windows), .deb/.AppImage (Linux).
+- macOS signing: configure `macos/Runner/DebugProfile.entitlements` and `Release.entitlements`.
+- Windows signing: integrate `signtool` via `flutter_distributor` config.
+- Linux: Flathub compatible Flatpak manifest via `flutter_distributor package --format flatpak`.
+
+## 7. Auto-Update
+
+- `shorebird` for Flutter code push — over-the-air updates for Dart code.
+- `sparkle_flutter` for macOS full binary updates.
+- Windows: MSIX automatic updates via Microsoft Store or custom updater.
+- Linux: Flathub handles updates automatically.
