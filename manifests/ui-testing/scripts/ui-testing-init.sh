@@ -78,6 +78,23 @@ if [[ -n "$SCENARIO" ]]; then
 fi
 
 echo ""
+echo "[ui-testing-init] Installing native agents..."
+for runtime_agents in ".claude/agents" ".codex/agents"; do
+    SOURCE_DIR="$MANIFEST_DIR/$runtime_agents"
+    if [[ -d "$SOURCE_DIR" ]]; then
+        mkdir -p "$TARGET_DIR/$runtime_agents"
+        for agent_file in "$SOURCE_DIR"/*; do
+            [[ -f "$agent_file" ]] || continue
+            agent_name="$(basename "$agent_file")"
+            if [[ ! -f "$TARGET_DIR/$runtime_agents/$agent_name" ]]; then
+                cp "$agent_file" "$TARGET_DIR/$runtime_agents/$agent_name"
+                echo "  -> $runtime_agents/$agent_name"
+            fi
+        done
+    fi
+done
+
+echo ""
 echo "[ui-testing-init] Done. UI Testing Manifest installed."
 echo ""
 echo "Next steps:"

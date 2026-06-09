@@ -75,4 +75,20 @@ if [ -d "$COMMANDS_SOURCE" ]; then
     done
 fi
 
+# 8. 复制 Claude Code / Codex 原生 agents
+for runtime_agents in ".claude/agents" ".codex/agents"; do
+    SOURCE_DIR="$MANIFEST_DIR/$runtime_agents"
+    if [ -d "$SOURCE_DIR" ]; then
+        echo "Installing $runtime_agents..."
+        mkdir -p "$runtime_agents"
+        for agent_file in "$SOURCE_DIR"/*; do
+            [ -f "$agent_file" ] || continue
+            agent_name=$(basename "$agent_file")
+            if [ ! -f "$runtime_agents/$agent_name" ]; then
+                cp "$agent_file" "$runtime_agents/$agent_name"
+            fi
+        done
+    fi
+done
+
 echo "Project initialized successfully with scenarios: ${SCENARIOS:-default}"

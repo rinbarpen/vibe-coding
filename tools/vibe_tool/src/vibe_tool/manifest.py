@@ -218,6 +218,27 @@ def _generic_init(
                     shutil.copy2(cmd_file, dst_file)
                     actions.append(("copy", dst_file))
 
+    # Native Claude Code and Codex agent definitions.
+    for agents_rel in [Path(".claude/agents"), Path(".codex/agents")]:
+        agents_dir = src / agents_rel
+        if not agents_dir.is_dir():
+            continue
+
+        for agent_file in sorted(agents_dir.rglob("*")):
+            if not agent_file.is_file():
+                continue
+            rel_agent = agent_file.relative_to(agents_dir)
+            dst_file = target / agents_rel / rel_agent
+            if dst_file.exists() and not force:
+                actions.append(("skip", dst_file))
+                continue
+            if dry_run:
+                actions.append(("copy", dst_file))
+            else:
+                dst_file.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(agent_file, dst_file)
+                actions.append(("copy", dst_file))
+
     # Print summary
     copies = [a for a in actions if a[0] == "copy"]
     skips = [a for a in actions if a[0] == "skip"]
