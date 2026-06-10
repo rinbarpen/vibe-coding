@@ -1,249 +1,247 @@
 # Omnidraw Scenario Prompt Templates
 
-Copy-paste dispatch prompts organized by scenario. Each template includes the tool skill to invoke and a ready-to-use prompt for the user's specific content.
+Ready-to-use dispatch prompts organized by scenario. Each template includes the target sub-skill.
 
 ---
 
 ## Patent Figures (专利附图)
 
 ### Structure Diagram (结构示意图)
-**Tool**: [drawio](../drawio/SKILL.md)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw a patent structure diagram (中国专利结构示意图) for [device/system name]:
-- Show modules: [module A], [module B], [module C], [module D]
-- Use orthogonal connectors, clean lines
-- Font: 15px, black text
-- Black-and-white only, no grayscale shading
-- A–H format: A. Structure Diagram, B. [title], C. [nodes], D. [edges], E. Top-down, F. Patent, G. PNG 300dpi
-- Caption outside image: 图[N] [title]结构示意图
+Draw a patent structure diagram (结构示意图) for [device/system]:
+Modules: [A], [B], [C], [D]. Orthogonal connectors, 15px Chinese labels.
+Black-and-white only, no grayscale. Caption: 图N [title]结构示意图.
+Export PNG 300dpi.
 ```
 
-### Flowchart (方法流程图)
-**Tool**: [drawio](../drawio/SKILL.md)
+### Method Flowchart (方法流程图)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw a patent method flowchart (中国专利方法流程图) for [method name]:
-- Steps: [step1] → [step2] → [step3] → [decision step] → [branch A] / [branch B]
-- Diamond for decision, rounded rect for steps, circle for start/end
-- Font: 15px, Chinese labels
-- Black-and-white, orthogonal lines
-- Caption outside image: 图[N] [title]方法流程图
+Draw a patent method flowchart (方法流程图):
+[step1] → [step2] → {decision} → [branchA] / [branchB].
+Diamond for decision, rounded rect for steps.
+15px Chinese labels, B&W, orthogonal lines.
+Caption: 图N [title]方法流程图.
 ```
 
-### Circuit / Connection Diagram (电路/连接图)
-**Tool**: [drawio](../drawio/SKILL.md)
+### Circuit Diagram (电路/连接图)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw a patent connection diagram for [circuit/system]:
-- Components: [component 1] connected to [component 2] via [connection type]
-- Show ports/interfaces between components
-- Black-and-white, no shading
-- Orthogonal lines, consistent spacing
-- 15px labels inside components
+Draw a patent connection diagram:
+[component1] connected to [component2] via [connection].
+Show ports/interfaces. B&W, 15px labels, orthogonal lines.
 ```
 
 ---
 
-## Academic Paper Figures (English)
+## Academic Paper — English
 
 ### Architecture Diagram (IEEE)
-**Tool**: [drawio](../drawio/SKILL.md)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw an IEEE-compliant architecture diagram for [system]:
-- Show [N] main components with clear boundaries
-- Grayscale only, no color
-- LaTeX math for any formulas
-- 300 DPI minimum
-- Export as EPS/PDF
-- Caption style: Fig. N. [Title].
-- Use sans-serif font for labels, consistent spacing
+Draw IEEE-compliant architecture diagram for [system]:
+[N] main components, clear boundaries, grayscale.
+LaTeX math labels, 300 DPI. Export EPS/PDF.
+Caption: Fig. N. [Title].
 ```
 
 ### Pipeline / Training Flow
-**Tool**: [mermaid](../mermaid/SKILL.md) or [drawio](../drawio/SKILL.md)
+**→ [mermaid](../mermaid/SKILL.md) or [drawio](../drawio/SKILL.md)**
 ```
 Create a pipeline diagram showing [process]:
-- Stages: [stage1] → [stage2] → [stage3] → [stage4]
-- Show data flow between stages
-- Label dimensions of data at each stage
-- Suitable for [conference — CVPR/NeurIPS/ICML/ACL]
-- Single-column or dual-column layout as appropriate
+Stages: [s1] → [s2] → [s3] → [s4] with data dimensions.
+Suitable for [CVPR/NeurIPS/ICML/ACL]. Dual/single column as needed.
 ```
 
-### Results Comparison Chart
-**Tool**: [other-draw-tools](../other-draw-tools/SKILL.md) (matplotlib)
+### Results Chart
+**→ [matplotlib](../matplotlib/SKILL.md)**
 ```
-Generate a matplotlib bar chart comparing [method] against [N] baselines:
-- Metrics: [metric1], [metric2], [metric3]
-- Baselines: [method A], [method B], [method C], [method D], Ours
-- Include error bars (std dev over 5 runs)
-- Use distinguishable grayscale patterns
-- Font: serif, 12pt labels, 14pt title
-- Save as PDF, 300 DPI
+Generate a bar chart comparing [method] vs [N] baselines:
+Metrics: [m1, m2, m3]. Baselines: [names]. Ours last.
+Error bars (std, 5 runs). Grayscale patterns.
+Serif font 12pt, 300 DPI. Save as PDF.
+```
+
+### Mechanism Schematic
+**→ [scientific-schematics](../scientific-schematics/SKILL.md)**
+```
+Generate a scientific schematic of [mechanism]:
+Key components: [list]. Clean lines, consistent labels.
+Journal-ready for [Nature/Science/Cell/...].
 ```
 
 ---
 
-## Academic Paper Figures (Chinese, 中文期刊)
+## Academic Paper — Chinese (中文期刊)
 
 ### 系统架构图
-**Tool**: [drawio](../drawio/SKILL.md)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-绘制用于[期刊名称]的系统架构图：
-- [N]个主要模块：[模块A]、[模块B]、[模块C]、[模块D]
-- 模块间用箭头标注数据流向
-- 宋体 10-12pt 标注，图题为黑体 14pt
-- 中英双语图注（如有缩写）
-- 灰度图，300 DPI
-- 导出为 EPS/PDF
-- 图题：图N [系统名称]系统架构图
+绘制用于[期刊名]的系统架构图：
+[N]个模块：[A], [B], [C], [D]。宋体 10-12pt。
+中英双语图注，灰度图，300 DPI。导出 EPS/PDF。
+图题：图N [系统名]系统架构图
 ```
 
-### 实验结果对比图
-**Tool**: [other-draw-tools](../other-draw-tools/SKILL.md) (matplotlib)
+### 实验结果图
+**→ [matplotlib](../matplotlib/SKILL.md)**
 ```
-用 matplotlib 绘制实验结果对比图：
-- 对比指标：[指标1]、[指标2]
-- 对比方法：[方法A]、[方法B]、[方法C]、本文方法
-- 柱状图，灰度区分，添加误差棒
-- 字体：宋体/SimSun，12pt
-- 保存为 PDF，300 DPI
-- 图题：图N [实验名称]结果对比
+用 matplotlib 绘制实验结果对比：
+指标：[m1, m2]。对比方法：[A], [B], [C], 本文方法。
+柱状图，灰度区分，误差棒。SimHei 字体 12pt，300 DPI PDF。
+图题：图N [实验名]结果对比
 ```
 
 ---
 
 ## Technical Architecture
 
-### Microservices Architecture
-**Tool**: [drawio](../drawio/SKILL.md)
+### Microservices
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw a microservices architecture diagram for [system name]:
-- API Gateway → [Service A], [Service B], [Service C]
-- Each service has its own database
-- Shared Redis cache layer
-- Message queue (RabbitMQ/Kafka) between [Service X] and [Service Y]
-- Service discovery and config server
-- Use layered layout: gateway layer → service layer → data layer
-- Professional style with blue/green/gray palette
+Draw microservices architecture for [system]:
+API Gateway → [Service A], [Service B], [Service C].
+Each service has own DB. Redis cache layer. Message queue.
+Layered layout: gateway → services → data.
+Professional style, blue/green/gray palette.
 ```
 
-### Cloud Infrastructure (AWS)
-**Tool**: [drawio](../drawio/SKILL.md)
+### AWS Cloud
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw an AWS architecture diagram:
-- Route 53 → CloudFront → ALB → ECS Fargate (2 AZs)
-- RDS Multi-AZ with read replica
-- ElastiCache Redis cluster
-- S3 for static assets and backups
-- CloudWatch for monitoring
-- Use official AWS icons
-- Group by VPC with public/private subnet boundaries
+Draw AWS architecture: Route53 → CloudFront → ALB → ECS (2 AZs).
+RDS Multi-AZ + read replica. ElastiCache. S3. CloudWatch.
+Official AWS icons. VPC with public/private subnets.
 ```
 
-### System Context (C4)
-**Tool**: [mermaid](../mermaid/SKILL.md) (C4Context)
+### C4 Context
+**→ [mermaid](../mermaid/SKILL.md)**
 ```
-Create a C4 system context diagram for [system]:
-- Users/Actors: [list user types]
-- Internal systems: [list internal systems]
-- External systems: [list external dependencies]
-- Show data flow direction on each relationship
+C4Context: [system]. Person/System/System_Ext.
+Data flow direction on each relationship.
 ```
 
 ---
 
 ## Presentation / Pitch Deck
 
-### Hero Image (16:9)
-**Tool**: [nano-banana](../nano-banana/SKILL.md) (v2)
+### Hero Image
+**→ [nano-banana](../nano-banana/SKILL.md) (v2)**
 ```
-Generate a 16:9 hero image for a presentation about [topic]:
-[Subject description matching the talk theme], professional yet modern, [color palette matching brand], clean composition with space for title text overlay, cinematic lighting, 4k quality, abstract-tech style.
+16:9 hero for presentation about [topic]:
+[Subject], professional modern, [brand colors].
+Space for title overlay, cinematic lighting, 8k, abstract-tech style.
 ```
 
 ### Architecture Slide
-**Tool**: [drawio](../drawio/SKILL.md)
+**→ [drawio](../drawio/SKILL.md)**
 ```
-Draw a presentation-ready architecture diagram for [system]:
-- Keep it simple — max 6-8 components
-- Use high-contrast colors for projector visibility
-- Large font (18pt+), bold labels
-- Include company/product logo area
-- Export as high-res PNG (1920x1080)
-- Dark or light theme depending on slide deck
+Presentation-ready architecture: [system], max 8 components.
+High-contrast for projector. 18pt+ bold labels.
+Export PNG 1920x1080. [Dark/light] theme.
 ```
 
 ### Data Chart Slide
-**Tool**: [other-draw-tools](../other-draw-tools/SKILL.md) (matplotlib)
+**→ [matplotlib](../matplotlib/SKILL.md)**
 ```
-Generate presentation-ready data chart:
-- [Chart type] showing [data]
-- Large fonts (16pt+), high contrast
-- Simple legend, minimal grid lines
-- Slide aspect ratio (16:9)
-- Save as PNG 1920x1080
-- [Color palette — match brand]
+Presentation data chart: [type] showing [data].
+16pt+ fonts, high contrast. 16:9 aspect.
+Export PNG 1920x1080. Match brand colors.
 ```
 
 ---
 
-## Quick / Embedded (Markdown)
+## UML Modeling
 
-### Quick Flowchart
-**Tool**: [mermaid](../mermaid/SKILL.md)
+### Class Diagram
+**→ [plantuml](../plantuml/SKILL.md)**
 ```
-````mermaid
+PlantUML class diagram: [Domain] model.
+[EntityA] { fields, methods }. [EntityB] { fields, methods }.
+Relationships with multiplicities. Notes for invariants.
+```
+
+### Use Case
+**→ [plantuml](../plantuml/SKILL.md)**
+```
+PlantUML use case: [System].
+Actors: [list]. Use cases: [list]. Include/extend relationships.
+```
+
+---
+
+## Quick Embedded (Markdown)
+
+### Flowchart
+**→ [mermaid](../mermaid/SKILL.md)**
+````markdown
+```mermaid
 graph TD
-    A[[Start]] --> B[Process 1]
-    B --> C{Decision?}
-    C -->|Yes| D[Path A]
-    C -->|No| E[Path B]
-    D --> F[[End]]
-    E --> F
+    A[Start] --> B{Decision?}
+    B -->|Yes| C[Action A]
+    B -->|No| D[Action B]
+```
 ````
-```
 
-### Quick API Sequence
-**Tool**: [mermaid](../mermaid/SKILL.md)
-```
-````mermaid
+### Sequence
+**→ [mermaid](../mermaid/SKILL.md)**
+````markdown
+```mermaid
 sequenceDiagram
-    Client->>API: POST /endpoint
+    Client->>API: Request
     API->>DB: Query
     DB-->>API: Result
     API-->>Client: Response
-````
 ```
+````
 
-### Quick ERD
-**Tool**: [mermaid](../mermaid/SKILL.md)
-```
-````mermaid
+### ERD
+**→ [mermaid](../mermaid/SKILL.md)**
+````markdown
+```mermaid
 erDiagram
-    [Entity A] ||--o{ [Entity B] : has
-    [Entity A] {
-        string id PK
-        string name
-    }
-    [Entity B] {
-        string id PK
-        string foreign_key FK
-    }
+    USER ||--o{ ORDER : places
+    USER { string id PK; string email UK }
+    ORDER { string id PK; float total }
+```
 ````
+
+---
+
+## Visio Delivery
+
+**→ [drawio](../drawio/SKILL.md) then [visio](../visio/SKILL.md)**
+```
+Step 1 (drawio): Draw [diagram type] for [purpose]. Standard shapes, orthogonal connectors. Export .drawio.
+Step 2 (visio): Open .drawio in draw.io desktop → Export as VSDX.
+Step 3 (visio): Polish in Visio — apply theme, add stencils, adjust page setup.
 ```
 
 ---
 
-## Visio Format Delivery
+## Image Generation
 
-### Diagram for Visio Export
-**Tool**: [drawio](../drawio/SKILL.md) → [visio](../visio/SKILL.md)
+### Photo-Realistic
+**→ [nano-banana](../nano-banana/SKILL.md) (v2)**
 ```
-Step 1 — Draw in Draw.io:
-"Draw a [diagram type] for [purpose]: [details]. Use standard shapes, orthogonal connectors, clear labels. Export as .drawio."
+[Subject], [environment], [lighting], [mood]. Photorealistic, [lens], professional photography, sharp focus, 8k.
+```
 
-Step 2 — Convert:
-"Open the .drawio file in draw.io desktop, File → Export as → VSDX."
+### Illustration
+**→ [gpt-image-2](../gpt-image-2/SKILL.md)**
+```
+A [style] illustration of [subject], [composition], [lighting], [color palette], [mood]. No text.
+```
 
-Step 3 — Polish in Visio (optional):
-"Open the VSDX in Visio. Apply [theme/template], adjust page setup for [A4/Letter], add any Visio-specific stencils."
+### Logo
+**→ [gpt-image-2](../gpt-image-2/SKILL.md)**
+```
+Logo for [brand]: [key symbol], [style — minimalist/geometric], [colors]. Clean vector, white background. No text.
+```
+
+### Poster
+**→ [canvas-design](../canvas-design/SKILL.md)**
+```
+Design a poster for [event/product]: [theme], [key visual elements], [typography], [color scheme]. Print-ready.
 ```
