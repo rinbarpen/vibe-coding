@@ -95,6 +95,19 @@ def _build_parser() -> argparse.ArgumentParser:
     csh_p = cfg_subs.add_parser("show", help="Show current configuration")
     csh_p.set_defaults(func=_cmd_config_show)
 
+    # ── stats ──
+    stats_p = subs.add_parser("stats", help="Show or manage skill usage statistics")
+    stats_subs = stats_p.add_subparsers(dest="stats_action")
+
+    stats_show_p = stats_subs.add_parser("show", help="Display skill usage statistics")
+    stats_show_p.add_argument("--by-tool", action="store_true", help="Group by tool name")
+    stats_show_p.add_argument("--json", dest="json_out", action="store_true", help="JSON output")
+    stats_show_p.set_defaults(func=_cmd_stats_show)
+
+    stats_reset_p = stats_subs.add_parser("reset", help="Reset all skill statistics")
+    stats_reset_p.add_argument("--yes", action="store_true", help="Skip confirmation")
+    stats_reset_p.set_defaults(func=_cmd_stats_reset)
+
     return parser
 
 
@@ -255,6 +268,28 @@ def _cmd_config_show(args) -> int:
     else:
         print(f"No config file at {CONFIG_FILE}")
         print("Use 'vibe config set-repo /path/to/vibe-coding' to create one.")
+    return 0
+
+
+def _cmd_stats_show(args) -> int:
+    from .stats import format_stats, get_usage_stats
+
+    data = get_usage_stats()
+    if args.json_out:
+        import json as j
+        print(j.dumps(data, indent=2, ensure_ascii=False))
+        return 0
+
+    print(format_stats(data, by_tool=args.by_tool))
+    return 0
+
+
+def _cmd_stats_reset(args) -> int:
+    from .stats import reset_stats
+
+    if reset_stats(force=args.yes):
+        print("Statistics reset.")
+        return 0
     return 0
 
 
