@@ -22,3 +22,15 @@
 - `src/agents/` - Agent logic and prompt templates
 - `src/tools/` - Tool implementations
 - `src/memory/` - Memory management logic
+
+## Skills
+
+Actively dispatch these skills for agent development tasks:
+
+| Skill | Use When |
+|-------|----------|
+| `superpowers` | Brainstorming, planning, TDD, subagent-driven dev, systematic debugging, code review |
+| `Agent-Skills-for-Context-Engineering` | Context engineering, multi-agent architecture, production agent optimization |
+| `agent-skills` | General agent coding guidelines, Vercel agent patterns |
+| `claude-api` | Anthropic SDK integration, prompt caching, tool use, streaming |
+| `agentic-engineering` | Eval-first execution, cost-aware model routing, agent decomposition |

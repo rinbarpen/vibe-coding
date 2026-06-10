@@ -1,0 +1,93 @@
+---
+description: System Deployment — CI/CD, containerization, cloud platform deployment, monitoring, rollback strategies
+globs: ["**/*.{yml,yaml,json,sh,tf,dockerfile,Dockerfile}"]
+alwaysApply: false
+---
+
+# System Deployment Rules
+
+## 1. Infrastructure as Code
+
+- All infrastructure is defined as code (Terraform, Pulumi, CloudFormation, CDK).
+- No manual click-ops in cloud consoles.
+- Infrastructure changes go through the same review and CI process as application code.
+- State files are stored remotely, never locally.
+
+## 2. Containerization
+
+- Multi-stage Docker builds: build stage → minimal runtime stage.
+- Runtime image uses non-root user (never `USER root`).
+- Use distroless or scratch base images for Go/Rust; `-slim` for Python/Node.
+- Image tagging: `git-sha` (immutable) + semantic version tag.
+- Pin base image digests, not tags (prevent unexpected updates).
+- Dockerfile `HEALTHCHECK` matching the application's `/healthz` endpoint.
+
+## 3. CI/CD Pipeline
+
+- Every PR triggers: lint, type check, unit test, integration test, build, security scan.
+- Main branch is always deployable.
+- CI pipeline takes < 10 minutes.
+- Secrets in CI: use CI platform's secret store, never in repository variables.
+- Artifact registry: store immutable build artifacts.
+
+## 4. Cloud Platform Deployment
+
+### Platform Quick Reference
+
+| Platform | Strengths | Best For |
+|----------|-----------|----------|
+| **Vercel** | Serverless, Edge Functions, Next.js native | Frontend, Jamstack, SSR apps |
+| **Cloudflare** | Workers (edge), Pages, KV/R2/D1, Durable Objects | Edge computing, global distribution |
+| **Tencent Cloud** | SCF, TKE (K8s), CDB (MySQL), COS | China-market apps, enterprise infra |
+| **Alibaba Cloud** | FC, ACK (K8s), RDS, OSS | China-market apps, large-scale enterprise |
+| **Huawei Cloud** | FG, CCE (K8s), GaussDB, OBS | China-market apps, government/enterprise |
+
+See `references/cloud-platforms/` for per-platform deployment guides.
+
+### General Cloud Deployment Principles
+
+- Use GitHub Actions or platform-native CLI for automated deployment.
+- Environment variables managed via platform secret store, never hardcoded.
+- Preview/staging deployments for every PR before production.
+- Multi-region deployment for production with automated failover.
+
+## 5. Monitoring and Observability
+
+Follow the **RED** method for every service:
+
+| Metric | What | Why |
+|--------|------|-----|
+| Rate | Requests per second | Traffic volume, anomaly detection |
+| Errors | Failed requests / total | Error rate, SLO tracking |
+| Duration | Latency distribution (p50/p95/p99) | Performance, regression detection |
+
+Plus:
+- **Structured logging**: JSON format, consistent field names across all languages.
+- **Distributed tracing**: W3C TraceContext propagation, OpenTelemetry SDK.
+- **Dashboards**: At least one per service showing RED metrics.
+- **Alerts**: On error rate spikes, latency degradation, and resource thresholds.
+
+## 6. Rollback Strategy
+
+- Every deployment has a documented rollback plan.
+- Automated rollback on error rate spike.
+- Database rollback: test the down migration in staging before production.
+- Feature flags decouple deployment from release.
+- Blue-green deployments preferred for zero-downtime.
+
+## 7. Pre-Deployment Checklist
+
+- [ ] All quality gates passed (lint, test, security, review, docs)
+- [ ] CI/CD pipeline green
+- [ ] Docker image built and pushed (multi-stage, non-root)
+- [ ] Database migration tested (can rollback?)
+- [ ] Environment variables configured for target environment
+- [ ] Rollback plan exists and is tested
+- [ ] Monitoring dashboards and alerts configured
+- [ ] Release notes drafted
+
+## References
+
+- Skills: `deployment-patterns`, `docker-patterns`
+- Rules: `~/.claude/rules/common/security.md`
+- Cloud references: `references/cloud-platforms/`

@@ -1,0 +1,51 @@
+---
+description: Frontend scenario rules — project structure, image/font optimization,
+  icon systems, routing, component organization
+globs: ["**/*.{ts,tsx,js,jsx,css,scss}"]
+alwaysApply: false
+---
+
+# Frontend Scenario Rules
+
+## 1. Project Structure
+
+- Next.js App Router: `app/` for routes, `src/components/` for shared UI, `src/lib/` for utilities.
+- Vite SPA: `src/pages/` for route components, `src/components/` for UI, `src/stores/` for state.
+- Co-locate tests: `button.test.tsx` next to `button.tsx`.
+- One component per file. Named exports preferred.
+
+## 2. Image Optimization
+
+- Use framework-native components: `<Image>` (Next.js), `<vite-imagetools>` (Vite).
+- AVIF first, WebP fallback, PNG/JPEG last resort.
+- Responsive `srcset` with at least 3 breakpoints (mobile, tablet, desktop).
+- Always set explicit `width` and `height` to prevent CLS.
+- Lazy load all below-the-fold images. `fetchpriority="high"` for hero images only.
+
+## 3. Font Loading
+
+- Self-host fonts via `next/font` or `@fontsource`. No Google Fonts CDN (privacy, perf).
+- Preload critical font weights (400, 700 for body; custom weights for headings).
+- `font-display: swap` for all fonts. Accept FOUT, avoid FOIT.
+- Maximum 2 font families per project unless justified.
+
+## 4. Icon System
+
+- Prefer `lucide-react` or `lucide-vue` — tree-shakeable, consistent design.
+- Custom icons: use SVG sprite sheet with `<use href="sprite.svg#icon-name">`.
+- SVGR for importing SVGs as React components when custom styling is needed.
+- All icons must have `aria-hidden="true"` or `aria-label` for accessibility.
+
+## 5. Routing Type Safety
+
+- Next.js: `pathpida` or built-in typed routes for type-safe navigation.
+- Vue: `unplugin-vue-router` for file-based typed routes.
+- SvelteKit: built-in typed routes.
+- Never use raw string paths for internal navigation.
+
+## 6. Component Organization
+
+- Presentational components receive props and render UI — no side effects.
+- Container components own data fetching and state — delegate rendering to presentational.
+- Custom hooks for shared logic: `useAuth()`, `useTheme()`, `useMediaQuery()`.
+- Compound components for complex widgets (e.g., `<Select.Trigger>`, `<Select.Options>`).

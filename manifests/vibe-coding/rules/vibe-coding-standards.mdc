@@ -1,22 +1,90 @@
 ---
-description: Vibe Coding 开发标准：环境管理、代理配置、可视化规范
+description: Vibe Coding Standards — environment management, language selection, cross-language rules, anti-patterns
 globs: ["**/*"]
 alwaysApply: true
 ---
 
 # Vibe Coding Standards
 
-遵循项目已有的开发标准和规范。
+## 1. Environment Management
 
-## 1. 环境管理
-- **Python**: 优先使用 `uv` 管理项目环境，其次使用 `conda` (默认 Python 3.10)。
-- **依赖**: 添加新依赖时，优先使用包管理器（如 `uv add`）。
+- **Python**: Use `uv` for project management; `conda` (Python 3.10) as fallback.
+- **Dependencies**: Always use the language-native package manager (`uv add`, `go get`, `cargo add`, `pnpm add`).
+- **Network**: Run `proxy_on` before downloading external resources.
 
-## 2. 网络与代理
-- **下载**: 下载文件或访问外部资源前，必须执行 `proxy_on` 开启代理。
+## 2. Visualization & Output
 
-## 3. 可视化规范
-- **Matplotlib**: 使用 `matplotlib` 绘制图表时，字体语言必须使用英语。
+- Matplotlib plots must use English labels.
+- Log output uses structured JSON logging across all services.
 
-## 4. 开源标准
-- 参考 `{{VIBE_MANIFEST}}/standards/open-source-standards.md` 确保项目符合开源规范。
+## 3. Open Source Standards
+
+- Reference `{{VIBE_MANIFEST}}/skills/standards/open-source-standards.md`.
+
+## 4. Language Selection — Quick Decision Tree
+
+**Q1: Does it need to run in a browser?**
+→ Yes: **TypeScript** (only browser-native option)
+→ No: Continue
+
+**Q2: Is it performance-critical (microsecond latency, high throughput)?**
+→ Yes: Continue to Q3
+→ No: Skip to Q4
+
+**Q3: Is memory safety critical (no GC pauses, no use-after-free)?**
+→ Yes: **Rust**
+→ No, but need good performance: **Go**
+
+**Q4: Is it data science, ML/AI, or scientific computing?**
+→ Yes: **Python**
+→ No: Continue
+
+**Q5: Is it enterprise software with existing Java infrastructure?**
+→ Yes: **Java**
+→ No: Continue
+
+**Q6: Is it a web backend or API service?**
+→ **Go** (preferred for new services)
+→ **TypeScript** (if full-stack same-language team)
+→ **Python** (if ML-serving or rapid prototyping)
+
+**Q7: Is it a CLI tool or developer tooling?**
+→ **Go** (fast compile, single binary, great cross-compilation)
+→ **Rust** (if maximum performance needed)
+→ **TypeScript** (if npm ecosystem integration needed)
+
+## 5. Language Fit Matrix
+
+| Requirement | Go | Rust | Python | TypeScript | Java |
+|-------------|:--:|:----:|:------:|:----------:|:----:|
+| Web Backend | ★★★ | ★★ | ★★ | ★★★ | ★★★ |
+| Web Frontend | — | — | — | ★★★ | — |
+| CLI Tool | ★★★ | ★★★ | ★ | ★★ | ★ |
+| Systems Programming | ★ | ★★★ | — | — | — |
+| ML/AI / Data Science | — | ★ | ★★★ | ★ | ★ |
+| Enterprise / Large-Scale | ★ | — | — | — | ★★★ |
+| Microservices | ★★★ | ★★ | ★ | ★★ | ★★★ |
+| Rapid Prototyping | ★ | — | ★★★ | ★★★ | — |
+| Cloud / Serverless | ★★★ | ★ | ★★ | ★★★ | ★ |
+| Desktop App | ★ | ★★ | — | ★★ | ★ |
+
+★★★ = excellent fit, ★★ = good fit, ★ = possible, — = not recommended
+
+## 6. Cross-Language Compatibility
+
+When a project spans multiple languages:
+
+1. **Contract-First Definitions**: Define all service boundaries with OpenAPI (REST) or Protobuf (gRPC) before writing implementation code.
+2. **Shared Schema Repository**: Keep shared type definitions in a language-agnostic format. Do not duplicate type definitions across languages.
+3. **Consistent Error Envelope**: All services return errors in the same JSON structure regardless of implementation language.
+4. **Unified Observability**: Structured JSON logging across services. Consistent trace propagation (W3C TraceContext).
+5. **Independent Lifecycles**: Each language component has its own build, test, and deploy pipeline.
+
+## 7. Language Anti-Patterns
+
+- Choosing a language because "we already know it" when a different language is clearly superior
+- Using Python for a high-throughput backend when Go would serve better
+- Using Rust for a simple CRUD API when Go would be faster to develop and maintain
+- Using Java for a small CLI tool when Go would produce a smaller binary faster
+- Mixing 3+ languages in a single project without clear service boundaries
+- Using Electron for a simple desktop app when Tauri (Rust) produces a smaller, faster app

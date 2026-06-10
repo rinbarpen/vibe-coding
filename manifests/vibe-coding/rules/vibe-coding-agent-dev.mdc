@@ -1,0 +1,75 @@
+---
+description: Agent Development rules — agentic loops, tool calling, prompt chains,
+  eval pipelines, CI/CD for agent systems, API key management
+globs: ["**/*.py", "**/*.ts", "**/*.js", "**/*.yaml", "**/*.yml", "**/*.json"]
+alwaysApply: false
+---
+
+# Agent Development Rules
+
+## 1. Agent Framework & Architecture
+
+- **LangChain / LangGraph**: For prompt chains with state machines. Use LangGraph when you need branching/loops.
+- **CrewAI / AutoGPT**: Multi-agent orchestration. Each agent has a defined role, tools, and memory.
+- **Custom loops**: When frameworks don't fit — simple `while` loop with tool-calling step + termination condition.
+- **Stateless vs Stateful**: Stateless agents (single prompt+response) for classification/summarization. Stateful agents (persistent memory) for assistants and multi-turn tasks.
+
+## 2. Prompt Versioning
+
+- Store all prompts in `src/prompts/` as separate versioned files (`v1.0`, `v1.1`).
+- Prompt changes require an eval run before merge.
+- Semantic versioning for prompts: MAJOR (breaking behavior change), MINOR (new capability), PATCH (wording).
+- Never inline long prompts in code. Load from the versioned prompt store.
+
+## 3. Tool Definition & Schema
+
+- Use Pydantic (Python) or Zod (TypeScript) for strict tool input/output schemas.
+- Every tool must have: description, parameter types, return type, and side-effect documentation.
+- Mark high-risk tools (file write, API call, database mutation) with `require_approval: true`.
+- Tool errors must be surfaced to the agent as structured error messages, not raw stack traces.
+
+## 4. Eval Pipeline (CI/CD)
+
+- Automated eval regression on every commit via `commands/agent-eval`.
+- Golden datasets stored in `data/eval/` — never modify without review.
+- Key metrics:
+  | Metric | Target | Alert |
+  |--------|--------|-------|
+  | Task success rate | > 85% | < 70% |
+  | Tool call success rate | > 90% | < 80% |
+  | Avg latency | < 5s | > 10s |
+  | Tokens per run | < 10K | > 50K |
+- Use LLM-as-judge or deterministic metrics. Document which eval method per task.
+- Eval report generated as `docs/eval/report-<date>.md`.
+
+## 5. API Key Management
+
+- Never hardcode API keys. Use environment variables or secret managers.
+- Multi-model fallback: define a fallback chain (e.g., Claude → GPT-4o → local model).
+- Rotate keys on a schedule. Store rotation logs.
+- In CI: keys come from GitHub Secrets, never repository variables.
+
+## 6. Observability
+
+- Use LangSmith, LangFuse, or W&B Prompts for agent tracing.
+- Log: full prompt + response for every run, tool call inputs/outputs, token counts.
+- Structured JSON logging with trace IDs for distributed agent systems.
+- At least one dashboard showing: request volume, error rate, latency P50/P95.
+
+## 7. Security & Guardrails
+
+- Maximum iteration limit: prevent infinite loops (default: 50 iterations).
+- Content filtering: sanitize LLM outputs before tool execution or user display.
+- Rate limiting: cap API calls per user/session.
+- Human-in-the-loop: require approval for high-risk tool calls.
+- Prompt injection detection: scan user inputs for injection patterns before LLM ingestion.
+
+## References
+
+- Skills (repo): `skills/superpowers/` — brainstorming, TDD, subagent-driven dev, systematic debugging, code review
+- Skills (repo): `skills/Agent-Skills-for-Context-Engineering/` — context engineering, multi-agent architecture, production optimization
+- Skills (repo): `skills/agent-skills/` — Vercel agent coding guidelines and patterns
+- Skills (system): `claude-api`, `agentic-engineering`, `autonomous-loops`
+- Agent: `llm-trading-agent-security` for security audit patterns
+- Scenarios: `scenarios/agent-dev/`, `scenarios/llm-dev/`
+- Rules: `vibe-coding-agent-dev.mdc` (this file)

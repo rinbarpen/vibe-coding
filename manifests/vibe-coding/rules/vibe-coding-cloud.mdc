@@ -1,0 +1,88 @@
+---
+description: Cloud Platform Deployment — Vercel, Cloudflare, Tencent Cloud, Alibaba Cloud, Huawei Cloud
+globs: ["**/*.{yml,yaml,json,sh,tf,js,ts,go,py,rs,java,dockerfile,Dockerfile}"]
+alwaysApply: false
+---
+
+# Cloud Platform Deployment Rules
+
+## General Principles
+
+1. **Deploy from CI/CD** — never deploy manually from local machines.
+2. **Secrets in the platform vault** — never in source code, CI variables, or `.env` files.
+3. **Preview deployments for PRs** — each PR gets a preview environment.
+4. **Immutable deployments** — each deployment is a new artifact, not an in-place update.
+5. **Multi-region for production** — deploy to at least 2 regions for HA.
+
+## Platform-Specific Commands
+
+### Vercel
+
+```bash
+vercel deploy          # Preview deployment
+vercel deploy --prod   # Production deployment
+vercel env add <KEY>   # Add environment variable
+vercel logs <url>      # View deployment logs
+```
+
+**GitHub Actions**: Use `vercel/action` or `amondnet/vercel-action`.
+
+### Cloudflare
+
+```bash
+wrangler deploy                       # Deploy Worker/Pages
+wrangler secret put <KEY>             # Add secret
+wrangler kv:namespace create <NAME>   # Create KV namespace
+wrangler d1 create <NAME>             # Create D1 database
+```
+
+**GitHub Actions**: Use `cloudflare/wrangler-action`.
+
+### Tencent Cloud (腾讯云)
+
+```bash
+serverless deploy                     # Deploy SCF/Express
+tccli scf deploy                      # Deploy SCF via CLI
+tccli tke create-cluster              # Create TKE cluster
+```
+
+**GitHub Actions**: Use `tencentcloud/tccli-action` or Serverless Framework.
+
+### Alibaba Cloud (阿里云)
+
+```bash
+fun deploy                            # Deploy FC function
+fun local invoke <fn>                 # Local test function
+aliyun cs create-cluster              # Create ACK cluster
+```
+
+**GitHub Actions**: Use `aliyun-actions/setup-aliyun-cli`.
+
+### Huawei Cloud (华为云)
+
+```bash
+fgs deploy                            # Deploy FunctionGraph
+hcloud cce create-cluster             # Create CCE cluster
+hcloud swr create-org                 # Create SWR org
+```
+
+**GitHub Actions**: Use `huawei-cloud/huawei-cloud-actions`.
+
+## Environment Configuration per Platform
+
+| Variable | Vercel | Cloudflare | Tencent | Alibaba | Huawei |
+|----------|--------|------------|---------|---------|--------|
+| API Key | Dashboard > Env | `wrangler secret` | SCF console | FC console | FG console |
+| Database URL | Dashboard > Env | KV/D1 binding | CDB console | RDS console | GaussDB console |
+| Storage | Vercel Blob | R2 binding | COS bucket | OSS bucket | OBS bucket |
+| Domains | `vercel.json` | Pages/Workers | CDN console | CDN console | CDN console |
+
+## Monitoring & Logging
+
+| Platform | Monitoring | Logging | Alerting |
+|----------|-----------|---------|----------|
+| Vercel | Analytics + Web Vitals | `vercel logs` | Email/Webhook |
+| Cloudflare | Analytics + Workers Metrics | `wrangler tail` | Email/Webhook |
+| Tencent | Cloud Monitor (云监控) | CLS (日志服务) | Alarm Policy |
+| Alibaba | Cloud Monitor (云监控) | SLS (日志服务) | Alert Rules |
+| Huawei | Cloud Eye (云监控) | LTS (日志服务) | Alarm Rules |

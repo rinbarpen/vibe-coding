@@ -23,3 +23,14 @@
 - `src/prompts/` - Versioned prompt templates
 - `src/eval/` - Evaluation scripts and metrics
 - `src/models/` - Model wrappers and API clients
+
+## Skills
+
+Actively dispatch these skills for LLM development tasks:
+
+| Skill | Use When |
+|-------|----------|
+| `superpowers` | Brainstorming, subagent-driven dev, systematic debugging, verification |
+| `Agent-Skills-for-Context-Engineering` | Prompt chain design, context window optimization, multi-model orchestration |
+| `agent-skills` | Agent coding conventions, tool use patterns |
+| `claude-api` | Claude API integration, prompt caching, extended thinking, streaming |

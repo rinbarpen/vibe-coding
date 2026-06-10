@@ -1,0 +1,48 @@
+---
+description: Tauri Desktop scenario rules — Rust command patterns, capability
+  permissions, tauri.conf.json config, platform native APIs, performance
+globs: ["**/*.{ts,tsx,js,jsx,rs,toml,json}"]
+alwaysApply: false
+---
+
+# Tauri Desktop Rules
+
+## 1. Rust Command Patterns
+
+- Define commands with `#[tauri::command]` and proper error types.
+- Every command returns `Result<T, AppError>` — never panic.
+- Generate TypeScript types from Rust signatures: `tauri-specta` or built-in bindings.
+- Commands are async by default. Use `async` for I/O-bound operations, `#[command]` for sync.
+- Group related commands in modules: `commands/fs.rs`, `commands/window.rs`, `commands/system.rs`.
+
+## 2. Capability & Permissions
+
+- `tauri.conf.json > app > security > capabilities`: per-window permission sets.
+- Default deny. Explicitly allow each plugin and command a window needs.
+- No wildcard permissions (`"*"`). List specific identifiers.
+- File system scopes: use `${app_data_dir}`, `${app_config_dir}` patterns, not absolute paths.
+- `dangerousRemoteDomainIpcAccess` — restrict to known domains only.
+
+## 3. tauri.conf.json Configuration
+
+- `build.devUrl` and `build.frontendDist` for Vite integration.
+- `app.windows[].width/height/minWidth/maxWidth` for window constraints.
+- `bundle.icon` for all platform icon sizes.
+- `bundle.targets`: `["dmg", "msi", "deb", "appimage"]`.
+- `plugins.updater.endpoints` for auto-update manifest URL.
+
+## 4. Platform Native APIs
+
+- File dialogs: `@tauri-apps/plugin-dialog` (`open`, `save`).
+- System tray: `@tauri-apps/plugin-tray` with menu items.
+- Notifications: `@tauri-apps/plugin-notification` (desktop native).
+- Shell: `@tauri-apps/plugin-shell` for spawning subprocesses (sidecar or open).
+- Deep links: `@tauri-apps/plugin-deep-link` for custom protocol handling.
+
+## 5. Performance
+
+- Offload CPU-intensive work to Rust commands — never block the Web UI main thread.
+- Use `tauri::async_runtime::spawn` for background tasks.
+- `RUST_LOG=debug` for development; `RUST_LOG=info` for production.
+- WebView devtools: `tauri dev --inspect` for debugging renderer performance.
+- Bundle size: Tauri ~5MB base. Keep frontend JS under 300KB gzipped.

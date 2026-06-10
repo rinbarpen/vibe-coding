@@ -1,51 +1,110 @@
-# Vibe Coding Manifest (Programming & Development)
+# Vibe Coding Unified Manifest
 
-这是一个专门为**编程开发**设计的 Vibe Coding 配置包，可以轻松集成到任何软件工程项目中。
+Full lifecycle engineering manifest covering 0-to-1 project building → development → testing → CI/CD → production deployment across 5 languages and 5 cloud platforms.
 
-## 包含内容
+## What's Included
 
-- **AGENTS.md / CLAUDE.md**: 核心 AI 指令与项目记忆模板。
-- **rules/**: 针对编程开发优化的 Cursor 规则（.mdc）。
-- **scripts/**: 自动化初始化、提交钩子与工具脚本。
-- **skills/**: 工业级开发标准、规范与 AI 技能模板。
-- **scenarios/**: 针对特定开发场景（如 SaaS, Distributed, Cross-platform）的配置。
-- **architectures/**: 软件架构参考（如 ESR 架构）。
-- **agents/**: Subagent 角色定义与编程任务调度策略。
+- **CLAUDE.md / AGENTS.md**: Comprehensive AI instructions for full lifecycle development.
+- **14 Scenarios**: agent-dev, api-service, cli-tool, cross-platform, data-pipeline, distributed, frontend, fullstack-web, llm-dev, research, saas, desktop-electron, desktop-tauri, desktop-flutter.
+- **17 Rules**: Core, standards, collaboration, lifecycle, deployment, backend, frontend, testing, refactoring, optimization, UI design, cloud, enterprise, agent-dev, desktop, frontend-scenario, CLAUDE.md maintenance.
+- **15 Commands**: plan, scaffold, implement, quality-gate, deploy-check, lang-select, cloud-deploy, release, agent-eval, frontend-check, desktop-build, update-docker, update-docs, update-examples, update-scripts.
+- **5 Cloud Platform References**: Vercel, Cloudflare, Tencent Cloud, Alibaba Cloud, Huawei Cloud.
+- **5 Language Specs + Decision Trees**: Go, Rust, Python, TypeScript/JavaScript, Java.
+- **GitHub Enterprise Governance**: 12 CI/CD workflows, issue/PR templates, CODEOWNERS, SECURITY.md, dependabot config.
+- **Enterprise References**: Branching strategy, release process, PR conventions, tag conventions.
+- **6 Skills**: Domain dispatcher, language advisor, lifecycle orchestrator, CLAUDE.md maintenance, development workflow, open source standards.
+- **Templates**: CHANGELOG, README, release checklist, roadmap.
 
-## 快速开始
+## Quick Start
 
-### 1. 复制到新项目
-
-在你的新项目根目录下，执行以下命令：
-
-```bash
-mkdir -p manifests
-cp -r /path/to/vibe-coding/manifests/vibe-coding ./manifests/
-```
-
-### 2. 初始化项目结构
-
-运行初始化脚本。它会自动创建必要的目录，并将规则与模板复制到项目根目录。
+### Initialize a New Project
 
 ```bash
-bash ./manifests/vibe-coding/scripts/vibe-init.sh
+bash manifests/vibe-coding/scripts/vibe-init.sh \
+  --scenario=fullstack-web \
+  --cloud=vercel \
+  --org mycompany \
+  --repo my-app
 ```
 
-### 3. 配置说明
+### Available Init Flags
 
-初始化后，你可以根据项目需求修改根目录下的 `CLAUDE.md` 和 `AGENTS.md`。
+```
+--scenario=<name>[,<name>...]   14 scenarios (agent-dev, api-service, cli-tool, cross-platform,
+                                  data-pipeline, distributed, frontend, fullstack-web,
+                                  llm-dev, research, saas,
+                                  desktop-electron, desktop-tauri, desktop-flutter)
+--cloud=<provider>              vercel / cloudflare / tencent / alibaba / huawei
+-o, --owner <owner>             CODEOWNERS default owner
+--org <org>                     GitHub organization
+--repo <repo>                   GitHub repository
+--email <email>                 Security contact email
+--git / --no-git                Git initialization (default: auto)
+-f, --force                     Overwrite existing files
+-n, --dry-run                   Preview without writing
+```
 
-## 核心功能
+### Scenarios Summary
 
-- **意图驱动开发**: 强制执行 Plan-First 模式。
-- **自动化 Lint 检查**: 每次修改后自动运行 ReadLints。
-- **Subagent 调度**: 预设了 explore, code-architect, code-reviewer 等角色。
-- **环境管理**: 默认推荐使用 `uv` 进行 Python 依赖管理。
+| Scenario | Focus | Languages |
+|----------|-------|-----------|
+| `agent-dev` | AI agent systems | Python, TypeScript |
+| `api-service` | REST/gRPC backend | Go, TypeScript, Java |
+| `cli-tool` | CLI utilities | Go, Rust, TypeScript |
+| `cross-platform` | Multi-platform apps | TypeScript, Rust |
+| `data-pipeline` | ETL and data processing | Python, Go |
+| `distributed` | Distributed systems | Go, Rust |
+| `fullstack-web` | Full-stack web apps | TypeScript + Go |
+| `llm-dev` | LLM applications | Python, TypeScript |
+| `research` | Research/experimentation | Python |
+| `saas` | SaaS products | TypeScript + Go/Python |
+| `frontend` | Pure frontend apps | TypeScript |
+| `desktop-electron` | Electron desktop | TypeScript + Node.js |
+| `desktop-tauri` | Tauri desktop | TypeScript + Rust |
+| `desktop-flutter` | Flutter desktop | Dart |
 
-## 依赖
+## Language Support
 
-- **Bash**: 脚本运行环境。
-- **Skill Seekers (可选)**: 用于抓取外部文档并转化为 AI 技能。
+| Language | Reviewer | Build Resolver | Patterns | Testing |
+|----------|----------|----------------|----------|---------|
+| Go | go-reviewer | go-build-resolver | golang-patterns | golang-testing |
+| Rust | rust-reviewer | rust-build-resolver | rust-patterns | rust-testing |
+| Python | python-reviewer | — | python-patterns | python-testing |
+| TypeScript | typescript-reviewer | build-error-resolver | frontend-patterns | e2e-testing |
+| Java | java-reviewer | java-build-resolver | java-coding-standards | springboot-tdd |
+| Kotlin | kotlin-reviewer | kotlin-build-resolver | kotlin-patterns | kotlin-testing |
+| C++ | cpp-reviewer | cpp-build-resolver | cpp-coding-standards | cpp-testing |
+| C# | csharp-reviewer | — | dotnet-patterns | csharp-testing |
+| Dart/Flutter | flutter-reviewer | dart-build-resolver | dart-flutter-patterns | flutter-test |
 
----
-*注：若你将此文件夹重命名或放置在不同路径，`vibe-init.sh` 会自动检测并更新规则中的引用路径。*
+## Cloud Platforms
+
+| Platform | Deploy Command | Reference |
+|----------|---------------|-----------|
+| Vercel | `vercel deploy --prod` | `references/cloud-platforms/vercel.md` |
+| Cloudflare | `wrangler deploy` | `references/cloud-platforms/cloudflare.md` |
+| Tencent Cloud | `serverless deploy` | `references/cloud-platforms/tencent-cloud.md` |
+| Alibaba Cloud | `fun deploy` | `references/cloud-platforms/alibaba-cloud.md` |
+| Huawei Cloud | `fgs deploy` | `references/cloud-platforms/huawei-cloud.md` |
+
+## Desktop Frameworks
+
+| Framework | Best For | Reference |
+|-----------|----------|-----------|
+| Electron | Full Node.js + Chromium access, mature ecosystem | `scenarios/desktop-electron/` |
+| Tauri | Minimal binary, Rust backend, best security | `scenarios/desktop-tauri/` |
+| Flutter Desktop | Shared mobile+desktop codebase | `scenarios/desktop-flutter/` |
+
+See `references/desktop-frameworks.md` for full comparison and decision guide.
+
+## Dependencies
+
+- **Bash**: Init and maintenance scripts.
+- **Git**: Version control.
+- **GitHub CLI** (`gh`): Repository operations, CI monitoring, releases.
+- **Language toolchains**: Go, Rust, Python (uv), Node (pnpm), Java (maven/gradle) as needed.
+- **Cloud CLIs**: Platform-specific CLIs for cloud deployments.
+
+## File Count
+
+~150 files total covering the complete engineering lifecycle from idea to production.

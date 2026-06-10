@@ -1,31 +1,71 @@
 ---
-description: GitHub 协作与自动化规范：PR、CI、Issue 管理
+description: GitHub Collaboration & Enterprise Automation — PR, CI, branching, review, release management
 globs: ["**/*"]
 alwaysApply: true
 ---
 
-# GitHub Collaboration & Automation
+# GitHub Collaboration & Enterprise Automation
 
-本规则定义了在 GitHub 托管平台上进行协作和自动化执行的标准流程。
+## 1. Pull Request (PR) Flow
 
-## 1. Pull Request (PR) 流程
 - **创建 PR**: 必须使用 `gh pr create` 命令。
-- **描述规范**: 
+- **描述规范**:
   - 使用 `--fill` 自动提取 commit 信息。
   - 必须包含 `## Summary` (变更摘要) 和 `## Test Plan` (测试计划)。
-- **自动化检查**: PR 创建后，必须调用 `ci-watcher` 或运行 `gh pr checks` 监控 CI 状态。
+- **标题格式**: `<type>(<scope>): <description>` — 由 CI workflow 强制。
+- **大小标签**: XS(0-10) / S(11-50) / M(51-200) / L(201-800) / XL(>800) 行。
+- Draft PR 用于 WIP 状态，ready 后标记为 Ready for Review。
+- **自动化检查**: PR 创建后，必须监控 CI 状态 (`gh pr checks` 或 `ci-watcher`)。
 
-## 2. 自动化执行 (Automation)
+## 2. Branch Convention
+
+- **命名**: `<type>/<issue-number>-<kebab-description>`
+- **示例**: `feat/42-user-auth`, `fix/87-npe-on-null`, `hotfix/v1.2.3`, `release/v2.0.0`
+- **生命周期**: feature 分支合并后自动删除。
+- **保护规则**: main 需要 2 个 review + 所有 status checks 通过 + up-to-date。
+
+## 3. Merge Strategy
+
+| Branch Type | Merge Method | Purpose |
+|-------------|-------------|---------|
+| feature | Squash merge | Keep main history clean |
+| release | Merge commit | Preserve release history |
+| hotfix | Merge commit | Preserve fix history |
+
+## 4. Code Review
+
+- CODEOWNERS 自动分配 reviewer。
+- 提交 PR 前，必须先调用 `code-reviewer` 进行本地预审。
+- 安全相关改动必须有 `security-reviewer` 参与。
+- 必须解决所有 conversation 后才能合并。
+
+## 5. Release & Tag
+
+- **版本化**: SemVer 2.0 (MAJOR.MINOR.PATCH)。
+- **CHANGELOG.md**: 必须维护，Keep-a-Changelog 格式。
+- **Tag**: 所有 release tag 必须 GPG 签名 (`git tag -s v1.2.3 -m "v1.2.3"`)。
+- **发布流程**: tag push → `release.yml` 触发自动发布。
+- Hotfix 从最近 release tag 创建分支，不可在 release tag 上直接修改。
+
+## 6. GitHub CLI (`gh`) 常用指令
+
+- `gh pr status` — 查看当前 PR 状态。
+- `gh pr checks` — 查看 CI 检查结果。
+- `gh pr view --web` — 在浏览器中打开当前 PR。
+- `gh run list` — 查看最近的 GitHub Actions 运行记录。
+- `gh release create v1.2.3` — 创建 GitHub Release。
+
+## 7. Automation
+
 - **Post-Commit**: 每次 commit 后运行 `vibe-post-commit.sh` 同步文档和状态。
-- **CI 修复**: 如果 CI 失败，必须启动 `ci-watcher` 或 `fix-ci` subagent 分析日志并应用修复。
-- **依赖更新**: 优先使用 `gh` CLI 触发或管理 Dependabot/Renovate PR。
+- **CI 修复**: 如果 CI 失败，启动 `ci-watcher` 或 `fix-ci` subagent 分析日志并应用修复。
+- **依赖更新**: 使用 `gh` CLI 触发或管理 Dependabot/Renovate PR。
+- **Workflow 并发**: 使用 `concurrency` 组防止同一分支重复运行。
 
-## 3. GitHub CLI (`gh`) 常用指令
-- `gh pr status`: 查看当前 PR 状态。
-- `gh pr checks`: 查看 CI 检查结果。
-- `gh pr view --web`: 在浏览器中打开当前 PR。
-- `gh run list`: 查看最近的 GitHub Actions 运行记录。
+## 8. Security Management
 
-## 4. 协作约定
-- **代码评审**: 提交 PR 前，必须先调用 `code-reviewer` 进行本地预审。
-- **分支管理**: 遵循 `feature/`, `fix/`, `docs/` 等命名规范。
+- SECURITY.md 定义了完整的漏洞披露流程。
+- CodeQL 分析在每次 PR 和每周定时执行。
+- Dependabot 自动创建依赖更新 PR。
+- Dependency Review 在每次 PR 中检查 license 和已知漏洞。
+- Critical 级别的安全 issue 自动通知 project owner。
