@@ -1,78 +1,149 @@
 ---
 name: chinese-patent
 description: |
-  Comprehensive skill for Chinese patent specifications. Handles drafting, revising, and auditing/reviewing patent drafts. Supports HTML format with figures and outputs docx for filing. Use for writing new patents, rewriting existing ones, or reviewing drafts for compliance and quality.
+  Full lifecycle orchestration for Chinese patent applications. Plans, generates figures,
+  writes specification, reviews quality, and exports submission-ready DOCX. Use for
+  end-to-end patent creation or any individual step: planning, figure drawing, writing,
+  reviewing, or format conversion.
 ---
 
-# 中国专利 (Chinese Patent)
+# 中国专利 (Chinese Patent Pipeline)
 
-本技能提供中国专利说明书的完整生命周期支持，包括撰写、改写、审阅、复核以及格式转换（HTML 转 docx）。
+端到端的中国专利申请全流程编排，从发明构思到可提交的 docx 文件。支持单独调用任意子技能。
 
 ## 何时使用
 
-- **撰写/改写**：用户要求撰写新专利、改写已有专利稿、或需要处理带附图的发明/实用新型专利。
-- **审阅/复核**：用户要求检查、审计、复核或审阅专利稿（说明书、权利要求书等）的质量与合规性。
-- **关键词**：专利撰写、专利改写、专利审阅、专利复核、专利交底、附图说明、专利 docx、说明书审查。
+- **全流程**：从发明想法直接生成可提交的专利 docx
+- **仅规划**：分析发明、判定专利类型、生成撰写大纲
+- **仅绘图**：生成符合中国专利规范的附图（中文标注、B&W）
+- **仅撰写**：根据规划生成完整的说明书 HTML
+- **仅审阅**：审查已有专利稿的合规性与质量
+- **仅导出**：将 HTML 说明书转换为 docx/pdf
+- **关键词**：写专利、专利申请、专利撰写、专利审阅、专利附图、导出docx
 
----
+## 快速分发
 
-## 1. 撰写与改写指南
+| 用户意图 | 子技能 |
+|---------|--------|
+| 分析发明，确定专利类型，生成撰写计划 | [chinese-patent-plan](chinese-patent-plan/SKILL.md) |
+| 绘制专利附图（中文标注，B&W） | [chinese-patent-drawer](chinese-patent-drawer/SKILL.md) |
+| 撰写完整的专利说明书 HTML | [chinese-patent-writer](chinese-patent-writer/SKILL.md) |
+| 审阅/检查专利稿合规性 | [chinese-patent-review](chinese-patent-review/SKILL.md) |
+| 将说明书 HTML 导出为提交用 docx | 直接执行 `python scripts/html_to_docx.py` |
+| 从头到尾生成可提交的专利 | 全流程执行（见下方） |
 
-### 说明书撰写结构
-按以下顺序用 HTML 组织正文（与专利法/审查指南一致）：
-1. **技术领域**：发明所属技术领域，简明说明涉及范围。
-2. **背景技术**：现有技术现状及存在的问题、不足。
-3. **发明内容**：要解决的技术问题、技术方案、有益效果。
-4. **附图说明**：各附图的简要说明，与图片一一对应。
-5. **具体实施方式**：结合附图对技术方案的具体描述。
+## 全流程工作流
 
-### HTML 规范（便于转 docx）
-- **标签**：使用语义化标签（`<h1>`~`<h3>`, `<p>`, `<ul>`/`<ol>`）。
-- **表格**：使用 `<table class="patent-table" border="1">`，内容使用宋体。
-- **图片路径**：必须使用本地路径（如 `images/图1.png`）。
-- **图片图注**：使用 `<figure><img ... /><figcaption>图1 xxx</figcaption></figure>`，图注放在图片下方；图注不得写入图片像素。
-- **数学表达**：正文数学表达使用 LaTeX（如 `\(...\)` 或 `$$...$$`），并通过 `scripts/html_to_docx.py` 导出可渲染的 Word 公式。
-- **格式**：正文建议小四宋体，1.5 倍行距。
+```
+用户输入（发明构思）
+        │
+        ▼
+┌─────────────────────────────┐
+│ Step 1: 专利规划             │
+│ chinese-patent-plan/SKILL.md │
+│ 输出：专利规划文档            │
+│ 🚧 门禁：类型明确、≥1个独权  │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ Step 2: 附图绘制             │
+│ chinese-patent-drawer/SKILL.md│
+│ 输出：images/图N.png         │
+│ 🚧 门禁：全部生成、路径有效  │
+│         B&W、中文验证        │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ Step 3: 说明书撰写           │
+│ chinese-patent-writer/SKILL.md│
+│ 输出：说明书.html             │
+│ 🚧 门禁：七大章节齐全        │
+│         图文引用一致         │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ Step 4: 质量审阅             │
+│ chinese-patent-review/SKILL.md│
+│ 输出：审阅报告               │
+│ 🚧 门禁：无「必须改」问题    │
+│         有则返回 Step 3 修复 │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ Step 5: 导出 DOCX            │
+│ python scripts/html_to_docx.py│
+│  说明书.html -o 说明书.docx  │
+│ 输出：可提交的 .docx 文件    │
+└─────────────────────────────┘
+```
 
-### 附图工作流（申请书推荐）
-1. **原始需求整理**：先整理发明对象、模块、流程、输入输出。
-2. **模型强化 prompt**：先由当前会话模型将原始需求改写为 A–H 结构化绘图规格（见 `drawio/references/structured-diagram-prompts.md`）。
-3. **按图类型绘制**：
-   - 结构图/关系图：使用 drawio（`drawio/SKILL.md`），图中文字统一 `15px`。
-   - 数据图（曲线、统计图）：可使用 matplotlib，字号按可读性设置。
-4. **插入说明书 HTML**：以 `figure+figcaption` 插入图片，编号格式统一为 `图1/图2/...`。
-5. **导出 docx**：执行 `python scripts/html_to_docx.py 说明书.html -o 说明书.docx`。
+### 门禁规则
 
-### 申请书可用性（严格提交级）
-提交前必须检查：
-1. **结构完整**：技术领域、背景技术、发明内容、附图说明、具体实施方式、权利要求书、摘要齐全。
-2. **术语一致**：说明书与权利要求书关键术语一致，无同义混用导致歧义。
-3. **图文一致**：附图说明、正文引用、文件名（`图N`）一一对应。
-4. **图注合规**：图注位于文档图片下方，格式为“图N xxx”，图内无图号/图题像素文字。
-5. **数学可渲染**：LaTeX 表达在导出 docx 后应为可编辑公式对象，而非纯文本分隔符。
+- **Step 1 → 2**：专利类型已确定，权利要求结构已明确，附图清单完整
+- **Step 2 → 3**：所有附图已生成并保存至 `images/`，文件名与清单一致，中文验证通过
+- **Step 3 → 4**：HTML 文件包含全部七大章节，图片引用使用本地路径，数学公式使用 LaTeX
+- **Step 4 → 5**：审阅报告中无「必须改」问题，所有严重问题已修复
 
----
+用户可在任意步骤进入流程。例如，已有专利稿的用户可直接跳到 Step 4 审阅。
 
-## 2. 审阅与复核指南
+## 共享规则
 
-### 审阅维度（检查项）
-1. **结构完整性**：各法定章节是否齐全，顺序是否正确。
-2. **一致性**：说明书与权利要求书之间的术语、技术特征表述是否统一。
-3. **附图对应性**：附图编号、说明与正文引用是否一一对应；图片路径是否正确。
-4. **用语规范**：检查是否违反法律用语规范或存在常见错误（参考 `reference.md`）。
-5. **实质性检查**：背景技术是否客观，具体实施方式是否充分支持权利要求。
+所有子技能共用以下规则文件：
 
-### 输出格式
-按维度列出问题，建议分级：
-- **【必须改】**：影响授权或合规的严重问题。
-- **【建议改】**：提升质量或减少审查意见的改进建议。
+| 规则文件 | 内容 |
+|---------|------|
+| [rules/patent-type-guide.md](rules/patent-type-guide.md) | 专利类型判定决策树（发明/实用新型/外观设计） |
+| [rules/writing-rules.md](rules/writing-rules.md) | 说明书撰写标准、结构规范、用语要求、HTML 格式 |
+| [rules/review-checklist.md](rules/review-checklist.md) | 审阅维度、常见错误表、严重级别 |
+| [rules/drawing-rules.md](rules/drawing-rules.md) | 附图绘制规则（中文文本、B&W、尺寸、字体） |
 
----
+## 资源索引
 
-## 3. 附加资源
+| 资源 | 路径 | 用途 |
+|------|------|------|
+| 详细参考 | [reference.md](reference.md) | 全面的专利撰写参考文档 |
+| HTML 模板 | [templates/patent_spec_template.html](templates/patent_spec_template.html) | 空白说明书 HTML 模板 |
+| 参考示例 | [templates/reference-patent-example.html](templates/reference-patent-example.html) | 完整的示例专利（AI 学习参考） |
+| Draw.io 子技能 | [drawio/SKILL.md](drawio/SKILL.md) | 结构图/流程图绘制（含中文专利规范） |
+| DOCX 导出脚本 | [scripts/html_to_docx.py](scripts/html_to_docx.py) | HTML → DOCX（需 pandoc） |
+| PDF 导出脚本 | [scripts/html_to_pdf.py](scripts/html_to_pdf.py) | HTML → PDF（需 Playwright） |
+| 绘图示例脚本 | [scripts/generate_figure_example.py](scripts/generate_figure_example.py) | Matplotlib 框图生成示例 |
+| Omnidraw 路由 | [../omnidraw/SKILL.md](../omnidraw/SKILL.md) | 绘图工具分发中枢（Drawer 引用） |
 
-- **详细规范**：[reference.md](./reference.md)（含用语规范、常见错误速查）。
-- **转换脚本**：[scripts/html_to_docx.py](./scripts/html_to_docx.py)。
-- **绘图示例（数据图）**：[scripts/generate_figure_example.py](./scripts/generate_figure_example.py)。
-- **drawio（结构图/关系图）**：[drawio/SKILL.md](./drawio/SKILL.md)。
-- **空白模板**：[templates/patent_spec_template.html](./templates/patent_spec_template.html)。
+## 使用示例
+
+### 全流程：从想法到 docx
+```
+用户：我有一个关于智能路灯节能控制的发明想法，帮我写一份专利申请。
+
+→ 自动执行全流程：
+  1. chinese-patent-plan：分析发明，判定为发明专利，输出规划文档
+  2. 用户确认规划 → chinese-patent-drawer：生成系统架构图和方法流程图
+  3. chinese-patent-writer：基于规划和附图生成说明书.html
+  4. chinese-patent-review：审阅说明书，给出通过/修改建议
+  5. 修复问题后 → python scripts/html_to_docx.py 说明书.html -o 说明书.docx
+```
+
+### 独立步骤：仅审阅已有专利稿
+```
+用户：帮我审阅这份专利说明书，看看有什么问题。
+
+→ 直接调用 chinese-patent-review：
+  1. 读取用户提供的 HTML 文件
+  2. 按 review-checklist 逐项检查
+  3. 输出分级审阅报告
+```
+
+### 独立步骤：仅画专利附图
+```
+用户：帮我画两张专利附图，一张系统结构图，一张方法流程图。
+
+→ 直接调用 chinese-patent-drawer：
+  1. 结构图 → drawio（A-H 格式，中文标注，B&W）
+  2. 流程图 → drawio（A-H 格式，中文标注，B&W）
+  3. 保存为 images/图1.png, images/图2.png
+```
