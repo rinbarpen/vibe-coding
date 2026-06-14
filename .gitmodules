@@ -88,3 +88,6 @@
 [submodule "skills/academic-research-skills-codex"]
 	path = skills/academic-research-skills-codex
 	url = https://github.com/Imbad0202/academic-research-skills-codex.git
+[submodule "skills/summarize-slides-skill"]
+	path = skills/summarize-slides-skill
+	url = https://github.com/Li-Baichuan-James/summarize-slides-skill.git
