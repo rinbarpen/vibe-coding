@@ -38,6 +38,9 @@ Requires `uv` (install: `curl -LsSf https://astral.sh/uv/install.sh | sh`)
 | `vibe mcp list` | List available MCP servers in this repo |
 | `vibe mcp add <name> [target]` | Install a specific MCP server into a project (merges with existing) |
 | `vibe mcp add --all [target]` | Install all MCP servers into a project |
+| `vibe hook list` | List available hook sets in this repo |
+| `vibe hook add <name> [target]` | Install a hook set (e.g. ralph-loop) into a project |
+| `vibe hook add --all [target]` | Install all hook sets |
 
 ### Repo root discovery (CLI)
 Priority: `$VIBE_HOME` env var > cwd walk-up (looks for `manifests/` + `skills/`) > `~/.config/vibe-tool/config.json`
@@ -67,6 +70,22 @@ vibe mcp add --all /path/to/project
 
 # Preview without writing
 vibe mcp add chrome-devtools --dry-run
+```
+
+## Hook on-demand loading
+
+`vibe hook add <name> [target]` installs hooks from this repo's `hooks/` directory into
+a target project's `hooks/` directory. Use `--force` to replace an existing hook set.
+
+```bash
+# List available hook sets
+vibe hook list
+
+# Install ralph-loop into current project
+vibe hook add ralph-loop
+
+# Install all hook sets
+vibe hook add --all /path/to/project
 ```
 
 ## Updating skills

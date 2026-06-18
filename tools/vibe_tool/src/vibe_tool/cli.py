@@ -111,6 +111,22 @@ def _build_parser() -> argparse.ArgumentParser:
     mcp_add_p.add_argument("-n", "--dry-run", action="store_true", help="Preview changes without writing")
     mcp_add_p.set_defaults(func=_cmd_mcp_add)
 
+    # ── hook ──
+    hook_p = subs.add_parser("hook", help="Manage hooks (list available, install into projects)")
+    hook_subs = hook_p.add_subparsers(dest="hook_action")
+
+    hook_list_p = hook_subs.add_parser("list", help="List available hook sets in this repo")
+    hook_list_p.add_argument("--json", dest="json_out", action="store_true", help="JSON output")
+    hook_list_p.set_defaults(func=_cmd_hook_list)
+
+    hook_add_p = hook_subs.add_parser("add", help="Install hook set(s) into a project")
+    hook_add_p.add_argument("hook_name", nargs="?", default=None, help="Hook set name (omit with --all)")
+    hook_add_p.add_argument("target", nargs="?", default=".", help="Target project directory (default: current)")
+    hook_add_p.add_argument("--all", action="store_true", help="Install all hook sets")
+    hook_add_p.add_argument("-f", "--force", action="store_true", help="Overwrite existing hook set")
+    hook_add_p.add_argument("-n", "--dry-run", action="store_true", help="Preview without writing")
+    hook_add_p.set_defaults(func=_cmd_hook_add)
+
     # ── stats ──
     stats_p = subs.add_parser("stats", help="Show or manage skill usage statistics")
     stats_subs = stats_p.add_subparsers(dest="stats_action")
@@ -325,6 +341,47 @@ def _cmd_mcp_add(args) -> int:
         target,
         names=names,
         all_servers=args.all,
+        force=args.force,
+        dry_run=args.dry_run,
+    )
+
+
+def _cmd_hook_list(args) -> int:
+    from .hook import discover_hooks
+
+    root = find_repo_root()
+    hooks = discover_hooks(root)
+    if not hooks:
+        print("No hook sets found.")
+        return 0
+
+    if args.json_out:
+        import json as j
+        print(j.dumps(hooks, indent=2))
+        return 0
+
+    print("Available hook sets:")
+    for h in hooks:
+        print(f"  {h}")
+    return 0
+
+
+def _cmd_hook_add(args) -> int:
+    from .hook import add_hooks
+
+    root = find_repo_root()
+    target = Path(args.target).resolve()
+    names = [args.hook_name] if args.hook_name else None
+
+    if not args.all and not args.hook_name:
+        print("Error: specify a hook name or use --all", file=sys.stderr)
+        return 1
+
+    return add_hooks(
+        root,
+        target,
+        names=names,
+        all_hooks=args.all,
         force=args.force,
         dry_run=args.dry_run,
     )
