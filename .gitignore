@@ -3,3 +3,6 @@
 
 # Local Claude settings (per-developer overrides)
 .claude/settings.local.json
+
+# Local hookify rules (per-developer overrides)
+hooks/*.local.md

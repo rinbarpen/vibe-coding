@@ -95,6 +95,22 @@ def _build_parser() -> argparse.ArgumentParser:
     csh_p = cfg_subs.add_parser("show", help="Show current configuration")
     csh_p.set_defaults(func=_cmd_config_show)
 
+    # ── mcp ──
+    mcp_p = subs.add_parser("mcp", help="Manage MCP servers (list available, install into projects)")
+    mcp_subs = mcp_p.add_subparsers(dest="mcp_action")
+
+    mcp_list_p = mcp_subs.add_parser("list", help="List available MCP servers in this repo")
+    mcp_list_p.add_argument("--json", dest="json_out", action="store_true", help="JSON output")
+    mcp_list_p.set_defaults(func=_cmd_mcp_list)
+
+    mcp_add_p = mcp_subs.add_parser("add", help="Add MCP server(s) to a project (merge, never overwrite)")
+    mcp_add_p.add_argument("server_name", nargs="?", default=None, help="Server name (omit with --all)")
+    mcp_add_p.add_argument("target", nargs="?", default=".", help="Target project directory (default: current)")
+    mcp_add_p.add_argument("--all", action="store_true", help="Install all MCP servers")
+    mcp_add_p.add_argument("-f", "--force", action="store_true", help="Overwrite existing server config")
+    mcp_add_p.add_argument("-n", "--dry-run", action="store_true", help="Preview changes without writing")
+    mcp_add_p.set_defaults(func=_cmd_mcp_add)
+
     # ── stats ──
     stats_p = subs.add_parser("stats", help="Show or manage skill usage statistics")
     stats_subs = stats_p.add_subparsers(dest="stats_action")
@@ -269,6 +285,49 @@ def _cmd_config_show(args) -> int:
         print(f"No config file at {CONFIG_FILE}")
         print("Use 'vibe config set-repo /path/to/vibe-coding' to create one.")
     return 0
+
+
+def _cmd_mcp_list(args) -> int:
+    from .mcp import discover_mcp_servers
+
+    root = find_repo_root()
+    servers = discover_mcp_servers(root / "mcp.json")
+    if not servers:
+        print("No MCP servers found.")
+        return 0
+
+    if args.json_out:
+        print(json.dumps(servers, indent=2))
+        return 0
+
+    print(f"{'SERVER':<24} {'TYPE':<8} {'TARGET'}")
+    print("-" * 60)
+    for name, cfg in servers.items():
+        typ = "url" if "url" in cfg else "command"
+        target = cfg.get("url", "") or " ".join(cfg.get("args", [])) if "command" in cfg else ""
+        print(f"  {name:<22} {typ:<8} {target}")
+    return 0
+
+
+def _cmd_mcp_add(args) -> int:
+    from .mcp import add_mcp_servers
+
+    root = find_repo_root()
+    target = Path(args.target).resolve()
+    names = [args.server_name] if args.server_name else None
+
+    if not args.all and not args.server_name:
+        print("Error: specify a server name or use --all", file=sys.stderr)
+        return 1
+
+    return add_mcp_servers(
+        root / "mcp.json",
+        target,
+        names=names,
+        all_servers=args.all,
+        force=args.force,
+        dry_run=args.dry_run,
+    )
 
 
 def _cmd_stats_show(args) -> int:
