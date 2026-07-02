@@ -1,0 +1,62 @@
+---
+description: 跨平台 Git 仓库管理核心规则：令牌安全、镜像规范、分支/标签管理、CI/CD 标准
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Git Manager Core Rules
+
+## 1. 令牌与机密管理
+
+- 所有 API 令牌必须通过环境变量注入（`GITHUB_TOKEN`, `GITEE_TOKEN` 等）
+- 禁止在脚本、配置或代码中硬编码任何令牌
+- CI 令牌使用平台 Secrets 管理，勿提交到仓库
+- `.env` 文件必须加入 `.gitignore`
+- 令牌泄露后立即撤销并轮换
+
+## 2. 跨平台镜像规范
+
+- 建议使用**主从模式**（一个平台为主，其余为镜像），避免双向同步冲突
+- 镜像同步推荐方式：
+  - `git push --mirror` — 全量镜像（含 refs 所有引用）
+  - `git push --all --tags` — 仅分支与标签
+  - CI 定时同步 — 通过 GitHub Actions / Gitee Go / GitLab CI 自动执行
+- 镜像仓库应设置为只读（禁止直接推送到镜像端）
+
+## 3. 分支管理规范
+
+- 默认分支统一为 `main`
+- 命名规范：`feature/<name>`、`fix/<name>`、`release/<version>`
+- 长期分支建议设置保护规则（禁止 force push、需要 PR 审核）
+- 合并后及时使用 `br prune` 删除特性分支
+
+## 4. 标签管理规范
+
+- 标签命名遵循 semver：`v<major>.<minor>.<patch>`（如 `v2.1.0`）
+- 预发布标签：`v<version>-<name>`（如 `v2.1.0-beta.1`、`v2.1.0-rc.1`）
+- 使用 `tag promote` 自动递增版本，避免手动计算
+- 跨平台同步时确保 `git push --tags` 或 `mirror run --with-tags`
+- 废弃标签及时使用 `tag prune` 清理
+
+## 5. CI/CD 规范
+
+- 镜像同步使用 CI 工作流自动执行，减少人工操作
+- 自动标签推荐使用 `anothrNick/github-tag-action` 基于 Conventional Commits
+- Release 工作流使用 `softprops/action-gh-release` 自动生成 Release Notes
+- CI 工作流中的 Token 仅授予最小必要权限
+- 发布流水线遵循：`test` → `tag promote` → `ci run` → `release`
+
+## 6. PR/MR 管理标准
+
+- PR 标题格式：`<type>(<scope>): <description>`（如 `feat(auth): add OAuth login`）
+- 每个 PR 必须有明确的描述和变更说明
+- 合并前通过 CI 检查和代码审查
+- 跨平台同步时，在 PR 描述中标注原始 PR 链接
+
+## 7. 审计要求
+
+- 定期检查分支保护状态是否一致
+- 监控未处理的 Issue 和 PR 数量
+- 检查 CI/CD 流水线健康度
+- 扫描依赖安全漏洞
+- 检查最新 tag 是否落后于默认分支
