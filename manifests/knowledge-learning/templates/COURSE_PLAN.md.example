@@ -1,0 +1,54 @@
+---
+title: 学习计划 - 课程/主题名称
+type: learning-path
+domain: subject
+estimated_duration: 4周
+start_date: 2026-07-05
+target_date: 2026-08-02
+status: active
+---
+
+# 学习计划: 课程/主题名称
+
+## 目标
+
+（SMART 目标）
+- Specific: ...
+- Measurable: ...
+- Achievable: ...
+- Relevant: ...
+- Time-bound: 2026-08-02
+
+## 阶段划分
+
+### Phase 1: 基础 (Week 1)
+
+| Day | Topic | Materials | Output |
+|-----|-------|-----------|--------|
+| Mon | 概念A | ch01.pptx, textbook p1-20 | 原子笔记 |
+| Tue | 概念B | ch02.pptx, 视频L2 | 原子笔记 + 闪卡 |
+| Wed | 概念C | 网页文章 | 原子笔记 |
+| Thu | 练习 | hw1 | 习题笔记 |
+| Fri | 复习 | — | /review |
+
+**里程碑**: 完成 Phase 1 知识图谱
+
+### Phase 2: 深入 (Week 2)
+
+...
+
+## 材料清单
+
+- [ ] ch01-intro.pptx — 已导入
+- [ ] textbook.pdf — 已导入
+- [ ] lecture-05.mp4 — 待导入
+- [ ] hw1.pdf — 待导入
+
+## 复习计划
+
+| 周 | 新卡片/天 | 复习重点 |
+|----|-----------|----------|
+| 1 | 20 | Phase 1 概念 |
+| 2 | 20 | Phase 1 + Phase 2 |
+| 3 | 15 | 全部 |
+| 4 | 15 | 薄弱环节 |
