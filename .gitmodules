@@ -91,3 +91,9 @@
 [submodule "skills/summarize-slides-skill"]
 	path = skills/summarize-slides-skill
 	url = https://github.com/Li-Baichuan-James/summarize-slides-skill.git
+[submodule "skills/planning-with-files"]
+	path = skills/planning-with-files
+	url = https://github.com/othmanadi/planning-with-files.git
+[submodule "skills/ralph"]
+	path = skills/ralph
+	url = https://github.com/snarktank/ralph.git

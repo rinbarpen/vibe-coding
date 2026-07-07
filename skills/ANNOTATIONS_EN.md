@@ -1106,6 +1106,11 @@
 - **Description**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
 - **Usage**: Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (<100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for serverless, managed infrastructure.
 
+### planning-with-files
+- **Path**: `skills/planning-with-files/skills/planning-with-files/`
+- **Description**: Manus-style persistent file-based planning for AI coding agents: keeps task_plan.md, findings.md, and progress.md on disk so work survives context loss and /clear. Use when asked to plan out, break down, or organize a multi-step project, research task, or any work requiring 5+ tool calls. Supports automatic session recovery after /clear.
+- **Usage**: See description
+
 ### plotly
 - **Path**: `skills/claude-scientific-skills/scientific-skills/plotly`
 - **Description**: Interactive visualization library. Use when you need hover info, zoom, pan, or web-embeddable charts. Best for dashboards, exploratory analysis, and presentations. For static publication figures use matplotlib or scientific-visualization.
@@ -1150,6 +1155,11 @@
 - **Path**: `skills/claude-scientific-skills/scientific-skills/pptx-posters`
 - **Description**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
 - **Usage**: Create research posters using HTML/CSS that can be exported to PDF or PPTX. Use this skill ONLY when the user explicitly requests PowerPoint/PPTX poster format. For standard research posters, use latex-posters instead. This skill provides modern web-based poster design with responsive layouts and easy visual integration.
+
+### prd
+- **Path**: `skills/ralph/skills/prd/`
+- **Description**: Generate a Product Requirements Document (PRD) for a new feature. Use when planning a feature, starting a new project, or when asked to create a PRD.
+- **Usage**: See description
 
 ### pretty-mermaid
 - **Path**: `skills/Pretty-mermaid-skills`
@@ -1284,6 +1294,11 @@
 ### raffle-winner-picker
 - **Path**: `skills/awesome-claude-skills/raffle-winner-picker`
 - **Description**: Picks random winners from lists, spreadsheets, or Google Sheets for giveaways, raffles, and contests. Ensures fair, unbiased selection with transparency.
+- **Usage**: See description
+
+### ralph
+- **Path**: `skills/ralph/skills/ralph/`
+- **Description**: Convert PRDs to prd.json format for the Ralph autonomous agent system. Use when you have an existing PRD and need to convert it to Ralph JSON format.
 - **Usage**: See description
 
 ### ray-data
