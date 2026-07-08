@@ -25,8 +25,9 @@ NOTEBOOKLM_ENGINE=true (when enabled):
 | Agent | Phase | Responsibility |
 |-------|-------|----------------|
 | `material-processor` | 1-2 | 处理各格式材料：PPT 拆页、PDF 分章、视频转录、网页提取 |
-| `note-architect` | 2-3 | 结构化笔记、渐进式提炼、[[wiki-link]] 网络构建 |
+| `note-architect` | 2-3,5 | 结构化笔记、渐进式提炼、[[wiki-link]] 网络构建、图表生成 (/diagram) |
 | `review-master` | 4 | SM-2 间隔重复调度、复习质量监控、闪卡管理 |
+| `exam-generator` | 4-5 | 试卷/习题生成、难度配置、知识点覆盖率检查、答案与解析 (/exam) |
 | `curriculum-designer` | 1,5 | 学习路径设计、进度跟踪、目标管理 |
 | `source-validator` | 1-5 | 源引用验证、交叉核对、幻觉检测 |
 
@@ -77,6 +78,20 @@ When user asks `/learn <topic>`:
 2. Activate note-architect to synthesize from existing notes
 3. If `STRICT_SOURCE_MODE=true`, cite materials for every assertion
 4. If `NOTEBOOKLM_ENGINE=true`, generate comprehensive study guide
+
+When user asks `/exam <topic>`:
+1. Load notes and flashcards for the topic
+2. Apply difficulty distribution rules
+3. Generate questions with source citations
+4. Check knowledge point coverage (≥ 80%)
+5. Output: exam paper + answer key with source references
+
+When user asks `/diagram <concept>`:
+1. Load concept notes
+2. Analyze relationships and structure
+3. Select best diagram type
+4. Generate Mermaid diagram (or drawio for complex)
+5. Embed in note or save as image file
 
 When user asks a question about imported materials:
 1. Source-first routing: search notes/ and materials/ first

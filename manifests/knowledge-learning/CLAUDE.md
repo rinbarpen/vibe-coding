@@ -22,6 +22,8 @@
 | `/flashcard <topic>` | 从学习材料生成闪卡 |
 | `/mindmap <topic>` | 基于学习材料生成知识图谱 |
 | `/study <material>` | 针对特定材料(PPT/课本/视频)的专项学习 |
+| `/exam <topic>` | 生成试卷/习题，支持难度和知识点配置 |
+| `/diagram <concept>` | 生成概念图表（流程图/思维导图/对比图等） |
 | `/track [scope]` | 学习进度追踪与报告 |
 
 ## Architecture
@@ -73,11 +75,14 @@
 - **源材料优先路由**: 先查已导入材料，找不到再降级询问用户
 - **渐进式提炼**: 从 capture → organize → synthesize 逐层精炼
 - **SM-2 算法**: 闪卡默认使用 SM-2 间隔重复算法
+- **试卷可配置**: `/exam` 支持 `--difficulty`(easy/medium/hard/mixed) 和 `--format`(choice/fill/short/essay/mixed)
+- **图表自动生成**: `/diagram` 自动生成 Mermaid 图表嵌入笔记，思维导图等图像可自动输出
+- **习题答案标注来源**: 试卷中的每道题答案均标注 `[Source: ...]` 可追溯
 
 ## Workflow (5-Stage Learning Pipeline)
 
 1. **Import (导入)** — 使用 `/import` 将各格式材料导入并自动提取
 2. **Extract (提取)** — 自动拆解为 source-grounded 原子笔记
-3. **Organize (组织)** — 归类、打标签、建立 `[[wiki-link]]` 连接
-4. **Review (复习)** — 通过 `/review` 和 `/flashcard` 巩固记忆
-5. **Apply (应用)** — 将知识转化为项目产出，使用 `/track` 记录
+3. **Organize (组织)** — 归类、打标签、建立 `[[wiki-link]]` 连接，生成图表辅助理解（`/diagram`）
+4. **Review (复习)** — 通过 `/review`、`/flashcard`、`/exam` 巩固记忆和检验掌握度
+5. **Apply (应用)** — 将知识转化为项目产出，使用 `/track` 记录进度
