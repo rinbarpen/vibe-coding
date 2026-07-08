@@ -91,3 +91,6 @@
 [submodule "skills/summarize-slides-skill"]
 	path = skills/summarize-slides-skill
 	url = https://github.com/Li-Baichuan-James/summarize-slides-skill.git
+[submodule "skills/taste-skill"]
+	path = skills/taste-skill
+	url = https://github.com/Leonxlnx/taste-skill.git
