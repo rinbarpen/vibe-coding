@@ -1,0 +1,9 @@
+{
+  "x_labels": ["2021", "2022", "2023", "2024", "2025"],
+  "series": [
+    {"label": "Enterprise AI Adoption (%)", "values": [12, 18, 27, 38, 52]}
+  ],
+  "title": "Enterprise AI Adoption Rate in China",
+  "ylabel": "Adoption Rate (%)",
+  "source": "McKinsey Global Survey on AI, 2025"
+}

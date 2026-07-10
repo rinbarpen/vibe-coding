@@ -1,0 +1,7 @@
+{
+  "labels": ["Baidu", "Alibaba Cloud", "Tencent", "Huawei Cloud", "iFlytek", "Others"],
+  "values": [22, 18, 15, 12, 8, 25],
+  "title": "China AI Software Market Share (2025)",
+  "ylabel": "Market Share (%)",
+  "source": "IDC China AI Software Tracker, 2025"
+}

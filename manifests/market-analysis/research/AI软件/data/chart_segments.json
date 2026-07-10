@@ -1,0 +1,13 @@
+{
+  "title": "2023年全球AI软件细分市场分布",
+  "type": "pie",
+  "data": [
+    {"label": "计算机视觉", "value": 30, "color": "#3B82F6"},
+    {"label": "ML/DL平台", "value": 21, "color": "#10B981"},
+    {"label": "NLP", "value": 17, "color": "#F59E0B"},
+    {"label": "生成式AI", "value": 13, "color": "#EF4444"},
+    {"label": "语音", "value": 9, "color": "#8B5CF6"},
+    {"label": "其他", "value": 10, "color": "#94A3B8"}
+  ],
+  "note": "[来源: IDC, 2024]"
+}

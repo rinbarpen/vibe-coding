@@ -1,58 +1,318 @@
-# CLAUDE.md
+# CLAUDE.md — 行业研究 / 投资分析
 
-Market analysis project for stocks, funds, and financial data.
+**定位**：模拟真实市场分析师的完整作业流程。
+支持**两种工作模式**，在启动时选择：
 
-## Commands
+```
+模式 A: 📊 行业研究
+  核心问题: "这个行业怎么样？"
+  输出: 行业全景报告 + 执行摘要 + 数据附录
+  方法: 八步研究框架
+  读者: 行业从业者、产品经理、战略团队
 
-| Command | Description |
-|---------|-------------|
-| `uv run fetch_data.py` | Fetch market data (requires `proxy_on`) |
-| `uv run analyze.py` | Run technical analysis and indicators |
-| `uv run backtest.py` | Run strategy backtesting |
-| `uv run plot_trends.py` | Generate trend visualizations (English labels) |
-| `pytest tests/` | Run unit tests for indicators/strategies |
+模式 B: 💰 投资分析 (含行业研究)
+  核心问题: "基于行业洞察，有哪些可关注的方向？"
+  输出: 行业研究报告 + 投资备忘录 + 风险评估
+  方法: 八步框架 + 投资假设推导 + 公司分析 + 风险评估
+  读者: 投资者、分析师
+```
 
-## Architecture
+---
+
+## 📋 分析师工作流总览
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 1: 研究启动                          │
+│  选题确认 → 研究计划 → 资料来源清单 → 时间线                 │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 2: 数据采集                          │
+│  桌面研究(desk research) → 数据交叉验证 → 标注引用来源       │
+│  ├─ 行业报告/白皮书                                         │
+│  ├─ 公司公开信息（官网/年报/招股书）                         │
+│  ├─ 政府/协会统计数据                                       │
+│  ├─ 新闻/行业媒体                                           │
+│  └─ 宏观背景数据（可选）                                     │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 3: 结构化分析                        │
+│  八步法框架 → 每个维度独立分析 → 初步结论                    │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 4: 报告撰写                          │
+│  多报告并行生成：                                            │
+│  ├─ 📄 执行摘要 (Executive Summary)                         │
+│  ├─ 📄 行业全景报告 (Industry Overview)                     │
+│  ├─ 📄 专题深度报告 (Deep Dive)                             │
+│  └─ 📄 数据附录 (Data Appendix)                             │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 5: 可视化生成                        │
+│  代码生成图表 → 嵌入报告 → 确保数据展示直观                   │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 6: 质量门禁                          │
+│  引用核查 → 数据校验 → 逻辑自洽 → 可读性检查                  │
+└──────────────────────────┬──────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Phase 7: 交付                              │
+│  最终报告 → 归档到 research/<行业>/                         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📦 交付物（多报告体系）
+
+每次研究交付**最少 3 份报告**：
+
+| 报告 | 页数 | 读者 | 内容 |
+|------|:----:|------|------|
+| **📄 执行摘要** | 1-2页 | 决策者 | 核心结论、关键数据、战略建议（无需专业知识也能读懂） |
+| **📄 行业全景报告** | 8-15页 | 分析师/从业者 | 八步法完整分析，含图表和数据 |
+| **📄 数据附录** | 2-5页 | 研究员 | 原始数据表、引用来源清单、计算方法、假设条件 |
+
+**可选追加（根据需求）：**
+
+| 报告 | 说明 |
+|------|------|
+| **📄 专题深度报告** | 针对行业内的某一细分领域/关键问题深入分析 |
+| **📄 竞争对标报告** | 2-3家核心竞争者的多维对比分析 |
+
+---
+
+## 🎯 研究八步法（全景报告核心框架）
+
+```
+① 行业界定 ───→ ② 市场分析 ───→ ③ 竞争格局 ───→ ④ 产业链
+        ↓               ↓               ↓               ↓
+   边界、分类、     规模、增长、     波特五力、     上游/中游/下游
+   细分领域        渗透率、驱动     集中度、玩家     附加值分布
+                   /抑制因素        定位
+        ↓               ↓               ↓               ↓
+ ⑤ 技术趋势 ───→ ⑥ 政策环境 ───→ ⑦ KSF提炼 ───→ ⑧ 结论展望
+        ↓               ↓               ↓               ↓
+   技术路线、      监管框架、      行业壁垒、      生命周期定位、
+   成熟度、        政策方向、      成功要素、      未来判断、
+   颠覆风险        趋势判断        风险分析        战略启示
+```
+
+---
+
+## 🔗 引用规范
+
+所有数据和事实必须标注来源。格式要求：
+
+### 引用格式
+
+```
+文中标注：[来源: 报告名/来源, 年份]
+文末列出完整来源列表，格式：
+  [1] 作者/机构. 报告标题. 年份. URL(如有)
+  [2] 作者/机构. 文章标题. 媒体名. 日期. URL(如有)
+```
+
+### 引用分级
+
+| 级别 | 含义 | 格式 |
+|:----:|------|------|
+| ✅ | 可验证的公开来源 | `[来源: IDC, 2025]` |
+| ⚠️ | 基于已知信息的推算 | `[推算: 假设条件说明]` |
+| ❓ | 未验证或有争议 | `[待核实: 需进一步确认]` |
+
+### 引用核查清单
+
+每篇报告交付前必须执行：
+
+- [ ] 每条引用标注了具体来源
+- [ ] 标注为 ✅ 的来源可以通过公开渠道验证
+- [ ] 推算数据标注了假设条件
+- [ ] 没有未标注来源的关键数据
+- [ ] 来源列表完整、格式统一
+
+---
+
+## 📊 可视化规范
+
+图表必须通过 **代码生成**（禁止手写 SVG/Mermaid 等不稳定方式），确保可重复性和格式一致。
+
+### 支持的可视化类型
+
+| 图表类型 | 适用场景 | Python 库 |
+|---------|---------|-----------|
+| 📈 折线图 | 趋势展示（市场增长、技术成熟度） | matplotlib |
+| 📊 柱状图 | 对比（市场份额、各维度评分） | matplotlib |
+| 🥧 饼图/环形图 | 占比（市场集中度、成本结构） | matplotlib |
+| 📉 K线/蜡烛图 | 技术分析（一般不用于行业研究） | — |
+| 🗺️ 热力图 | 多维度对比 | matplotlib + seaborn |
+| 📋 表格 | 数据展示（markdown 原生） | markdown |
+
+### 图表生成规范
+
+```python
+# 示例：生成柱状图（市场份额）
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans']  # 英文
+matplotlib.rcParams['axes.unicode_minus'] = False
+
+fig, ax = plt.subplots(figsize=(10, 6))
+companies = ['公司A', '公司B', '公司C', '公司D', '其他']
+shares = [35, 25, 15, 10, 15]
+colors = ['#2563EB', '#10B981', '#F59E0B', '#EF4444', '#94A3B8']
+bars = ax.bar(companies, shares, color=colors)
+ax.set_title('行业市场份额分布 (CY2025)', fontsize=14, fontweight='bold')
+ax.set_ylabel('市场份额 (%)')
+ax.set_ylim(0, 45)
+# 在柱子上加数值
+for bar, share in zip(bars, shares):
+    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
+            f'{share}%', ha='center', va='bottom', fontweight='bold')
+plt.tight_layout()
+plt.savefig('output/market_share.png', dpi=150)
+plt.close()
+```
+
+所有图表保存为 `output/` 目录下的 PNG 文件，嵌入 Markdown 报告时使用 `![图名](output/图名.png)`。
+
+---
+
+## 🏗️ 项目结构
 
 ```
 <root>/
-  data/       # Raw and processed market data (CSV/Parquet)
-  indicators/ # Technical indicators (MACD, RSI, etc.)
-  strategies/ # Trading/Investment strategies
-  backtest/   # Backtesting engine and results
-  scripts/    # Data fetching and utility scripts
-  tests/      # Unit and integration tests
+  research/               # 各行业研究目录
+    <行业名>/
+      raw/                # 原始资料
+        sources.json      # 收集到的来源汇总
+      data/               # 数据文件
+      output/             # 生成的图表和报告
+        executive-summary.md
+        industry-overview.md
+        deep-dive.md
+        data-appendix.md
+        chart_*.png       # 图表文件
+      references/         # 引用资料原文/笔记
+  scripts/
+    fetch_data.py         # 宏观数据 + 来源建议
+    report.py             # 报告框架生成
+    visualize.py          # 图表生成工具
+  references/
+    porter-five-forces.md
+    industry-lifecycle.md
+    competitive-analysis.md
+    market-sizing.md
+    technology-assessment.md
+    regulatory-analysis.md
+    citation-standards.md      # 引用规范与核查
+    data-visualization.md      # 可视化指南
+  templates/
+    | `templates/executive-summary-template.md` | 执行摘要模板（决策者版） |
+    | `templates/industry-overview-template.md` | 行业全景报告模板（八步法） |
+    | `templates/data-appendix-template.md` | 数据附录模板（引用+方法论） |
+    | `templates/deep-dive-template.md` | 专题深度报告模板 |
+    | `templates/investment-memo-template.md` | **投资备忘录模板** |
+  rules/
+    vibe-coding-market.mdc
 ```
 
-## Key Files
+---
 
-- `pyproject.toml` - Project configuration (uv)
-- `indicators/core.py` - Core indicator implementations
-- `strategies/base.py` - Base strategy class
-- `backtest/engine.py` - Backtesting logic
+## 📐 报告可读性标准
 
-## Code Style
+| 标准 | 要求 |
+|------|------|
+| **语言** | 避免行业黑话，必须用术语时首次出现处加解释 |
+| **句子长度** | 平均不超过25字，复杂概念拆分表述 |
+| **段落长度** | 每段不超过8行 |
+| **数据展示** | 关键数据优先用图表而非纯文字描述 |
+| **结论先行** | 每章节开头先给结论，再用数据和逻辑支撑 |
+| **图表标注** | 每个图表有标题、图例、数据来源标注 |
+| **排版** | 善用加粗、列表、引用块，使页面有视觉层次 |
 
-- Use `pandas` and `numpy` for efficient data manipulation.
-- All financial calculations must include unit tests.
-- Use type hints for dataframes where possible (e.g., `pd.DataFrame`).
-- Follow PEP 8 for Python code.
+---
 
-## Environment
+## 🔍 事实核查流程
 
-Required:
-- `TUSHARE_TOKEN` - Token for Tushare data API (if used)
-- `AKSHARE_PROXY` - Proxy settings for AkShare (if needed)
+每份报告交付前必须经过以下核查：
 
-## Gotchas
+```
+Level 1: 自查 (AI Agent)
+  ├─ 每条引用可追溯?
+  ├─ 推算假设是否明确标注?
+  ├─ 有无自相矛盾的论述?
+  └─ 图表与文字数据一致?
 
-- **Data Compliance**: Ensure all data usage complies with provider terms.
-- **Risk Warning**: AI-generated analysis is for reference only, not financial advice.
-- **Network**: Run `proxy_on` before fetching external market data.
-- **Visualization**: Matplotlib plots MUST use English labels for compatibility.
+Level 2: 数据一致性检查
+  ├─ 同一数据在不同报告中是否一致?
+  ├─ 图表中的数值和正文中的文字描述是否一致?
+  └─ 百分比加总是否等于100%?
 
-## Workflow
+Level 3: 可读性检查
+  ├─ 非行业人士能看懂吗?
+  ├─ 核心结论是否在前两页就能看到?
+  └─ 有没有不必要的复杂表述?
+```
 
-- **Data First**: Always verify data integrity before running analysis.
-- **Backtest**: Every strategy must be backtested against historical data.
-- **Risk Check**: Run risk assessment scripts before finalizing any report.
+---
+
+## 👨‍💼 工作方式（模拟真实分析师）
+
+```
+Day 1-2:  Desk Research
+  ├─ 收集行业报告、新闻、公司信息
+  ├─ 下载宏观背景数据
+  └─ 整理资料来源清单
+
+Day 3-4:  Analysis
+  ├─ 八步法逐维度分析
+  ├─ 数据交叉验证
+  └─ 初步判断与结论
+
+Day 5-6:  Report Writing
+  ├─ 撰写执行摘要
+  ├─ 撰写全景报告
+  ├─ 撰写数据附录
+  └─ 代码生成图表
+
+Day 7:    Review & Delivery
+  ├─ 事实核查
+  ├─ 引用验证
+  ├─ 可读性优化
+  └─ 最终交付
+```
+
+> 实际执行时 AI Agent 可以大幅压缩这个时间线，
+> 但流程和标准不变——每一步的质量要求不因速度而降低。
+
+---
+
+## 🧩 扩展模块：从行业研究到投资分析
+
+行业研究回答"行业怎么样"，投资分析回答"基于这个洞察应该关注什么"。
+
+| 模块 | 文件 | 解决什么问题 |
+|:----:|------|-------------|
+| 🧠 **投资假设推导** | `references/investment-thesis.md` | "行业研究完了，有哪些可验证的投资逻辑？" |
+| 🏢 **个股深度分析** | `references/company-analysis.md` | "这家公司到底怎么样？护城河多宽？" |
+| ⚠️ **风险评估** | `references/risk-assessment.md` | "最大的风险是什么？出事了怎么办？" |
+| 📝 **投资备忘录** | `templates/investment-memo-template.md` | "把这些分析整合成一份决策参考" |
+
+### 使用方法
+
+```
+行业研究报告 → 提取关键变量 → 推导投资假设
+                                        ↓
+                 投资假设 → 公司分析 → 风险评估 → 投资备忘录
+```
+
+### ⚠️ 重要界限
+
+这些模块提供的是**分析工具和框架**，帮助你自己做出理性判断，而不是直接给出买卖建议。最终的投资决策必须由你自己负责。

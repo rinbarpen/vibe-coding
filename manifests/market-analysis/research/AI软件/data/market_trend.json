@@ -1,0 +1,10 @@
+{
+  "x_labels": ["2021", "2022", "2023", "2024", "2025"],
+  "series": [
+    {"label": "Market Size (B CNY)", "values": [85, 128, 187, 268, 378]},
+    {"label": "Growth Rate (%)", "values": [32, 51, 46, 43, 41]}
+  ],
+  "title": "China AI Software Market Size & Growth",
+  "ylabel": "Billion CNY / %",
+  "source": "IDC China Semi-Annual AI Tracker, 2025"
+}

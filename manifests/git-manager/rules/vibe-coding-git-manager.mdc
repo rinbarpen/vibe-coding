@@ -6,6 +6,8 @@ alwaysApply: false
 
 # Git Manager Core Rules
 
+> AI 代理在处理 Git 仓库管理任务时必须遵守的规则集。
+
 ## 1. 令牌与机密管理
 
 - 所有 API 令牌必须通过环境变量注入（`GITHUB_TOKEN`, `GITEE_TOKEN` 等）
@@ -13,30 +15,37 @@ alwaysApply: false
 - CI 令牌使用平台 Secrets 管理，勿提交到仓库
 - `.env` 文件必须加入 `.gitignore`
 - 令牌泄露后立即撤销并轮换
+- **考虑 GitHub OIDC**：Actions 环境中优先使用 OIDC 替代长期 Token
+- **令牌过期策略**：定期轮换 API 令牌，建议 90 天过期
 
 ## 2. 跨平台镜像规范
 
-- 建议使用**主从模式**（一个平台为主，其余为镜像），避免双向同步冲突
-- 镜像同步推荐方式：
-  - `git push --mirror` — 全量镜像（含 refs 所有引用）
-  - `git push --all --tags` — 仅分支与标签
-  - CI 定时同步 — 通过 GitHub Actions / Gitee Go / GitLab CI 自动执行
+- **必须使用主从模式**（一个平台为主，其余为镜像），禁止双向同步
+- 镜像同步推荐方式（按优先级排序）：
+  1. `scripts/mirror-sync.sh` — 本脚本集成的镜像工具（含 dry-run 和验证）
+  2. CI 定时同步 — 通过 GitHub Actions / Gitee Go / GitLab CI 自动执行
 - 镜像仓库应设置为只读（禁止直接推送到镜像端）
+- **每次镜像操作后必须验证**：使用 `scripts/verify-mirror.sh` 检查分支和标签是否一致
+- 含 LFS 的仓库需要额外配置：`git lfs fetch --all` + `git lfs push --all`
+- **空仓库兼容**：首次同步空仓库时 `--mirror` 会失败，改用 `--all --tags`
 
 ## 3. 分支管理规范
 
 - 默认分支统一为 `main`
 - 命名规范：`feature/<name>`、`fix/<name>`、`release/<version>`
 - 长期分支建议设置保护规则（禁止 force push、需要 PR 审核）
-- 合并后及时使用 `br prune` 删除特性分支
+- 合并后及时使用 `scripts/branch-prune.sh` 删除特性分支
+- **干运行优先**：始终先用 `--dry-run` 预览即将删除的分支
+- 保护分支（main/master/release/*）不会被脚本自动操作
 
 ## 4. 标签管理规范
 
 - 标签命名遵循 semver：`v<major>.<minor>.<patch>`（如 `v2.1.0`）
 - 预发布标签：`v<version>-<name>`（如 `v2.1.0-beta.1`、`v2.1.0-rc.1`）
-- 使用 `tag promote` 自动递增版本，避免手动计算
+- 使用 `scripts/tag-manager.sh promote` 自动递增版本，避免手动计算
 - 跨平台同步时确保 `git push --tags` 或 `mirror run --with-tags`
-- 废弃标签及时使用 `tag prune` 清理
+- 废弃标签及时使用 `scripts/tag-manager.sh prune` 清理
+- **避免标签覆盖**：promote 前检查最新标签是否已存在于远端
 
 ## 5. CI/CD 规范
 
@@ -45,6 +54,8 @@ alwaysApply: false
 - Release 工作流使用 `softprops/action-gh-release` 自动生成 Release Notes
 - CI 工作流中的 Token 仅授予最小必要权限
 - 发布流水线遵循：`test` → `tag promote` → `ci run` → `release`
+- **环境门禁**：生产环境发布应设置 GitHub Environments + required reviewers
+- GitHub Actions 中优先使用 OIDC 替代 PAT
 
 ## 6. PR/MR 管理标准
 
@@ -60,3 +71,4 @@ alwaysApply: false
 - 检查 CI/CD 流水线健康度
 - 扫描依赖安全漏洞
 - 检查最新 tag 是否落后于默认分支
+- 审计优先使用 `scripts/repo-audit.sh`（支持 table/json/md 三种输出格式）

@@ -76,20 +76,14 @@ git -C skills/<子模块名> reset --hard HEAD
 git submodule update --remote skills/<子模块名>
 ```
 
-### 5. 更新未注册仓库
+### 5. 处理网络超时
 
-`skills/aris/` 和 `skills/ppt-master/` 不在 `.gitmodules` 中（是嵌套的独立 git 仓库），需单独拉取：
+部分仓库（如 `nuwa-skill`）可能因体积较大或网络问题 fetch 超时。如遇超时：
 
 ```bash
-# 先确保 SSH URL
-git -C skills/aris remote set-url origin git@github.com:wanshuiyin/Auto-claude-code-research-in-sleep.git
-git -C skills/aris pull --ff-only
-
-git -C skills/ppt-master remote set-url origin git@github.com:hugohe3/ppt-master.git  
-git -C skills/ppt-master pull --ff-only
+# 单独重试失败的子模块，加大超时
+git submodule update --remote skills/nuwa-skill
 ```
-
-> **注意**：`ppt-master` 仓库较大，拉取可能因网络超时失败。如遇超时，可稍后重试。
 
 ### 6. 验证
 
@@ -129,13 +123,9 @@ git submodule sync
 echo "=== 4. 更新注册子模块 ==="
 git submodule update --remote || echo "部分子模块更新失败，请检查 git submodule status"
 
-echo "=== 5. 更新未注册仓库 ==="
-for repo in skills/aris skills/ppt-master; do
-  if [ -d "$repo/.git" ] || [ -f "$repo/.git" ]; then
-    echo "--- $repo ---"
-    git -C "$repo" pull --ff-only 2>&1 || echo "拉取 $repo 失败"
-  fi
-done
+echo "=== 5. 处理失败子模块 ==="
+# 对 network timeout 的子模块可在此单独重试
+# git submodule update --remote skills/nuwa-skill
 
 echo "=== 6. 最终状态 ==="
 git submodule status
@@ -147,18 +137,19 @@ git submodule status
 
 | 路径 | 上游仓库 |
 |------|----------|
-| manifests/agent-browser | vercel-labs/agent-browser |
 | skills/AI-Research-SKILLs | Orchestra-Research/AI-Research-SKILLs |
 | skills/Agent-Skills-for-Context-Engineering | muratcankoylan/Agent-Skills-for-Context-Engineering |
 | skills/Humanizer-zh | op7418/Humanizer-zh |
 | skills/Pretty-mermaid-skills | imxv/Pretty-mermaid-skills |
+| skills/academic-research-skills | Imbad0202/academic-research-skills |
+| skills/academic-research-skills-codex | Imbad0202/academic-research-skills-codex |
 | skills/agent-skills | vercel-labs/agent-skills |
 | skills/ai-design-components | ancoleman/ai-design-components |
 | skills/ai-investment-advisor | AllenAI2014/ai-investment-advisor |
 | skills/ai-skills | sanjay3290/ai-skills |
 | skills/anthropics | anthropics/skills |
+| skills/aris | wanshuiyin/Auto-claude-code-research-in-sleep |
 | skills/awesome-claude-skills | ComposioHQ/awesome-claude-skills |
-| skills/axton-obsidian-visual-skills | axtonliu/axton-obsidian-visual-skills |
 | skills/beautiful_prose | SHADOWPR0/beautiful_prose |
 | skills/chinese-copywriting-guidelines | sparanoid/chinese-copywriting-guidelines |
 | skills/chinese-novelist-skill | PenglongHuang/chinese-novelist-skill |
@@ -168,21 +159,26 @@ git submodule status
 | skills/humanizer | blader/humanizer |
 | skills/marketingskills | coreyhaines31/marketingskills |
 | skills/notebooklm-skill | PleasePrompto/notebooklm-skill |
+| skills/nuwa-skill | alchaincyf/nuwa-skill |
 | skills/obsidian-skills | kepano/obsidian-skills |
+| skills/planning-with-files | othmanadi/planning-with-files |
+| skills/ralph | snarktank/ralph |
 | skills/skill-seekers | yusufkaraaslan/Skill_Seekers |
 | skills/skills | better-auth/skills |
+| skills/summarize-slides-skill | Li-Baichuan-James/summarize-slides-skill |
 | skills/superpowers | obra/superpowers |
 | skills/ui-ux-pro-max-skill | nextlevelbuilder/ui-ux-pro-max-skill |
 | skills/video-summarizer | liang121/video-summarizer |
 | skills/x-research-skill | rohunvora/x-research-skill |
 
-### 未注册仓库（嵌套独立 git 仓库）
+### 备选仓库（当前未注册，上游仍然存在）
 
-| 路径 | 上游仓库 |
-|------|----------|
-| skills/aris | wanshuiyin/Auto-claude-code-research-in-sleep |
-| skills/ppt-master | hugohe3/ppt-master |
-| skills/Khazix-Skills | KKKKhazix/Khazix-Skills（未初始化） |
+以下目录当前未在 `.gitmodules` 中配置且本地目录已移除，但上游仓库仍可用，如需恢复可手动添加：
+
+| 路径 | 上游仓库 | 说明 |
+|------|----------|------|
+| manifests/agent-browser | vercel-labs/agent-browser | 浏览器自动化 manifest |
+| skills/axton-obsidian-visual-skills | axtonliu/axton-obsidian-visual-skills | Obsidian 可视化技能 |
 
 ## Red Lines
 
