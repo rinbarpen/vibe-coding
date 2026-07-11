@@ -18,6 +18,13 @@
 | `aris/citation-audit` | 引用校验 (DBLP/arXiv) |
 | `aris/paper-claim-audit` | 数值声明校验 |
 | `aris/experiment-bridge` | 实验桥接 |
+| `mine/export-paper-zip "path" [--mode submission|bundle]` | 论文导出打包 — 投稿 ZIP 或文件打包 |
+| `mine/paper-version-manager init <dir> [msg]` | 初始化论文版本追踪（v1） |
+| `mine/paper-version-manager bump --minor <dir> [msg]` | 小版本升级（v1 → v1.1，审稿修改后） |
+| `mine/paper-version-manager bump --major <dir> [msg]` | 大版本升级（v1 → v2，重大改写后） |
+| `mine/paper-version-manager list <dir>` | 列出所有版本和变更日志 |
+| `mine/paper-version-manager diff <dir> --from vX --to vY` | 比较两个版本的差异 |
+| `mine/paper-version-manager rollback <dir> <version>` | 回滚到指定版本 |
 
 ## 仓库结构
 
@@ -33,6 +40,9 @@ auto-research/
 │   ├── PAPER_OUTLINE.md.example
 │   ├── REVIEW_RESPONSE.md.example
 │   └── FIGURE_SPEC.md.example
+├── skills/
+│   └── export-paper-zip/
+│       └── SKILL.md
 ├── scripts/
 │   └── init-auto-research.sh
 ├── .github/
@@ -64,6 +74,7 @@ aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG 
 | File | Purpose |
 |------|---------|
 | `references/research-lifecycle.md` | 完整自动化科研流程说明 |
+| `references/version-lifecycle.md` | 论文版本管理生命周期（位于 mine/paper-version-manager/references/） |
 | `references/paper-review-guide.md` | 自动评审机制和评审者独立性协议 |
 | `references/figure-generation.md` | 自动图表生成管线 |
 | `references/integration-guide.md` | aris / paperreview / autofigure 集成方式 |
@@ -83,3 +94,4 @@ aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG 
 - 输出清单协议：每次输出后向 MANIFEST.md 追加一行（Timestamp / Skill / File / Stage / Description）
 - 跨模型协议：建议执行者和评审者使用不同模型家族
 - 文件版本化：每个产出需要带时间戳副本 + 固定名称最新副本
+- 论文版本管理：每次修改后使用 `mine/paper-version-manager` 创建版本快照，v1/v2 为大改、vx.1/vx.2 为小改
