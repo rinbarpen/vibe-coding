@@ -1,7 +1,0 @@
-{
-  "metadataGeneration": {
-    "branchName": {
-      "instructions": "分支以feat/或fix/开头，对于网站部署分支使用pages/。"
-    }
-  }
-}
