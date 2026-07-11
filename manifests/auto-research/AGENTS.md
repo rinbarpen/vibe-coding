@@ -20,16 +20,21 @@
 5. 产出：实验结果 + 图表数据
 
 ### Phase 3: Review
-论文写作 → 自动评审 → 反驳/修改
+论文写作 → 版本管理 → 自动评审 → 迭代改进
 
 1. 使用 `aris/paper-plan` 生成论文大纲
 2. 使用 `aris/paper-write` 撰写论文草稿
-3. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）
-4. 使用 `mine/paperreview-ai-review` 提交 paperreview.ai 外部评审
-5. 使用 `aris/paper-claim-audit` 校验数值声明一致性
-6. 使用 `aris/citation-audit` 校验引用
-7. 使用 `aris/auto-paper-improvement-loop` 改进论文
-8. 产出：评审意见 + 改进清单
+3. 使用 `mine/paper-version-manager init` 初始化版本追踪（v1）
+4. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）
+5. 根据评审意见修改论文
+6. 使用 `mine/paper-version-manager bump --minor` 标记修改（v1 → v1.1 等）
+7. 重复步骤 4-6 直到评审收敛（每轮评审后 bump --minor）
+8. 使用 `mine/paperreview-ai-review` 提交 paperreview.ai 外部评审
+9. 使用 `aris/paper-claim-audit` 校验数值声明一致性
+10. 使用 `aris/citation-audit` 校验引用
+11. 对于重大改写使用 `mine/paper-version-manager bump --major`
+12. 使用 `aris/auto-paper-improvement-loop` 深度改进论文
+13. 产出：评审意见 + 改进清单 + 版本历史
 
 ### Phase 4: Polish
 图表生成 → 论文编译 → 终稿
@@ -38,6 +43,13 @@
 2. 使用 `aris/paper-illustration "desc"` 生成 AI 插图
 3. 使用 `aris/paper-compile` 编译终稿
 4. 产出：定稿论文 + 图表
+
+### Phase 5: Export
+论文导出 → 打包 → 投稿 ZIP
+
+1. 使用 `mine/export-paper-zip "path" --mode submission --venue <venue>` 导出投稿 ZIP
+2. 或使用 `mine/export-paper-zip "path" --mode bundle --include <files...>` 自定义打包
+3. 产出：`paper-submission_<venue>_YYYYMMDD.zip` + 记录到 MANIFEST.md
 
 ## Subagent Dispatch
 
@@ -49,13 +61,14 @@
 | paper-reviewer | Phase 3 | 自动评审（调用 auto-review-loop） |
 | figure-designer | Phase 4 | 图表规格和生成 |
 | citation-auditor | Phase 3 | 引用校验 |
+| version-manager | Phase 3 | 版本追踪和变更记录 |
 
 ## Output Manifest 协议
 
 - 每个阶段产出记录到 `MANIFEST.md`
 - 格式：`| Timestamp | Skill | File | Stage | Description |`
-- 阶段值：`idea-discovery` / `implementation` / `review` / `paper`
-- 文件版本化：带时间戳副本 + 固定名称最新副本并存
+- 阶段值：`idea-discovery` / `implementation` / `review` / `paper` / `version`
+- 文件版本化：带时间戳副本 + 固定名称最新副本并存；使用 `mine/paper-version-manager` 管理论文版本历史
 
 ## 评审者独立性协议
 
