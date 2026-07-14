@@ -48,6 +48,10 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Humanizer-zh](skills/Humanizer-zh)**: Remove AI-writing traces from Chinese text for more natural phrasing.
 *   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: High-quality Mermaid diagram rendering with multiple themes, SVG/ASCII output.
 *   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: Chapter-by-chapter Chinese fiction writing, long-form and multi-genre.
+*   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: De-AI Chinese writing skill with author style replication and 24-pattern AI trace detection.
+*   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: Reduce AIGC detection rate in Chinese academic writing.
+*   **[shuorenhua](skills/shuorenhua)**: Chinese-first rewrite skill — removes AI tone, preserves facts.
+*   **[writing-agent](workflows/writing-agent)**: Full-stack Claude Code writing system from topic selection to publication.
 
 ---
 
