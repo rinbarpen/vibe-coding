@@ -104,3 +104,6 @@
 [submodule "workflows/writing-agent"]
 	path = workflows/writing-agent
 	url = https://github.com/dongbeixiaohuo/writing-agent.git
+[submodule "skills/academic-humanizer"]
+	path = skills/academic-humanizer
+	url = https://github.com/AIScientists-Dev/academic-humanizer.git
