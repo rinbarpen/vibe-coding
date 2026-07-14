@@ -91,6 +91,3 @@
 [submodule "skills/summarize-slides-skill"]
 	path = skills/summarize-slides-skill
 	url = https://github.com/Li-Baichuan-James/summarize-slides-skill.git
-[submodule "skills/ppt-master"]
-	path = skills/ppt-master
-	url = https://github.com/hugohe3/ppt-master.git
