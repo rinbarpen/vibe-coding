@@ -1869,3 +1869,18 @@
 - **Path**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/user-promptx-alpha`
 - **Description**: 
 - **Usage**: See description
+
+### de-ai-prompt-enhancer
+- **Path**: `skills/de-ai-prompt-enhancer`
+- **Description**: Chinese de-AI-writing skill with two modes (good-writing for author style replication, de-AI-writing for AI-trace removal), 24-pattern AI trace detection, and quantitative style constraints.
+- **Usage**: Flat, impersonal copy; suitable for social media (Xiaohongshu, WeChat Official Accounts).
+
+### humanizer-zh-academic
+- **Path**: `skills/humanizer-zh-academic`
+- **Description**: Claude Code Skill to reduce AIGC detection rate in Chinese academic writing. 16 AI pattern recognition, 7 hard constraints, standardized SOP, 6-dimension quality scoring.
+- **Usage**: Chinese academic papers, journal articles, theses, research reports.
+
+### shuorenhua
+- **Path**: `skills/shuorenhua`
+- **Description**: Chinese-first rewrite skill that reduces boilerplate and AI tone while preserving facts, terminology, and technical context. Covers chat, status sync, README, forum posts.
+- **Usage**: Daily copy, technical status updates, release notes, forum posts where a template-like feel needs removal.

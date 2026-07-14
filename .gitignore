@@ -6,3 +6,4 @@
 
 # Local hookify rules (per-developer overrides)
 hooks/*.local.md
+paseo.json

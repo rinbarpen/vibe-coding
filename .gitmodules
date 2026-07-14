@@ -91,9 +91,19 @@
 [submodule "skills/summarize-slides-skill"]
 	path = skills/summarize-slides-skill
 	url = https://github.com/Li-Baichuan-James/summarize-slides-skill.git
-[submodule "skills/planning-with-files"]
-	path = skills/planning-with-files
-	url = https://github.com/othmanadi/planning-with-files.git
-[submodule "skills/ralph"]
-	path = skills/ralph
-	url = https://github.com/snarktank/ralph.git
+[submodule "skills/humanizer-zh-academic"]
+	path = skills/humanizer-zh-academic
+	url = https://github.com/redbaronyyyyy-eng/humanizer-zh-academic.git
+
+[submodule "skills/de-ai-prompt-enhancer"]
+	path = skills/de-ai-prompt-enhancer
+	url = https://github.com/OUBIGFA/De-AI-Prompt-Enhancer-Writer-Booster-SKILL.git
+[submodule "skills/shuorenhua"]
+	path = skills/shuorenhua
+	url = https://github.com/MrGeDiao/shuorenhua.git
+[submodule "workflows/writing-agent"]
+	path = workflows/writing-agent
+	url = https://github.com/dongbeixiaohuo/writing-agent.git
+[submodule "skills/academic-humanizer"]
+	path = skills/academic-humanizer
+	url = https://github.com/AIScientists-Dev/academic-humanizer.git

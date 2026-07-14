@@ -49,6 +49,10 @@
 *   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: 高质量 Mermaid 图表渲染，多主题、SVG/ASCII 输出。
 *   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: 分章节中文小说创作，支持长篇与多题材。
 *   **[X Research](skills/x-research-skill)**: 通用的 X/Twitter 调研助手，支持实时搜索、推文分析与专家观点提取。
+*   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: 去AI味提示词技能，含两套写作模式与24项AI痕迹检测体系。
+*   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: 降低中文学术写作 AIGC 检测率的专用 Skill。
+*   **[shuorenhua](skills/shuorenhua)**: 说人话 — 中文优先的去AI味改写，保事实、分场景。
+*   **[writing-agent](workflows/writing-agent)**: 基于 Claude Code 的全栈写作系统，从选题到审稿发布的完整写作工作流。
 
 ---
 

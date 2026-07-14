@@ -1869,3 +1869,18 @@
 - **路径**: `/home/rczx/.cursor/projects/home-rczx-workspace-rinbarpen-vibe-coding/mcps/user-promptx-alpha`
 - **简介**: 
 - **使用场景**: 见简介
+
+### de-ai-prompt-enhancer
+- **路径**: `skills/de-ai-prompt-enhancer`
+- **简介**: 去AI味提示词技能，含两套写作模式（good-writing 复现作者风格，de-AI-writing 做去AI味补丁），24项AI痕迹检测体系和量化风格约束。
+- **使用场景**: 内容平淡、没个性的稿件；适合小红书、公众号等发布场景。
+
+### humanizer-zh-academic
+- **路径**: `skills/humanizer-zh-academic`
+- **简介**: 降低中文学术写作AIGC检测率的Claude Code Skill。16种AI模式识别、7项硬约束、标准化SOP和6维质量评分。
+- **使用场景**: 中文论文、期刊文章、毕业论文、研究报告等学术场景。
+
+### shuorenhua
+- **路径**: `skills/shuorenhua`
+- **简介**: 说人话 — 中文优先的去AI味改写skill。保事实、分场景、改完可直接发。覆盖聊天、技术同步、README、论坛帖等场景。
+- **使用场景**: 日常文案、技术状态同步、发布说明、论坛帖等需要去模板感的场景。
