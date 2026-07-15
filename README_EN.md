@@ -49,9 +49,28 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: High-quality Mermaid diagram rendering with multiple themes, SVG/ASCII output.
 *   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: Chapter-by-chapter Chinese fiction writing, long-form and multi-genre.
 *   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: De-AI Chinese writing skill with author style replication and 24-pattern AI trace detection.
+*   **[X Research](skills/x-research-skill)**: General X/Twitter research assistant supporting real-time search, tweet analysis, and expert opinion extraction.
 *   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: Reduce AIGC detection rate in Chinese academic writing.
+*   **[academic-humanizer](skills/academic-humanizer)**: Academic AIGC trace detection and de-AI-ification skill.
 *   **[shuorenhua](skills/shuorenhua)**: Chinese-first rewrite skill — removes AI tone, preserves facts.
 *   **[writing-agent](workflows/writing-agent)**: Full-stack Claude Code writing system from topic selection to publication.
+
+---
+
+## 🏗️ Vibe Coding Manifests
+
+This project provides a series of Vibe Coding configuration Manifests adapted to different scenarios, which can be used directly to initialize new projects or optimize AI context for existing projects:
+
+*   **[Vibe Coding (Core)](manifests/vibe-coding)**: Core Vibe Coding workflow configuration with `CLAUDE.md` and `AGENTS.md` templates.
+*   **[Auto Research](manifests/auto-research)**: Automated research pipeline covering literature discovery, experiment execution, paper writing, and review.
+*   **[Auto Research (ARS)](manifests/auto-research-ars)**: Enhanced automated research system with multi-agent collaboration and deep literature mining.
+*   **[Fund Proposal](manifests/fund-proposal)**: Grant/proposal writing configuration integrating research, review, and visualization skills.
+*   **[Git Manager](manifests/git-manager)**: Git repository management and automation configuration.
+*   **[Knowledge Learning](manifests/knowledge-learning)**: Knowledge learning and management system configuration.
+*   **[Market Analysis](manifests/market-analysis)**: Market analysis and competitive research configuration.
+*   **[Novel Writing](manifests/novel-writing)**: Fiction writing and literary creation configuration.
+*   **[Social Media](manifests/social-media)**: Social media content creation and management configuration.
+*   **[UI Testing](manifests/ui-testing)**: Automated UI testing configuration supporting Playwright/Vitest/mobile/accessibility testing.
 
 ---
 

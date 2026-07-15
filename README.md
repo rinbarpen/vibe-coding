@@ -51,6 +51,7 @@
 *   **[X Research](skills/x-research-skill)**: 通用的 X/Twitter 调研助手，支持实时搜索、推文分析与专家观点提取。
 *   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: 去AI味提示词技能，含两套写作模式与24项AI痕迹检测体系。
 *   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: 降低中文学术写作 AIGC 检测率的专用 Skill。
+*   **[academic-humanizer](skills/academic-humanizer)**: 学术论文写作 AIGC 痕迹检测与去AI味改写 Skill。
 *   **[shuorenhua](skills/shuorenhua)**: 说人话 — 中文优先的去AI味改写，保事实、分场景。
 *   **[writing-agent](workflows/writing-agent)**: 基于 Claude Code 的全栈写作系统，从选题到审稿发布的完整写作工作流。
 
@@ -61,21 +62,15 @@
 本项目提供了一系列适配不同场景的 Vibe Coding 配置文件 (Manifests)，可直接用于初始化新项目或优化现有项目的 AI 上下文：
 
 *   **[Vibe Coding (Core)](manifests/vibe-coding)**: 核心 Vibe Coding 流程配置，包含 `CLAUDE.md` 和 `AGENTS.md` 模板。
-*   **[Code Programming](manifests/code-programming)**: 全栈多语言软件开发生命周期配置（Go/Rust/Python/TS/Java）。
-*   **[Academic Writing](manifests/academic-writing)**: 专为学术写作优化的配置，包含论文润色、引用管理等规则。
-*   **[Fund Proposal](manifests/fund-proposal)**: 基金申请书/项目建议书编写配置，集成调研、评审与视觉化技能。
 *   **[Auto Research](manifests/auto-research)**: 自动化研究流水线，涵盖文献发现、实验执行、论文撰写与审查。
-*   **[Research](manifests/research)**: 通用科学研究与实验管理配置，支持完整实验生命周期。
+*   **[Auto Research (ARS)](manifests/auto-research-ars)**: 增强型自动化研究系统，集成多智能体协作与深度文献挖掘。
+*   **[Fund Proposal](manifests/fund-proposal)**: 基金申请书/项目建议书编写配置，集成调研、评审与视觉化技能。
+*   **[Git Manager](manifests/git-manager)**: Git 仓库管理与自动化操作配置。
+*   **[Knowledge Learning](manifests/knowledge-learning)**: 知识学习与管理系统配置。
 *   **[Market Analysis](manifests/market-analysis)**: 市场分析与竞品调研配置。
-*   **[Social Media](manifests/social-media)**: 社交媒体内容创作与运营配置。
 *   **[Novel Writing](manifests/novel-writing)**: 小说创作与文学写作配置。
+*   **[Social Media](manifests/social-media)**: 社交媒体内容创作与运营配置。
 *   **[UI Testing](manifests/ui-testing)**: 自动化 UI 测试配置，支持 Playwright/Vitest/移动端/无障碍测试。
-*   **[GitHub Enterprise](manifests/github-enterprise)**: 企业级 GitHub 项目治理，含 CI/CD 工作流与协作规范。
-*   **[PPT Master](manifests/ppt-master)**: AI 驱动的演示文稿生成与设计配置。
-*   **[Docx](manifests/docx)**: 专业 Word 文档创建配置（PreTeXt + python-docx）。
-*   **[Excel](manifests/excel)**: 电子表格数据处理与自动化配置（openpyxl）。
-*   **[PPT](manifests/ppt)**: 幻灯片创建与编排配置（python-pptx）。
-*   **[Agent Browser](manifests/agent-browser)**: 浏览器自动化测试与交互配置。
 
 ---
 

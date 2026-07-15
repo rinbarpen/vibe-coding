@@ -5,13 +5,13 @@ bundles ~200+ AI skills (as git submodules) and project scaffolds (manifests).
 
 ## Structure
 
-- `skills/` — 36+ git submodules each containing `SKILL.md` files (discovered recursively by `vibe list skills`).
+- `skills/` — 40+ git submodules each containing `SKILL.md` files (discovered recursively by `vibe list skills`).
   Name collisions auto-resolved by hyphenated relative path.
 - `workflows/` — Multi-stage agent workflows and full Claude Code plugin projects (e.g. writing-agent with skills, agents, workflows, and desktop app).
-- `manifests/` — 8 project bootstrap templates. Each needs a `CLAUDE.md` to be discoverable.
+- `manifests/` — 10 project bootstrap templates. Each needs a `CLAUDE.md` to be discoverable.
 - `tools/vibe_tool/` — Python CLI (`vibe`). Entrypoint: `vibe_tool.cli:main`.
 - `cli/` — 3 standalone CLI tool projects (agent-browser, anything-cli, office-cli).
-- `mine/` — First-party custom skills (chinese-patent, omnidraw, omnisheet, paperreview).
+- `mine/` — First-party custom skills (chinese-patent, export-paper-zip, git-manager, manifest-to-skill, omnidraw, omnisheet, paper-version-manager, paperreview-ai-review).
 - `hooks/` — Hookify rules organized by name (e.g. `ralph-loop/` for ralph-loop workflow rules).
 - `mcp.json` — 6 MCP servers configured (chrome-devtools, drawio, scientific, pdf-reader, etc.). Install on-demand into projects via `vibe mcp add`.
 

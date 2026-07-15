@@ -1884,3 +1884,8 @@
 - **Path**: `skills/shuorenhua`
 - **Description**: Chinese-first rewrite skill that reduces boilerplate and AI tone while preserving facts, terminology, and technical context. Covers chat, status sync, README, forum posts.
 - **Usage**: Daily copy, technical status updates, release notes, forum posts where a template-like feel needs removal.
+
+### z-humanizer
+- **Path**: `mine/z-humanizer`
+- **Description**: Unified humanizer orchestrator covering 8 domains: papers, patents, journals, conferences, blogs, knowledge base, docs, tutorials. Auto-routes to the right pattern library, outputs audit + rewrite. Bilingual (zh/en).
+- **Usage**: When you need AI-trace removal but aren't sure which humanizer tool to use; when you want the full audit → rewrite workflow.
