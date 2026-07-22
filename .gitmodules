@@ -107,3 +107,6 @@
 [submodule "skills/academic-humanizer"]
 	path = skills/academic-humanizer
 	url = https://github.com/AIScientists-Dev/academic-humanizer.git
+[submodule "skills/grill-me-skill"]
+	path = skills/grill-me-skill
+	url = https://github.com/RobMitt/grill-me-skill.git
