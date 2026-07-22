@@ -110,3 +110,6 @@
 [submodule "skills/awesome-design-md"]
 	path = skills/awesome-design-md
 	url = https://github.com/VoltAgent/awesome-design-md
+[submodule "skills/grill-me-skill"]
+	path = skills/grill-me-skill
+	url = https://github.com/RobMitt/grill-me-skill.git
