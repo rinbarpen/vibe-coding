@@ -43,9 +43,9 @@ Every file modification follows this mandatory sequence:
 
 | Domain | Tool/Skill | Trigger |
 |--------|-----------|---------|
-| **Document Authoring** | `docx` manifest | Word document creation/modification |
-| **Spreadsheet Processing** | `xlsx` skill | Excel data/chart tasks |
-| **Presentation Creation** | `pptx` skill / `ppt-master` manifest | PowerPoint generation |
+| **Document Authoring** | `office/docx` sub-manifest | Word document creation/modification |
+| **Spreadsheet Processing** | `office/xlsx` sub-manifest | Excel data/chart tasks |
+| **Presentation Creation** | `office/pptx` sub-manifest | PowerPoint generation |
 | **Format Conversion** | `pandoc` | Cross-format conversion |
 | **Visual Design** | `canvas-design` skill | Chart/table visual polish |
 

@@ -39,10 +39,10 @@ Manifest for unified office document CLI — manage Word (docx), Excel (xlsx), a
   scripts/            # Custom office automation scripts
   configs/            # Batch processing configurations
   _backups/           # Timestamped backups of originals
-  manifests/          # References to sub-manifests
-    docx/             # -> manifests/docx
-    excel/            # -> manifests/excel
-    ppt/              # -> manifests/ppt
+   manifests/          # References to sub-manifests
+     docx/             # -> manifests/office/docx
+     xlsx/             # -> manifests/office/xlsx
+     pptx/             # -> manifests/office/pptx
 ```
 
 ## Key Files
@@ -50,9 +50,9 @@ Manifest for unified office document CLI — manage Word (docx), Excel (xlsx), a
 - `skills/anthropics/skills/docx` — Anthropic official docx skill
 - `skills/anthropics/skills/xlsx` — Anthropic official xlsx skill
 - `skills/anthropics/skills/pptx` — Anthropic official pptx skill
-- `manifests/docx` — Docx-specific manifest configuration
-- `manifests/excel` — Excel-specific manifest configuration
-- `manifests/ppt` — PPT-specific manifest configuration
+- `manifests/office/docx` — Docx-specific manifest (docx-polar pipeline)
+- `manifests/office/xlsx` — Xlsx-specific manifest (uv+python)
+- `manifests/office/pptx` — PPT-specific manifest (ppt-master)
 
 ## Workflow
 
