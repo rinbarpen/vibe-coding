@@ -18,7 +18,8 @@
 
 ## 快速开始
 
-1. 创建一个研究方向 issue
-2. 运行 `aris/research-pipeline "topic"` 启动全流程
-3. 论文草稿完成后运行 `aris/auto-review-loop` 获取评审意见
-4. 使用 `aris/figure-spec` 生成论文图表
+1. 在每次制定研究、实验或论文计划前调用 `grill-me`；也可在任意阶段直接调用
+2. 创建一个研究方向 issue
+3. 运行 `aris/research-pipeline "topic"` 启动全流程
+4. 论文草稿完成后运行 `aris/auto-review-loop` 获取评审意见
+5. 使用 `aris/figure-spec` 生成论文图表

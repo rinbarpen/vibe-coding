@@ -2,9 +2,14 @@
 
 ## 核心流程（4 阶段）
 
+### Plan 前置规则
+
+在执行任何计划类步骤前，先直接调用 `grill-me`，逐项追问并压力测试计划，直到研究目标、假设、约束、方法、产出和验收标准达成共识。该规则适用于 `research-plan`、`experiment-plan`、`paper-plan` 以及其他 `*-plan` 步骤；`grill-me` 也可以在流程的任意阶段单独调用。
+
 ### Phase 1: Discover
 文献调研 → 想法生成 → 新颖性检查
 
+0. 调用 `grill-me`，明确研究计划后再开始本阶段
 1. 使用 `aris/research-lit "query"` 进行文献检索和综述
 2. 使用 `aris/idea-discovery "brief"` 生成研究想法
 3. 使用 `aris/novelty-check` 进行新颖性验证
@@ -14,7 +19,7 @@
 实验规划 → 实验执行 → 结果分析
 
 1. 使用 `aris/experiment-bridge` 将想法转化为实验方案
-2. 使用 `aris/experiment-plan` 制定详细的实验计划
+2. 先调用 `grill-me`，再使用 `aris/experiment-plan` 制定详细的实验计划
 3. 使用 `aris/run-experiment` 执行实验
 4. 使用 `aris/analyze-results` 分析实验结果
 5. 产出：实验结果 + 图表数据
@@ -22,7 +27,7 @@
 ### Phase 3: Review
 论文写作 → 版本管理 → 自动评审 → 迭代改进
 
-1. 使用 `aris/paper-plan` 生成论文大纲
+1. 先调用 `grill-me`，再使用 `aris/paper-plan` 生成论文大纲
 2. 使用 `aris/paper-write` 撰写论文草稿
 3. 使用 `mine/paper-version-manager init` 初始化版本追踪（v1）
 4. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）

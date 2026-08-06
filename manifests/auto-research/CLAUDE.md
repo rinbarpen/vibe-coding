@@ -13,6 +13,7 @@
 | `aris/paper-illustration "desc"` | AI 论文插图生成 |
 | `aris/paper-figure "results"` | 数据驱动图表生成 |
 | `aris/rebuttal "reviews"` | 自动生成审稿回复 |
+| `grill-me` | 所有计划类步骤前的逐项追问与方案压力测试；也可随时直接调用 |
 | `mine/paperreview-ai-review "paper.pdf"` | paperreview.ai 自动论文评审 |
 | `aris/research-lit "query"` | 文献调研与综述 |
 | `aris/citation-audit` | 引用校验 (DBLP/arXiv) |
