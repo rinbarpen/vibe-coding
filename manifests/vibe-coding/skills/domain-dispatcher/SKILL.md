@@ -16,7 +16,7 @@ Map task keywords to domain, then dispatch the appropriate agent, skill, and rul
 
 | Task Keywords | Domain | Agent | Skill | Rule File |
 |---------------|--------|-------|-------|-----------|
-| "UI", "design", "component", "layout", "accessibility", "responsive" | UI Design | `frontend-design` | `canvas-design`, `ui-ux-pro-max-skill` | `vibe-coding-ui-design.mdc` |
+| "UI", "design", "component", "layout", "accessibility", "responsive" | UI Design | `design-taste-frontend` | `awesome-design-md`, `frontend-design`, `canvas-design`, `ui-ux-pro-max-skill` | `vibe-coding-ui-design.mdc` |
 | "frontend", "state", "data fetching", "routing", "bundle", "CWV" | Frontend | `frontend-patterns` | `frontend-patterns` | `vibe-coding-frontend.mdc` |
 | "backend", "API", "service", "database", "auth", "middleware" | Backend | `code-architect` | `backend-patterns`, `api-design` | `vibe-coding-backend.mdc` |
 | "slow", "optimize", "profile", "performance", "cache", "bottleneck" | Optimization | `performance-optimizer` | — | `vibe-coding-optimization.mdc` |
@@ -26,7 +26,7 @@ Map task keywords to domain, then dispatch the appropriate agent, skill, and rul
 | "agent", "eval", "prompt quality", "llm eval" | Agent Eval | `eval-harness` | `prompt-optimizer`, `superpowers` | `vibe-coding-agent-dev.mdc` |
 | "agent", "context engineering", "multi-agent", "agent architecture" | Agent Dev | `code-architect` | `Agent-Skills-for-Context-Engineering`, `agent-skills`, `superpowers` | `vibe-coding-agent-dev.mdc` |
 | "desktop", "electron", "tauri", "flutter desktop", "native app" | Desktop | `build-error-resolver` + framework reviewer | `dart-flutter-patterns` | `vibe-coding-desktop.mdc` |
-| "frontend", "css", "i18n", "a11y", "component library" | Frontend | `frontend-patterns` | `frontend-design`, `ui-ux-pro-max-skill` | `vibe-coding-frontend.mdc` |
+| "frontend", "css", "i18n", "a11y", "component library" | Frontend | `frontend-patterns` | `design-taste-frontend`, `frontend-design`, `ui-ux-pro-max-skill` | `vibe-coding-frontend.mdc` |
 
 ## Cross-Domain Dispatch
 

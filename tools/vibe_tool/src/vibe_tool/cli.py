@@ -9,6 +9,12 @@ from pathlib import Path
 from . import __version__
 from .config import CONFIG_FILE, find_repo_root, save_repo_path
 from .discovery import discover_manifests, discover_skills
+from .update import (
+    UNMANAGED_SUBMODULES,
+    build_update_command,
+    discover_submodule_paths,
+    filter_managed_submodule_paths,
+)
 
 
 def main() -> int:
@@ -81,7 +87,7 @@ def _build_parser() -> argparse.ArgumentParser:
     list_p.set_defaults(func=_cmd_list)
 
     # ── update ──
-    upd_p = subs.add_parser("update", help="Update skill submodules (git submodule update --remote --merge)")
+    upd_p = subs.add_parser("update", help="Update managed skill submodules")
     upd_p.set_defaults(func=_cmd_update)
 
     # ── config ──
@@ -276,11 +282,25 @@ def _cmd_update(args) -> int:
         return 1
 
     import subprocess
-    print("Updating skill submodules...")
-    result = subprocess.run(
-        ["git", "submodule", "update", "--remote", "--merge"],
-        cwd=str(root),
-    )
+
+    try:
+        paths = discover_submodule_paths(root)
+    except subprocess.CalledProcessError as exc:
+        print(f"Unable to read .gitmodules (exit {exc.returncode})", file=sys.stderr)
+        return exc.returncode or 1
+
+    managed_paths = filter_managed_submodule_paths(paths)
+    skipped_paths = [path for path in paths if path in UNMANAGED_SUBMODULES]
+    print("Updating managed skill submodules...")
+    if skipped_paths:
+        print("Skipping unmanaged submodules: " + ", ".join(skipped_paths))
+
+    command = build_update_command(managed_paths)
+    if not command:
+        print("No managed submodules to update.")
+        return 0
+
+    result = subprocess.run(command, cwd=str(root))
     return result.returncode
 
 

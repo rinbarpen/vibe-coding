@@ -14,6 +14,8 @@ Pure frontend application without backend dependency.
 
 | Skill | Use When |
 |-------|----------|
+| `design-taste-frontend` | Anti-slop landing pages, portfolios, and redesigns with distinctive visual direction |
+| `awesome-design-md` | Brand-specific DESIGN.md references for visual language, typography, color, and layout direction |
 | `frontend-design` | Production-grade, opinionated UI with distinctive visual design |
 | `ui-ux-pro-max-skill` | 58+ UI styles, smart design system generation, multi-style exploration |
 | `canvas-design` | Visual art, illustrations, background textures, algorithmic design |

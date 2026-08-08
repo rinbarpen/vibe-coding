@@ -48,14 +48,23 @@ git config --global --unset url."git@github.com:".insteadOf
 
 ### 3. 更新注册子模块
 
-对所有 `.gitmodules` 中注册的子模块执行远端更新：
+对 `.gitmodules` 中除排除项外的注册子模块执行远端更新：
+
+批量更新默认跳过以下两个子模块：
+
+- `skills/agent-skills`
+- `skills/ai-investment-advisor`
+
+它们仍保留在 `.gitmodules` 中，也可以通过显式路径手动更新。
 
 ```bash
 # 先同步 URL
 git submodule sync
 
-# 更新到各自上游的最新 commit
-git submodule update --remote
+# 更新到各自上游的最新 commit（排除上述两个子模块）
+managed_paths=$(git config --file .gitmodules --get-regexp '^submodule\..*\.path$' \
+  | awk '$2 != "skills/agent-skills" && $2 != "skills/ai-investment-advisor" {print $2}')
+git submodule update --remote --merge -- $managed_paths
 ```
 
 `git submodule update --remote` 在任意子模块失败时会整体退出。如需逐个容错执行，使用 `foreach`：
@@ -121,7 +130,10 @@ echo "=== 3. 同步子模块 URL ==="
 git submodule sync
 
 echo "=== 4. 更新注册子模块 ==="
-git submodule update --remote || echo "部分子模块更新失败，请检查 git submodule status"
+managed_paths=$(git config --file .gitmodules --get-regexp '^submodule\..*\.path$' \
+  | awk '$2 != "skills/agent-skills" && $2 != "skills/ai-investment-advisor" {print $2}')
+git submodule update --remote --merge -- $managed_paths \
+  || echo "部分子模块更新失败，请检查 git submodule status"
 
 echo "=== 5. 处理失败子模块 ==="
 # 对 network timeout 的子模块可在此单独重试
@@ -143,9 +155,9 @@ git submodule status
 | skills/Pretty-mermaid-skills | imxv/Pretty-mermaid-skills |
 | skills/academic-research-skills | Imbad0202/academic-research-skills |
 | skills/academic-research-skills-codex | Imbad0202/academic-research-skills-codex |
-| skills/agent-skills | vercel-labs/agent-skills |
+| skills/agent-skills | vercel-labs/agent-skills（不参与批量更新） |
 | skills/ai-design-components | ancoleman/ai-design-components |
-| skills/ai-investment-advisor | AllenAI2014/ai-investment-advisor |
+| skills/ai-investment-advisor | AllenAI2014/ai-investment-advisor（不参与批量更新） |
 | skills/ai-skills | sanjay3290/ai-skills |
 | skills/anthropics | anthropics/skills |
 | skills/aris | wanshuiyin/Auto-claude-code-research-in-sleep |

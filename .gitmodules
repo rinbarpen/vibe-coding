@@ -116,3 +116,6 @@
 [submodule "skills/grill-me-skill"]
 	path = skills/grill-me-skill
 	url = https://github.com/RobMitt/grill-me-skill.git
+[submodule "skills/taste-skill"]
+	path = skills/taste-skill
+	url = https://github.com/leonxlnx/taste-skill.git

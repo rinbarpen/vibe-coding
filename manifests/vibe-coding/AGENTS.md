@@ -78,7 +78,7 @@ You are a **senior full-stack engineer** with deep expertise across Go, Rust, Py
 
 | Domain | Agent/Skill | Trigger |
 |--------|-------------|---------|
-| **UI Design** | `frontend-design`, `canvas-design`, `ui-ux-pro-max-skill` | "design a component", "make this look good" |
+| **UI Design** | `design-taste-frontend`, `awesome-design-md`, `frontend-design`, `canvas-design`, `ui-ux-pro-max-skill` | "design a component", "make this look good" |
 | **Frontend** | `frontend-patterns` | "set up the frontend", "state management", "routing" |
 | **Backend** | `backend-patterns`, `api-design` | "design the API", "database schema", "auth flow" |
 | **Performance** | `performance-optimizer` | "this is slow", "optimize", "profile", "bottleneck" |

@@ -17,10 +17,10 @@ This is a **vibe-coding** toolkit that aggregates ~200+ AI skills (as git submod
 | `vibe add manifest <name>` | Add manifest files to an existing project |
 | `vibe add skill <name>` | Install a specific skill into a project |
 | `vibe add skill --all` | Install all skills |
-| `vibe update` | Update all skill submodules to latest |
+| `vibe update` | Update managed skill submodules to latest (excluding `agent-skills` and `ai-investment-advisor`) |
 | `vibe config set-repo <path>` | Configure repo path |
 | `vibe stats show` | Display skill usage statistics |
-| `./scripts/skills-git-pull.sh` | Pull all skill repos (alternative to `vibe update`) |
+| `./scripts/skills-git-pull.sh` | Pull managed skill repos (alternative to `vibe update`) |
 
 **Install the vibe CLI:** `uv tool install -e tools/vibe_tool` (requires `uv`; see `tools/vibe_tool/install.sh`)
 
@@ -103,12 +103,21 @@ A structured methodology for complex features: RFC intake → DAG decomposition 
 - `windows-mcp`
 
 ### Updating skills
+
+Batch update commands skip `skills/agent-skills` and `skills/ai-investment-advisor`.
+They remain available to `vibe list skills` and individual installation. Update either
+one manually with its explicit submodule path when needed.
+
 ```bash
 # Method 1: via vibe CLI (uses git submodule update --remote --merge)
 vibe update
 
-# Method 2: via script (pulls all submodule repos)
+# Method 2: via script (pulls managed submodule repos)
 ./scripts/skills-git-pull.sh
+
+# Manual update for an excluded submodule
+git submodule update --remote --merge -- skills/agent-skills
+git submodule update --remote --merge -- skills/ai-investment-advisor
 ```
 
 Some skill repos (aris, ppt-master) are nested standalone git repos not registered in `.gitmodules` — they are updated separately by the skills-updater skill.

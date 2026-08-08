@@ -7,9 +7,18 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 failed=""
+skipped=""
 for dir in skills/*/; do
   [ -e "${dir}.git" ] || continue
   name=$(basename "$dir")
+  case "$name" in
+    agent-skills|ai-investment-advisor)
+      echo "--- Skipping unmanaged: $name ---"
+      skipped="$skipped $name"
+      echo ""
+      continue
+      ;;
+  esac
   echo "--- Pulling: $name ---"
   if (cd "$dir" && git pull); then
     echo "OK: $name"
@@ -21,6 +30,9 @@ for dir in skills/*/; do
 done
 
 echo "=== Summary ==="
+if [ -n "$skipped" ]; then
+  echo "Skipped unmanaged repos:$skipped"
+fi
 if [ -n "$failed" ]; then
   echo "Failed repos:$failed"
   exit 1

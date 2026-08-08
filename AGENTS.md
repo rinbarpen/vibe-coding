@@ -32,7 +32,7 @@ Requires `uv` (install: `curl -LsSf https://astral.sh/uv/install.sh | sh`)
 | `vibe add manifest <name>` | Add manifests to an existing project |
 | `vibe add skill <name>` | Install a specific skill |
 | `vibe add skill --all` | Install all skills |
-| `vibe update` | `git submodule update --remote --merge` on all skill repos |
+| `vibe update` | Batch-update managed skill repos; skips `agent-skills` and `ai-investment-advisor` |
 | `vibe config set-repo <path>` | Persist repo path to `~/.config/vibe-tool/config.json` |
 | `vibe config show` | Show current configuration |
 | `vibe stats show` | Display skill usage statistics (recorded by PostToolUse hook) |
@@ -91,17 +91,23 @@ vibe hook add --all /path/to/project
 
 ## Updating skills
 
+Batch update commands intentionally skip `skills/agent-skills` and
+`skills/ai-investment-advisor`. They remain discoverable and installable. Update either
+one manually by passing its path to Git:
+
+```bash
+git submodule update --remote --merge -- skills/agent-skills
+git submodule update --remote --merge -- skills/ai-investment-advisor
+```
+
 ```bash
 # Method 1 — via vibe CLI
 vibe update
 
-# Method 2 — git submodule update
-git submodule update --remote --merge
-
-# Method 3 — pull all skill repos
+# Method 2 — pull managed skill repos
 ./scripts/skills-git-pull.sh
 
-# Method 4 — for standalone nested repos (aris, ppt-master):
+# Method 3 — for standalone nested repos (aris, ppt-master):
 # These are NOT in .gitmodules — update them individually.
 ```
 
