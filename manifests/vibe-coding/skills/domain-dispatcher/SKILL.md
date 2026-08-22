@@ -17,6 +17,7 @@ Map task keywords to domain, then dispatch the appropriate agent, skill, and rul
 | Task Keywords | Domain | Agent | Skill | Rule File |
 |---------------|--------|-------|-------|-----------|
 | "UI", "design", "component", "layout", "accessibility", "responsive" | UI Design | `design-taste-frontend` | `awesome-design-md`, `frontend-design`, `canvas-design`, `ui-ux-pro-max-skill` | `vibe-coding-ui-design.mdc` |
+| "Three.js", "WebGL", "3D", "image-to-3D", "procedural model" | 3D Frontend | `frontend-patterns` | `img2threejs` | `vibe-coding-frontend.mdc` |
 | "frontend", "state", "data fetching", "routing", "bundle", "CWV" | Frontend | `frontend-patterns` | `frontend-patterns` | `vibe-coding-frontend.mdc` |
 | "backend", "API", "service", "database", "auth", "middleware" | Backend | `code-architect` | `backend-patterns`, `api-design` | `vibe-coding-backend.mdc` |
 | "slow", "optimize", "profile", "performance", "cache", "bottleneck" | Optimization | `performance-optimizer` | — | `vibe-coding-optimization.mdc` |

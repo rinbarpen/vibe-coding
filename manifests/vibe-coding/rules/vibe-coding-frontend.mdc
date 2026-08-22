@@ -126,7 +126,7 @@ Separate concerns by state origin:
 
 ## References
 
-- Skill: `frontend-patterns`, `frontend-design`, `design-taste-frontend`
+- Skill: `frontend-patterns`, `frontend-design`, `design-taste-frontend`, `img2threejs`
 - Rules: `~/.claude/rules/web/patterns.md`, `~/.claude/rules/web/performance.md`
 - Agent: `typescript-reviewer`, `a11y-architect`
 - Scenario: `scenarios/frontend/`
