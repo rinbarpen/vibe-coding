@@ -9,6 +9,10 @@ Turn research content into a scientifically bounded figure prompt, a generated
 candidate, and a submission-ready package. This skill complements `matplotlib`
 for measured data and `scientific-schematics` for deterministic schematics.
 
+For CCF-A-style method structures and workflows, prefer deterministic SVG over
+raster generation: flat vector shapes, compact labels, explicit data flow, and
+no decorative AI-image treatment. Read [CCF-A method figure guide](references/ccf-a-method-figures.md).
+
 ## Figure types
 
 | Type | Primary question |
@@ -29,10 +33,11 @@ for measured data and `scientific-schematics` for deterministic schematics.
    semantics, allowed labels, real data versus qualitative illustration, and
    forbidden invented entities/results. Never add a step or number absent from
    the source.
-3. **Choose a backend**: use `auto-figure` for structured generation and
-   `auto-figure-edit` for targeted edits when those tools are available. When
-   unavailable, use the available image-generation/editing tool. Preserve a
-   mother image while editing so layout and palette remain stable.
+3. **Choose a backend**: for method structures and flowcharts, use deterministic
+   SVG (`scripts/render_method_figure.py`), Draw.io, or an available auto-figure
+   backend that preserves editable structure. Use image generation for pictorial
+   mechanisms, graphical abstracts, and covers; preserve a mother image while
+   editing so layout and palette remain stable.
 4. **Render in stages**: split long or dense figures into submodules, generate
    a candidate, inspect text/arrows/scientific relationships, then issue local
    edits instead of regenerating a correct composition.
@@ -47,6 +52,21 @@ for measured data and `scientific-schematics` for deterministic schematics.
 
    A passing file must meet both pixel dimensions and embedded PPI. Changing
    only metadata does not add detail; use `ceil(width_in × PPI)` pixels.
+
+## Editable SVG and iteration
+
+Keep `figure-spec.json` as the source of truth. Render it with:
+
+```bash
+python scripts/render_method_figure.py \
+  --spec figure-spec.json --output figure-v1.svg
+```
+
+For each revision, edit only requested semantic fields (stage title/items,
+edges, edge labels, caption, or order), render `figure-vN.svg`, and record the
+change. Preserve accepted geometry and wording unless the request names them.
+SVG text and shapes remain independently editable, so repeated iterations do
+not accumulate raster artifacts.
 
 ## Prompt contract
 
@@ -69,4 +89,5 @@ an unattended claim of experimental fact.
 
 - [Prompt templates and figure-type rules](references/prompt-templates.md)
 - [Quality and delivery checklist](references/quality-checklist.md)
+- [CCF-A method figure guide](references/ccf-a-method-figures.md)
 - [Happy Figure quick reference](https://github.com/datawhalechina/happy-figure/blob/main/docs/appendix/quick-reference.md)

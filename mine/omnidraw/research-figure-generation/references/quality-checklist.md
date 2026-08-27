@@ -12,6 +12,8 @@
 - One clear reading direction; no overlaps, clipped labels, or orphan arrows.
 - Consistent font, stroke width, palette, legend, margins, and panel scale.
 - Local edits preserve the mother image's composition and visual identity.
+- Method/flow figures contain no gradients, shadows, pseudo-3D, stock icons, or
+  decorative UI-card styling; SVG objects and text remain independently editable.
 
 ## File review
 
@@ -20,3 +22,4 @@
 - Run `scripts/validate_figure.py`; require `status: pass`.
 - Record the exact command, target dimensions/PPI, actual pixels, embedded PPI,
   and the final artifact paths.
+- Keep `figure-spec.json` and versioned SVG outputs for repeatable iteration.
