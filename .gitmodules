@@ -119,3 +119,6 @@
 [submodule "skills/taste-skill"]
 	path = skills/taste-skill
 	url = https://github.com/leonxlnx/taste-skill.git
+[submodule "skills/CCFA-Skills"]
+	path = skills/CCFA-Skills
+	url = https://github.com/mikubaka88/CCFA-Skills.git
