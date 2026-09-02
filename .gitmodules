@@ -40,9 +40,6 @@
 [submodule "skills/notebooklm-skill"]
 	path = skills/notebooklm-skill
 	url = https://github.com/PleasePrompto/notebooklm-skill.git
-[submodule "skills/obsidian-skills"]
-	path = skills/obsidian-skills
-	url = https://github.com/kepano/obsidian-skills.git
 [submodule "skills/skills"]
 	path = skills/skills
 	url = https://github.com/better-auth/skills.git

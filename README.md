@@ -1,96 +1,224 @@
 # vibe-coding
 
-本项目是一个集成了多种专业 AI 技能 (Skills) 的工具库，旨在将 Claude 转化为具备多领域专业知识的智能助手。通过集成科学研究、设计美学和开发者工具，您可以直接在对话中执行复杂的专业任务。
+一个面向 Claude Code、Codex、Cursor 等 AI coding agent 的 **Skills 聚合与项目脚手架仓库**。
 
----
+它本身不是一个业务应用，而是一层可复用的 AI 工作流基础设施：把分散的技能库、项目级上下文、MCP 配置、Hook 工作流和初始化脚本集中到一个仓库，并通过 `vibe` CLI 安装到目标项目。
 
-## 🚀 核心技能详细介绍
+[English README](README_EN.md)
 
-### 1. 🧬 科学研究与协同实验室 (Scientific Research)
-基于 **[Claude Scientific Skills](skills/claude-scientific-skills)** (K-Dense AI)，包含 **140+** 个深度集成的科研技能。
+## 你可以用它做什么
 
-*   **生物信息学与基因组学**: 序列分析、单细胞 RNA-seq 处理、基因调节网络、变异注释。
-*   **化学信息学与药物发现**: 分子属性预测、虚拟筛选、ADMET 分析、分子对接 (Molecular Docking)。
-*   **蛋白质组学**: LC-MS/MS 数据处理、肽段鉴定、蛋白质定量。
-*   **临床研究与精准医疗**: 临床试验分析、药物安全评估、治疗方案规划。
-*   **医疗影像**: DICOM 处理、全切片图像分析、数字化病理流。
-*   **物理与材料科学**: 晶体结构分析、相图计算、天文数据转换。
+| 场景 | 可用能力 |
+| --- | --- |
+| 软件开发 | 全栈开发、API、CLI、数据管道、LLM 应用、桌面应用、测试与部署 |
+| 科研与写作 | 文献调研、实验规划、论文写作、论文评审、图表生成、基金申请 |
+| 设计与前端 | 设计系统、UI/UX、前端界面、主题、生成艺术、视觉检查 |
+| 办公自动化 | DOCX、XLSX、PPTX、PDF 与企业沟通文档 |
+| 内容生产 | 中文写作、小说、社交媒体、学术改写、文本总结 |
+| Agent 基础设施 | Skill 创建、MCP 服务、浏览器自动化、Hook 与多智能体工作流 |
 
-### 2. 🎨 UI/UX 设计智能 (Design Intelligence)
-结合 **[UI-UX Pro Max](skills/ui-ux-pro-max-skill)** 与 Anthropic 官方设计技能。
+## 30 秒开始
 
-*   **智能设计系统生成**: 自动分析项目需求并生成完整的视觉规范。
-*   **58+ UI 风格库**: 支持 Glassmorphism (毛玻璃), Neumorphism (新拟态), Minimalism 等流行风格。
-*   **[Frontend Design](skills/anthropics/skills/frontend-design)**: 遵循专业设计美学的界面组件生成，告别“AI 味”十足的平庸设计。
-*   **[Theme Factory](skills/anthropics/skills/theme-factory)**: 预设多种行业主题（如 Arctic Frost, Midnight Galaxy），一键切换视觉风格。
-*   **[Algorithmic Art](skills/anthropics/skills/algorithmic-art)**: 基于 p5.js 的生成艺术创作。
+### 1. 获取仓库
 
-### 3. 📄 生产力与办公自动化 (Enterprise Productivity)
-深度集成 **[Anthropic Official Document Skills](skills/anthropics)**，包含 **16+** 个官方文档处理技能。
+建议同时初始化 Skill 子模块：
 
-*   **[Word (docx)](skills/anthropics/skills/docx)**: 高级文档创建、修订追踪、复杂格式处理。
-*   **[Excel (xlsx)](skills/anthropics/skills/xlsx)**: 自动化数据透视、公式生成与大规模表格分析。
-*   **[PowerPoint (pptx)](skills/anthropics/skills/pptx)**: 结构化幻灯片生成、内容布局优化。
-*   **[PDF Master](skills/anthropics/skills/pdf)**: 提取表单字段、PDF 标注填充、图像转换。
-*   **[Internal Comms](skills/anthropics/skills/internal-comms)**: 企业新闻稿、状态报告、FAQ 编写模板。
+```bash
+git clone --recurse-submodules <REPOSITORY_URL>
+cd vibe-coding
+```
 
-### 4. 🛠️ 开发者增强工具 (Developer Empowerment)
-专为程序员设计的自动化流，提升开发效率。
+如果仓库已经克隆完成：
 
-*   **[MCP Builder](skills/anthropics/skills/mcp-builder)**: 自动生成符合 Model Context Protocol 规范的服务器代码（Node/Python）。
-*   **[Web Artifacts Builder](skills/anthropics/skills/web-artifacts-builder)**: 快速构建 React + Tailwind + Lucide 的交互式组件预览。
-*   **[Webapp Testing](skills/anthropics/skills/webapp-testing)**: 使用 Playwright 自动编写并运行本地应用测试用例。
-*   **[Skill Creator](skills/anthropics/skills/skill-creator)**: 遵循 Agent Skills 规范，辅助您开发和校验自定义技能。
+```bash
+git submodule update --init --recursive
+```
 
-### 5. 📦 更多社区与专项技能 (More Community & Specialized Skills)
+### 2. 安装 `vibe` CLI
 
-*   **[AI-Research-SKILLs](skills/AI-Research-SKILLs)**: 83+ AI/ML 研究工程技能（模型架构、训练、推理、评估、论文写作等）。
-*   **[Humanizer-zh](skills/Humanizer-zh)**: 去除中文文本的 AI 写作痕迹，使表述更自然。
-*   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: 高质量 Mermaid 图表渲染，多主题、SVG/ASCII 输出。
-*   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: 分章节中文小说创作，支持长篇与多题材。
-*   **[X Research](skills/x-research-skill)**: 通用的 X/Twitter 调研助手，支持实时搜索、推文分析与专家观点提取。
-*   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: 去AI味提示词技能，含两套写作模式与24项AI痕迹检测体系。
-*   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: 降低中文学术写作 AIGC 检测率的专用 Skill。
-*   **[academic-humanizer](skills/academic-humanizer)**: 学术论文写作 AIGC 痕迹检测与去AI味改写 Skill。
-*   **[shuorenhua](skills/shuorenhua)**: 说人话 — 中文优先的去AI味改写，保事实、分场景。
-*   **[writing-agent](workflows/writing-agent)**: 基于 Claude Code 的全栈写作系统，从选题到审稿发布的完整写作工作流。
+需要 Python 3.10+ 和 [uv](https://docs.astral.sh/uv/)。
 
----
+```bash
+./tools/vibe_tool/install.sh
+# 或
+uv tool install -e tools/vibe_tool
+```
 
-## 🏗️ Vibe Coding 配置 (Manifests)
+检查安装：
 
-本项目提供了一系列适配不同场景的 Vibe Coding 配置文件 (Manifests)，可直接用于初始化新项目或优化现有项目的 AI 上下文：
+```bash
+vibe --version
+vibe list manifests
+vibe list skills
+```
 
-*   **[Vibe Coding (Core)](manifests/vibe-coding)**: 核心 Vibe Coding 流程配置，包含 `CLAUDE.md` 和 `AGENTS.md` 模板。
-*   **[Auto Research](manifests/auto-research)**: 自动化研究流水线，涵盖文献发现、实验执行、论文撰写与审查。
-*   **[Auto Research (ARS)](manifests/auto-research-ars)**: 增强型自动化研究系统，集成多智能体协作与深度文献挖掘。
-*   **[Fund Proposal](manifests/fund-proposal)**: 基金申请书/项目建议书编写配置，集成调研、评审与视觉化技能。
-*   **[Git Manager](manifests/git-manager)**: Git 仓库管理与自动化操作配置。
-*   **[Knowledge Learning](manifests/knowledge-learning)**: 知识学习与管理系统配置。
-*   **[Market Analysis](manifests/market-analysis)**: 市场分析与竞品调研配置。
-*   **[Novel Writing](manifests/novel-writing)**: 小说创作与文学写作配置。
-*   **[Social Media](manifests/social-media)**: 社交媒体内容创作与运营配置。
-*   **[UI Testing](manifests/ui-testing)**: 自动化 UI 测试配置，支持 Playwright/Vitest/移动端/无障碍测试。
+### 3. 初始化一个项目
 
----
+```bash
+# 创建完整的 Vibe Coding 工程上下文
+vibe init vibe-coding ../my-project --scenario=fullstack-web
 
-## 📂 技能与 MCP 索引 (Index)
+# 为已有项目加入 UI 测试配置
+vibe add manifest ui-testing ../my-project
 
-为了方便查找和使用，我们提供了详细的技能与 MCP 服务器标注索引：
-- 🇨🇳 [中文标注索引](skills/ANNOTATIONS.md)
-- 🇺🇸 [English Annotations Index](skills/ANNOTATIONS_EN.md)
+# 为已有项目加入单个 Skill
+vibe add skill taste-skill ../my-project
+```
 
-## 🛠️ 如何使用
+初始化后，项目中通常会出现：
 
-1.  **加载技能**: 在支持 Skills 的环境（如 Claude Code 或 Claude.ai）中引用对应目录。
-2.  **直接触发**: 
-    *   *“使用科学技能分析这段 DNA 序列...”*
-    *   *“使用 UI-UX 技能为我的金融 App 生成一个设计系统...”*
-    *   *“使用 Word 技能基于这个大纲生成一份季度报告...”*
+```text
+my-project/
+├── CLAUDE.md / AGENTS.md       # 项目级 agent 指令
+├── .cursor/
+│   ├── commands/               # 可调用命令
+│   ├── rules/                  # 项目规则
+│   └── skills/                 # 已安装 Skills
+└── .claude/agents/             # Claude Code agent 定义（按 manifest 提供）
+```
 
-## 📜 许可证
+## `vibe` CLI
 
-本项目集成的技能库分别遵循其原作者的开源许可：
-- Anthropic Skills: Apache 2.0 / Source-available
-- Scientific Skills: MIT
-- UI-UX Pro Max: MIT
+`vibe` 会从当前目录向上查找仓库，也可以通过配置固定仓库路径。所有写入型命令都支持 `--dry-run` 预览；已有文件默认保留，确需覆盖时使用 `--force`。
+
+| 命令 | 用途 |
+| --- | --- |
+| `vibe list manifests` | 列出可用项目模板 |
+| `vibe list skills` | 递归列出可用 Skills |
+| `vibe list --json` | 输出机器可读的清单 |
+| `vibe init <manifest> [target]` | 从模板初始化新项目 |
+| `vibe add manifest <name> [target]` | 向已有项目加入 Manifest |
+| `vibe add skill <name> [target]` | 向已有项目加入单个 Skill |
+| `vibe add skill --all [target] --yes` | 批量安装全部 Skills |
+| `vibe update` | 更新受管理的 Skill 子模块 |
+| `vibe config set-repo <path>` | 设置仓库路径 |
+| `vibe config show` | 查看当前配置 |
+| `vibe mcp list` | 列出可用 MCP 服务 |
+| `vibe mcp add <name> [target]` | 合并安装 MCP 服务配置 |
+| `vibe mcp add --all [target]` | 安装全部 MCP 服务配置 |
+| `vibe hook list` | 列出可用 Hook 集合 |
+| `vibe hook add <name> [target]` | 向项目安装 Hook 集合 |
+| `vibe stats show` | 查看 Skill 使用统计 |
+
+常用选项：
+
+```bash
+vibe init vibe-coding demo --dry-run
+vibe add manifest office demo --force
+vibe add skill --all demo --yes --dry-run
+vibe mcp add drawio demo
+vibe hook add ralph-loop demo
+```
+
+## 仓库内容
+
+### Skills
+
+`skills/` 包含来自多个社区和维护者的 Git 子模块，CLI 会递归查找其中的 `SKILL.md`。同名 Skill 会使用带相对路径的标识自动消歧。
+
+重点集合包括：
+
+- [Anthropic Skills](skills/anthropics)：文档、表格、演示文稿、PDF、前端等官方技能
+- [Claude Scientific Skills](skills/claude-scientific-skills)：科研、生命科学、化学、医学影像等
+- [UI/UX Pro Max](skills/ui-ux-pro-max-skill)：设计系统与 UI 风格库
+- [AI Research Skills](skills/AI-Research-SKILLs)：AI/ML 研究、训练、评估和论文工作流
+- [Agent Skills for Context Engineering](skills/Agent-Skills-for-Context-Engineering)：上下文工程方法
+- [Humanizer-zh](skills/Humanizer-zh)、[shuorenhua](skills/shuorenhua)：中文文本改写与表达优化
+- [Pretty Mermaid Skills](skills/Pretty-mermaid-skills)：Mermaid 图表生成与渲染
+- [X Research](skills/x-research-skill)：信息检索与社交平台调研
+
+仓库内的 [mine/](mine) 存放第一方 Skill，[workflows/](workflows) 存放完整工作流项目；它们与外部子模块一样可作为能力来源。
+
+浏览索引：
+
+- [中文 Skills 标注索引](skills/ANNOTATIONS.md)
+- [English Skills Annotations](skills/ANNOTATIONS_EN.md)
+
+### Manifests
+
+Manifest 是项目级配置包，通常包含 `CLAUDE.md`、`AGENTS.md`、规则、命令、场景、agents 和初始化脚本。
+
+| Manifest | 适用方向 |
+| --- | --- |
+| `vibe-coding` | 通用软件工程全生命周期 |
+| `auto-research` | 文献、实验、论文与图表自动化 |
+| `auto-research-ars` | 基于 ARS 的多阶段科研流水线 |
+| `fund-proposal` | 基金申请与项目建议书 |
+| `git-manager` | Git 仓库与镜像管理 |
+| `knowledge-learning` | 知识学习与管理 |
+| `market-analysis` | 行业研究、市场与竞品分析 |
+| `novel-writing` | 长篇小说与文学创作 |
+| `office` | 办公文档自动化 |
+| `social-media` | 社交媒体内容创作与运营 |
+| `ui-testing` | Web、组件、移动端、视觉与无障碍测试 |
+
+查看每个模板的细节：
+
+```bash
+find manifests -maxdepth 2 -name README.md -print
+```
+
+### MCP 服务
+
+根目录 [mcp.json](mcp.json) 提供可按需合并到目标项目的 MCP 配置，目前包含：
+
+- `promptx-alpha`
+- `pdf-reader-mcp`
+- `chrome-devtools`
+- `drawio`
+- `claude-scientific-skills`
+- `windows-mcp`
+
+例如只安装 Draw.io：
+
+```bash
+vibe mcp add drawio ../my-project
+```
+
+### Hooks、工作流与独立 CLI
+
+- [ralph-loop](hooks/ralph-loop)：RFC → DAG 拆解 → 分层验证 → 合并队列的 Hook 工作流
+- [writing-agent](workflows/writing-agent)：从选题、研究到审稿发布的写作系统
+- [cli/agent-browser](cli/agent-browser)、[cli/anything-cli](cli/anything-cli)、[cli/office-cli](cli/office-cli)：独立 CLI 项目
+- [paseo.json](paseo.json)：Paseo 工作区配置（如使用 Paseo）
+
+## 更新与维护
+
+通过 CLI 更新受管理的 Skill 子模块：
+
+```bash
+vibe update
+```
+
+也可以使用仓库脚本：
+
+```bash
+./scripts/skills-git-pull.sh
+```
+
+`agent-skills` 和 `ai-investment-advisor` 默认不参与批量更新，需要单独执行：
+
+```bash
+git submodule update --remote --merge -- skills/agent-skills
+git submodule update --remote --merge -- skills/ai-investment-advisor
+```
+
+部分 Skill 仓库（例如 `aris`、`ppt-master`）是独立嵌套仓库，不在 `.gitmodules` 中，按其自身仓库方式更新。
+
+## 开发与验证
+
+修改 CLI 或 Manifest 后，建议运行：
+
+```bash
+# 验证 Claude Code 与 Codex agent 文件兼容性
+python scripts/validate-agent-compat.py
+
+# 运行 vibe-tool 测试
+PYTHONPATH=tools/vibe_tool/src python -m unittest discover -s tools/vibe_tool/tests -v
+```
+
+新增 Manifest 至少需要包含 `CLAUDE.md`，这样才能被 `vibe list manifests` 发现。新增 Skill 则应在 Skill 目录中提供 `SKILL.md`。
+
+## 许可证
+
+仓库自身采用 [MIT License](LICENSE)。`skills/` 与 `workflows/` 中的外部项目遵循各自仓库的许可证；分发或修改时请同时查看对应子模块的许可文件。

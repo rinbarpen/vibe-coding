@@ -172,7 +172,6 @@ git submodule status
 | skills/marketingskills | coreyhaines31/marketingskills |
 | skills/notebooklm-skill | PleasePrompto/notebooklm-skill |
 | skills/nuwa-skill | alchaincyf/nuwa-skill |
-| skills/obsidian-skills | kepano/obsidian-skills |
 | skills/planning-with-files | othmanadi/planning-with-files |
 | skills/ralph | snarktank/ralph |
 | skills/skill-seekers | yusufkaraaslan/Skill_Seekers |
