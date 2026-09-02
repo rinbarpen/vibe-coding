@@ -122,3 +122,6 @@
 [submodule "skills/img2threejs"]
 	path = skills/img2threejs
 	url = https://github.com/img2threejs/img2threejs.git
+[submodule "skills/ppt-master"]
+	path = skills/ppt-master
+	url = https://github.com/hugohe3/ppt-master.git
