@@ -19,6 +19,7 @@ Pure frontend application without backend dependency.
 | `frontend-design` | Production-grade, opinionated UI with distinctive visual design |
 | `ui-ux-pro-max-skill` | 58+ UI styles, smart design system generation, multi-style exploration |
 | `canvas-design` | Visual art, illustrations, background textures, algorithmic design |
+| `taste-skill` | Anti-slop frontend skill with configurable design variance, motion intensity, and visual density dials; includes variants for minimalist, brutalist, soft/premium, and redesign workflows |
 | `img2threejs` | Image-to-3D reconstruction with quality-gated, procedural, animation-ready Three.js models |
 
 ## Commands
