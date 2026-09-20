@@ -53,6 +53,7 @@
 *   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: 降低中文学术写作 AIGC 检测率的专用 Skill。
 *   **[academic-humanizer](skills/academic-humanizer)**: 学术论文写作 AIGC 痕迹检测与去AI味改写 Skill。
 *   **[shuorenhua](skills/shuorenhua)**: 说人话 — 中文优先的去AI味改写，保事实、分场景。
+*   **[State Machine Reasoning](mine/state-machine-reasoning)**: 将决策、排障、研究和工作流分析建模为状态机，并生成 Mermaid 可视化图。
 *   **[writing-agent](workflows/writing-agent)**: 基于 Claude Code 的全栈写作系统，从选题到审稿发布的完整写作工作流。
 
 ---
