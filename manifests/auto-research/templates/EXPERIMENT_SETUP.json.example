@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "seeds": [
+    42
+  ],
+  "max_parallel": 4,
+  "provider": "local",
+  "baseline_refresh_days": 30,
+  "metrics": {
+    "accuracy": {
+      "direction": "maximize",
+      "unit": "fraction"
+    }
+  },
+  "baseline_search": {
+    "searched_at": "YYYY-MM-DD",
+    "queries": [
+      "REPLACE_WITH_ACTUAL_QUERY"
+    ],
+    "candidates": [
+      {
+        "id": "reference-method",
+        "paper_url": "REPLACE_WITH_PRIMARY_PAPER_URL",
+        "code_url": "REPLACE_WITH_OFFICIAL_CODE_URL",
+        "published_at": "YYYY-MM-DD",
+        "revision": "REPLACE_WITH_COMMIT",
+        "protocol": "protocol-v1",
+        "decision": "include",
+        "reason": "REPLACE_WITH_SCIENTIFIC_RATIONALE"
+      }
+    ]
+  },
+  "coverage_subjects": [
+    "claim-main",
+    "component-new",
+    "confound-capacity"
+  ],
+  "coverage": [
+    {
+      "subject": "claim-main",
+      "status": "covered",
+      "experiments": [
+        "baseline",
+        "main"
+      ]
+    },
+    {
+      "subject": "component-new",
+      "status": "covered",
+      "experiments": [
+        "no-component"
+      ]
+    },
+    {
+      "subject": "confound-capacity",
+      "status": "deferred",
+      "reason": "Specify a matched-capacity control before making a capacity-independent claim"
+    }
+  ],
+  "experiments": [
+    {
+      "id": "baseline",
+      "kind": "baseline",
+      "datasets": [
+        "dataset-validation"
+      ],
+      "protocol": "protocol-v1",
+      "comparison_group": "primary",
+      "claim_ids": [
+        "claim-main"
+      ],
+      "command": [
+        "python3",
+        "train.py",
+        "--variant",
+        "baseline",
+        "--seed",
+        "{seed}",
+        "--dataset",
+        "{dataset}",
+        "--run-id",
+        "{run_id}"
+      ],
+      "estimated_cost": 0,
+      "estimated_gpu_hours": 0,
+      "source_kind": "reproduced",
+      "baseline_candidate": "reference-method"
+    },
+    {
+      "id": "main",
+      "kind": "main",
+      "datasets": [
+        "dataset-validation"
+      ],
+      "protocol": "protocol-v1",
+      "comparison_group": "primary",
+      "claim_ids": [
+        "claim-main"
+      ],
+      "command": [
+        "python3",
+        "train.py",
+        "--variant",
+        "main",
+        "--seed",
+        "{seed}",
+        "--dataset",
+        "{dataset}",
+        "--run-id",
+        "{run_id}"
+      ],
+      "estimated_cost": 0,
+      "estimated_gpu_hours": 0,
+      "source_kind": "reproduced",
+      "baseline": "baseline",
+      "depends_on": [
+        "baseline"
+      ]
+    },
+    {
+      "id": "no-component",
+      "kind": "ablation",
+      "datasets": [
+        "dataset-validation"
+      ],
+      "protocol": "protocol-v1",
+      "comparison_group": "primary",
+      "claim_ids": [
+        "claim-main"
+      ],
+      "command": [
+        "python3",
+        "train.py",
+        "--variant",
+        "no-component",
+        "--seed",
+        "{seed}",
+        "--dataset",
+        "{dataset}",
+        "--run-id",
+        "{run_id}"
+      ],
+      "estimated_cost": 0,
+      "estimated_gpu_hours": 0,
+      "source_kind": "reproduced",
+      "baseline": "baseline",
+      "depends_on": [
+        "baseline"
+      ],
+      "changes": [
+        "remove new component"
+      ],
+      "controls": [
+        "same data/split/optimizer/training budget"
+      ],
+      "hypothesis": "new component improves accuracy",
+      "interpretation": "no decrease weakens the component contribution claim"
+    }
+  ]
+}

@@ -1,0 +1,2179 @@
+{
+  "version": 1,
+  "seeds": [
+    42
+  ],
+  "max_parallel": 4,
+  "baseline_refresh_days": 30,
+  "max_git_file_bytes": 10485760,
+  "roles": {
+    "research": {
+      "requested_model": "gpt-6",
+      "service_profile": "pro",
+      "reasoning_effort": null
+    },
+    "planner": {
+      "requested_model": "gpt-6",
+      "service_profile": null,
+      "reasoning_effort": "medium"
+    },
+    "executor": {
+      "requested_model": "gpt-5.6-luna",
+      "service_profile": null,
+      "reasoning_effort": "high"
+    },
+    "writer": {
+      "requested_model": "gpt-5.5",
+      "service_profile": null,
+      "reasoning_effort": "high"
+    }
+  },
+  "bindings": {},
+  "stages": [
+    {
+      "id": "startup",
+      "parent_id": null,
+      "level": 1,
+      "title": "研究启动",
+      "objective": "把模糊研究意图变成可执行且有边界的科研任务",
+      "acceptance": [
+        "问题可用一句话陈述",
+        "至少一个可验收产物",
+        "资源与时间约束已登记",
+        "模型绑定或 blocked_model_unavailable 已记录"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "RESEARCH_PLAN.md",
+        "研究目标与非目标",
+        "里程碑/预算表",
+        "settings.json 与 Git 初始检查点"
+      ],
+      "return_to": {
+        "resource_change": "startup/roadmap",
+        "question_change": "startup/scope"
+      },
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "startup/started",
+        "startup/scope/completed",
+        "startup/roadmap/completed"
+      ]
+    },
+    {
+      "id": "startup/scope",
+      "parent_id": "startup",
+      "level": 2,
+      "title": "目标与约束",
+      "objective": "目标与约束",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "startup/scope/question",
+      "parent_id": "startup/scope",
+      "level": 3,
+      "title": "question",
+      "objective": "目标与约束: question",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "startup/scope/constraints",
+      "parent_id": "startup/scope",
+      "level": 3,
+      "title": "constraints",
+      "objective": "目标与约束: constraints",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "startup/roadmap",
+      "parent_id": "startup",
+      "level": 2,
+      "title": "研究计划",
+      "objective": "研究计划",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "startup/roadmap/milestones",
+      "parent_id": "startup/roadmap",
+      "level": 3,
+      "title": "milestones",
+      "objective": "研究计划: milestones",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "startup/roadmap/budget",
+      "parent_id": "startup/roadmap",
+      "level": 3,
+      "title": "budget",
+      "objective": "研究计划: budget",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature",
+      "parent_id": null,
+      "level": 1,
+      "title": "文献调研与问题定位",
+      "objective": "建立可追溯的问题背景、研究空白和最新方法基线",
+      "acceptance": [
+        "关键来源有原始链接与访问日期",
+        "筛选决定有理由",
+        "研究空白不是单一搜索结果推断",
+        "候选 baseline 可区分文献值/复现值"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "LIT_REVIEW.md",
+        "literature/search-log.jsonl",
+        "taxonomy.md",
+        "novelty report",
+        "BASELINE_REVIEW.md 初稿"
+      ],
+      "return_to": {
+        "scope_change": "startup/scope",
+        "missing_evidence": "literature/search"
+      },
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "literature/search/completed",
+        "literature/position/completed"
+      ]
+    },
+    {
+      "id": "literature/search",
+      "parent_id": "literature",
+      "level": 2,
+      "title": "文献检索",
+      "objective": "文献检索",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/search/queries",
+      "parent_id": "literature/search",
+      "level": 3,
+      "title": "queries",
+      "objective": "文献检索: queries",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/search/screening",
+      "parent_id": "literature/search",
+      "level": 3,
+      "title": "screening",
+      "objective": "文献检索: screening",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/position",
+      "parent_id": "literature",
+      "level": 2,
+      "title": "问题定位",
+      "objective": "问题定位",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/position/taxonomy",
+      "parent_id": "literature/position",
+      "level": 3,
+      "title": "taxonomy",
+      "objective": "问题定位: taxonomy",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/position/gap",
+      "parent_id": "literature/position",
+      "level": 3,
+      "title": "gap",
+      "objective": "问题定位: gap",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "literature/position/novelty",
+      "parent_id": "literature/position",
+      "level": 3,
+      "title": "novelty",
+      "objective": "问题定位: novelty",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea",
+      "parent_id": null,
+      "level": 1,
+      "title": "Idea 与方法形成",
+      "objective": "从研究空白产生并收敛到可证伪的方法假设与 claims",
+      "acceptance": [
+        "每个 claim 有证伪路径",
+        "创新点不只是规模或调参",
+        "组件边界清楚",
+        "负结果解释已预先定义"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "IDEA_REPORT.md",
+        "METHOD_SPEC.md",
+        "research_contract.md",
+        "claim map",
+        "假设与风险表"
+      ],
+      "return_to": {
+        "novelty_problem": "literature/position",
+        "feasibility_problem": "startup/roadmap"
+      },
+      "roles": [
+        "research",
+        "planner"
+      ],
+      "checkpoint_events": [
+        "idea/hypotheses/completed",
+        "idea/method/completed"
+      ]
+    },
+    {
+      "id": "idea/hypotheses",
+      "parent_id": "idea",
+      "level": 2,
+      "title": "假设与方案",
+      "objective": "假设与方案",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/hypotheses/candidates",
+      "parent_id": "idea/hypotheses",
+      "level": 3,
+      "title": "candidates",
+      "objective": "假设与方案: candidates",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/hypotheses/comparison",
+      "parent_id": "idea/hypotheses",
+      "level": 3,
+      "title": "comparison",
+      "objective": "假设与方案: comparison",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/method",
+      "parent_id": "idea",
+      "level": 2,
+      "title": "方法细化",
+      "objective": "方法细化",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/method/mechanism",
+      "parent_id": "idea/method",
+      "level": 3,
+      "title": "mechanism",
+      "objective": "方法细化: mechanism",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/method/components",
+      "parent_id": "idea/method",
+      "level": 3,
+      "title": "components",
+      "objective": "方法细化: components",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "idea/method/claims",
+      "parent_id": "idea/method",
+      "level": 3,
+      "title": "claims",
+      "objective": "方法细化: claims",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design",
+      "parent_id": null,
+      "level": 1,
+      "title": "实验设计",
+      "objective": "把 claims 转换成公平、完备、可执行的对比与消融矩阵",
+      "acceptance": [
+        "每个核心 claim 有证据实验或延期理由",
+        "included baseline 有官方来源/版本/协议",
+        "默认 seeds=[42] 或设置显式覆盖",
+        "不存在重复矩阵 cell",
+        "预算、成功标准、失败解释完整"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "EXPERIMENT_PLAN.md",
+        "BASELINE_REVIEW.md",
+        "ABLATION_PLAN.md",
+        "EXPERIMENT_SETUP.json",
+        "RUN_MATRIX.json"
+      ],
+      "return_to": {
+        "new_component": "idea/method",
+        "baseline_drift": "literature/position",
+        "budget_cut": "startup/roadmap"
+      },
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "design/baselines/completed",
+        "design/ablation/completed",
+        "design/evaluation/completed"
+      ]
+    },
+    {
+      "id": "design/baselines",
+      "parent_id": "design",
+      "level": 2,
+      "title": "对比实验",
+      "objective": "对比实验",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/baselines/search",
+      "parent_id": "design/baselines",
+      "level": 3,
+      "title": "search",
+      "objective": "对比实验: search",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/baselines/selection",
+      "parent_id": "design/baselines",
+      "level": 3,
+      "title": "selection",
+      "objective": "对比实验: selection",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/baselines/protocol",
+      "parent_id": "design/baselines",
+      "level": 3,
+      "title": "protocol",
+      "objective": "对比实验: protocol",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/ablation",
+      "parent_id": "design",
+      "level": 2,
+      "title": "消融实验",
+      "objective": "消融实验",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/ablation/decomposition",
+      "parent_id": "design/ablation",
+      "level": 3,
+      "title": "decomposition",
+      "objective": "消融实验: decomposition",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/ablation/coverage",
+      "parent_id": "design/ablation",
+      "level": 3,
+      "title": "coverage",
+      "objective": "消融实验: coverage",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/ablation/matrix",
+      "parent_id": "design/ablation",
+      "level": 3,
+      "title": "matrix",
+      "objective": "消融实验: matrix",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/evaluation",
+      "parent_id": "design",
+      "level": 2,
+      "title": "评估设置",
+      "objective": "评估设置",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/evaluation/metrics",
+      "parent_id": "design/evaluation",
+      "level": 3,
+      "title": "metrics",
+      "objective": "评估设置: metrics",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/evaluation/seeds",
+      "parent_id": "design/evaluation",
+      "level": 3,
+      "title": "seeds",
+      "objective": "评估设置: seeds",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "design/evaluation/budget",
+      "parent_id": "design/evaluation",
+      "level": 3,
+      "title": "budget",
+      "objective": "评估设置: budget",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution",
+      "parent_id": null,
+      "level": 1,
+      "title": "实验实现与执行",
+      "objective": "按冻结矩阵产生可复现的代码、运行和原始结果",
+      "acceptance": [
+        "sanity 通过",
+        "付费资源和 full suite 已审批",
+        "命令/config_hash/code revision/seed 齐全",
+        "completed 必有结果文件且 exit=0",
+        "失败和 stuck 不传递为成功依赖"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "RUN_RECORDS.json",
+        "EXPERIMENT_LOG.md",
+        "results/",
+        "logs/",
+        "queue_state.json 或本地运行记录"
+      ],
+      "return_to": {
+        "code_bug": "execution/implementation",
+        "protocol_bug": "design/evaluation",
+        "hypothesis_failure": "idea/hypotheses"
+      },
+      "roles": [
+        "executor",
+        "planner",
+        "research"
+      ],
+      "checkpoint_events": [
+        "execution/prepare/completed",
+        "execution/implementation/completed",
+        "execution/runs/completed"
+      ]
+    },
+    {
+      "id": "execution/prepare",
+      "parent_id": "execution",
+      "level": 2,
+      "title": "环境与数据",
+      "objective": "环境与数据",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/prepare/environment",
+      "parent_id": "execution/prepare",
+      "level": 3,
+      "title": "environment",
+      "objective": "环境与数据: environment",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/prepare/data",
+      "parent_id": "execution/prepare",
+      "level": 3,
+      "title": "data",
+      "objective": "环境与数据: data",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/prepare/evaluator",
+      "parent_id": "execution/prepare",
+      "level": 3,
+      "title": "evaluator",
+      "objective": "环境与数据: evaluator",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/implementation",
+      "parent_id": "execution",
+      "level": 2,
+      "title": "代码实现",
+      "objective": "代码实现",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/implementation/code",
+      "parent_id": "execution/implementation",
+      "level": 3,
+      "title": "code",
+      "objective": "代码实现: code",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/implementation/review",
+      "parent_id": "execution/implementation",
+      "level": 3,
+      "title": "review",
+      "objective": "代码实现: review",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/implementation/sanity",
+      "parent_id": "execution/implementation",
+      "level": 3,
+      "title": "sanity",
+      "objective": "代码实现: sanity",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs",
+      "parent_id": "execution",
+      "level": 2,
+      "title": "正式运行",
+      "objective": "正式运行",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs/approval",
+      "parent_id": "execution/runs",
+      "level": 3,
+      "title": "approval",
+      "objective": "正式运行: approval",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs/baseline",
+      "parent_id": "execution/runs",
+      "level": 3,
+      "title": "baseline",
+      "objective": "正式运行: baseline",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs/main",
+      "parent_id": "execution/runs",
+      "level": 3,
+      "title": "main",
+      "objective": "正式运行: main",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs/ablation",
+      "parent_id": "execution/runs",
+      "level": 3,
+      "title": "ablation",
+      "objective": "正式运行: ablation",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "execution/runs/collection",
+      "parent_id": "execution/runs",
+      "level": 3,
+      "title": "collection",
+      "objective": "正式运行: collection",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis",
+      "parent_id": null,
+      "level": 1,
+      "title": "结果分析与论证",
+      "objective": "从原始结果形成可审计统计、失败解释与 claim 支持度",
+      "acceptance": [
+        "不补零、不丢失败 attempt",
+        "同 protocol/group/seed 才配对",
+        "单 seed 不声称方差/稳健性",
+        "FAIL 证据不进入无条件写作 claim",
+        "每个结论可追溯到原始文件"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "EXPERIMENT_RESULTS.md",
+        "EXPERIMENT_STATISTICS.json/csv",
+        "EXPERIMENT_AUDIT.md/json",
+        "claim evidence map"
+      ],
+      "return_to": {
+        "missing_ablation": "design/ablation",
+        "bad_protocol": "design/evaluation",
+        "unsupported_claim": "idea/method"
+      },
+      "roles": [
+        "executor",
+        "research",
+        "planner"
+      ],
+      "checkpoint_events": [
+        "analysis/statistics/completed",
+        "analysis/interpretation/completed"
+      ]
+    },
+    {
+      "id": "analysis/statistics",
+      "parent_id": "analysis",
+      "level": 2,
+      "title": "统计",
+      "objective": "统计",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/statistics/integrity",
+      "parent_id": "analysis/statistics",
+      "level": 3,
+      "title": "integrity",
+      "objective": "统计: integrity",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/statistics/aggregation",
+      "parent_id": "analysis/statistics",
+      "level": 3,
+      "title": "aggregation",
+      "objective": "统计: aggregation",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/statistics/comparison",
+      "parent_id": "analysis/statistics",
+      "level": 3,
+      "title": "comparison",
+      "objective": "统计: comparison",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/interpretation",
+      "parent_id": "analysis",
+      "level": 2,
+      "title": "论证",
+      "objective": "论证",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/interpretation/ablation",
+      "parent_id": "analysis/interpretation",
+      "level": 3,
+      "title": "ablation",
+      "objective": "论证: ablation",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/interpretation/failures",
+      "parent_id": "analysis/interpretation",
+      "level": 3,
+      "title": "failures",
+      "objective": "论证: failures",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/interpretation/claims",
+      "parent_id": "analysis/interpretation",
+      "level": 3,
+      "title": "claims",
+      "objective": "论证: claims",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "analysis/interpretation/audit",
+      "parent_id": "analysis/interpretation",
+      "level": 3,
+      "title": "audit",
+      "objective": "论证: audit",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing",
+      "parent_id": null,
+      "level": 1,
+      "title": "论文组织与写作",
+      "objective": "把已审计证据组织为可读、可评审、逐节点可追踪的论文",
+      "acceptance": [
+        "writer 只用 resolved node",
+        "所有强 claim 有合格证据",
+        "WARN/FAIL 按 audit 标记处理",
+        "before_write 节点审批完成",
+        "章节、图表、引用和术语通过 review"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "PAPER_OUTLINE.md",
+        "writing-plan.yaml",
+        "resolved-writing-plan.json",
+        "WRITING_PLAN.md",
+        "paper/",
+        "WRITING_REVIEW.md"
+      ],
+      "return_to": {
+        "evidence_change": "analysis/interpretation",
+        "story_change": "idea/method"
+      },
+      "roles": [
+        "planner",
+        "writer",
+        "research"
+      ],
+      "checkpoint_events": [
+        "writing/plan/completed",
+        "writing/draft/completed"
+      ]
+    },
+    {
+      "id": "writing/plan",
+      "parent_id": "writing",
+      "level": 2,
+      "title": "写作规划",
+      "objective": "写作规划",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/plan/story",
+      "parent_id": "writing/plan",
+      "level": 3,
+      "title": "story",
+      "objective": "写作规划: story",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/plan/outline",
+      "parent_id": "writing/plan",
+      "level": 3,
+      "title": "outline",
+      "objective": "写作规划: outline",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/plan/writing-plan",
+      "parent_id": "writing/plan",
+      "level": 3,
+      "title": "writing-plan",
+      "objective": "写作规划: writing-plan",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft",
+      "parent_id": "writing",
+      "level": 2,
+      "title": "正文与图表",
+      "objective": "正文与图表",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft/methods",
+      "parent_id": "writing/draft",
+      "level": 3,
+      "title": "methods",
+      "objective": "正文与图表: methods",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft/results",
+      "parent_id": "writing/draft",
+      "level": 3,
+      "title": "results",
+      "objective": "正文与图表: results",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft/discussion",
+      "parent_id": "writing/draft",
+      "level": 3,
+      "title": "discussion",
+      "objective": "正文与图表: discussion",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft/figures",
+      "parent_id": "writing/draft",
+      "level": 3,
+      "title": "figures",
+      "objective": "正文与图表: figures",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "writing/draft/citations",
+      "parent_id": "writing/draft",
+      "level": 3,
+      "title": "citations",
+      "objective": "正文与图表: citations",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review",
+      "parent_id": null,
+      "level": 1,
+      "title": "内部评审与完善",
+      "objective": "在投稿前独立检验科学性、证据、表达和可复现性",
+      "acceptance": [
+        "关键问题有 owner 和状态",
+        "新增实验经 design/budget/checkpoint",
+        "所有 reviewer-like blocking issues 已关闭或解释",
+        "投稿版本可复现路径完整"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "INTERNAL_REVIEW.md",
+        "revision checklist",
+        "补实验计划",
+        "投稿版稿件",
+        "submission package draft"
+      ],
+      "return_to": {
+        "new_evidence": "design",
+        "major_rewrite": "writing/plan"
+      },
+      "roles": [
+        "research",
+        "planner",
+        "writer",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "internal-review/review/completed",
+        "internal-review/revision/completed"
+      ]
+    },
+    {
+      "id": "internal-review/review",
+      "parent_id": "internal-review",
+      "level": 2,
+      "title": "独立评审",
+      "objective": "独立评审",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/review/scientific",
+      "parent_id": "internal-review/review",
+      "level": 3,
+      "title": "scientific",
+      "objective": "独立评审: scientific",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/review/evidence",
+      "parent_id": "internal-review/review",
+      "level": 3,
+      "title": "evidence",
+      "objective": "独立评审: evidence",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/review/presentation",
+      "parent_id": "internal-review/review",
+      "level": 3,
+      "title": "presentation",
+      "objective": "独立评审: presentation",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/revision",
+      "parent_id": "internal-review",
+      "level": 2,
+      "title": "内部修订",
+      "objective": "内部修订",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/revision/experiments",
+      "parent_id": "internal-review/revision",
+      "level": 3,
+      "title": "experiments",
+      "objective": "内部修订: experiments",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/revision/rewrite",
+      "parent_id": "internal-review/revision",
+      "level": 3,
+      "title": "rewrite",
+      "objective": "内部修订: rewrite",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "internal-review/revision/submission-check",
+      "parent_id": "internal-review/revision",
+      "level": 3,
+      "title": "submission-check",
+      "objective": "内部修订: submission-check",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission",
+      "parent_id": null,
+      "level": 1,
+      "title": "投稿",
+      "objective": "在实际投稿前完成 venue 合规检查并保存正式提交证据",
+      "acceptance": [
+        "实际版本 hash/文件清单保存",
+        "作者/正式提交确认存在",
+        "回执或平台记录可读取",
+        "提交前不自动外发"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "submission package",
+        "SUBMISSION_CHECKLIST.md",
+        "submission receipt",
+        "submission_id"
+      ],
+      "return_to": {
+        "format_problem": "internal-review/revision"
+      },
+      "roles": [
+        "writer",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "submission/prepare/completed",
+        "submission/submit/completed"
+      ]
+    },
+    {
+      "id": "submission/prepare",
+      "parent_id": "submission",
+      "level": 2,
+      "title": "投稿准备",
+      "objective": "投稿准备",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/prepare/venue",
+      "parent_id": "submission/prepare",
+      "level": 3,
+      "title": "venue",
+      "objective": "投稿准备: venue",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/prepare/materials",
+      "parent_id": "submission/prepare",
+      "level": 3,
+      "title": "materials",
+      "objective": "投稿准备: materials",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/prepare/authors",
+      "parent_id": "submission/prepare",
+      "level": 3,
+      "title": "authors",
+      "objective": "投稿准备: authors",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/submit",
+      "parent_id": "submission",
+      "level": 2,
+      "title": "正式提交",
+      "objective": "正式提交",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/submit/approval",
+      "parent_id": "submission/submit",
+      "level": 3,
+      "title": "approval",
+      "objective": "正式提交: approval",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "submission/submit/receipt",
+      "parent_id": "submission/submit",
+      "level": 3,
+      "title": "receipt",
+      "objective": "正式提交: receipt",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": true,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision",
+      "parent_id": null,
+      "level": 1,
+      "title": "外审与返修",
+      "objective": "将外审意见转化为可验证修订、回复和必要补实验",
+      "acceptance": [
+        "每条意见有响应或明确理由",
+        "新增结论有新审计证据",
+        "回复引用准确版本",
+        "实际修订提交有回执"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "REVIEW_RESPONSE_MATRIX.md",
+        "revision manuscript",
+        "revision experiments",
+        "rebuttal/response",
+        "revision receipt",
+        "revision_id/submission_id"
+      ],
+      "return_to": {
+        "new_claim": "idea",
+        "new_experiment": "design",
+        "new_draft": "writing"
+      },
+      "roles": [
+        "research",
+        "planner",
+        "writer",
+        "executor"
+      ],
+      "checkpoint_events": [
+        "revision/decision/completed",
+        "revision/revise/completed"
+      ]
+    },
+    {
+      "id": "revision/decision",
+      "parent_id": "revision",
+      "level": 2,
+      "title": "外审决定",
+      "objective": "外审决定",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/decision/receipt",
+      "parent_id": "revision/decision",
+      "level": 3,
+      "title": "receipt",
+      "objective": "外审决定: receipt",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": true,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/decision/response-matrix",
+      "parent_id": "revision/decision",
+      "level": 3,
+      "title": "response-matrix",
+      "objective": "外审决定: response-matrix",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/decision/strategy",
+      "parent_id": "revision/decision",
+      "level": 3,
+      "title": "strategy",
+      "objective": "外审决定: strategy",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/revise",
+      "parent_id": "revision",
+      "level": 2,
+      "title": "返修或转投",
+      "objective": "返修或转投",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/revise/experiments",
+      "parent_id": "revision/revise",
+      "level": 3,
+      "title": "experiments",
+      "objective": "返修或转投: experiments",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/revise/manuscript",
+      "parent_id": "revision/revise",
+      "level": 3,
+      "title": "manuscript",
+      "objective": "返修或转投: manuscript",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/revise/response",
+      "parent_id": "revision/revise",
+      "level": 3,
+      "title": "response",
+      "objective": "返修或转投: response",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "revision/revise/resubmit",
+      "parent_id": "revision/revise",
+      "level": 3,
+      "title": "resubmit",
+      "objective": "返修或转投: resubmit",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": true,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance",
+      "parent_id": null,
+      "level": 1,
+      "title": "录用与定稿",
+      "objective": "用正式通知完成录用确认、camera-ready 和最终可复现归档",
+      "acceptance": [
+        "通知与最终稿版本对应",
+        "camera-ready 实际提交证据",
+        "大文件 index 已读取并校验",
+        "最终 claims 与 accepted text 对齐",
+        "Git 归档检查点完成"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": [
+        "acceptance record",
+        "camera-ready",
+        "proofs",
+        "ARCHIVE_INDEX.json",
+        "final MANIFEST.md"
+      ],
+      "return_to": {
+        "proof_error": "acceptance/final",
+        "content_change": "revision/revise"
+      },
+      "roles": [
+        "writer",
+        "executor",
+        "research"
+      ],
+      "checkpoint_events": [
+        "acceptance/decision/completed",
+        "acceptance/final/completed"
+      ]
+    },
+    {
+      "id": "acceptance/decision",
+      "parent_id": "acceptance",
+      "level": 2,
+      "title": "录用确认",
+      "objective": "录用确认",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance/decision/confirm",
+      "parent_id": "acceptance/decision",
+      "level": 3,
+      "title": "confirm",
+      "objective": "录用确认: confirm",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": true,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance/final",
+      "parent_id": "acceptance",
+      "level": 2,
+      "title": "终稿归档",
+      "objective": "终稿归档",
+      "acceptance": [
+        "子阶段完成或有跳过理由；提供汇总与交接"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance/final/camera-ready",
+      "parent_id": "acceptance/final",
+      "level": 3,
+      "title": "camera-ready",
+      "objective": "终稿归档: camera-ready",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance/final/proofs",
+      "parent_id": "acceptance/final",
+      "level": 3,
+      "title": "proofs",
+      "objective": "终稿归档: proofs",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "acceptance/final/archive",
+      "parent_id": "acceptance/final",
+      "level": 3,
+      "title": "archive",
+      "objective": "终稿归档: archive",
+      "acceptance": [
+        "登记输入、实际产物、完成依据与下一步"
+      ],
+      "required_evidence": false,
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "phase_details": {
+    "startup": {
+      "goal": "把模糊研究意图变成可执行且有边界的科研任务",
+      "entry": [
+        "用户研究意图或已有项目上下文"
+      ],
+      "inputs": [
+        "研究想法/问题描述",
+        "时间与算力约束",
+        "成果形式"
+      ],
+      "activities": [
+        "明确问题对象、范围和不做事项",
+        "定义预期贡献、风险、里程碑和预算",
+        "建立项目 Git 与模型绑定"
+      ],
+      "outputs": [
+        "RESEARCH_PLAN.md",
+        "研究目标与非目标",
+        "里程碑/预算表",
+        "settings.json 与 Git 初始检查点"
+      ],
+      "gates": [
+        "问题可用一句话陈述",
+        "至少一个可验收产物",
+        "资源与时间约束已登记",
+        "模型绑定或 blocked_model_unavailable 已记录"
+      ],
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint": [
+        "startup/started",
+        "startup/scope/completed",
+        "startup/roadmap/completed"
+      ],
+      "exit": "进入 literature；范围冲突回到 startup/scope",
+      "returns": {
+        "resource_change": "startup/roadmap",
+        "question_change": "startup/scope"
+      }
+    },
+    "literature": {
+      "goal": "建立可追溯的问题背景、研究空白和最新方法基线",
+      "entry": [
+        "startup 完成或已有可审计研究计划"
+      ],
+      "inputs": [
+        "RESEARCH_PLAN.md",
+        "关键词与边界",
+        "已有引用"
+      ],
+      "activities": [
+        "构造检索式并记录检索日期",
+        "按纳入/排除标准筛选",
+        "建立问题/方法/数据集 taxonomy",
+        "核查 novelty 与最新 baseline候选"
+      ],
+      "outputs": [
+        "LIT_REVIEW.md",
+        "literature/search-log.jsonl",
+        "taxonomy.md",
+        "novelty report",
+        "BASELINE_REVIEW.md 初稿"
+      ],
+      "gates": [
+        "关键来源有原始链接与访问日期",
+        "筛选决定有理由",
+        "研究空白不是单一搜索结果推断",
+        "候选 baseline 可区分文献值/复现值"
+      ],
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint": [
+        "literature/search/completed",
+        "literature/position/completed"
+      ],
+      "exit": "进入 idea；空白不成立回到 startup/scope",
+      "returns": {
+        "scope_change": "startup/scope",
+        "missing_evidence": "literature/search"
+      }
+    },
+    "idea": {
+      "goal": "从研究空白产生并收敛到可证伪的方法假设与 claims",
+      "entry": [
+        "问题空白已记录且来源足够"
+      ],
+      "inputs": [
+        "LIT_REVIEW.md",
+        "novelty report",
+        "候选方法",
+        "可用资源"
+      ],
+      "activities": [
+        "提出多个机制假设",
+        "比较方案并淘汰无差异/不可执行方案",
+        "拆解方法组件、混杂因素和核心 claims",
+        "为每个 claim 定义最低证据"
+      ],
+      "outputs": [
+        "IDEA_REPORT.md",
+        "METHOD_SPEC.md",
+        "research_contract.md",
+        "claim map",
+        "假设与风险表"
+      ],
+      "gates": [
+        "每个 claim 有证伪路径",
+        "创新点不只是规模或调参",
+        "组件边界清楚",
+        "负结果解释已预先定义"
+      ],
+      "roles": [
+        "research",
+        "planner"
+      ],
+      "checkpoint": [
+        "idea/hypotheses/completed",
+        "idea/method/completed"
+      ],
+      "exit": "进入 design；若主假设被结果否定，创建新 cycle 回到 idea/hypotheses",
+      "returns": {
+        "novelty_problem": "literature/position",
+        "feasibility_problem": "startup/roadmap"
+      }
+    },
+    "design": {
+      "goal": "把 claims 转换成公平、完备、可执行的对比与消融矩阵",
+      "entry": [
+        "方法 spec 与 claim map 完成"
+      ],
+      "inputs": [
+        "METHOD_SPEC.md",
+        "claim map",
+        "baseline candidates",
+        "资源预算"
+      ],
+      "activities": [
+        "联网刷新最新 baseline并冻结版本",
+        "确定数据 split、评估器、指标方向与 protocol",
+        "设计 main/baseline/comparison/ablation/sensitivity/resource-control",
+        "生成 seed、grid、依赖、预算和成功阈值"
+      ],
+      "outputs": [
+        "EXPERIMENT_PLAN.md",
+        "BASELINE_REVIEW.md",
+        "ABLATION_PLAN.md",
+        "EXPERIMENT_SETUP.json",
+        "RUN_MATRIX.json"
+      ],
+      "gates": [
+        "每个核心 claim 有证据实验或延期理由",
+        "included baseline 有官方来源/版本/协议",
+        "默认 seeds=[42] 或设置显式覆盖",
+        "不存在重复矩阵 cell",
+        "预算、成功标准、失败解释完整"
+      ],
+      "roles": [
+        "research",
+        "planner",
+        "executor"
+      ],
+      "checkpoint": [
+        "design/baselines/completed",
+        "design/ablation/completed",
+        "design/evaluation/completed"
+      ],
+      "exit": "进入 execution；资源不足回到 idea/method或调整 design/evaluation",
+      "returns": {
+        "new_component": "idea/method",
+        "baseline_drift": "literature/position",
+        "budget_cut": "startup/roadmap"
+      }
+    },
+    "execution": {
+      "goal": "按冻结矩阵产生可复现的代码、运行和原始结果",
+      "entry": [
+        "design gate 通过且执行绑定可用"
+      ],
+      "inputs": [
+        "RUN_MATRIX.json",
+        "环境 ledger",
+        "代码与数据",
+        "预算批准"
+      ],
+      "activities": [
+        "验证数据/GT/评估器与环境",
+        "实现并独立代码审查",
+        "每个变体 smoke/sanity",
+        "预算门后运行 baseline/main/ablation",
+        "记录 stdout/stderr、退出码、attempt 和原始结果"
+      ],
+      "outputs": [
+        "RUN_RECORDS.json",
+        "EXPERIMENT_LOG.md",
+        "results/",
+        "logs/",
+        "queue_state.json 或本地运行记录"
+      ],
+      "gates": [
+        "sanity 通过",
+        "付费资源和 full suite 已审批",
+        "命令/config_hash/code revision/seed 齐全",
+        "completed 必有结果文件且 exit=0",
+        "失败和 stuck 不传递为成功依赖"
+      ],
+      "roles": [
+        "executor",
+        "planner",
+        "research"
+      ],
+      "checkpoint": [
+        "execution/prepare/completed",
+        "execution/implementation/completed",
+        "execution/runs/completed"
+      ],
+      "exit": "进入 analysis；实现缺陷回到 execution/implementation，假设/协议问题回到 design",
+      "returns": {
+        "code_bug": "execution/implementation",
+        "protocol_bug": "design/evaluation",
+        "hypothesis_failure": "idea/hypotheses"
+      }
+    },
+    "analysis": {
+      "goal": "从原始结果形成可审计统计、失败解释与 claim 支持度",
+      "entry": [
+        "原始 runs 已采集或明确失败"
+      ],
+      "inputs": [
+        "RUN_RECORDS.json",
+        "results/",
+        "EXPERIMENT_LOG.md",
+        "claim map",
+        "audit checklist"
+      ],
+      "activities": [
+        "完整性与协议一致性检查",
+        "单/多 seed 汇总及配对 baseline delta",
+        "消融覆盖与组件解释",
+        "分析异常/失败/边界",
+        "运行独立 experiment-audit",
+        "标记 eligible/provisional/ineligible"
+      ],
+      "outputs": [
+        "EXPERIMENT_RESULTS.md",
+        "EXPERIMENT_STATISTICS.json/csv",
+        "EXPERIMENT_AUDIT.md/json",
+        "claim evidence map"
+      ],
+      "gates": [
+        "不补零、不丢失败 attempt",
+        "同 protocol/group/seed 才配对",
+        "单 seed 不声称方差/稳健性",
+        "FAIL 证据不进入无条件写作 claim",
+        "每个结论可追溯到原始文件"
+      ],
+      "roles": [
+        "executor",
+        "research",
+        "planner"
+      ],
+      "checkpoint": [
+        "analysis/statistics/completed",
+        "analysis/interpretation/completed"
+      ],
+      "exit": "进入 writing；证据不足回到 design 或 execution，科学假设变化回到 idea",
+      "returns": {
+        "missing_ablation": "design/ablation",
+        "bad_protocol": "design/evaluation",
+        "unsupported_claim": "idea/method"
+      }
+    },
+    "writing": {
+      "goal": "把已审计证据组织为可读、可评审、逐节点可追踪的论文",
+      "entry": [
+        "claim evidence map 可用或明确限定语"
+      ],
+      "inputs": [
+        "EXPERIMENT_RESULTS.md",
+        "audit report",
+        "claim map",
+        "outline",
+        "sources",
+        "venue constraints"
+      ],
+      "activities": [
+        "确定论文叙事和贡献边界",
+        "初始化/解析 Writing Plan",
+        "逐节点写作与记录来源",
+        "生成图表/表格/引用",
+        "按节点 review 与局部修订"
+      ],
+      "outputs": [
+        "PAPER_OUTLINE.md",
+        "writing-plan.yaml",
+        "resolved-writing-plan.json",
+        "WRITING_PLAN.md",
+        "paper/",
+        "WRITING_REVIEW.md"
+      ],
+      "gates": [
+        "writer 只用 resolved node",
+        "所有强 claim 有合格证据",
+        "WARN/FAIL 按 audit 标记处理",
+        "before_write 节点审批完成",
+        "章节、图表、引用和术语通过 review"
+      ],
+      "roles": [
+        "planner",
+        "writer",
+        "research"
+      ],
+      "checkpoint": [
+        "writing/plan/completed",
+        "writing/draft/completed"
+      ],
+      "exit": "进入 internal-review；核心证据变化回到 analysis",
+      "returns": {
+        "evidence_change": "analysis/interpretation",
+        "story_change": "idea/method"
+      }
+    },
+    "internal-review": {
+      "goal": "在投稿前独立检验科学性、证据、表达和可复现性",
+      "entry": [
+        "完整 draft 与 Writing Review 可读"
+      ],
+      "inputs": [
+        "paper/",
+        "resolved plan",
+        "results/audit",
+        "venue checklist",
+        "代码/数据索引"
+      ],
+      "activities": [
+        "独立科学评审",
+        "claim/citation/数值核查",
+        "识别必须补的 baseline/ablation",
+        "局部修订或创建补实验任务",
+        "执行匿名性、格式和附件检查"
+      ],
+      "outputs": [
+        "INTERNAL_REVIEW.md",
+        "revision checklist",
+        "补实验计划",
+        "投稿版稿件",
+        "submission package draft"
+      ],
+      "gates": [
+        "关键问题有 owner 和状态",
+        "新增实验经 design/budget/checkpoint",
+        "所有 reviewer-like blocking issues 已关闭或解释",
+        "投稿版本可复现路径完整"
+      ],
+      "roles": [
+        "research",
+        "planner",
+        "writer",
+        "executor"
+      ],
+      "checkpoint": [
+        "internal-review/review/completed",
+        "internal-review/revision/completed"
+      ],
+      "exit": "进入 submission；补实验回到 design/execution，重大理论问题回到 idea",
+      "returns": {
+        "new_evidence": "design",
+        "major_rewrite": "writing/plan"
+      }
+    },
+    "submission": {
+      "goal": "在实际投稿前完成 venue 合规检查并保存正式提交证据",
+      "entry": [
+        "internal review gate 通过"
+      ],
+      "inputs": [
+        "投稿版稿件",
+        "venue rules",
+        "作者确认",
+        "附件/代码/数据索引"
+      ],
+      "activities": [
+        "核对格式、页数、匿名、作者与冲突声明",
+        "生成最终 PDF/源文件及补充材料",
+        "在实际提交前请求用户确认",
+        "提交并保存回执/稿件编号"
+      ],
+      "outputs": [
+        "submission package",
+        "SUBMISSION_CHECKLIST.md",
+        "submission receipt",
+        "submission_id"
+      ],
+      "gates": [
+        "实际版本 hash/文件清单保存",
+        "作者/正式提交确认存在",
+        "回执或平台记录可读取",
+        "提交前不自动外发"
+      ],
+      "roles": [
+        "writer",
+        "executor"
+      ],
+      "checkpoint": [
+        "submission/prepare/completed",
+        "submission/submit/completed"
+      ],
+      "exit": "进入 revision 等待外审；材料问题回到 internal-review",
+      "returns": {
+        "format_problem": "internal-review/revision"
+      }
+    },
+    "revision": {
+      "goal": "将外审意见转化为可验证修订、回复和必要补实验",
+      "entry": [
+        "submission receipt 与 reviewer decision 可用"
+      ],
+      "inputs": [
+        "reviewer comments",
+        "submitted version",
+        "results/audit",
+        "venue deadline"
+      ],
+      "activities": [
+        "逐条拆分意见并分类科学/实验/表达/格式",
+        "建立 response matrix",
+        "判断需补的 baseline/ablation并重新审批",
+        "修订论文与回复",
+        "提交 revision 或创建新 submission 转投"
+      ],
+      "outputs": [
+        "REVIEW_RESPONSE_MATRIX.md",
+        "revision manuscript",
+        "revision experiments",
+        "rebuttal/response",
+        "revision receipt",
+        "revision_id/submission_id"
+      ],
+      "gates": [
+        "每条意见有响应或明确理由",
+        "新增结论有新审计证据",
+        "回复引用准确版本",
+        "实际修订提交有回执"
+      ],
+      "roles": [
+        "research",
+        "planner",
+        "writer",
+        "executor"
+      ],
+      "checkpoint": [
+        "revision/decision/completed",
+        "revision/revise/completed"
+      ],
+      "exit": "接受→acceptance；继续外审→新 revision；拒稿→新 submission cycle",
+      "returns": {
+        "new_claim": "idea",
+        "new_experiment": "design",
+        "new_draft": "writing"
+      }
+    },
+    "acceptance": {
+      "goal": "用正式通知完成录用确认、camera-ready 和最终可复现归档",
+      "entry": [
+        "录用/终稿通知可读取"
+      ],
+      "inputs": [
+        "acceptance notice",
+        "accepted manuscript",
+        "publisher checklist",
+        "final code/data/archive index"
+      ],
+      "activities": [
+        "保存录用通知和稿件编号",
+        "制作 camera-ready/校样",
+        "核对最终作者/版权/材料",
+        "验证代码、数据和大文件归档位置",
+        "提交最终版本并建立归档 manifest"
+      ],
+      "outputs": [
+        "acceptance record",
+        "camera-ready",
+        "proofs",
+        "ARCHIVE_INDEX.json",
+        "final MANIFEST.md"
+      ],
+      "gates": [
+        "通知与最终稿版本对应",
+        "camera-ready 实际提交证据",
+        "大文件 index 已读取并校验",
+        "最终 claims 与 accepted text 对齐",
+        "Git 归档检查点完成"
+      ],
+      "roles": [
+        "writer",
+        "executor",
+        "research"
+      ],
+      "checkpoint": [
+        "acceptance/decision/completed",
+        "acceptance/final/completed"
+      ],
+      "exit": "科研周期完成；校样问题回到 acceptance/final，重大内容变更创建 revision",
+      "returns": {
+        "proof_error": "acceptance/final",
+        "content_change": "revision/revise"
+      }
+    }
+  }
+}

@@ -194,6 +194,11 @@
 - **Description**: |
 - **Usage**: See description
 
+### chinese-webnovel-skill
+- **Path**: `skills/chinese-webnovel-skill`
+- **Description**: Chinese web-novel writing skill covering topic selection, concept planning, volume and chapter outlines, openings, drafting, revision, pacing, chapter endings, reference retrieval, de-AI voice, and consistency review.
+- **Usage**: Use when planning, writing, continuing, revising, or reviewing Chinese web fiction.
+
 ### chroma
 - **Path**: `skills/AI-Research-SKILLs/15-rag/chroma`
 - **Description**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.

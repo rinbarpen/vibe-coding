@@ -1,144 +1,27 @@
-# Automated Research Lifecycle
+# 科研全生命周期
 
-## 端到端流水线
+从科研启动到正式录用，按科研活动划分大阶段→小阶段→小小阶段，而不是按工具调用划分。
 
-```
-                        Auto-Research Pipeline
-                                │
-                    ┌───────────┴───────────┐
-                    │     Phase 1:          │
-                    │     Discover          │
-                    │         │             │
-                    │  research-lit ──► idea-discovery ──► novelty-check
-                    │         │             │                  │
-                    └─────────┼─────────────┼──────────────────┘
-                              │             │
-                    ┌─────────┴─────────────┴──────────────────┐
-                    │     Phase 2:          │                  │
-                    │     Produce           │                  │
-                    │         │             │                  │
-                    │  experiment-bridge ──► run-experiment ──► analyze-results
-                    │         │                                      │
-                    └─────────┼──────────────────────────────────────┘
-                              │
-                    ┌─────────┴──────────────────────────────────────┐
-                    │     Phase 3:          │                        │
-                    │     Review            │                        │
-                    │         │             │                        │
-                    │  paper-write ──► auto-review-loop (4 rounds) ──► citation-audit
-                    │         │                  │                        │
-                    └─────────┼──────────────────┼────────────────────────┘
-                              │                  │
-                    ┌─────────┴──────────────────┴────────────────────────┐
-                    │     Phase 4:          │                            │
-                    │     Polish            │                            │
-                    │         │             │                            │
-                    │  figure-spec ──► paper-illustration ──► paper-compile
-                    │         │                                            │
-                    └─────────┼────────────────────────────────────────────┘
-                               │
-                    ┌─────────┴────────────────────────────────────────────┐
-                    │     Phase 5:          │                            │
-                    │     Export            │                            │
-                    │         │             │                            │
-                    │  export-paper-zip ──► paper-submission_<venue>.zip │
-                    │         │                                            │
-                    └─────────┼────────────────────────────────────────────┘
-                               │
-                          MANIFEST.md  (每次产出自动记录)
-```
+1. **startup 研究启动**：目标与约束 → 问题、资源；研究计划 → 里程碑、预算。
+2. **literature 文献调研与问题定位**：检索 → query、筛选；定位 → 分类、空白、新颖性。
+3. **idea 方法形成**：假设 → 候选、比较；方法 → 机制、组件、claims。
+4. **design 实验设计**：baseline → 联网检索、筛选、协议；消融 → 分解、覆盖、矩阵；评估 → 指标、seed、预算。
+5. **execution 实验执行**：准备 → 环境、数据、评估器；实现 → 代码、审查、sanity；运行 → 审批、baseline、main、ablation、采集。
+6. **analysis 分析与论证**：统计 → 完整性、汇总、对比；解释 → 消融、失败、claims、审计。
+7. **writing 写作**：叙事、大纲、Writing Plan；逐节点 methods/results/discussion/figures/citations。
+8. **internal-review 内部评审**：科学性、证据与表达；补实验、局部重写、投稿检查。
+9. **submission 投稿**：venue、材料、作者确认；正式提交确认和回执。
+10. **revision 外审返修**：决定、意见矩阵、策略；补实验、改稿、回复、重投或转投。
+11. **acceptance 录用定稿**：正式通知确认；camera-ready、校样、最终归档。
 
-## 各阶段详情
+阶段 ID 与 execution/cycle 分离；失败假设可完成研究活动。回退和转投创建新轮次，不覆盖旧结果。录用与终稿完成分开，录用必须有实际通知。
 
-### Phase 1: Discover
+每个层级进入、结束、失败、暂停、恢复和规划变化都留档并 Git 提交。固定文件是当前计划，检查点快照和 Git 保存中间版本。完整契约见 [lifecycle-runtime.md](lifecycle-runtime.md)。
 
-| 步骤 | 工具 | 输入 | 产出 |
-|------|------|------|------|
-| 文献调研 | aris/research-lit | 研究方向/关键词 | 文献综述、相关工作 |
-| 想法生成 | aris/idea-discovery | 研究简报 | 候选想法列表 |
-| 新颖性检查 | aris/novelty-check | 候选想法 | 新颖性评估报告 |
+大阶段的细化目标、输入、输出、门禁与回退关系见 [lifecycle-stage-details.md](lifecycle-stage-details.md)。
 
-**典型命令**：
-```
-aris/research-lit "attention mechanism in vision transformers"
-aris/idea-discovery "improving ViT efficiency — problem: quadratic attention cost"
-aris/novelty-check
-```
+实验先 plan 后 bridge，设计阶段就覆盖对比和消融；默认一个 seed=42，多 seed 可配置。联网 baseline 记录原始来源和冻结版本。执行、预算与统计见 [experiment-execution.md](experiment-execution.md)。
 
-### Phase 2: Produce
+写作继续遵循 research → outline → plan-writing → validate → resolve → render-plan → approval-gates → write → review → revise；writer 只接收 resolved node。见 [Writing Plan](../writing/README.md)。
 
-| 步骤 | 工具 | 输入 | 产出 |
-|------|------|------|------|
-| 实验规划 | aris/experiment-plan | 研究提纲 | 实验计划 |
-| 实验执行 | aris/run-experiment | 实验计划 | 实验结果 |
-| 结果分析 | aris/analyze-results | 实验结果 | 分析报告 + 图表数据 |
-
-### Phase 3: Review
-
-| 步骤 | 工具 | 输入 | 产出 |
-|------|------|------|------|
-| 论文写作 | aris/paper-write | 实验报告 | 论文草稿 |
-| 版本追踪初始化 | mine/paper-version-manager init | 论文草稿 | .versions/v1/ |
-| 自动评审 | aris/auto-review-loop | 论文草稿 | 评审报告（最多 4 轮） |
-| 小版本升级 | mine/paper-version-manager bump --minor | 修改后论文 | .versions/v1.1/ |
-| 声明校验 | aris/paper-claim-audit | 论文草稿 + 结果 | 声明一致性报告 |
-| 引用校验 | aris/citation-audit | 论文草稿 | 引用验证报告 |
-| 大版本升级（重大改写时） | mine/paper-version-manager bump --major | 改写后论文 | .versions/v2/ |
-
-### Phase 4: Polish
-
-| 步骤 | 工具 | 输入 | 产出 |
-|------|------|------|------|
-| 图表规格 | aris/figure-spec | 图描述 JSON | 确定性 SVG |
-| AI 插图 | aris/paper-illustration | 插图描述 | 论文插图 |
-| 论文编译 | aris/paper-compile | 论文 + 图表 | 终稿 PDF |
-
-### Phase 5: Export
-
-| 步骤 | 工具 | 输入 | 产出 |
-|------|------|------|------|
-| 投稿打包 | mine/export-paper-zip | 论文目录 + --venue | paper-submission_<venue>_YYYYMMDD.zip |
-| 文件打包 | mine/export-paper-zip --mode bundle | 文件/目录路径列表 | paper-bundle_YYYYMMDD_HHMM.zip |
-
-## Effort 级别
-
-| Level | 评审轮数 | 安全检查 | 适用范围 |
-|-------|----------|----------|----------|
-| lite | 1 | 无 | 快速调研、初步想法 |
-| balanced | 2 | 引用校验 | 标准论文 |
-| max | 4 | claim audit + citation audit | 重要投稿 |
-| beast | 4 + 保证门控 | 全部 | 顶刊/顶会投稿 |
-
-## Output Manifest
-
-每次产出后自动向 `MANIFEST.md` 追加一行：
-
-```
-| 2025-06-15 14:30 | research-lit | LIT_REVIEW.md | idea-discovery | Survey on ViT attention |
-```
-
-阶段值：`idea-discovery` / `implementation` / `review` / `paper` / `version` / `export`
-
-## 文件版本化
-
-每个产出同时保存两个版本：
-- `IDEA_REPORT_20250615_143022.md` — 带时间戳副本（可追溯）
-- `IDEA_REPORT.md` — 固定名称最新副本（方便引用）
-
-## 论文化版本管理
-
-使用 `mine/paper-version-manager` 追踪论文修改历史：
-
-| 操作 | 命令 | 适用场景 |
-|------|------|----------|
-| 初始化 | `mine/paper-version-manager init <dir> "消息"` | 首次草稿完成后 |
-| 小版本升级 | `mine/paper-version-manager bump --minor <dir> "消息"` | 评审修改、格式调整、图表替换 |
-| 大版本升级 | `mine/paper-version-manager bump --major <dir> "消息"` | 结构重排、新增实验、方法论变更 |
-| 查看历史 | `mine/paper-version-manager list <dir>` | 查看所有版本快照 |
-| 比较版本 | `mine/paper-version-manager diff <dir> --from v1 --to v1.1` | 对比修改内容 |
-| 回滚 | `mine/paper-version-manager rollback <dir> v1` | 恢复到历史版本 |
-
-**版本规则**：
-- v1/v2/v3 = 大版本（结构/方法论/核心贡献变化）
-- v1.1/v1.2/v2.1 = 小版本（评审意见修改、润色、图表更新）
-- bump --major 会重置小版本计数（v1.2 → v2）
+论文各版本使用 paper-version-manager；生命周期 Git 管理包括规划、失败日志、评审、投稿、返修和录用。每次产物登记 MANIFEST.md，关联阶段 checkpoint。

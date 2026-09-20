@@ -1,0 +1,1250 @@
+{
+  "tables": [
+    {
+      "id": "01-main-results",
+      "title": "Multi-dataset comparison",
+      "headers": [
+        "Method",
+        "Accuracy (%)",
+        "F1 (%)",
+        "Accuracy (%)",
+        "F1 (%)"
+      ],
+      "rows": [
+        [
+          "Reference A",
+          "80.2",
+          "79.4",
+          "74.1",
+          "72.6"
+        ],
+        [
+          "Reference B",
+          "82.1",
+          "81.0",
+          "75.8",
+          "74.3"
+        ],
+        [
+          "Candidate",
+          "84.0",
+          "83.2",
+          "77.6",
+          "76.4"
+        ]
+      ],
+      "widths": [
+        0.32,
+        0.17,
+        0.17,
+        0.17,
+        0.17
+      ],
+      "notes": [
+        "Invented fixture values; one run per configuration. Higher is better for every metric.",
+        "No best-value emphasis or significance claim. Dataset names are placeholders."
+      ],
+      "groups": [
+        [
+          1,
+          3,
+          "Dataset A"
+        ],
+        [
+          3,
+          5,
+          "Dataset B"
+        ]
+      ],
+      "blocks": [],
+      "reference": null,
+      "style": "grouped_comparison"
+    },
+    {
+      "id": "02-component-ablation",
+      "title": "Component removal",
+      "headers": [
+        "Configuration",
+        "A",
+        "B",
+        "C",
+        "Accuracy (%)",
+        "Delta (pp)"
+      ],
+      "rows": [
+        [
+          "Full",
+          "On",
+          "On",
+          "On",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "Without A",
+          "Off",
+          "On",
+          "On",
+          "81.2",
+          "-2.8"
+        ],
+        [
+          "Without B",
+          "On",
+          "Off",
+          "On",
+          "82.0",
+          "-2.0"
+        ],
+        [
+          "Without C",
+          "On",
+          "On",
+          "Off",
+          "83.1",
+          "-0.9"
+        ]
+      ],
+      "widths": [
+        0.34,
+        0.08,
+        0.08,
+        0.08,
+        0.22,
+        0.2
+      ],
+      "notes": [
+        "Delta = accuracy minus Full accuracy, in percentage points (pp).",
+        "On/Off indicate component presence. Invented single-run fixture; no uncertainty estimates."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": 0,
+      "style": "component_matrix"
+    },
+    {
+      "id": "03-additive-ablation",
+      "title": "Sequential component addition",
+      "headers": [
+        "Configuration",
+        "Added",
+        "Accuracy (%)",
+        "Step delta (pp)"
+      ],
+      "rows": [
+        [
+          "Base",
+          "None",
+          "78.0",
+          "NA"
+        ],
+        [
+          "Base + A",
+          "A",
+          "81.2",
+          "+3.2"
+        ],
+        [
+          "Base + A + B",
+          "B",
+          "82.9",
+          "+1.7"
+        ],
+        [
+          "Full",
+          "C",
+          "84.0",
+          "+1.1"
+        ]
+      ],
+      "widths": [
+        0.4,
+        0.16,
+        0.22,
+        0.22
+      ],
+      "notes": [
+        "Step delta is relative to the preceding row; NA = not applicable.",
+        "Order-dependent increments are not independent component effects. Invented fixture values."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "reference_delta"
+    },
+    {
+      "id": "04-design-ablation",
+      "title": "Alternative design choices",
+      "headers": [
+        "Choice",
+        "Setting",
+        "Accuracy (%)",
+        "Delta (pp)"
+      ],
+      "rows": [
+        [
+          "Fusion",
+          "Sum",
+          "82.2",
+          "-1.8"
+        ],
+        [
+          "",
+          "Concatenate",
+          "83.1",
+          "-0.9"
+        ],
+        [
+          "",
+          "Gated [ref]",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "Loss",
+          "Base",
+          "82.8",
+          "-1.2"
+        ],
+        [
+          "",
+          "Combined [ref]",
+          "84.0",
+          "0.0"
+        ]
+      ],
+      "widths": [
+        0.2,
+        0.38,
+        0.22,
+        0.2
+      ],
+      "notes": [
+        "Each block varies only its named factor; all other settings remain fixed.",
+        "[ref] defines the reference within each block. Deltas in pp; invented single-run fixtures."
+      ],
+      "groups": [],
+      "blocks": [
+        3
+      ],
+      "reference": null,
+      "style": "grouped_comparison"
+    },
+    {
+      "id": "05-interaction-ablation",
+      "title": "Two-factor interaction",
+      "headers": [
+        "Factor A",
+        "B off",
+        "B on",
+        "B effect (pp)"
+      ],
+      "rows": [
+        [
+          "Off",
+          "78.0",
+          "80.0",
+          "+2.0"
+        ],
+        [
+          "On",
+          "81.0",
+          "84.0",
+          "+3.0"
+        ]
+      ],
+      "widths": [
+        0.34,
+        0.22,
+        0.22,
+        0.22
+      ],
+      "notes": [
+        "Cells contain accuracy (%). A x B contrast = (84 - 81) - (80 - 78) = +1.0 pp.",
+        "Descriptive contrast only: a single fixture run gives no uncertainty or interaction significance."
+      ],
+      "groups": [
+        [
+          1,
+          3,
+          "Factor B"
+        ]
+      ],
+      "blocks": [],
+      "reference": null,
+      "style": "factorial_matrix"
+    },
+    {
+      "id": "06-efficiency",
+      "title": "Performance and resource trade-offs",
+      "headers": [
+        "Method",
+        "Accuracy (%)",
+        "Params (M)",
+        "Latency (ms)",
+        "Memory (GB)"
+      ],
+      "rows": [
+        [
+          "Small",
+          "81.0",
+          "12.0",
+          "4.2",
+          "1.8"
+        ],
+        [
+          "Medium",
+          "83.0",
+          "25.0",
+          "7.5",
+          "2.7"
+        ],
+        [
+          "Large",
+          "84.0",
+          "48.0",
+          "13.1",
+          "4.5"
+        ],
+        [
+          "Variant",
+          "82.5",
+          "30.0",
+          "9.2",
+          "3.2"
+        ]
+      ],
+      "widths": [
+        0.28,
+        0.18,
+        0.18,
+        0.18,
+        0.18
+      ],
+      "notes": [
+        "Invented measurements: no actual hardware benchmark was performed.",
+        "Real tables must specify device, batch size, precision, warm-up and timing protocol."
+      ],
+      "groups": [
+        [
+          1,
+          2,
+          "Performance"
+        ],
+        [
+          2,
+          5,
+          "Resources"
+        ]
+      ],
+      "blocks": [],
+      "reference": null,
+      "style": "tradeoff"
+    },
+    {
+      "id": "07-robustness",
+      "title": "Robustness under increasing corruption",
+      "headers": [
+        "Condition",
+        "Reference (%)",
+        "Candidate (%)",
+        "Candidate drop (pp)"
+      ],
+      "rows": [
+        [
+          "Clean",
+          "80.2",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "Mild",
+          "76.1",
+          "81.0",
+          "3.0"
+        ],
+        [
+          "Moderate",
+          "68.4",
+          "75.2",
+          "8.8"
+        ],
+        [
+          "Severe",
+          "54.3",
+          "62.5",
+          "21.5"
+        ]
+      ],
+      "widths": [
+        0.34,
+        0.22,
+        0.22,
+        0.22
+      ],
+      "notes": [
+        "Drop = clean candidate accuracy minus corrupted candidate accuracy; smaller is better.",
+        "Same evaluation protocol assumed for this fixture. Conditions and values are invented."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": 0,
+      "style": "reference_delta"
+    },
+    {
+      "id": "08-multiseed",
+      "title": "Across-seed performance summary",
+      "headers": [
+        "Method",
+        "Seeds, n",
+        "Mean (%)",
+        "Sample SD (pp)",
+        "Range (%)"
+      ],
+      "rows": [
+        [
+          "Reference",
+          "5",
+          "80.40",
+          "0.43",
+          "79.9\u201381.0"
+        ],
+        [
+          "Candidate",
+          "5",
+          "82.50",
+          "0.40",
+          "82.0\u201383.0"
+        ]
+      ],
+      "widths": [
+        0.3,
+        0.14,
+        0.18,
+        0.2,
+        0.18
+      ],
+      "notes": [
+        "Explicit multi-seed example; the workflow default remains one seed. SD uses ddof = 1.",
+        "Fixture seed IDs: 11, 22, 33, 44, 55. Values are invented; SD is computed, not invented."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "uncertainty_first"
+    },
+    {
+      "id": "09-appendix-1",
+      "title": "Complete configuration ledger (1/2)",
+      "headers": [
+        "Configuration",
+        "Seed",
+        "Accuracy (%)",
+        "Status",
+        "Test n"
+      ],
+      "rows": [
+        [
+          "config-001",
+          "42",
+          "76.0",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-002",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-003",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-004",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-005",
+          "42",
+          "78.8",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-006",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-007",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-008",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-009",
+          "42",
+          "81.6",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-010",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-011",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-012",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-013",
+          "42",
+          "78.1",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-014",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-015",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-016",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ]
+      ],
+      "widths": [
+        0.29,
+        0.12,
+        0.2,
+        0.26,
+        0.13
+      ],
+      "notes": [
+        "Fixture ledger; NA indicates no metric is reported. Status distinguishes why it is absent.",
+        "Headers repeat across pages; configuration IDs remain stable."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "supplement_dense"
+    },
+    {
+      "id": "09-appendix-2",
+      "title": "Complete configuration ledger (2/2)",
+      "headers": [
+        "Configuration",
+        "Seed",
+        "Accuracy (%)",
+        "Status",
+        "Test n"
+      ],
+      "rows": [
+        [
+          "config-017",
+          "42",
+          "80.9",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-018",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-019",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-020",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-021",
+          "42",
+          "77.4",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-022",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-023",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-024",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-025",
+          "42",
+          "80.2",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-026",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-027",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-028",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ],
+        [
+          "config-029",
+          "42",
+          "76.7",
+          "Complete",
+          "180"
+        ],
+        [
+          "config-030",
+          "42",
+          "NA",
+          "Not run",
+          "NA"
+        ],
+        [
+          "config-031",
+          "42",
+          "NA",
+          "Failed",
+          "NA"
+        ],
+        [
+          "config-032",
+          "42",
+          "NA",
+          "Not applicable",
+          "NA"
+        ]
+      ],
+      "widths": [
+        0.29,
+        0.12,
+        0.2,
+        0.26,
+        0.13
+      ],
+      "notes": [
+        "Fixture ledger; NA indicates no metric is reported. Status distinguishes why it is absent.",
+        "Headers repeat across pages; configuration IDs remain stable."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "supplement_dense"
+    },
+    {
+      "id": "10-style-reference",
+      "title": "Same ablation / reference-delta layout",
+      "headers": [
+        "Configuration",
+        "Accuracy (%)",
+        "Delta vs Full (pp)"
+      ],
+      "rows": [
+        [
+          "Full",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "Without A",
+          "81.2",
+          "-2.8"
+        ],
+        [
+          "Without B",
+          "82.0",
+          "-2.0"
+        ],
+        [
+          "Without C",
+          "83.1",
+          "-0.9"
+        ]
+      ],
+      "widths": [
+        0.5,
+        0.25,
+        0.25
+      ],
+      "notes": [
+        "Same values as component-removal table; compact variant for a space-limited manuscript.",
+        "Component definitions belong in the caption when the switch matrix is omitted."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": 0,
+      "style": "reference_delta"
+    },
+    {
+      "id": "11-style-review",
+      "title": "Same ablation / review-only heat shading",
+      "headers": [
+        "Configuration",
+        "A",
+        "B",
+        "C",
+        "Accuracy (%)",
+        "Delta (pp)"
+      ],
+      "rows": [
+        [
+          "Full",
+          "On",
+          "On",
+          "On",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "Without A",
+          "Off",
+          "On",
+          "On",
+          "81.2",
+          "-2.8"
+        ],
+        [
+          "Without B",
+          "On",
+          "Off",
+          "On",
+          "82.0",
+          "-2.0"
+        ],
+        [
+          "Without C",
+          "On",
+          "On",
+          "Off",
+          "83.1",
+          "-0.9"
+        ]
+      ],
+      "widths": [
+        0.34,
+        0.08,
+        0.08,
+        0.08,
+        0.22,
+        0.2
+      ],
+      "notes": [
+        "Same values as component-removal table; colour is an optional review aid, not a significance cue.",
+        "Shading scales accuracy from 80 to 85%. Use the black-and-white variant for journal submission."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": 0,
+      "style": "review_heat"
+    },
+    {
+      "id": "12-dataset-statistics",
+      "title": "Composition of the synthetic dataset",
+      "headers": [
+        "Partition",
+        "Samples, n",
+        "Class A, n",
+        "Class B, n",
+        "Class C, n",
+        "Share (%)"
+      ],
+      "rows": [
+        [
+          "Training",
+          "840",
+          "343",
+          "244",
+          "253",
+          "70.0"
+        ],
+        [
+          "Validation",
+          "180",
+          "70",
+          "57",
+          "53",
+          "15.0"
+        ],
+        [
+          "Test",
+          "180",
+          "67",
+          "59",
+          "54",
+          "15.0"
+        ],
+        [
+          "Total",
+          "1200",
+          "480",
+          "360",
+          "360",
+          "100.0"
+        ]
+      ],
+      "widths": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666
+      ],
+      "notes": [
+        "Partitions contain disjoint sample IDs; percentages refer to all 1,200 samples.",
+        "Seed 42. Synthetic demonstration, not research data."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "13-class-results",
+      "title": "Class-wise performance of the two-feature classifier",
+      "headers": [
+        "Class",
+        "Support, n",
+        "Precision (%)",
+        "Recall (%)",
+        "F1 (%)"
+      ],
+      "rows": [
+        [
+          "A",
+          "67",
+          "98.5",
+          "98.5",
+          "98.5"
+        ],
+        [
+          "B",
+          "59",
+          "98.0",
+          "84.7",
+          "90.9"
+        ],
+        [
+          "C",
+          "54",
+          "87.1",
+          "100.0",
+          "93.1"
+        ]
+      ],
+      "widths": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "notes": [
+        "Support is the number of true test samples in each class.",
+        "All metrics derive from the saved confusion matrix; single seed. Synthetic demonstration."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "14-dataset-comparison",
+      "title": "Dataset comparison",
+      "headers": [
+        "Dataset",
+        "Samples",
+        "Modalities",
+        "Annotations",
+        "Access"
+      ],
+      "rows": [
+        [
+          "Set A",
+          "1200",
+          "Image",
+          "Mask",
+          "Open"
+        ],
+        [
+          "Set B",
+          "2400",
+          "Image + text",
+          "Region",
+          "Restricted"
+        ],
+        [
+          "Set C",
+          "3600",
+          "Video",
+          "Track",
+          "Open"
+        ]
+      ],
+      "widths": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "notes": [
+        "Invented dataset properties; no real dataset claim. Define sample units and verify access terms in a real paper."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "15-experiment-settings",
+      "title": "Experimental settings",
+      "headers": [
+        "Stage",
+        "Parameter",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Training",
+          "Optimizer",
+          "AdamW"
+        ],
+        [
+          "Training",
+          "Batch size",
+          "32"
+        ],
+        [
+          "Training",
+          "Learning rate",
+          "0.001"
+        ],
+        [
+          "Evaluation",
+          "Split",
+          "Held-out"
+        ],
+        [
+          "Evaluation",
+          "Seeds",
+          "1"
+        ]
+      ],
+      "widths": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "notes": [
+        "Configuration fixture, not an executed training recipe. Units and schedules must be recorded where relevant."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "16-sensitivity",
+      "title": "Hyperparameter sensitivity",
+      "headers": [
+        "Weight",
+        "Accuracy (%)",
+        "Delta (pp)"
+      ],
+      "rows": [
+        [
+          "0.0",
+          "80.0",
+          "-4.0"
+        ],
+        [
+          "0.1",
+          "82.5",
+          "-1.5"
+        ],
+        [
+          "0.5",
+          "84.0",
+          "0.0"
+        ],
+        [
+          "1.0",
+          "83.2",
+          "-0.8"
+        ]
+      ],
+      "widths": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "notes": [
+        "Invented one-factor fixture; other settings fixed. Delta is relative to weight 0.5. No optimality claim."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "17-paired-statistics",
+      "title": "Paired seed differences",
+      "headers": [
+        "Comparison",
+        "Pairs",
+        "Mean delta (pp)",
+        "SD (pp)"
+      ],
+      "rows": [
+        [
+          "Candidate - reference",
+          "5",
+          "2.10",
+          "0.07"
+        ]
+      ],
+      "widths": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "notes": [
+        "Differences pair runs by seed ID. Values derive from the invented multi-seed fixture.",
+        "Descriptive statistics only; no p-value, confidence interval or significance claim."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "18-human-evaluation",
+      "title": "Human evaluation summary",
+      "headers": [
+        "Method",
+        "Win",
+        "Tie",
+        "Loss",
+        "Win (%)"
+      ],
+      "rows": [
+        [
+          "Candidate vs reference",
+          "24",
+          "10",
+          "16",
+          "48.0"
+        ]
+      ],
+      "widths": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "notes": [
+        "Invented 50 paired judgments, not a conducted user study. Win rate uses all judgments as denominator.",
+        "A real table must document raters, items, assignment, blinding, aggregation and dependence between judgments."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "19-error-analysis",
+      "title": "Error taxonomy",
+      "headers": [
+        "Category",
+        "Cases",
+        "Share (%)",
+        "Definition"
+      ],
+      "rows": [
+        [
+          "Boundary",
+          "12",
+          "40.0",
+          "Incorrect object edge"
+        ],
+        [
+          "Omission",
+          "10",
+          "33.3",
+          "Missed target"
+        ],
+        [
+          "Confusion",
+          "8",
+          "26.7",
+          "Incorrect target class"
+        ]
+      ],
+      "widths": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "notes": [
+        "Invented 30-case mutually exclusive taxonomy. Denominator is error cases, not all test samples.",
+        "Labels describe hypothetical errors; no inspected real examples are claimed."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    },
+    {
+      "id": "20-literature-matrix",
+      "title": "Method taxonomy",
+      "headers": [
+        "Method",
+        "Supervision",
+        "Input",
+        "Constraint"
+      ],
+      "rows": [
+        [
+          "Reference A",
+          "Full",
+          "Image",
+          "Dense labels"
+        ],
+        [
+          "Reference B",
+          "Weak",
+          "Image + text",
+          "Text alignment"
+        ],
+        [
+          "Reference C",
+          "None",
+          "Video",
+          "Temporal signal"
+        ]
+      ],
+      "widths": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "notes": [
+        "Placeholder method taxonomy, not a literature review. Replace names with verified citations and source-grounded attributes."
+      ],
+      "groups": [],
+      "blocks": [],
+      "reference": null,
+      "style": "journal_minimal"
+    }
+  ],
+  "seed_fixture": [
+    [
+      80.1,
+      81.0,
+      80.6,
+      79.9,
+      80.4
+    ],
+    [
+      82.2,
+      83.0,
+      82.7,
+      82.0,
+      82.6
+    ]
+  ],
+  "seed_ids": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ]
+}

@@ -122,3 +122,6 @@
 [submodule "skills/ppt-master"]
 	path = skills/ppt-master
 	url = https://github.com/hugohe3/ppt-master.git
+[submodule "skills/chinese-webnovel-skill"]
+	path = skills/chinese-webnovel-skill
+	url = https://github.com/Tomsawyerhu/Chinese-WebNovel-Skill.git

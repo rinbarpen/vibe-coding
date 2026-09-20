@@ -1,0 +1,131 @@
+version: 1
+
+defaults:
+  audience:
+    primary:
+      profile: general-research-reader
+      knowledge_level: intermediate
+      goal: understand-findings
+      concerns: []
+    secondary: []
+  style:
+    tone: analytical
+    formality: high
+    person: third
+    terminology_density: medium
+    sentence_length: medium
+    explanation_depth: intermediate
+    prohibited_expressions: []
+  length:
+    unit: chinese_characters
+  content:
+    required: []
+    optional: []
+    excluded: []
+    keywords: []
+    terminology: []
+    cross_references: []
+  evidence:
+    citation_density: medium
+    allowed_source_types: [peer_reviewed, primary_source]
+    freshness: context_dependent
+    uncertainty_language: required
+  presentation:
+    structure: []
+    figures: []
+    tables: []
+    formulas: []
+    metadata: {}
+  acceptance:
+    checks: []
+  approval: auto
+
+profiles:
+  audience:
+    general-research-reader:
+      primary:
+        knowledge_level: intermediate
+        goal: understand-findings
+        concerns: [clarity, evidence]
+    domain-researcher:
+      primary:
+        knowledge_level: advanced
+        goal: evaluate-method
+        concerns: [validity, reproducibility, novelty]
+    executive-reader:
+      primary:
+        knowledge_level: overview
+        goal: make-decision
+        concerns: [impact, risk, resources]
+    policy-maker:
+      primary:
+        knowledge_level: intermediate
+        goal: compare-options
+        concerns: [public-impact, feasibility, uncertainty]
+  style:
+    academic:
+      tone: analytical
+      formality: high
+      person: third
+      terminology_density: high
+      sentence_length: medium
+      explanation_depth: advanced
+    technical:
+      tone: precise
+      formality: high
+      person: third
+      terminology_density: high
+      sentence_length: short
+      explanation_depth: advanced
+    executive:
+      tone: decisive
+      formality: medium
+      person: third
+      terminology_density: low
+      sentence_length: short
+      explanation_depth: concise
+    policy:
+      tone: balanced
+      formality: high
+      person: third
+      terminology_density: medium
+      sentence_length: medium
+      explanation_depth: intermediate
+    popular_science:
+      tone: explanatory
+      formality: medium
+      person: third
+      terminology_density: low
+      sentence_length: short
+      explanation_depth: introductory
+    narrative:
+      tone: engaging
+      formality: medium
+      person: third
+      terminology_density: low
+      sentence_length: varied
+      explanation_depth: intermediate
+  evidence:
+    research-standard:
+      citation_density: high
+      allowed_source_types: [peer_reviewed, primary_source, official_dataset]
+      freshness: field_appropriate
+      uncertainty_language: required
+    decision-brief:
+      citation_density: medium
+      allowed_source_types: [primary_source, official_dataset, authoritative_report]
+      freshness: recent
+      uncertainty_language: required
+  presentation:
+    research-paper:
+      structure: [context, method, results, interpretation]
+      figures: []
+      tables: []
+      formulas: []
+      metadata: {}
+    decision-memo:
+      structure: [conclusion, evidence, options, recommendation]
+      figures: []
+      tables: []
+      formulas: []
+      metadata: {}

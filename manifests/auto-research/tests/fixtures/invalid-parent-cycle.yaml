@@ -1,0 +1,5 @@
+version: 1
+document: {id: research-report, title: Invalid}
+nodes:
+  - {id: sec-one, type: section, parent_id: sec-two, title: One, order: 10}
+  - {id: sec-two, type: section, parent_id: sec-one, title: Two, order: 20}

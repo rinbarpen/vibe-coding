@@ -1,0 +1,8 @@
+{
+  "plan_hash": "COPY_FROM_REVIEWED_MATRIX",
+  "approved_by": "",
+  "approved_at": "",
+  "max_cost": 0,
+  "max_gpu_hours": 0,
+  "review_unavailable_acknowledged": false
+}

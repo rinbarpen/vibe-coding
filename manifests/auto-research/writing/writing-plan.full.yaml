@@ -1,0 +1,192 @@
+version: 1
+document:
+  id: evidence-review
+  title: 多受众研究证据评估
+  purpose: 评估方法、结果与决策影响，并提供可追踪建议。
+  language: zh-CN
+  success_criteria:
+    - 所有关键结论均能追溯到来源
+    - 技术报告和决策摘要保持一致
+venue:
+  profile: generic-conference
+  checked_at: "2026-09-19"
+defaults:
+    evidence:
+      profile: research-standard
+profiles:
+  audience:
+    review-committee:
+      primary:
+        knowledge_level: advanced
+        goal: evaluate-method
+        concerns: [validity, reproducibility]
+  style:
+    compact-academic:
+      tone: analytical
+      formality: high
+      sentence_length: short
+defaults:
+  audience:
+    profile: review-committee
+    secondary:
+      - profile: executive-reader
+        goal: understand-impact
+  style:
+    profile: academic
+    prohibited_expressions: [显然, 毫无疑问]
+  length:
+    unit: chinese_characters
+  evidence:
+    profile: research-standard
+  presentation:
+    profile: research-paper
+  approval: auto
+workflow:
+  review_after_write: true
+  auto_fix: constrained
+  fail_on: [schema_error, missing_required_content, evidence, broken_reference]
+approvals: {}
+nodes:
+  - id: file-main-report
+    type: file
+    title: 技术报告
+    order: 10
+    output_path: report/main.md
+  - id: cover-main-report
+    type: cover
+    parent_id: file-main-report
+    title: 封面
+    order: 10
+    presentation:
+      metadata:
+        author: Research Team
+        version: v1
+  - id: abstract-main-report
+    type: abstract
+    parent_id: file-main-report
+    title: 摘要
+    order: 20
+    length:
+      min: 250
+      max: 400
+      target: 320
+      unit: chinese_characters
+    content:
+      required: [问题, 方法, 结果, 结论]
+  - id: sec-methodology
+    type: section
+    parent_id: file-main-report
+    title: 研究方法
+    order: 30
+    objective:
+      question: 研究设计是否足以回答研究问题？
+      key_message: 方法透明、可复现且局限明确。
+      reader_action: 评估方法有效性。
+    style:
+      profile: compact-academic
+    length:
+      target: 1200
+      min: 900
+      max: 1500
+      unit: chinese_characters
+    content:
+      required: [研究设计, 数据来源, 分析方法, 局限]
+      terminology: [置信区间, 敏感性分析]
+      cross_references: [fig-study-flow, tbl-sample]
+    evidence:
+      profile: research-standard
+      allowed_source_types:
+        append: [registered_protocol]
+    acceptance:
+      checks: [方法可复现, 局限明确]
+    approval: before_write
+  - id: fig-study-flow
+    type: figure
+    parent_id: sec-methodology
+    title: 研究流程图
+    order: 10
+    presentation:
+      figures:
+        - id: fig-study-flow
+          type: flowchart
+          title: 研究选择与分析流程
+          renderer: gpt-image
+          data_source: references/screening-flow.json
+          outputs: [figures/fig-study-flow.png, figures/fig-study-flow.pptx]
+          formats: [png, pptx]
+          caption: 研究选择与分析流程
+          alt_text: 从检索到最终分析的步骤
+          provenance:
+            command: "HOST_DISPATCH gpt-image + gpt-pptx references/screening-flow.json (replace with actual invocation)"
+            code_revision: HEAD
+          acceptance: [节点和分支标签完整, SVG/PDF 在最终尺寸可读]
+  - id: tbl-sample
+    type: table
+    parent_id: sec-methodology
+    title: 样本特征
+    order: 20
+    presentation:
+      tables:
+        - columns: [变量, 样本数, 均值, 标准差]
+          caption: 纳入样本的基线特征
+  - id: sec-results
+    type: section
+    parent_id: file-main-report
+    title: 结果
+    order: 40
+    content:
+      required: [主要结果, 不确定性]
+      cross_references: [sec-methodology]
+    presentation:
+      formulas:
+        - name: effect-size
+          required: true
+  - id: refs-main-report
+    type: references
+    parent_id: file-main-report
+    title: 参考文献
+    order: 90
+    evidence:
+      citation_density: high
+  - id: appendix-data
+    type: appendix
+    parent_id: file-main-report
+    title: 数据附录
+    order: 100
+    content:
+      optional: [扩展结果]
+  - id: glossary-main
+    type: glossary
+    parent_id: file-main-report
+    title: 术语表
+    order: 110
+    content:
+      terminology: [效应量, 置信区间]
+  - id: file-executive-brief
+    type: file
+    title: 决策摘要
+    order: 20
+    output_path: report/executive-brief.md
+    audience:
+      profile: executive-reader
+    style:
+      profile: executive
+    presentation:
+      profile: decision-memo
+  - id: sec-recommendation
+    type: section
+    parent_id: file-executive-brief
+    title: 建议
+    order: 10
+    objective:
+      question: 应采取什么行动？
+      key_message: 采取分阶段试点并设置停止条件。
+      reader_action: 批准试点。
+    content:
+      required: [建议, 风险, 下一步]
+      cross_references: [sec-results]
+    length:
+      min: 400
+      max: 700
+      target: 550
+      unit: chinese_characters

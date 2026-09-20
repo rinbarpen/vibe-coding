@@ -1,0 +1,4 @@
+version: 1
+document: {id: research-report, title: Invalid}
+nodes:
+  - {id: file-main, type: chapter, title: Main, order: 10, output_path: report/main.md}

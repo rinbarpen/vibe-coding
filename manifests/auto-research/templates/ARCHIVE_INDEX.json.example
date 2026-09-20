@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "artifacts": [
+    {
+      "path": "REPLACE_WITH_ARCHIVE_LOCATION",
+      "bytes": 0,
+      "sha256": "REPLACE_WITH_VERIFIED_SHA256",
+      "run_id": "",
+      "attempt": 1,
+      "created_at": "",
+      "checked_at": "",
+      "availability": "local_only"
+    }
+  ],
+  "kind": "archive_index"
+}

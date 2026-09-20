@@ -194,6 +194,11 @@
 - **简介**: |
 - **使用场景**: 见简介
 
+### chinese-webnovel-skill
+- **路径**: `skills/chinese-webnovel-skill`
+- **简介**: 中文网文写作技能，支持选材、构思、分卷、章纲、开头、续写、改写、节奏、章末、模仿检索、去 AI 味与一致性审查。
+- **使用场景**: 用户需要规划、创作、续写、改写或审查中文网文时使用。
+
 ### chroma
 - **路径**: `skills/AI-Research-SKILLs/15-rag/chroma`
 - **简介**: Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best for local development and open-source projects.

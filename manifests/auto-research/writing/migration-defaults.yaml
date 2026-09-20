@@ -1,0 +1,18 @@
+version: 1
+document:
+  id: research-report
+  title: Research Report
+  purpose: Preserve and continue the existing research deliverable.
+  language: zh-CN
+  success_criteria: []
+defaults:
+  audience:
+    profile: general-research-reader
+  style:
+    profile: academic
+  approval: auto
+workflow:
+  review_after_write: true
+  auto_fix: constrained
+  fail_on: [schema_error, missing_required_content]
+nodes: []

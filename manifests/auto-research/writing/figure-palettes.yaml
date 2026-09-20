@@ -1,0 +1,108 @@
+version: 1
+defaults:
+  palette: editorial
+  background: '#FFFFFF'
+  text: '#243240'
+  grid: '#E6EBEF'
+  font_family: Liberation Sans
+  font_size_pt: 10.5
+  line_width_pt: 1.25
+  width_mm: 90
+  height_mm: 65
+  markers:
+  - o
+  - s
+  - ^
+  - D
+  - v
+  - P
+  line_styles:
+  - solid
+  - dashed
+  - dotted
+  - dashdot
+  avoid:
+  - 3d_axes
+  - gradient_background
+  - rainbow_scale
+  - heavy_border
+  - decorative_shadow
+palettes:
+  editorial:
+    categorical:
+    - '#31688E'
+    - '#D47742'
+    - '#379A8B'
+    - '#8B6BAA'
+    - '#A38B40'
+    - '#6D7885'
+    sequential:
+    - '#F1F7FA'
+    - '#BCD9E5'
+    - '#76B4CE'
+    - '#397DA5'
+    - '#174868'
+    diverging:
+    - '#276582'
+    - '#84B4C6'
+    - '#F5F3ED'
+    - '#DEA383'
+    - '#A74732'
+  contrast:
+    categorical:
+    - '#0072B2'
+    - '#D55E00'
+    - '#009E73'
+    - '#CC79A7'
+    - '#E69F00'
+    - '#4D4D4D'
+    sequential:
+    - '#F3F6E9'
+    - '#BBD7AB'
+    - '#70AA93'
+    - '#347787'
+    - '#243B60'
+    diverging:
+    - '#315B8A'
+    - '#93B9CF'
+    - '#F7F7F7'
+    - '#D4A67D'
+    - '#965323'
+  earth:
+    categorical:
+    - '#396B64'
+    - '#BC7047'
+    - '#63769A'
+    - '#96738D'
+    - '#8A823D'
+    - '#66717A'
+    sequential:
+    - '#F5F6EA'
+    - '#D0DFC0'
+    - '#99BE9D'
+    - '#5B937F'
+    - '#2D6156'
+    diverging:
+    - '#326B61'
+    - '#A1C6B1'
+    - '#F8F4EA'
+    - '#D8B596'
+    - '#9F674A'
+  monochrome:
+    categorical:
+    - '#202020'
+    - '#505050'
+    - '#808080'
+    - '#A0A0A0'
+    sequential:
+    - '#FAFAFA'
+    - '#D5D5D5'
+    - '#A0A0A0'
+    - '#656565'
+    - '#202020'
+    diverging:
+    - '#151515'
+    - '#777777'
+    - '#F8F8F8'
+    - '#AAAAAA'
+    - '#444444'

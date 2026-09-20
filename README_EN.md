@@ -48,6 +48,7 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Humanizer-zh](skills/Humanizer-zh)**: Remove AI-writing traces from Chinese text for more natural phrasing.
 *   **[Pretty-mermaid-skills](skills/Pretty-mermaid-skills)**: High-quality Mermaid diagram rendering with multiple themes, SVG/ASCII output.
 *   **[chinese-novelist-skill](skills/chinese-novelist-skill)**: Chapter-by-chapter Chinese fiction writing, long-form and multi-genre.
+*   **[Chinese-WebNovel-Skill](skills/chinese-webnovel-skill)**: Chinese web-novel planning, drafting, revision, pacing, chapter endings, reference retrieval, and consistency review.
 *   **[De-AI-Prompt-Enhancer](skills/de-ai-prompt-enhancer)**: De-AI Chinese writing skill with author style replication and 24-pattern AI trace detection.
 *   **[X Research](skills/x-research-skill)**: General X/Twitter research assistant supporting real-time search, tweet analysis, and expert opinion extraction.
 *   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: Reduce AIGC detection rate in Chinese academic writing.

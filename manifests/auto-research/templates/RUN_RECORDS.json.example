@@ -1,0 +1,19 @@
+[
+  {
+    "run_id": "COPY_FROM_RUN_MATRIX",
+    "attempt": 1,
+    "config_hash": "COPY_FROM_RUN_MATRIX",
+    "command": ["COPY", "EXACT", "ARGV"],
+    "code_revision": "REPLACE_WITH_ACTUAL_REVISION",
+    "environment": ".aris/compute/local.md",
+    "started_at": "2026-01-01T00:00:00+00:00",
+    "ended_at": "2026-01-01T00:01:00+00:00",
+    "stdout_path": "logs/runs/RUN_ID/attempt-001/stdout.log",
+    "stderr_path": "logs/runs/RUN_ID/attempt-001/stderr.log",
+    "status": "failed",
+    "exit_code": 1,
+    "result_path": null,
+    "audit": "REVIEW_UNAVAILABLE",
+    "note": "TEMPLATE ONLY: replace with actual run facts; never submit this as evidence."
+  }
+]

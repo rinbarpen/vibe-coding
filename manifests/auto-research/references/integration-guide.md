@@ -12,10 +12,10 @@
   │  research-lit ──► idea-discovery ──► novelty-check                    │  │
   │       │               │                  │                            │  │
   │       ▼               ▼                  ▼                            │  │
-  │  experiment-bridge ──► run-experiment ──► analyze-results            │  │
+  │  experiment-plan → bridge → run/queue → analyze/audit            │  │
   │       │                                      │                       │  │
   │       ▼                                      ▼                       │  │
-  │  paper-write ────────────────────────────► paper-plan                │  │
+  │  paper-plan → Writing Plan → node-write/review                │  │
   │       │                                                              │  │
   ├───────┼──────────────────────────────────────────────────────────────┼──┤
   │  paper│review                                                         │  │
@@ -103,3 +103,7 @@ aris/research-pipeline "topic description"
 | 2025-06-16 | auto-review-loop | REVIEW.md | review | 评审报告 |
 | 2025-06-17 | figure-spec | FIGURE_1.svg | paper | 架构图 |
 ```
+
+## 生命周期优先规则
+
+上述三线图只表示能力关系，不是阶段账本。端到端记录以 [科研生命周期](research-lifecycle.md) 和 [Git/模型契约](lifecycle-runtime.md) 为准；实验对比/消融、预算与统计遵循 [执行契约](experiment-execution.md)。自动 audit 的上游 advisory 行为在本 scaffold 收紧为声明门控：FAIL 结果保留但不支持 claim。

@@ -1,0 +1,785 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vibe-coding.local/auto-research/writing-plan.schema.json",
+  "title": "Auto-Research Writing Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "document",
+    "nodes"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "document": {
+      "$ref": "#/$defs/document"
+    },
+    "venue": {
+      "$ref": "#/$defs/venueConfig"
+    },
+    "profiles": {
+      "$ref": "#/$defs/profiles"
+    },
+    "defaults": {
+      "$ref": "#/$defs/config"
+    },
+    "workflow": {
+      "$ref": "#/$defs/workflow"
+    },
+    "approvals": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]{2,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/approvalRecord"
+      }
+    },
+    "legacy_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "migration_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,63}$"
+    },
+    "mergeMarker": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "append"
+          ],
+          "properties": {
+            "append": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "unset"
+          ],
+          "properties": {
+            "unset": {
+              "const": true
+            }
+          }
+        }
+      ]
+    },
+    "value": {
+      "oneOf": [
+        {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null"
+          ]
+        },
+        {
+          "type": "array"
+        },
+        {
+          "$ref": "#/$defs/mergeMarker"
+        }
+      ]
+    },
+    "freeObject": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/value"
+      }
+    },
+    "profileRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audience": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/profileRef"
+        },
+        "primary": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/freeObject"
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
+        },
+        "secondary": {
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/profileRef"
+        },
+        "tone": {
+          "$ref": "#/$defs/value"
+        },
+        "formality": {
+          "$ref": "#/$defs/value"
+        },
+        "person": {
+          "$ref": "#/$defs/value"
+        },
+        "terminology_density": {
+          "$ref": "#/$defs/value"
+        },
+        "sentence_length": {
+          "$ref": "#/$defs/value"
+        },
+        "explanation_depth": {
+          "$ref": "#/$defs/value"
+        },
+        "prohibited_expressions": {
+          "$ref": "#/$defs/value"
+        }
+      }
+    },
+    "length": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unit": {
+          "enum": [
+            "words",
+            "chinese_characters",
+            "characters",
+            "pages",
+            "items"
+          ]
+        }
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "$ref": "#/$defs/value"
+        },
+        "key_message": {
+          "$ref": "#/$defs/value"
+        },
+        "reader_action": {
+          "$ref": "#/$defs/value"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "$ref": "#/$defs/value"
+        },
+        "optional": {
+          "$ref": "#/$defs/value"
+        },
+        "excluded": {
+          "$ref": "#/$defs/value"
+        },
+        "keywords": {
+          "$ref": "#/$defs/value"
+        },
+        "terminology": {
+          "$ref": "#/$defs/value"
+        },
+        "cross_references": {
+          "$ref": "#/$defs/value"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/profileRef"
+        },
+        "citation_density": {
+          "$ref": "#/$defs/value"
+        },
+        "allowed_source_types": {
+          "$ref": "#/$defs/value"
+        },
+        "freshness": {
+          "$ref": "#/$defs/value"
+        },
+        "uncertainty_language": {
+          "$ref": "#/$defs/value"
+        }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/profileRef"
+        },
+        "structure": {
+          "$ref": "#/$defs/value"
+        },
+        "figures": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/figureSpec"
+              }
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
+        },
+        "tables": {
+          "$ref": "#/$defs/value"
+        },
+        "formulas": {
+          "$ref": "#/$defs/value"
+        },
+        "metadata": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/freeObject"
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
+        },
+        "figure_style": {
+          "$ref": "#/$defs/figureVisual"
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "$ref": "#/$defs/value"
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "objective": {
+          "$ref": "#/$defs/objective"
+        },
+        "audience": {
+          "$ref": "#/$defs/audience"
+        },
+        "style": {
+          "$ref": "#/$defs/style"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "presentation": {
+          "$ref": "#/$defs/presentation"
+        },
+        "acceptance": {
+          "$ref": "#/$defs/acceptance"
+        },
+        "approval": {
+          "enum": [
+            "auto",
+            "before_write"
+          ]
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string",
+          "minLength": 2
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaults": {
+          "$ref": "#/$defs/config"
+        }
+      }
+    },
+    "venueConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile"
+      ],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "checked_at": {
+          "type": "string",
+          "minLength": 10
+        },
+        "overrides": {
+          "type": "object"
+        }
+      }
+    },
+    "figureSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "title",
+        "renderer"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "enum": [
+            "architecture",
+            "flowchart",
+            "pipeline",
+            "algorithm",
+            "comparison",
+            "ablation",
+            "training_curve",
+            "scaling",
+            "distribution",
+            "scatter",
+            "heatmap",
+            "confusion_matrix",
+            "qualitative_grid",
+            "attention",
+            "timeline",
+            "map",
+            "concept_illustration"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer": {
+          "enum": [
+            "figure-spec",
+            "paper-figure",
+            "paper-illustration",
+            "plot",
+            "gpt-image"
+          ]
+        },
+        "data_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "svg",
+              "pdf",
+              "eps",
+              "png",
+              "jpeg",
+              "tiff",
+              "pptx"
+            ]
+          }
+        },
+        "width_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "resolution_dpi": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "color_space": {
+          "enum": [
+            "RGB",
+            "CMYK",
+            "grayscale"
+          ]
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/freeObject"
+          }
+        },
+        "caption": {
+          "type": "string"
+        },
+        "alt_text": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/freeObject"
+        },
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "visual": {
+          "$ref": "#/$defs/figureVisual"
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/audience"
+          }
+        },
+        "style": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/style"
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "presentation": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/presentation"
+          }
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "review_after_write": {
+          "type": "boolean"
+        },
+        "auto_fix": {
+          "enum": [
+            "off",
+            "constrained"
+          ]
+        },
+        "fail_on": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "schema_error",
+              "missing_required_content",
+              "length",
+              "style",
+              "audience",
+              "evidence",
+              "presentation",
+              "broken_reference"
+            ]
+          }
+        }
+      }
+    },
+    "approvalRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "resolved_plan_hash"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "approved",
+            "rejected",
+            "pending"
+          ]
+        },
+        "resolved_plan_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "approved_at": {
+          "type": "string"
+        },
+        "approved_by": {
+          "type": "string"
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "title",
+        "order"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "enum": [
+            "document",
+            "file",
+            "cover",
+            "abstract",
+            "section",
+            "heading",
+            "paragraph",
+            "figure",
+            "table",
+            "citation",
+            "references",
+            "appendix",
+            "glossary",
+            "metadata"
+          ]
+        },
+        "parent_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order": {
+          "type": "integer"
+        },
+        "output_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "anchor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "objective": {
+          "$ref": "#/$defs/objective"
+        },
+        "audience": {
+          "$ref": "#/$defs/audience"
+        },
+        "style": {
+          "$ref": "#/$defs/style"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "presentation": {
+          "$ref": "#/$defs/presentation"
+        },
+        "acceptance": {
+          "$ref": "#/$defs/acceptance"
+        },
+        "approval": {
+          "enum": [
+            "auto",
+            "before_write"
+          ]
+        }
+      }
+    },
+    "figureVisual": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "palette": {
+          "enum": [
+            "editorial",
+            "contrast",
+            "earth",
+            "monochrome"
+          ]
+        },
+        "mode": {
+          "enum": [
+            "categorical",
+            "sequential",
+            "diverging"
+          ]
+        },
+        "colors": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          }
+        },
+        "background": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "text": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "grid": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "font_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font_size_pt": {
+          "type": "number",
+          "minimum": 6,
+          "maximum": 24
+        },
+        "line_width_pt": {
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 4
+        },
+        "width_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "series_colors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          }
+        }
+      }
+    }
+  }
+}

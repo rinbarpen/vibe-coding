@@ -24,7 +24,7 @@
 建议同时初始化 Skill 子模块：
 
 ```bash
-git clone --recurse-submodules <REPOSITORY_URL>
+git clone --recurse-submodules https://github.com/rinbarpen/vibe-coding
 cd vibe-coding
 ```
 
@@ -124,6 +124,7 @@ vibe hook add ralph-loop demo
 - [AI Research Skills](skills/AI-Research-SKILLs)：AI/ML 研究、训练、评估和论文工作流
 - [Agent Skills for Context Engineering](skills/Agent-Skills-for-Context-Engineering)：上下文工程方法
 - [Humanizer-zh](skills/Humanizer-zh)、[shuorenhua](skills/shuorenhua)：中文文本改写与表达优化
+- [Chinese-WebNovel-Skill](skills/chinese-webnovel-skill)：中文网文选材、构思、章纲、写作与完稿审查
 - [Pretty Mermaid Skills](skills/Pretty-mermaid-skills)：Mermaid 图表生成与渲染
 - [State Machine Reasoning](mine/state-machine-reasoning)：将决策、排障、研究和工作流分析建模为状态机，并生成 Mermaid 可视化图。
 - [X Research](skills/x-research-skill)：信息检索与社交平台调研

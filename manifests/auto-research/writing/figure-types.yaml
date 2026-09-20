@@ -1,0 +1,536 @@
+version: 1
+types:
+  architecture:
+    renderer: gpt-image
+    inputs:
+    - component_graph
+    - data_flow
+    outputs:
+    - png
+    - pptx
+    checks:
+    - all_nodes_labeled
+    - directed_edges_readable
+    - legend_present
+    - vector_text
+    caption_template: 整体架构：{message}。箭头表示{relationship}。
+    implementation:
+      name: 分层组件图
+      layout: 按输入—编码—交互—输出分层；相同模块复用宽高；训练专用路径用虚线。
+      procedure: GPT 图像后端生成视觉稿；GPT 根据相同语义规格编排可编辑 SVG，再由 PPT 原生对象导出器生成 PPTX。保留节点、标签与边的一致性检查；不从位图自动推断实验事实。
+      scientific_review: 检查每条边与实际 forward 路径一致；禁止用装饰节点暗示未实现组件。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+    editable_renderer: gpt-pptx
+    editable_contract:
+      source: same approved node/edge/label specification
+      required:
+      - native_text
+      - native_shapes
+      - individually_editable_elements
+      intermediate: svg
+      forbidden:
+      - full_slide_bitmap_as_editable
+      - raster_wrapped_as_svg
+      missing_backend: blocked_backend_unavailable
+  flowchart:
+    renderer: gpt-image
+    inputs:
+    - ordered_steps
+    - decision_points
+    outputs:
+    - png
+    - pptx
+    checks:
+    - start_and_end_marked
+    - branch_labels_present
+    - no_crossing_edges
+    caption_template: 流程图：{scope}的处理步骤和决策路径。
+    implementation:
+      name: 泳道决策图
+      layout: 主路径垂直，异常分支侧置；决策菱形，动作圆角矩形。
+      procedure: GPT 图像后端生成视觉稿；GPT 根据相同语义规格编排可编辑 SVG，再由 PPT 原生对象导出器生成 PPTX。保留节点、标签与边的一致性检查；不从位图自动推断实验事实。
+      scientific_review: 分支条件完整，无悬空节点；灰度打印仍分辨角色。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+    editable_renderer: gpt-pptx
+    editable_contract:
+      source: same approved node/edge/label specification
+      required:
+      - native_text
+      - native_shapes
+      - individually_editable_elements
+      intermediate: svg
+      forbidden:
+      - full_slide_bitmap_as_editable
+      - raster_wrapped_as_svg
+      missing_backend: blocked_backend_unavailable
+  pipeline:
+    renderer: gpt-image
+    inputs:
+    - stages
+    - artifacts
+    - dependencies
+    outputs:
+    - png
+    - pptx
+    checks:
+    - stage_order
+    - artifact_labels
+    - input_output_consistency
+    caption_template: 处理管线：从{input}到{output}的阶段和中间产物。
+    implementation:
+      name: 阶段与产物双轨图
+      layout: 上轨阶段，下轨数据产物；阶段等距，产物用浅底。
+      procedure: GPT 图像后端生成视觉稿；GPT 根据相同语义规格编排可编辑 SVG，再由 PPT 原生对象导出器生成 PPTX。保留节点、标签与边的一致性检查；不从位图自动推断实验事实。
+      scientific_review: 输入输出逐阶段对齐；箭头无交叉遮挡。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+    editable_renderer: gpt-pptx
+    editable_contract:
+      source: same approved node/edge/label specification
+      required:
+      - native_text
+      - native_shapes
+      - individually_editable_elements
+      intermediate: svg
+      forbidden:
+      - full_slide_bitmap_as_editable
+      - raster_wrapped_as_svg
+      missing_backend: blocked_backend_unavailable
+  algorithm:
+    renderer: gpt-image
+    inputs:
+    - pseudocode
+    - complexity_annotation
+    outputs:
+    - png
+    - pptx
+    checks:
+    - step_numbers
+    - symbols_defined
+    - complexity_consistent
+    caption_template: 算法流程：{algorithm_name}的关键步骤。
+    implementation:
+      name: 编号算法步骤图
+      layout: 编号左对齐；循环范围框；数学符号统一，避免长段落塞框。
+      procedure: GPT 图像后端生成视觉稿；GPT 根据相同语义规格编排可编辑 SVG，再由 PPT 原生对象导出器生成 PPTX。保留节点、标签与边的一致性检查；不从位图自动推断实验事实。
+      scientific_review: 编号和伪代码一致；符号均有定义；循环返回边清晰。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+    editable_renderer: gpt-pptx
+    editable_contract:
+      source: same approved node/edge/label specification
+      required:
+      - native_text
+      - native_shapes
+      - individually_editable_elements
+      intermediate: svg
+      forbidden:
+      - full_slide_bitmap_as_editable
+      - raster_wrapped_as_svg
+      missing_backend: blocked_backend_unavailable
+  comparison:
+    renderer: paper-figure
+    inputs:
+    - run_records
+    - metric_table
+    - confidence_intervals
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - same_split
+    - same_metric_direction
+    - uncertainty_visible
+    - baseline_labels
+    - statistical_test
+    caption_template: 不同方法在{dataset}上的{metric}比较；误差线表示{uncertainty}。
+    implementation:
+      name: 排序点区间图
+      layout: 默认点+区间而非密集柱形；基线低饱和，主方法强调；分面展示数据集。
+      procedure: 读取 protocol/metric/method/seed/value；仅聚合同协议记录；多 seed 计算均值与样本 SD；单
+        seed 显示单点。
+      scientific_review: 注明误差条含义和 n；柱形从零起；点图截断轴须标识。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  ablation:
+    renderer: paper-figure
+    inputs:
+    - ablation_matrix
+    - metric_table
+    - seed_aggregates
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - full_model_present
+    - one_factor_change
+    - seed_count
+    - uncertainty_visible
+    - component_labels
+    caption_template: 消融实验：移除或替换{component}对{metric}的影响。
+    implementation:
+      name: 组件差值图
+      layout: 完整模型参考线；变体按组件分组；交互项单独面板。
+      procedure: 读取组件开关矩阵和 matched seed 结果；与完整模型配对求差；缺失配对标记缺失。
+      scientific_review: 保持组件名称一致；展示所有预注册变体；单 seed 不画跨 seed 方差。
+      color_mode: diverging
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  training_curve:
+    renderer: paper-figure
+    inputs:
+    - step_metrics
+    - seed_aggregates
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - shared_x_axis
+    - train_eval_distinguished
+    - seed_aggregation
+    - uncertainty_visible
+    caption_template: 训练过程：{metric}随{step}变化。
+    implementation:
+      name: 均值带训练曲线
+      layout: 训练虚线、验证实线；稀疏网格，曲线末端标签；原始曲线浅色。
+      procedure: 读取 run/step/split/metric；按共同 step 对齐；只在有效区间聚合；如平滑则同时保存原始值并声明窗口。
+      scientific_review: 不外推失败 run；带区间注明 SD/CI；禁止挑选最好 seed。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  scaling:
+    renderer: paper-figure
+    inputs:
+    - resource_measurements
+    - quality_metrics
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - resource_unit
+    - monotonic_axis
+    - pareto_or_fit_reported
+    - uncertainty_visible
+    caption_template: 规模/资源分析：{resource}与{metric}的关系。
+    implementation:
+      name: 成本性能 Pareto 图
+      layout: 资源横轴，性能纵轴；成本跨度大时显式 log；Pareto 前沿实线。
+      procedure: 读取质量与真实成本/延迟；标注设备和批量；计算非支配集；拟合仅在观测范围。
+      scientific_review: 坐标单位和尺度明确；理论 FLOPs 与实测耗时分开。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  distribution:
+    renderer: paper-figure
+    inputs:
+    - sample_level_values
+    - group_labels
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - sample_count
+    - distribution_summary
+    - outlier_policy
+    - group_definition
+    caption_template: '{metric}在各组中的分布；箱线/小提琴元素定义见图例。'
+    implementation:
+      name: 箱线与样本点图
+      layout: 箱线叠加固定 seed 的轻微抖动；小样本优先显示所有点。
+      procedure: 读取样本级值与组；保留异常值；计算中位数/四分位；足够样本才使用密度估计。
+      scientific_review: 报告每组 n 和异常值政策；零样本显示缺失；不要用 seed 均值假冒样本。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  scatter:
+    renderer: paper-figure
+    inputs:
+    - paired_observations
+    - regression_or_correlation
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - paired_unit
+    - missing_value_policy
+    - correlation_definition
+    - axis_units
+    caption_template: '{x_metric}与{y_metric}的关系；线型表示{fit_definition}。'
+    implementation:
+      name: 散点与残差图
+      layout: 小点半透明；拥挤时用分箱密度；拟合线独立图例。
+      procedure: 读取成对观测；报告删除缺失的数量；可选回归与 bootstrap 区间，固定抽样 seed。
+      scientific_review: 相关不表述为因果；样本单位和拟合模型注明；显示离群点。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  heatmap:
+    renderer: paper-figure
+    inputs:
+    - matrix
+    - row_labels
+    - column_labels
+    - color_scale
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - colorbar_units
+    - symmetric_scale_if_needed
+    - labels_readable
+    - missing_cells_marked
+    caption_template: '{row_dimension}与{column_dimension}的矩阵结果，颜色表示{value_definition}。'
+    implementation:
+      name: 标注矩阵图
+      layout: 连续值用顺序色，带正负值用零中心发散色；缺失灰色斜线。
+      procedure: 读取矩阵与标签；共享跨面板 vmin/vmax；按幅值决定数值精度；文字根据底色亮度黑白切换。
+      scientific_review: 色条有单位；缺失不填零；重排顺序记录；禁止彩虹色。
+      color_mode: sequential
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  confusion_matrix:
+    renderer: paper-figure
+    inputs:
+    - predictions
+    - labels
+    - normalization_rule
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - class_order
+    - normalization_labeled
+    - totals_reported
+    - colorblind_safe
+    caption_template: 混淆矩阵：行表示{actual}，列表示{predicted}。
+    implementation:
+      name: 计数与比例双面板
+      layout: 方格等宽；行真实列预测；共享类别顺序，计数和比例分图。
+      procedure: 从逐样本标签计算计数；显式选择 row/column/all/none 归一化；零分母行标为缺失。
+      scientific_review: 保留零支持类别；归一化规则和样本量写入 caption。
+      color_mode: sequential
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  qualitative_grid:
+    renderer: paper-figure
+    inputs:
+    - examples
+    - method_outputs
+    - annotation_key
+    outputs:
+    - pdf
+    - png
+    - tiff
+    checks:
+    - sample_selection_rule
+    - same_crop_or_scale
+    - panel_labels
+    - provenance
+    - privacy_review
+    caption_template: 定性示例：各方法在{task}上的输出；样本选择规则为{selection_rule}。
+    implementation:
+      name: 输入—基线—方法网格
+      layout: 列为方法行是样本；统一裁剪尺寸；失败案例独立行。
+      procedure: 按预注册规则选择样本 ID；载入真实输入输出；统一全局尺度和插值；局部放大区域画框并关联。
+      scientific_review: 不修饰实验内容；显示样本选择规则和失败例；记录裁剪坐标。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  attention:
+    renderer: paper-figure
+    inputs:
+    - input_example
+    - attribution_values
+    - normalization_rule
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - method_named
+    - normalization_labeled
+    - attribution_limitations
+    - colorbar_units
+    caption_template: 归因/注意力可视化：{method}对{input}的响应。
+    implementation:
+      name: 原图与归因叠图
+      layout: 原图与 overlay 并列；透明度固定，色条独立；多方法共享尺度。
+      procedure: 读取模型层/head/attribution 张量；登记聚合与归一化；对齐 token 或像素；导出原始矩阵。
+      scientific_review: 注意力不等于因果解释；禁止逐图独立拉伸造成误导；标注方法参数。
+      color_mode: sequential
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  timeline:
+    renderer: figure-spec
+    inputs:
+    - dated_events
+    - milestone_labels
+    outputs:
+    - svg
+    - pdf
+    checks:
+    - time_units
+    - chronological_order
+    - event_sources
+    caption_template: 时间线：{scope}中的关键事件与里程碑。
+    implementation:
+      name: 双向里程碑时间线
+      layout: 真实时间比例；交错标签避免拥挤；期间用条带。
+      procedure: 将时间转统一时区；按真实时间定位；解析事件与持续区间；密集事件分行。
+      scientific_review: 不得用等距节点伪装时间间隔；每个事件关联来源。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  map:
+    renderer: paper-figure
+    inputs:
+    - geospatial_data
+    - projection
+    - scale_bar
+    outputs:
+    - pdf
+    - svg
+    - png
+    checks:
+    - projection_named
+    - scale_bar
+    - north_arrow_if_needed
+    - geographic_privacy
+    caption_template: 空间分布：{variable}在{region}中的变化。
+    implementation:
+      name: 投影分级空间图
+      layout: 中性底图；连续变量顺序色；边界细线；图例和比例尺留白。
+      procedure: 读取地理数据及 CRS；显式投影；连接区域 ID；缺失区域灰色；从投影计算比例尺。
+      scientific_review: 经纬度非等距单位；披露投影与分箱；区域缺失和零值分开。
+      color_mode: sequential
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+  concept_illustration:
+    renderer: gpt-image
+    inputs:
+    - concept_brief
+    - composition
+    - visual_legend
+    outputs:
+    - png
+    - pptx
+    checks:
+    - claim_consistent
+    - no_unreported_data
+    - text_readable
+    - asset_provenance
+    caption_template: 概念示意：{concept}的工作机制。该图为示意图，不表示定量结果。
+    implementation:
+      name: 机制概念分镜
+      layout: 最多三层视觉层级；统一透视；标签后期矢量叠加；留白优先。
+      procedure: GPT 图像后端生成视觉稿；GPT 根据相同语义规格编排可编辑 SVG，再由 PPT 原生对象导出器生成 PPTX。保留节点、标签与边的一致性检查；不从位图自动推断实验事实。
+      scientific_review: 标明示意图；科学关系人工复核；不生成伪实验样本；记录模型、提示词和素材许可。
+      color_mode: categorical
+      deliverables:
+      - editable_source
+      - input_manifest
+      - render_command
+      - final_export
+      - visual_review
+    editable_renderer: gpt-pptx
+    editable_contract:
+      source: same approved node/edge/label specification
+      required:
+      - native_text
+      - native_shapes
+      - individually_editable_elements
+      intermediate: svg
+      forbidden:
+      - full_slide_bitmap_as_editable
+      - raster_wrapped_as_svg
+      missing_backend: blocked_backend_unavailable
+defaults:
+  output_formats:
+  - pdf
+  - svg
+  vector_first: true
+  require_caption: true
+  require_alt_text: true
+  require_data_provenance: true
+  require_source_revision: true
+  require_reproducible_command: true
+  require_colorblind_safe_palette: true

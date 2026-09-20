@@ -1,0 +1,79 @@
+{
+  "tables": [
+    {
+      "id": "01-main-results",
+      "body_cell_overflows": [],
+      "row_count": 3,
+      "fixture": true
+    },
+    {
+      "id": "02-component-ablation",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    },
+    {
+      "id": "03-additive-ablation",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    },
+    {
+      "id": "04-design-ablation",
+      "body_cell_overflows": [],
+      "row_count": 5,
+      "fixture": true
+    },
+    {
+      "id": "05-interaction-ablation",
+      "body_cell_overflows": [],
+      "row_count": 2,
+      "fixture": true
+    },
+    {
+      "id": "06-efficiency",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    },
+    {
+      "id": "07-robustness",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    },
+    {
+      "id": "08-multiseed",
+      "body_cell_overflows": [],
+      "row_count": 2,
+      "fixture": true
+    },
+    {
+      "id": "09-appendix-1",
+      "body_cell_overflows": [],
+      "row_count": 16,
+      "fixture": true
+    },
+    {
+      "id": "09-appendix-2",
+      "body_cell_overflows": [],
+      "row_count": 16,
+      "fixture": true
+    },
+    {
+      "id": "10-style-reference",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    },
+    {
+      "id": "11-style-review",
+      "body_cell_overflows": [],
+      "row_count": 4,
+      "fixture": true
+    }
+  ],
+  "native_word_tables_reopened": 12,
+  "multiseed_sd_verified": true,
+  "word_gui_review": false
+}

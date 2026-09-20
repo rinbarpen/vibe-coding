@@ -1,0 +1,39 @@
+version: 1
+document:
+  id: research-report
+  title: 研究报告
+  purpose: 总结研究问题、证据与结论。
+  language: zh-CN
+  success_criteria:
+    - 核心结论有证据支持
+defaults:
+  audience:
+    profile: general-research-reader
+  style:
+    profile: academic
+  approval: auto
+workflow:
+  review_after_write: true
+  auto_fix: constrained
+  fail_on: [schema_error, missing_required_content]
+nodes:
+  - id: file-main-report
+    type: file
+    title: 主报告
+    order: 10
+    output_path: report/main.md
+  - id: sec-introduction
+    type: section
+    parent_id: file-main-report
+    title: 引言
+    order: 10
+    objective:
+      question: 为什么需要开展这项研究？
+      key_message: 研究问题重要且边界清晰。
+    content:
+      required: [研究背景, 研究问题]
+    length:
+      target: 1000
+      min: 700
+      max: 1300
+      unit: chinese_characters

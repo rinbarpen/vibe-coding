@@ -1,0 +1,183 @@
+version: 1
+
+# Venue profiles are requirement snapshots, not a substitute for the venue CFP.
+# Refresh source_url/checked_at before every submission or camera-ready upload.
+profiles:
+  generic-journal:
+    kind: journal
+    label: 通用期刊
+    snapshot: baseline
+    source_url: https://authorservices.taylorandfrancis.com/publishing-your-research/author-guidelines/
+    refresh_policy: before_submission
+    manuscript:
+      template: venue_template_if_provided
+      submission_format: [pdf, docx]
+      anonymous_review: venue_dependent
+      main_text_pages: null
+      references_unlimited: true
+      required_sections: [abstract, introduction, methods, results, discussion, references]
+      required_statements: [data_availability, code_availability, funding, competing_interests, author_contributions]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, svg, tiff, png, jpeg]
+      resolution_dpi: {line_art: 600, grayscale: 300, color: 300}
+      color_spaces: [RGB, CMYK]
+      editable_text: recommended
+      panel_labels: [a, b, c]
+      caption_max_words: null
+      embedded_initial_submission: true
+      separate_files_final: venue_dependent
+      accessibility: [colorblind_safe, descriptive_caption, alt_text_if_requested]
+    supplement:
+      allowed: true
+      format: venue_dependent
+
+  generic-conference:
+    kind: conference
+    label: 通用会议
+    snapshot: baseline
+    source_url: https://openreview.net/
+    refresh_policy: before_abstract_deadline
+    manuscript:
+      template: official_template_required
+      submission_format: [pdf]
+      anonymous_review: usually_required
+      main_text_pages: venue_defined
+      references_unlimited: venue_defined
+      required_sections: [abstract, introduction, related_work, method, experiments, limitations, references]
+      required_statements: [limitations, reproducibility, ethics_if_applicable]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, png, jpeg]
+      resolution_dpi: {line_art: 600, grayscale: 300, color: 300}
+      color_spaces: [RGB]
+      editable_text: recommended
+      panel_labels: [a, b, c]
+      caption_max_words: venue_defined
+      embedded_initial_submission: true
+      separate_files_final: venue_dependent
+      accessibility: [colorblind_safe, readable_at_single_column]
+    supplement:
+      allowed: venue_defined
+      format: [zip, tgz, pdf]
+
+  neurips-2025-reference:
+    kind: conference
+    label: NeurIPS 2025 reference snapshot
+    snapshot: NeurIPS-2025
+    source_url: https://neurips.cc/Conferences/2025/CallForPapers
+    checked_at: "2026-09-19"
+    refresh_policy: before_submission
+    manuscript:
+      template: neurips_2025_latex
+      submission_format: [pdf]
+      anonymous_review: true
+      main_text_pages: 9
+      references_unlimited: true
+      single_pdf: true
+      maximum_submission_mb: 50
+      required_sections: [abstract, introduction, related_work, method, experiments, limitations, references, paper_checklist]
+      required_statements: [paper_checklist, limitations]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, png, jpeg]
+      embedded_initial_submission: true
+      panel_labels: [a, b, c]
+      accessibility: [colorblind_safe, readable_at_final_size]
+    supplement:
+      allowed: true
+      deadline_relation: after_full_paper_deadline
+      anonymized: true
+    policies: [official_style_file, no_margin_or_font_hacking, paper_checklist]
+
+  icml-2025-reference:
+    kind: conference
+    label: ICML 2025 reference snapshot
+    snapshot: ICML-2025
+    source_url: https://icml.cc/Conferences/2025/AuthorInstructions
+    checked_at: "2026-09-19"
+    refresh_policy: before_submission
+    manuscript:
+      template: icml_2025_latex
+      submission_format: [pdf]
+      anonymous_review: true
+      main_text_pages: 8
+      camera_ready_extra_pages: 1
+      references_unlimited: true
+      single_pdf: true
+      maximum_submission_mb: 50
+      maximum_camera_ready_mb: 20
+      required_sections: [abstract, introduction, related_work, method, experiments, limitations, references]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, png, jpeg]
+      embedded_initial_submission: true
+      panel_labels: [a, b, c]
+      accessibility: [colorblind_safe, readable_at_final_size]
+    supplement:
+      allowed: true
+      anonymized: true
+      examples: [code, data, additional_experiments]
+    policies: [official_style_file, anonymization, publishing_release]
+
+  acl-arr-reference:
+    kind: conference_review_service
+    label: ACL Rolling Review reference snapshot
+    snapshot: ARR-2026
+    source_url: https://aclrollingreview.org/cfp
+    checked_at: "2026-09-19"
+    refresh_policy: before_each_cycle
+    manuscript:
+      template: aclpub_double_column
+      submission_format: [pdf]
+      anonymous_review: true
+      long_paper_main_text_pages: 8
+      short_paper_main_text_pages: 4
+      references_unlimited: true
+      required_sections: [abstract, introduction, related_work, method, experiments, limitations, references]
+      required_statements: [limitations]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, png, jpeg]
+      embedded_initial_submission: true
+      panel_labels: [a, b, c]
+      accessibility: [colorblind_safe, readable_at_final_size]
+    supplement:
+      allowed: true
+      anonymized: true
+      maximum_software_or_data_mb: 200
+    policies: [acl_official_template, double_column, anonymity, originality, no_dual_submission]
+
+  nature-article-reference:
+    kind: journal
+    label: Nature Article reference snapshot
+    snapshot: Nature-article
+    source_url: https://www.nature.com/nature/for-authors/formatting-guide
+    checked_at: "2026-09-19"
+    refresh_policy: before_submission
+    manuscript:
+      template: nature_formatting_guide
+      submission_format: [pdf, docx]
+      anonymous_review: false
+      typical_main_text_words: 2500
+      typical_display_items: 4
+      single_file_initial_submission: true
+      required_sections: [summary, main_text, references, figure_legends, methods, data_availability, code_availability, acknowledgements, funding, author_contributions, competing_interests]
+    figures:
+      vector_preferred: true
+      allowed_formats: [pdf, eps, ai, tiff, jpeg]
+      single_column_width_mm: 90
+      double_column_width_mm: 180
+      resolution_dpi: {photographic: 300, line_art: 600}
+      color_spaces: [RGB, CMYK]
+      editable_text: required_for_final
+      caption_max_words: 300
+      embedded_initial_submission: true
+      separate_files_final: true
+      panel_labels: [a, b, c]
+      accessibility: [colorblind_safe, readable_at_smallest_size, image_integrity_audit]
+    supplement:
+      allowed: true
+      figures_route: extended_data
+      combined_pdf_preferred: true
+    policies: [image_integrity, permissions, data_availability, code_availability]

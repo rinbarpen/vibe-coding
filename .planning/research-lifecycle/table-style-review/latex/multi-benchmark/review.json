@@ -1,0 +1,12 @@
+{
+  "cells_per_layout": 108,
+  "methods": 9,
+  "baselines": 8,
+  "datasets": 4,
+  "metrics": 3,
+  "seed_count": 1,
+  "rank_ties_checked": true,
+  "lower_is_better_checked": true,
+  "all_compiles_overfull": 0,
+  "official_venue_class_tested": false
+}
