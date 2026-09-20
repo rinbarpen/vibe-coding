@@ -53,6 +53,7 @@ Automated workflows designed for programmers to enhance development efficiency.
 *   **[Humanizer-ZH-Academic](skills/humanizer-zh-academic)**: Reduce AIGC detection rate in Chinese academic writing.
 *   **[academic-humanizer](skills/academic-humanizer)**: Academic AIGC trace detection and de-AI-ification skill.
 *   **[shuorenhua](skills/shuorenhua)**: Chinese-first rewrite skill — removes AI tone, preserves facts.
+*   **[State Machine Reasoning](mine/state-machine-reasoning)**: Model decisions, debugging, research, and workflows as state machines and generate Mermaid visualizations.
 *   **[writing-agent](workflows/writing-agent)**: Full-stack Claude Code writing system from topic selection to publication.
 
 ---

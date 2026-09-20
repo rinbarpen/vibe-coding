@@ -1,0 +1,4 @@
+interface:
+  display_name: "State Machine Reasoning"
+  short_description: "Turn analysis into state graphs"
+  default_prompt: "Use $state-machine-reasoning to analyze this problem as a state machine and generate a Mermaid visualization."

@@ -125,6 +125,7 @@ vibe hook add ralph-loop demo
 - [Agent Skills for Context Engineering](skills/Agent-Skills-for-Context-Engineering)：上下文工程方法
 - [Humanizer-zh](skills/Humanizer-zh)、[shuorenhua](skills/shuorenhua)：中文文本改写与表达优化
 - [Pretty Mermaid Skills](skills/Pretty-mermaid-skills)：Mermaid 图表生成与渲染
+- [State Machine Reasoning](mine/state-machine-reasoning)：将决策、排障、研究和工作流分析建模为状态机，并生成 Mermaid 可视化图。
 - [X Research](skills/x-research-skill)：信息检索与社交平台调研
 
 仓库内的 [mine/](mine) 存放第一方 Skill，[workflows/](workflows) 存放完整工作流项目；它们与外部子模块一样可作为能力来源。

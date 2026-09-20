@@ -1889,3 +1889,8 @@
 - **Path**: `mine/z-humanizer`
 - **Description**: Unified humanizer orchestrator covering 8 domains: papers, patents, journals, conferences, blogs, knowledge base, docs, tutorials. Auto-routes to the right pattern library, outputs audit + rewrite. Bilingual (zh/en).
 - **Usage**: When you need AI-trace removal but aren't sure which humanizer tool to use; when you want the full audit → rewrite workflow.
+
+### state-machine-reasoning
+- **Path**: `mine/state-machine-reasoning`
+- **Description**: Converts general problem analysis into verifiable states, events, evidence, and transitions, then generates a Mermaid state-machine visualization.
+- **Usage**: Decision, debugging, research, workflow, or system analysis with branches, unknowns, retries, or terminal states.
