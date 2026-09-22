@@ -60,6 +60,9 @@ Full decision table mapping user intent to tool sub-skill. Includes capability c
 | Scientific schematic | [scientific-schematics](../scientific-schematics/SKILL.md) | [drawio](../drawio/SKILL.md) | Publication standards |
 | Mechanism diagram | [scientific-schematics](../scientific-schematics/SKILL.md) | [drawio](../drawio/SKILL.md) | — |
 | Experimental setup | [scientific-schematics](../scientific-schematics/SKILL.md) | [drawio](../drawio/SKILL.md) | — |
+| Research illustration / graphical abstract | [ccf-visual-composer](../../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) | [scientific-schematics](../scientific-schematics/SKILL.md) | Content-fit visual contract, render QA, editable SVG/PDF/PPTX |
+| Multi-panel scientific comparison | [ccf-visual-composer](../../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) | [matplotlib](../matplotlib/SKILL.md) | Use supplied data; no invented values |
+| Journal cover / scientific cover art | [ccf-visual-composer](../../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) | [nano-banana](../nano-banana/SKILL.md) | Editorial illustration, not a data claim |
 
 ---
 
@@ -76,11 +79,13 @@ Full decision table mapping user intent to tool sub-skill. Includes capability c
 - Sequence → [mermaid](../mermaid/SKILL.md)
 - Data/results → [matplotlib](../matplotlib/SKILL.md) (300 DPI, serif)
 - Mechanism → [scientific-schematics](../scientific-schematics/SKILL.md)
+- Method architecture/workflow/graphical abstract/visual table → [ccf-visual-composer](../../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) (editable SVG/vector PDF/PPTX)
 
 ### Academic Paper — Chinese (中文期刊)
 - Architecture → [drawio](../drawio/SKILL.md) (宋体, 双语图注)
 - Flowchart → [drawio](../drawio/SKILL.md) or [mermaid](../mermaid/SKILL.md)
 - Data → [matplotlib](../matplotlib/SKILL.md) (中文标签, SimHei)
+- Scientific illustration / graphical abstract → [ccf-visual-composer](../../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md)
 
 ### Technical Documentation
 - Architecture → [drawio](../drawio/SKILL.md)

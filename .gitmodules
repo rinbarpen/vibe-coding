@@ -125,3 +125,6 @@
 [submodule "skills/chinese-webnovel-skill"]
 	path = skills/chinese-webnovel-skill
 	url = https://github.com/Tomsawyerhu/Chinese-WebNovel-Skill.git
+[submodule "skills/CCFA-Skills"]
+	path = skills/CCFA-Skills
+	url = https://github.com/mikubaka88/CCFA-Skills.git

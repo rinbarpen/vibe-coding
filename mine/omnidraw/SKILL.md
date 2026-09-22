@@ -1,6 +1,6 @@
 ---
 name: omnidraw
-description: Unified drawing and diagram command center with sub-skills for Draw.io, Mermaid, Visio, GPT-Image-2, Nano Banana Pro v1/v2, PlantUML, Excalidraw, matplotlib, canvas-design, and scientific-schematics. Routes user requests to the best tool based on intent and scenario (patent, paper, architecture, presentation, UML, creative, etc.).
+description: Unified drawing and diagram command center with sub-skills for Draw.io, Mermaid, Visio, GPT-Image-2, Nano Banana Pro v1/v2, PlantUML, Excalidraw, matplotlib, canvas-design, scientific-schematics, and CCFA Visual Composer. Routes user requests to the best tool based on intent and scenario (patent, paper, architecture, presentation, UML, creative, etc.).
 ---
 
 # Omnidraw
@@ -21,6 +21,7 @@ Routes drawing requests to the right sub-skill based on **what you need** and **
 | [matplotlib](matplotlib/SKILL.md) | Data charts, publication figures, statistical plots | Python |
 | [canvas-design](canvas-design/SKILL.md) | Posters, design artifacts | canvas-design skill |
 | [scientific-schematics](scientific-schematics/SKILL.md) | Publication schematics, mechanism diagrams | scientific MCP |
+| [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) | CCF-A paper figures, visual tables, method/architecture diagrams, and editable reconstruction | CCFA-Skills; GPT Image 2 by default, pure SVG on request |
 
 ## Scenario Dispatch
 
@@ -33,10 +34,12 @@ Routes drawing requests to the right sub-skill based on **what you need** and **
 → [mermaid](mermaid/SKILL.md) (序列图)
 → [matplotlib](matplotlib/SKILL.md) (数据图, 300 DPI, serif)
 → [scientific-schematics](scientific-schematics/SKILL.md) (机制图)
+→ [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) (方法架构、流程、图形摘要、视觉表格；可编辑 SVG/PDF/PPTX)
 
 ### 学术论文图 — 中文 (中国科学/计算机学报/软件学报)
 → [drawio](drawio/SKILL.md) (架构图/流程图, 宋体, 双语图注)
 → [matplotlib](matplotlib/SKILL.md) (数据图, 中文标签)
+→ [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) (中文/中英方法图、科研示意图与图形摘要)
 
 ### 技术架构图
 → [drawio](drawio/SKILL.md) (系统/云/网络架构)
@@ -82,6 +85,7 @@ Routes drawing requests to the right sub-skill based on **what you need** and **
 ### 科研示意图
 → [scientific-schematics](scientific-schematics/SKILL.md) (发表级)
 → [drawio](drawio/SKILL.md) (fallback)
+→ [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) (视觉契约、审美稿、渲染质检与可编辑重建)
 
 ### 快速内联 (Markdown)
 → [mermaid](mermaid/SKILL.md) (零设置, GitHub/Notion/Obsidian 原生渲染)
@@ -121,6 +125,7 @@ Routes drawing requests to the right sub-skill based on **what you need** and **
 | Logo / icon | [gpt-image-2](gpt-image-2/SKILL.md) | [nano-banana](nano-banana/SKILL.md) (v2) |
 | Poster / design | [canvas-design](canvas-design/SKILL.md) | [gpt-image-2](gpt-image-2/SKILL.md) |
 | Scientific schematic | [scientific-schematics](scientific-schematics/SKILL.md) | [drawio](drawio/SKILL.md) |
+| Research illustration / graphical abstract | [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) | [scientific-schematics](scientific-schematics/SKILL.md) |
 
 > Full matrix with capability comparisons: [references/routing-matrix.md](references/routing-matrix.md)
 
@@ -136,6 +141,12 @@ Routes drawing requests to the right sub-skill based on **what you need** and **
 1. [drawio](drawio/SKILL.md) → architecture/pipeline diagram (grayscale, LaTeX)
 2. [matplotlib](matplotlib/SKILL.md) → results/data chart (300 DPI, serif)
 3. Combine, export EPS/PDF for submission
+
+### CCFA Publication Visual Pipeline
+1. [ccf-visual-composer](../../skills/CCFA-Skills/ccf-visual-composer/SKILL.md) → define the visual contract and content-fit topology
+2. Generate and inspect the raster aesthetic draft with GPT Image 2 by default, or use the explicit pure-SVG route when requested
+3. Verify labels, representations, operators, branches, merges, outputs, evidence boundaries, and paper-versus-presentation grammar
+4. After the composition is accepted, reconstruct semantic SVG/vector PDF/editable PPTX and run render QA
 
 ### Presentation Deck
 1. [nano-banana](nano-banana/SKILL.md) → hero image (v2, 16:9)
