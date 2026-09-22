@@ -44,7 +44,7 @@ def _build_parser() -> argparse.ArgumentParser:
     # ── init ──
     init_p = subs.add_parser("init", help="Initialize a new project from a manifest")
     init_p.add_argument("manifest", help="Manifest name")
-    init_p.add_argument("target", nargs="?", default=None, help="Target directory (default: <manifest>-project/)")
+    init_p.add_argument("target", nargs="?", default=".", help="Target directory (default: current)")
     init_p.add_argument("--scenario", default="", help="Comma-separated scenario names")
     init_p.add_argument("-f", "--force", action="store_true", help="Overwrite existing files")
     init_p.add_argument("-n", "--dry-run", action="store_true", help="Preview changes without writing")
@@ -161,7 +161,7 @@ def _cmd_init(args) -> int:
     from .manifest import init_manifest
 
     _, manifests_dir, _ = _get_repo_paths(args)
-    target = Path(args.target or f"{args.manifest}-project")
+    target = Path(args.target or ".")
 
     kwargs = _collect_kwargs(args)
     return init_manifest(

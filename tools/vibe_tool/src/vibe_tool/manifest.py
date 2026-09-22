@@ -33,6 +33,31 @@ _SCRIPT_FLAG_MAP: dict[str, dict[str, str]] = {
         "force": "-f",
         "dry_run": "-n",
     },
+    "auto-research": {
+        "owner": "-o {value}",
+        "org": "--org {value}",
+        "repo": "--repo {value}",
+        "force": "-f",
+        "dry_run": "-n",
+    },
+    "auto-research-ars": {
+        "force": "-f",
+        "dry_run": "-n",
+    },
+    "knowledge-learning": {
+        "scenario": "--scenario {value}",
+        "force": "--force",
+        "dry_run": "-n",
+    },
+    "ui-testing": {
+        "scenario": "--scenario={value}",
+        "force": "-f",
+        "dry_run": "-n",
+    },
+    "fund-proposal": {
+        "force": "-f",
+        "dry_run": "-n",
+    },
 }
 
 
@@ -103,12 +128,8 @@ def _run_init_script(
 
     flag_map = _SCRIPT_FLAG_MAP.get(manifest.name, {})
 
-    # Build script arguments
-    script_args: list[str] = []
-
-    # github-enterprise accepts target as first positional arg
-    if manifest.name == "github-enterprise":
-        script_args.append(str(target))
+    # Build script arguments; target dir is passed as first positional arg
+    script_args: list[str] = [str(target)]
 
     for key, value in kwargs.items():
         if not value:
