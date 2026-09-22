@@ -13,6 +13,7 @@ class ManifestInfo:
     init_script_path: Path | None
     scenarios: list[str] = field(default_factory=list)
     init_blacklisted: bool = False
+    required_skills: list[str] = field(default_factory=list)
 
 
 @dataclass

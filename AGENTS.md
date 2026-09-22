@@ -115,7 +115,9 @@ vibe update
 
 Each manifest directory requires `CLAUDE.md` to be discoverable.
 Optional: `AGENTS.md`, `agents/` (Claude Code + Codex agent definitions),
-`scenarios/` (scenario sub-manifests), `scripts/*init*.sh` (custom init scripts).
+`scenarios/` (scenario sub-manifests), `scripts/*init*.sh` (custom init scripts),
+`skills.txt` (required skill names, one per line — installed automatically by
+`vibe add manifest` / `vibe init`; resolved from both `skills/` and `mine/`).
 
 ## Key conventions
 

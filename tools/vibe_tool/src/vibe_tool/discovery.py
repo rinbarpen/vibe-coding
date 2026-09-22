@@ -42,28 +42,44 @@ def discover_manifests(manifests_dir: Path) -> list[ManifestInfo]:
             has_init_script=has_init,
             init_script_path=init_path,
             scenarios=scenarios,
+            required_skills=_read_required_skills(entry),
         ))
 
     return manifests
 
 
-def discover_skills(skills_root: Path) -> list[SkillInfo]:
-    """Recursively find all directories containing SKILL.md under skills_root.
+def _read_required_skills(manifest_path: Path) -> list[str]:
+    """Read optional skills.txt listing required skill names (one per line)."""
+    skills_file = manifest_path / "skills.txt"
+    if not skills_file.is_file():
+        return []
+
+    names: list[str] = []
+    try:
+        for line in skills_file.read_text(encoding="utf-8").splitlines():
+            name = line.split("#", 1)[0].strip()
+            if name:
+                names.append(name)
+    except OSError:
+        return []
+    return names
+
+
+def discover_skills(*roots: Path) -> list[SkillInfo]:
+    """Recursively find all directories containing SKILL.md under given roots.
 
     Name collisions (same directory name in different sub-paths) are resolved
     by encoding the relative path with hyphens.
     """
-    skill_md_files = sorted(skills_root.rglob("SKILL.md"))
-
-    # Group by base directory name to detect collisions
     by_name: dict[str, list[tuple[Path, str]]] = defaultdict(list)
-    for skill_md in skill_md_files:
-        skill_dir = skill_md.parent
-        try:
-            rel = skill_dir.relative_to(skills_root)
-        except ValueError:
-            continue
-        by_name[skill_dir.name].append((skill_dir, str(rel)))
+    for root in roots:
+        for skill_md in sorted(root.rglob("SKILL.md")):
+            skill_dir = skill_md.parent
+            try:
+                rel = skill_dir.relative_to(root)
+            except ValueError:
+                continue
+            by_name[skill_dir.name].append((skill_dir, str(rel)))
 
     skills: list[SkillInfo] = []
     for entries in by_name.values():
@@ -107,9 +123,10 @@ def resolve_manifest(manifests_dir: Path, name: str) -> ManifestInfo:
     )
 
 
-def resolve_skill(skills_root: Path, name: str) -> SkillInfo:
+def resolve_skill(skills_root, name: str) -> SkillInfo:
     """Look up a single skill by name. Raises ValueError with candidates."""
-    skills = discover_skills(skills_root)
+    roots = _as_roots(skills_root)
+    skills = discover_skills(*roots)
     by_name = {s.name: s for s in skills}
     by_lower = {s.name.lower(): s for s in skills}
 
@@ -129,6 +146,13 @@ def resolve_skill(skills_root: Path, name: str) -> SkillInfo:
         )
 
     raise ValueError(f"Skill '{name}' not found among {len(skills)} skills.")
+
+
+def _as_roots(skills_root) -> tuple[Path, ...]:
+    """Normalize a single Path or a sequence of Paths into a tuple of roots."""
+    if isinstance(skills_root, (tuple, list)):
+        return tuple(Path(r) for r in skills_root)
+    return (Path(skills_root),)
 
 
 def _read_description(claude_md: Path) -> str:
