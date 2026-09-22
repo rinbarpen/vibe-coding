@@ -535,6 +535,7 @@ def resolve_plan(plan: dict[str, Any]) -> dict[str, Any]:
         "source_version": plan["version"],
         "document": {key: copy.deepcopy(value) for key, value in plan["document"].items() if key != "defaults"},
         "venue": copy.deepcopy(venue),
+        "writing_policy": copy.deepcopy(plan.get("writing_policy", {})),
         "figure_library_version": figure_library["version"],
         "defaults": base,
         "workflow": workflow,
@@ -856,6 +857,11 @@ def extract_node_text(full_text: str, node: dict[str, Any]) -> tuple[str, bool]:
     match = re.search(start + r"(.*?)" + end, full_text, flags=re.DOTALL)
     if match:
         return match.group(1).strip(), True
+    latex_start = r"(?m)^%\s*auto-research:node " + re.escape(node_id) + r" start\s*$"
+    latex_end = r"(?m)^%\s*auto-research:node " + re.escape(node_id) + r" end\s*$"
+    match = re.search(latex_start.replace("(?m)", "") + r"(.*?)" + latex_end.replace("(?m)", ""), full_text, flags=re.DOTALL | re.MULTILINE)
+    if match:
+        return match.group(1).strip(), True
     if node.get("type") == "file":
         return full_text, True
     return "", False
@@ -924,7 +930,7 @@ def review_node(node: dict[str, Any], text: str, located: bool, node_map: dict[s
     presentation = node.get("presentation", {})
     if node.get("type") != "figure" and presentation.get("figures") and not re.search(r"!\[[^]]*\]\(|<figure|图\s*\d", text, flags=re.IGNORECASE):
         add_check(checks, "presentation", "fail", "required figure is not represented", True)
-    if presentation.get("tables") and not re.search(r"(?m)^\s*\|.+\|\s*$|<table|表\s*\d", text, flags=re.IGNORECASE):
+    if presentation.get("tables") and not re.search(r"(?m)^\s*\|.+\|\s*$|<table|表\s*\d|\\begin\{(?:table\*?|longtable)\}", text, flags=re.IGNORECASE):
         add_check(checks, "presentation", "fail", "required table is not represented", True)
     if presentation.get("formulas") and not re.search(r"\$[^$]+\$|\\\[|\\begin\{equation", text):
         add_check(checks, "presentation", "fail", "required formula is not represented", True)
@@ -1074,6 +1080,25 @@ def review_figure_specs(result: dict[str, Any], node: dict[str, Any], content_ro
     refresh_result_status(result)
 
 
+def review_table_specs(result, node, content_root):
+    """Validate explicitly linked Table Plans; legacy free-form tables remain unchanged."""
+    specs = node.get("presentation", {}).get("tables", [])
+    if not isinstance(specs, list): return
+    for spec in specs:
+        if not isinstance(spec, dict) or "table_plan" not in spec: continue
+        try:
+            import table_plan as tp
+            plan = tp.load_plan(safe_content_path(content_root, spec["table_plan"]))
+            resolved = load_json(safe_content_path(content_root, spec["resolved"]))
+            if resolved.get("plan") != plan: raise ValueError("Table Plan changed since resolve")
+            checked = tp.verify(resolved, content_root.resolve(), safe_content_path(content_root, spec["output_dir"]))
+            if checked["status"] != "pass": raise ValueError("; ".join(checked["errors"]))
+            add_check(result["checks"], "table_provenance", "pass", "Verified Table Plan " + plan["id"])
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            add_check(result["checks"], "table_provenance", "fail", str(exc))
+    refresh_result_status(result)
+
+
 def safe_content_path(root: Path, relative: str) -> Path:
     root_resolved = root.resolve()
     path = (root_resolved / relative).resolve()
@@ -1092,6 +1117,7 @@ def review_plan(resolved: dict[str, Any], content_root: Path) -> dict[str, Any]:
         if not output_path:
             result = review_node(node, "", False, node_map)
             review_figure_specs(result, node, content_root, resolved.get("venue", {}))
+            review_table_specs(result, node, content_root)
             results.append(result)
             continue
         if output_path not in file_cache:
@@ -1106,6 +1132,7 @@ def review_plan(resolved: dict[str, Any], content_root: Path) -> dict[str, Any]:
             text, located = extract_node_text(full_text, node)
             result = review_node(node, text, located, node_map)
         review_figure_specs(result, node, content_root, resolved.get("venue", {}))
+        review_table_specs(result, node, content_root)
         results.append(result)
     counts = Counter(result["status"] for result in results)
     overall = "pass"

@@ -12,3 +12,7 @@ Preserve prior Writing Plan and all unrelated staged/unstaged changes.
 - [complete] Figure integrity gates and 17 synthetic rendering fixtures with visual review (production limitations recorded)
 
 - [complete] Table type/style review catalog: 12 pages including four ablation structures and three same-data style variants.
+
+- [complete] 95 substage contracts and opt-in legacy-compatible / default-new strict leaf completion gate; 81 tests passed.
+
+- [complete] Table Plan v1 benchmark evidence pipeline: schema, raw-result provenance, native LaTeX, explicit manuscript values and Writing Plan links. Other table layouts and full TeX semantics remain pending.

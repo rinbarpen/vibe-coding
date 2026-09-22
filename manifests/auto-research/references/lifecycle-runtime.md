@@ -2,7 +2,7 @@
 
 `lifecycle/defaults.json` 定义三层阶段：startup、literature、idea、design、execution、analysis、writing、internal-review、submission、revision、acceptance。大阶段→小阶段→小小阶段，每项对应科研活动而非工具调用。允许项目增补三层节点，不适用节点 skipped 并写原因。
 
-每个大阶段的目标、输入、产物、门禁、模型角色和回退路径见 [lifecycle-stage-details.md](lifecycle-stage-details.md)；机器可读字段位于 `defaults.json.phase_details`。
+每个大阶段的目标、输入、产物、门禁、模型角色和回退路径见 [lifecycle-stage-details.md](lifecycle-stage-details.md)；机器可读字段位于 `defaults.json.phase_details`。研究写作规则、LaTeX 模板锁定和中英文 skill 路由见 [research-writing-rules.md](research-writing-rules.md)。
 
 ## 初始化与命令
 
@@ -42,8 +42,61 @@ started→completed/failed/blocked/paused/revised；paused/failed/blocked→resu
 
 resume 首先修复 pending Git 事务，然后显示最近阶段状态。它不自动重启实验。执行器必须核验实际进程、queue state 和输出，并为恢复任务记录 resumed；成功结果复用，运行任务重新连接，失败任务另建 attempt。
 
+### Branch 生命周期
+
+`defaults.json.branching` 默认启用阶段 branch 管理：
+
+```text
+<idea>/<stage>/<substage>
+<idea>/cycle/integration
+<idea>/submission/<submission_id>
+<idea>/revision/<revision_id>
+```
+
+`idea`、stage 和 id 会先规范化为 Git ref 安全字符串。顶层阶段的父 branch 是
+cycle integration；子阶段从直接父阶段 branch 继承。`checkpoint --state started`
+会创建并切换 stage branch；`completed`、`failed`、`blocked`、`skipped` 等终态
+检查点通过现有门禁后，以 `--no-ff` 合并回父 branch，并留下 merge commit。这个
+层次保证每个子阶段的产物先在自己的 branch 上形成，再由父节点汇总，不把兄弟阶段
+的修改混在一起。
+
+常用操作：
+
+```bash
+python3 scripts/research_workflow.py branch init --cycle cycle-001 --idea research
+python3 scripts/research_workflow.py branch start --cycle cycle-001 --stage literature/search
+python3 scripts/research_workflow.py branch status --cycle cycle-001
+python3 scripts/research_workflow.py branch merge --cycle cycle-001 --stage literature/search
+python3 scripts/research_workflow.py branch revision --cycle cycle-001 --kind submission --id sub-001
+python3 scripts/research_workflow.py branch close --cycle cycle-001
+```
+
+`branch close` 只把 cycle integration 合并回 `branching.integration_branch`（默认
+`main`）。所有 branch 写入 `.auto-research/lifecycle/branches.jsonl`；本地恢复状态
+位于被忽略的 `local/branch-state.json`。branch 操作要求 tracked worktree clean，
+但不会吸收无关 staged/unstaged 文件；默认不删除已合并 branch、不 push、不 reset。
+合并失败时保留事件和当前 branch，先修复冲突，再用同一 stage/cycle 重试。
+
+### Research writing gate
+
+研究场景 `writing_policy` 的默认值是 LaTeX、中文/英文双语、95% CI 省略和防御性
+写作关闭。仅在 venue、研究方案、作者请求或审稿意见明确要求时打开 95% CI，并把
+level、estimator、seed/replicate 聚合和理由写进 Writing Plan。草稿形成后运行
+`mine/z-humanizer`；需要原则审计时调用 anti-defensive-writing 子模块的中文或
+English skill。官方 venue template 的 `.cls`、`.sty`、字体、参考文献、table 和
+figure style 文件必须通过 sha256 manifest 锁定，任何 style 修改都使
+`template_integrity` gate 失败。
+
 ## 周期终点与写作
 
 研究→实验→结果不支持时回到 idea/design 新 cycle；内部评审→补实验→Writing Plan 更新；外审→响应矩阵→补实验/回复→修订提交；拒稿→新 submission 与转投。每次论文节点修改遵守原 Writing Plan 的 validate/resolve/render/approval/review。
 
 真正中稿以正式录用通知为依据；camera-ready/校样/归档是录用后单独状态。正式投稿与作者确认、撤稿等有外部影响的操作必须先获得用户确认，记录实际回执而不是模拟成功。集成测试只用标记为 fixture 的本地材料。
+
+## 叶节点完成门（contract revision 1）
+
+新项目默认 `enforce_stage_contracts: true`。每个叶节点完成前，按 `references/lifecycle-leaf-contracts.md` 准备输出，并在节点的 `review_path` 提交 JSON：`stage_id`、`contract_hash`、`reviewer`、`reviewed_at`、`artifacts: [{path, sha256}]`、`checks: [{criterion, status: pass, evidence}]`。criteria 必须逐字对应 acceptance。需要人工确认的节点还需 `approval: {approved: true, approved_by, approved_at}`。报告绑定当前输出哈希；输出变化后旧报告失效。
+
+先运行 `python3 scripts/stage_contract.py --project-root . --stage STAGE_ID` 得到当前契约哈希、产物哈希和缺项，再由审查者填写报告；工具不会自动填充 pass。`checkpoint completed` 必须通过 `--artifact` 同时登记所有声明输出和审查报告。仅做文件、哈希和声明完整性检查，不验证审查者身份、不代替科学评审或平台回执核验。输入证据核对仍属于节点审查。
+
+旧 settings 不自动覆盖，保留原运行语义。升级时显式合并默认节点契约并按项目现有路径映射输出；先审查变更，再开启 enforce_stage_contracts。跳过仅用于不适用情况并记录原因；不把 skipped 当作获得科学证据。

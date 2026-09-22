@@ -19,6 +19,9 @@
     "venue": {
       "$ref": "#/$defs/venueConfig"
     },
+    "writing_policy": {
+      "$ref": "#/$defs/writingPolicy"
+    },
     "profiles": {
       "$ref": "#/$defs/profiles"
     },
@@ -407,6 +410,44 @@
         },
         "overrides": {
           "type": "object"
+        }
+      }
+    },
+    "writingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene", "languages", "engine"],
+      "properties": {
+        "scene": {"const": "research"},
+        "languages": {"type": "array", "uniqueItems": true, "items": {"enum": ["zh", "en"]}, "minItems": 2},
+        "engine": {"const": "latex"},
+        "defensive_writing": {"type": "boolean"},
+        "confidence_interval": {"type": "string", "minLength": 1},
+        "template": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source_url": {"type": "string", "format": "uri"},
+            "checked_at": {"type": "string", "minLength": 10},
+            "style_files_immutable": {"const": true},
+            "manifest": {"type": "string", "minLength": 1}
+          }
+        },
+        "skills": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "anti_defensive_writing": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "zh": {"type": "string", "minLength": 1},
+                "en": {"type": "string", "minLength": 1}
+              }
+            },
+            "humanizer": {"type": "string", "minLength": 1}
+          }
         }
       }
     },

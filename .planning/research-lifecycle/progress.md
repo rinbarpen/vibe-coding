@@ -37,3 +37,18 @@ Primary output switched from Word to native LaTeX. Four generic compile harnesse
 - All-table LaTeX delivery: 20 independent source tables, standalone wrappers, PDFs and PNGs. Forty individual pdflatex passes succeeded; zero Overfull warnings. Expanded generic single/two-column and longtable harnesses also passed. No actual venue class certification. Archive: /tmp/research-tables-latex/research-tables-latex-all.zip.
 
 - Added multi-benchmark LaTeX: 4 datasets × 9 methods × 3 metrics (108 fixture values), wide/split-metric/dataset-block layouts. Six documents compiled twice, zero Overfull warnings; ties and lower-is-better ECE verified; longtable is two pages.
+
+## Substage contract implementation
+- Added concrete contracts for 24 intermediate stages and 71 leaves; inputs, outputs, actions, scientific review criteria, roles, approval, return paths and handoffs.
+- New projects enforce leaf output/review registration, contract/output hashes and explicit human-confirmation fields. Existing settings stay unchanged; old-mode transition fixtures preserve original receipt requirements.
+- Baseline: 73 tests passed; modified: 81 passed. Strict success checkpoint/Git review snapshot, rejection, stale hashes, approval and traversal covered.
+- Patch applied and rollback executed on isolated copy; 10 published files verified by SHA-256. Delivery: /tmp/research-contracts/.
+- Scientific truth, identity verification, live model/queue bindings, production table generator and real venue integration remain pending; see references/implementation-status.md.
+
+## 2026-09-22 — Table Plan v1
+- Added scripts/table_plan.py, Draft 2020-12 schema, example and integration instructions; installer includes the new internal tool.
+- Recomputes cells from raw JSON/CSV hash-verified against aggregated run records. Ineligible/failed/missing seed results block render. Best displayed means respect direction and ties; single seed has no SD.
+- Writing review accepts linked plans; native LaTeX node comments/table environments supported. Explicit ResearchValue macros link manuscript numbers to cells; no freehand-number or semantic-claim guarantee.
+- Baseline 81 tests; modified 94 tests. End-to-end synthetic aggregator -> plan -> TeX -> review -> PDF compiled twice. No Overfull/undefined warnings in demo.
+- 10 changed files published after live-baseline hash check. Patch applied and rollback executed on copy. Evidence: /tmp/table-plan-delivery/verification.json and demo/verification.json.
+- Not yet complete: remaining gallery layouts, automatic width choice, real venue templates, live model/experiment backend, freehand-number/citation semantics.

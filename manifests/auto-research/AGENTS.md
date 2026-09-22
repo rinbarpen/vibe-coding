@@ -47,16 +47,22 @@
 3. 按 `plan-writing → validate → resolve → render-plan` 创建事实源、resolved JSON 和 `WRITING_PLAN.md`
 4. 只在 resolved 节点配置 `approval: before_write` 且审批状态不是 `approved` 时暂停；其他节点继续
 5. writer 一次只接收并写作一个 resolved 节点，不读取原始 YAML
-6. 运行 `writing_plan.py review`，只局部重写 `warning`、`fail` 或 `blocked_missing_evidence` 节点；结构变化后回到步骤 3
-7. 使用 `mine/paper-version-manager init` 初始化版本追踪（v1）
-8. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）
-9. 根据评审意见修改论文，并使用 `mine/paper-version-manager bump --minor` 标记修改（v1 → v1.1 等）
-10. 重复步骤 8-9 直到评审收敛（每轮评审后 bump --minor）
-11. 使用 `mine/paperreview-ai-review` 提交 paperreview.ai 外部评审
-12. 使用 `aris/paper-claim-audit` 校验数值声明一致性，并使用 `aris/citation-audit` 校验引用
-13. 对重大改写使用 `mine/paper-version-manager bump --major`，并重新 validate/resolve/render/approval
-14. 使用 `aris/auto-paper-improvement-loop` 深度改进论文
-15. 产出：逐节点写作记录、Writing Review、评审意见、改进清单和版本历史
+6. 论文正文使用官方 venue LaTeX 模板；模板 `.cls`、`.sty`、字体、参考文献样式以及 table/figure styles 全部锁定，不直接修改
+7. 在 `.auto-research/writing/latex/template-manifest.json` 登记官方模板路径、版本、来源和 sha256；根据官方投稿要求生成实际文件清单，不能用自制 style 替换缺失模板
+8. 研究场景默认省略 95% CI；仅在 venue、研究方案、作者请求或审稿意见要求时启用，并在 Writing Plan 记录统计理由
+9. 草稿形成后，先按段落语言运行 `mine/z-humanizer` 的 academic/journal/conference 路由，保留事实、数字、引用 key、LaTeX 命令和术语
+10. 需要写作原则审计时，按语言调用 `skills/anti-defensive-writing/SKILL.md` 或 `skills/anti-defensive-writing-en/SKILL.md`；默认不开启自动防御性写作改写
+11. 运行 `writing_plan.py review`，只局部重写 `warning`、`fail` 或 `blocked_missing_evidence` 节点；结构变化后回到步骤 3
+12. 使用 `mine/paper-version-manager init` 初始化版本追踪（v1）
+13. 使用 `paper-review` 进行证据驱动的投稿前自审，重点核对贡献、baseline、消融和引用
+14. 使用 `aris/auto-review-loop` 启动自动评审循环（最多 4 轮）
+15. 根据评审意见修改论文，并使用 `mine/paper-version-manager bump --minor` 标记修改（v1 → v1.1 等）
+16. 重复步骤 14-15 直到评审收敛（每轮评审后 bump --minor）
+17. 使用 `mine/paperreview-ai-review` 提交 paperreview.ai 外部评审
+18. 使用 `aris/paper-claim-audit` 校验数值声明一致性，并使用 `aris/citation-audit` 校验引用
+19. 对重大改写使用 `mine/paper-version-manager bump --major`，并重新 validate/resolve/render/approval
+20. 使用 `aris/auto-paper-improvement-loop` 深度改进论文
+21. 产出：逐节点写作记录、Writing Review、评审意见、改进清单和版本历史
 
 #### Writing Plan 职责边界
 
@@ -111,3 +117,28 @@
 ## 投稿、外审、返修和录用
 
 Export 只完成材料打包，不表示科研结束。按 submission/revision/acceptance 阶段继续：venue 要求 → 作者确认 → 正式提交 → 保存回执 → 审稿意见矩阵 → 修订/补实验/回复 → 再提交；拒稿建立新 submission_id。正式提交须用户确认。录用通知与终稿归档分别完成并保留证据。
+
+## Branch 管理
+
+每个 cycle 默认启用 Git branch 生命周期：`<idea>/<stage>/<substage>`，例如
+`research/writing/draft`；顶层阶段完成后合并到
+`research/cycle/integration`，cycle 结束时再以 `--no-ff` 合并回配置的 `main`。
+子阶段从父 branch 继承，完成后只合并回父 branch；投稿和返修分别使用
+`<idea>/submission/<id>` 与 `<idea>/revision/<id>`。阶段检查点会自动创建/切换
+branch，终态检查点会执行门控合并，事件写入 `.auto-research/lifecycle/branches.jsonl`。
+
+```bash
+python3 scripts/research_workflow.py branch init --idea research
+python3 scripts/research_workflow.py branch start --stage writing/draft
+python3 scripts/research_workflow.py branch status
+python3 scripts/research_workflow.py branch merge --stage writing/draft
+python3 scripts/research_workflow.py branch revision --kind revision --id rev-001
+python3 scripts/research_workflow.py branch close
+```
+
+分支创建、合并和关闭都要求 tracked worktree clean；无关 staged/unstaged 变更不会
+被生命周期提交吸收。默认不删除已合并 branch、不 push、不 reset、不改历史。
+
+### 可追踪 LaTeX 主结果表
+
+多数据集、多baseline、多指标数值表使用 `writing/table-plan.schema.json` 和 `scripts/table_plan.py`：先从 experiment_stats 结果解析原始文件/审计/seed，再渲染LaTeX；禁止将示例画廊数值用于论文证据。按 references/table-plan.md 在 Writing Plan 的 presentation.tables 关联计划、resolved和输出目录。正文数值优先使用 ResearchValue 引用并运行单独review；手写数字和科学结论仍需审查。所有生成记录使用已有生命周期检查点归档。

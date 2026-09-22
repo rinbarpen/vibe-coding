@@ -1,0 +1,12 @@
+{
+  "venue": "VENUE_NAME",
+  "source_url": "https://VENUE_OFFICIAL_GUIDE",
+  "checked_at": "YYYY-MM-DD",
+  "required_files": [
+    "main.tex",
+    "references.bib",
+    "figures/",
+    "tables/"
+  ],
+  "style_globs": ["**/*.cls", "**/*.sty", "**/*.bst"]
+}

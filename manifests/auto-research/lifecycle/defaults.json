@@ -6,6 +6,48 @@
   "max_parallel": 4,
   "baseline_refresh_days": 30,
   "max_git_file_bytes": 10485760,
+  "branching": {
+    "enabled": true,
+    "idea_slug": "research",
+    "integration_branch": "main",
+    "branch_template": "{idea}/{stage}/{substage}",
+    "cycle_branch_template": "{idea}/cycle/integration",
+    "submission_branch_template": "{idea}/submission/{submission_id}",
+    "revision_branch_template": "{idea}/revision/{revision_id}",
+    "merge_strategy": "no-ff",
+    "delete_merged_branches": false
+  },
+  "writing_policy": {
+    "scene": "research",
+    "languages": ["zh", "en"],
+    "engine": "latex",
+    "uncertainty_reporting": {
+      "default": "omit_95_ci",
+      "allow_when": ["venue_requirement", "study_protocol", "author_request", "reviewer_request"]
+    },
+    "defensive_writing": {
+      "default": "disabled",
+      "skill_repo": "https://github.com/Adkid-Zephyr/anti-defensive-writing-Skill",
+      "skills": {
+        "zh": "skills/anti-defensive-writing",
+        "en": "skills/anti-defensive-writing-en"
+      }
+    },
+    "humanization": {
+      "skill": "mine/z-humanizer",
+      "domains": ["academic", "journal", "conference"],
+      "languages": ["zh", "en"],
+      "stage": "writing/draft/revise"
+    },
+    "latex_template": {
+      "required": true,
+      "source": "official_venue_requirements",
+      "style_files": "immutable",
+      "required_files": ["main.tex", "references.bib", "figures/", "tables/"],
+      "compile_log": ".auto-research/writing/latex/compile.log",
+      "template_manifest": ".auto-research/writing/latex/template-manifest.json"
+    }
+  },
   "roles": {
     "research": {
       "requested_model": "gpt-6",
@@ -72,37 +114,175 @@
       "title": "目标与约束",
       "objective": "目标与约束",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "startup/scope/question: 问题包含对象、可证伪目标和排除范围",
+        "startup/scope/constraints: 每个限制有来源、负责人和影响"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "USER_BRIEF.md",
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "activities": [
+        "startup/scope/question: 界定对象、问题、可观察结果与非目标",
+        "startup/scope/constraints: 登记数据、伦理、计算、时间和访问限制"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "startup/scope"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "startup/scope/question",
       "parent_id": "startup/scope",
       "level": 3,
       "title": "question",
-      "objective": "目标与约束: question",
+      "objective": "界定对象、问题、可观察结果与非目标",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "问题包含对象、可证伪目标和排除范围",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "USER_BRIEF.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "activities": [
+        "界定对象、问题、可观察结果与非目标",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/startup--scope--question.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "startup/scope"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "startup/scope/constraints",
+          "startup/roadmap/milestones",
+          "literature/search/queries"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "startup/scope/constraints",
       "parent_id": "startup/scope",
       "level": 3,
       "title": "constraints",
-      "objective": "目标与约束: constraints",
+      "objective": "登记数据、伦理、计算、时间和访问限制",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个限制有来源、负责人和影响",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CONSTRAINTS.md"
+      ],
+      "activities": [
+        "登记数据、伦理、计算、时间和访问限制",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/startup--scope--constraints.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "startup/scope"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "startup/roadmap/milestones",
+          "startup/roadmap/budget",
+          "idea/hypotheses/candidates",
+          "design/baselines/protocol",
+          "execution/prepare/data"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "startup/roadmap",
@@ -111,37 +291,174 @@
       "title": "研究计划",
       "objective": "研究计划",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "startup/roadmap/milestones: 每个里程碑有产物、期限、决策人和退出条件",
+        "startup/roadmap/budget: 估计依据、币种、资源上限和审批边界完整"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/MILESTONES.md",
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BUDGET.md",
+        "refine-logs/contracts/MILESTONES.md"
+      ],
+      "activities": [
+        "startup/roadmap/milestones: 安排可验收里程碑、依赖与停止条件",
+        "startup/roadmap/budget: 估计计算、存储、人工成本和预算上限"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "startup/roadmap"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "startup/roadmap/milestones",
       "parent_id": "startup/roadmap",
       "level": 3,
       "title": "milestones",
-      "objective": "研究计划: milestones",
+      "objective": "安排可验收里程碑、依赖与停止条件",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个里程碑有产物、期限、决策人和退出条件",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/QUESTION.md",
+        "refine-logs/contracts/CONSTRAINTS.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/MILESTONES.md"
+      ],
+      "activities": [
+        "安排可验收里程碑、依赖与停止条件",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/startup--roadmap--milestones.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "startup/roadmap"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "startup/roadmap/budget"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "startup/roadmap/budget",
       "parent_id": "startup/roadmap",
       "level": 3,
       "title": "budget",
-      "objective": "研究计划: budget",
+      "objective": "估计计算、存储、人工成本和预算上限",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "估计依据、币种、资源上限和审批边界完整",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/MILESTONES.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BUDGET.md"
+      ],
+      "activities": [
+        "估计计算、存储、人工成本和预算上限",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/startup--roadmap--budget.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "startup/roadmap"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/hypotheses/comparison",
+          "design/baselines/selection",
+          "design/evaluation/budget",
+          "revision/decision/strategy"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "literature",
@@ -185,37 +502,170 @@
       "title": "文献检索",
       "objective": "文献检索",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "literature/search/queries: 检索式、数据库、纳排标准和截止日期可复用",
+        "literature/search/screening: 每条记录含来源、检索日期、版本及纳排理由"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/QUESTION.md",
+        "refine-logs/contracts/SEARCH_PROTOCOL.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SCREENING.json",
+        "refine-logs/contracts/SEARCH_PROTOCOL.md"
+      ],
+      "activities": [
+        "literature/search/queries: 拆解概念同义词、检索源和时间范围",
+        "literature/search/screening: 检索原始来源、去重并逐篇记录纳排"
+      ],
+      "roles": [
+        "executor",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "literature/search"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "literature/search/queries",
       "parent_id": "literature/search",
       "level": 3,
       "title": "queries",
-      "objective": "文献检索: queries",
+      "objective": "拆解概念同义词、检索源和时间范围",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "检索式、数据库、纳排标准和截止日期可复用",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/QUESTION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SEARCH_PROTOCOL.md"
+      ],
+      "activities": [
+        "拆解概念同义词、检索源和时间范围",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/literature--search--queries.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "literature/search"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "literature/search/screening"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "literature/search/screening",
       "parent_id": "literature/search",
       "level": 3,
       "title": "screening",
-      "objective": "文献检索: screening",
+      "objective": "检索原始来源、去重并逐篇记录纳排",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每条记录含来源、检索日期、版本及纳排理由",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SEARCH_PROTOCOL.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SCREENING.json"
+      ],
+      "activities": [
+        "检索原始来源、去重并逐篇记录纳排",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/literature--search--screening.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "literature/search"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "literature/position/taxonomy",
+          "writing/draft/citations"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "literature/position",
@@ -224,50 +674,241 @@
       "title": "问题定位",
       "objective": "问题定位",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "literature/position/taxonomy: 关键分类均有来源且区别报告值与复现值",
+        "literature/position/gap: gap有多来源支持并记录反例和检索局限",
+        "literature/position/novelty: 近邻方法、重合点、差异及不确定性有引用"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/GAP.md",
+        "refine-logs/contracts/SCREENING.json",
+        "refine-logs/contracts/TAXONOMY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/GAP.md",
+        "refine-logs/contracts/NOVELTY.md",
+        "refine-logs/contracts/TAXONOMY.md"
+      ],
+      "activities": [
+        "literature/position/taxonomy: 按问题、假设、数据、方法与评估协议分类",
+        "literature/position/gap: 比较已有证据与未解决问题",
+        "literature/position/novelty: 对最相近工作逐项核对机制与贡献差异"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "literature/position"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "literature/position/taxonomy",
       "parent_id": "literature/position",
       "level": 3,
       "title": "taxonomy",
-      "objective": "问题定位: taxonomy",
+      "objective": "按问题、假设、数据、方法与评估协议分类",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "关键分类均有来源且区别报告值与复现值",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SCREENING.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/TAXONOMY.md"
+      ],
+      "activities": [
+        "按问题、假设、数据、方法与评估协议分类",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/literature--position--taxonomy.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "literature/position"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "literature/position/gap",
+          "literature/position/novelty"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "literature/position/gap",
       "parent_id": "literature/position",
       "level": 3,
       "title": "gap",
-      "objective": "问题定位: gap",
+      "objective": "比较已有证据与未解决问题",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "gap有多来源支持并记录反例和检索局限",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/TAXONOMY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/GAP.md"
+      ],
+      "activities": [
+        "比较已有证据与未解决问题",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/literature--position--gap.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "literature/position"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "literature/position/novelty",
+          "idea/hypotheses/candidates"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "literature/position/novelty",
       "parent_id": "literature/position",
       "level": 3,
       "title": "novelty",
-      "objective": "问题定位: novelty",
+      "objective": "对最相近工作逐项核对机制与贡献差异",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "近邻方法、重合点、差异及不确定性有引用",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/GAP.md",
+        "refine-logs/contracts/TAXONOMY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/NOVELTY.md"
+      ],
+      "activities": [
+        "对最相近工作逐项核对机制与贡献差异",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/literature--position--novelty.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "startup/scope",
+        "failed_check": "literature/position"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/hypotheses/candidates",
+          "design/baselines/search"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "idea",
@@ -310,37 +951,175 @@
       "title": "假设与方案",
       "objective": "假设与方案",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "idea/hypotheses/candidates: 每个候选含预测、反证和最小验证实验",
+        "idea/hypotheses/comparison: 保留淘汰理由及关键假设未验证项"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/BUDGET.md",
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/GAP.md",
+        "refine-logs/contracts/HYPOTHESES.md",
+        "refine-logs/contracts/NOVELTY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/HYPOTHESES.md",
+        "refine-logs/contracts/IDEA_DECISION.md"
+      ],
+      "activities": [
+        "idea/hypotheses/candidates: 提出竞争解释、可测预测和否定条件",
+        "idea/hypotheses/comparison: 按新颖性、可证伪性、成本和风险选择方案"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "idea/hypotheses"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "idea/hypotheses/candidates",
       "parent_id": "idea/hypotheses",
       "level": 3,
       "title": "candidates",
-      "objective": "假设与方案: candidates",
+      "objective": "提出竞争解释、可测预测和否定条件",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个候选含预测、反证和最小验证实验",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/GAP.md",
+        "refine-logs/contracts/NOVELTY.md",
+        "refine-logs/contracts/CONSTRAINTS.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/HYPOTHESES.md"
+      ],
+      "activities": [
+        "提出竞争解释、可测预测和否定条件",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/idea--hypotheses--candidates.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "literature/position",
+        "failed_check": "idea/hypotheses"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/hypotheses/comparison"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "idea/hypotheses/comparison",
       "parent_id": "idea/hypotheses",
       "level": 3,
       "title": "comparison",
-      "objective": "假设与方案: comparison",
+      "objective": "按新颖性、可证伪性、成本和风险选择方案",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "保留淘汰理由及关键假设未验证项",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/HYPOTHESES.md",
+        "refine-logs/contracts/BUDGET.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/IDEA_DECISION.md"
+      ],
+      "activities": [
+        "按新颖性、可证伪性、成本和风险选择方案",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/idea--hypotheses--comparison.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "literature/position",
+        "failed_check": "idea/hypotheses"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/method/mechanism"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "idea/method",
@@ -349,50 +1128,250 @@
       "title": "方法细化",
       "objective": "方法细化",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "idea/method/mechanism: 公式符号、张量接口和伪代码一致",
+        "idea/method/components: 每个组件有稳定ID、接口和可实施干预",
+        "idea/method/claims: 所有核心claim都有证据类型和失败解释"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/COMPONENTS.json",
+        "refine-logs/contracts/IDEA_DECISION.md",
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/COMPONENTS.json",
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "activities": [
+        "idea/method/mechanism: 明确输入输出、数学定义、算法步骤和假设",
+        "idea/method/components: 拆分组件接口、开关、依赖与替代实现",
+        "idea/method/claims: 登记主张、证伪阈值和所需证据"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "idea/method"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "idea/method/mechanism",
       "parent_id": "idea/method",
       "level": 3,
       "title": "mechanism",
-      "objective": "方法细化: mechanism",
+      "objective": "明确输入输出、数学定义、算法步骤和假设",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "公式符号、张量接口和伪代码一致",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/IDEA_DECISION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "activities": [
+        "明确输入输出、数学定义、算法步骤和假设",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/idea--method--mechanism.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "literature/position",
+        "failed_check": "idea/method"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/method/components",
+          "idea/method/claims",
+          "execution/implementation/code",
+          "execution/implementation/review",
+          "writing/plan/outline",
+          "writing/draft/methods"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "idea/method/components",
       "parent_id": "idea/method",
       "level": 3,
       "title": "components",
-      "objective": "方法细化: components",
+      "objective": "拆分组件接口、开关、依赖与替代实现",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个组件有稳定ID、接口和可实施干预",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/COMPONENTS.json"
+      ],
+      "activities": [
+        "拆分组件接口、开关、依赖与替代实现",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/idea--method--components.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "literature/position",
+        "failed_check": "idea/method"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "idea/method/claims",
+          "design/ablation/decomposition",
+          "execution/implementation/code"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "idea/method/claims",
       "parent_id": "idea/method",
       "level": 3,
       "title": "claims",
-      "objective": "方法细化: claims",
+      "objective": "登记主张、证伪阈值和所需证据",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "所有核心claim都有证据类型和失败解释",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/METHOD_SPEC.md",
+        "refine-logs/contracts/COMPONENTS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CLAIMS.json"
+      ],
+      "activities": [
+        "登记主张、证伪阈值和所需证据",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/idea--method--claims.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "literature/position",
+        "failed_check": "idea/method"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/baselines/search",
+          "design/ablation/decomposition",
+          "design/ablation/coverage",
+          "design/evaluation/metrics",
+          "analysis/interpretation/claims"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design",
@@ -439,50 +1418,248 @@
       "title": "对比实验",
       "objective": "对比实验",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "design/baselines/search: 原始链接、检索时间、查询词和代码来源齐全",
+        "design/baselines/selection: 纳排理由完整且不混淆文献值与实跑值",
+        "design/baselines/protocol: 各方法公平性差异明确且引用版本可定位"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/BASELINE_SEARCH.json",
+        "refine-logs/contracts/BASELINE_SELECTION.json",
+        "refine-logs/contracts/BUDGET.md",
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/NOVELTY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/BASELINE_SEARCH.json",
+        "refine-logs/contracts/BASELINE_SELECTION.json"
+      ],
+      "activities": [
+        "design/baselines/search: 联网刷新标准、最新强方法和最相近方法",
+        "design/baselines/selection: 按相关性、可复现性和资源选择基线",
+        "design/baselines/protocol: 冻结数据split、版本、调参预算和评估器"
+      ],
+      "roles": [
+        "executor",
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "design/baselines"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "design/baselines/search",
       "parent_id": "design/baselines",
       "level": 3,
       "title": "search",
-      "objective": "对比实验: search",
+      "objective": "联网刷新标准、最新强方法和最相近方法",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "原始链接、检索时间、查询词和代码来源齐全",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/NOVELTY.md",
+        "refine-logs/contracts/CLAIMS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BASELINE_SEARCH.json"
+      ],
+      "activities": [
+        "联网刷新标准、最新强方法和最相近方法",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--baselines--search.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/baselines"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/baselines/selection"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/baselines/selection",
       "parent_id": "design/baselines",
       "level": 3,
       "title": "selection",
-      "objective": "对比实验: selection",
+      "objective": "按相关性、可复现性和资源选择基线",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "纳排理由完整且不混淆文献值与实跑值",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BASELINE_SEARCH.json",
+        "refine-logs/contracts/BUDGET.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BASELINE_SELECTION.json"
+      ],
+      "activities": [
+        "按相关性、可复现性和资源选择基线",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--baselines--selection.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/baselines"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/baselines/protocol"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/baselines/protocol",
       "parent_id": "design/baselines",
       "level": 3,
       "title": "protocol",
-      "objective": "对比实验: protocol",
+      "objective": "冻结数据split、版本、调参预算和评估器",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "各方法公平性差异明确且引用版本可定位",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BASELINE_SELECTION.json",
+        "refine-logs/contracts/CONSTRAINTS.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BASELINE_PROTOCOL.json"
+      ],
+      "activities": [
+        "冻结数据split、版本、调参预算和评估器",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--baselines--protocol.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/baselines"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/ablation/matrix",
+          "design/evaluation/metrics",
+          "execution/prepare/data",
+          "execution/runs/baseline"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/ablation",
@@ -491,50 +1668,246 @@
       "title": "消融实验",
       "objective": "消融实验",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "design/ablation/decomposition: 每项变化对应机制假设和控制变量",
+        "design/ablation/coverage: 每个claim和因素为covered或有延期/不适用理由",
+        "design/ablation/matrix: 组合唯一、参考明确且交互不盲目穷举"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/ABLATION_COVERAGE.json",
+        "refine-logs/contracts/ABLATION_FACTORS.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/COMPONENTS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_COVERAGE.json",
+        "refine-logs/contracts/ABLATION_FACTORS.json",
+        "refine-logs/contracts/ABLATION_MATRIX.json"
+      ],
+      "activities": [
+        "design/ablation/decomposition: 识别组件、训练目标、资源和潜在混杂",
+        "design/ablation/coverage: 覆盖移除、增加、替代、交互及边界实验",
+        "design/ablation/matrix: 选择有科学意义的组合并估算成本"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "design/ablation"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "design/ablation/decomposition",
       "parent_id": "design/ablation",
       "level": 3,
       "title": "decomposition",
-      "objective": "消融实验: decomposition",
+      "objective": "识别组件、训练目标、资源和潜在混杂",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每项变化对应机制假设和控制变量",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/COMPONENTS.json",
+        "refine-logs/contracts/CLAIMS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_FACTORS.json"
+      ],
+      "activities": [
+        "识别组件、训练目标、资源和潜在混杂",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--ablation--decomposition.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/ablation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/ablation/coverage"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/ablation/coverage",
       "parent_id": "design/ablation",
       "level": 3,
       "title": "coverage",
-      "objective": "消融实验: coverage",
+      "objective": "覆盖移除、增加、替代、交互及边界实验",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个claim和因素为covered或有延期/不适用理由",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/ABLATION_FACTORS.json",
+        "refine-logs/contracts/CLAIMS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_COVERAGE.json"
+      ],
+      "activities": [
+        "覆盖移除、增加、替代、交互及边界实验",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--ablation--coverage.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/ablation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/ablation/matrix",
+          "analysis/interpretation/ablation"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/ablation/matrix",
       "parent_id": "design/ablation",
       "level": 3,
       "title": "matrix",
-      "objective": "消融实验: matrix",
+      "objective": "选择有科学意义的组合并估算成本",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "组合唯一、参考明确且交互不盲目穷举",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/ABLATION_COVERAGE.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_MATRIX.json"
+      ],
+      "activities": [
+        "选择有科学意义的组合并估算成本",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--ablation--matrix.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/ablation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/evaluation/seeds",
+          "design/evaluation/budget",
+          "execution/runs/ablation"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/evaluation",
@@ -543,50 +1916,249 @@
       "title": "评估设置",
       "objective": "评估设置",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "design/evaluation/metrics: 主次指标、缺失值规则和测试集使用边界明确",
+        "design/evaluation/seeds: seed列表唯一且区分数据抽样与训练随机性",
+        "design/evaluation/budget: 矩阵覆盖与预算对应且未批准任务不执行"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/ABLATION_MATRIX.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/BUDGET.md",
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/METRIC_PROTOCOL.json",
+        "refine-logs/contracts/SEED_PLAN.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EXPERIMENT_SETUP.json",
+        "refine-logs/contracts/METRIC_PROTOCOL.json",
+        "refine-logs/contracts/SEED_PLAN.json"
+      ],
+      "activities": [
+        "design/evaluation/metrics: 定义指标公式、方向、聚合单位与选择准则",
+        "design/evaluation/seeds: 默认使用单seed并配置多seed配对策略",
+        "design/evaluation/budget: 合并实验设置、估算全矩阵资源和审批范围"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "design/evaluation"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "design/evaluation/metrics",
       "parent_id": "design/evaluation",
       "level": 3,
       "title": "metrics",
-      "objective": "评估设置: metrics",
+      "objective": "定义指标公式、方向、聚合单位与选择准则",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "主次指标、缺失值规则和测试集使用边界明确",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/METRIC_PROTOCOL.json"
+      ],
+      "activities": [
+        "定义指标公式、方向、聚合单位与选择准则",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--evaluation--metrics.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/evaluation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/evaluation/seeds",
+          "execution/prepare/evaluator",
+          "analysis/statistics/comparison"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/evaluation/seeds",
       "parent_id": "design/evaluation",
       "level": 3,
       "title": "seeds",
-      "objective": "评估设置: seeds",
+      "objective": "默认使用单seed并配置多seed配对策略",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "seed列表唯一且区分数据抽样与训练随机性",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/METRIC_PROTOCOL.json",
+        "refine-logs/contracts/ABLATION_MATRIX.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SEED_PLAN.json"
+      ],
+      "activities": [
+        "默认使用单seed并配置多seed配对策略",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/design--evaluation--seeds.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/evaluation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "design/evaluation/budget"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "design/evaluation/budget",
       "parent_id": "design/evaluation",
       "level": 3,
       "title": "budget",
-      "objective": "评估设置: budget",
+      "objective": "合并实验设置、估算全矩阵资源和审批范围",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "矩阵覆盖与预算对应且未批准任务不执行",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SEED_PLAN.json",
+        "refine-logs/contracts/ABLATION_MATRIX.json",
+        "refine-logs/contracts/BUDGET.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EXPERIMENT_SETUP.json"
+      ],
+      "activities": [
+        "合并实验设置、估算全矩阵资源和审批范围",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/design--evaluation--budget.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "idea/method",
+        "failed_check": "design/evaluation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/prepare/environment",
+          "execution/runs/approval",
+          "analysis/statistics/integrity"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution",
@@ -633,50 +2205,242 @@
       "title": "环境与数据",
       "objective": "环境与数据",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "execution/prepare/environment: 环境版本、真实设备输出和依赖锁可追踪",
+        "execution/prepare/data: 数据哈希、划分ID、访问许可和泄漏检查完整",
+        "execution/prepare/evaluator: 固定输入输出、错误案例与指标方向验证通过"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/CONSTRAINTS.md",
+        "refine-logs/contracts/DATA_MANIFEST.json",
+        "refine-logs/contracts/EXPERIMENT_SETUP.json",
+        "refine-logs/contracts/METRIC_PROTOCOL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/DATA_MANIFEST.json",
+        "refine-logs/contracts/ENVIRONMENT.json",
+        "refine-logs/contracts/EVALUATOR_CHECK.json"
+      ],
+      "activities": [
+        "execution/prepare/environment: 验证依赖、设备、驱动及最小计算操作",
+        "execution/prepare/data: 核验数据来源、标注、split和泄漏风险",
+        "execution/prepare/evaluator: 以已知答案和边界样本验证评估器"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "execution/prepare"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "execution/prepare/environment",
       "parent_id": "execution/prepare",
       "level": 3,
       "title": "environment",
-      "objective": "环境与数据: environment",
+      "objective": "验证依赖、设备、驱动及最小计算操作",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "环境版本、真实设备输出和依赖锁可追踪",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/EXPERIMENT_SETUP.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ENVIRONMENT.json"
+      ],
+      "activities": [
+        "验证依赖、设备、驱动及最小计算操作",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--prepare--environment.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/implementation/code",
+          "writing/draft/methods"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/prepare/data",
       "parent_id": "execution/prepare",
       "level": 3,
       "title": "data",
-      "objective": "环境与数据: data",
+      "objective": "核验数据来源、标注、split和泄漏风险",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "数据哈希、划分ID、访问许可和泄漏检查完整",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/CONSTRAINTS.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/DATA_MANIFEST.json"
+      ],
+      "activities": [
+        "核验数据来源、标注、split和泄漏风险",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--prepare--data.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/prepare/evaluator"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/prepare/evaluator",
       "parent_id": "execution/prepare",
       "level": 3,
       "title": "evaluator",
-      "objective": "环境与数据: evaluator",
+      "objective": "以已知答案和边界样本验证评估器",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "固定输入输出、错误案例与指标方向验证通过",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/METRIC_PROTOCOL.json",
+        "refine-logs/contracts/DATA_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EVALUATOR_CHECK.json"
+      ],
+      "activities": [
+        "以已知答案和边界样本验证评估器",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--prepare--evaluator.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/implementation/sanity"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/implementation",
@@ -685,50 +2449,245 @@
       "title": "代码实现",
       "objective": "代码实现",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "execution/implementation/code: 代码revision、入口命令和组件映射完整",
+        "execution/implementation/review: 审查者身份、发现、严重度和关闭证据完整",
+        "execution/implementation/sanity: 每种实现的实际命令、退出码与判定阈值齐全"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CODE_REVIEW.json",
+        "refine-logs/contracts/COMPONENTS.json",
+        "refine-logs/contracts/ENVIRONMENT.json",
+        "refine-logs/contracts/EVALUATOR_CHECK.json",
+        "refine-logs/contracts/IMPLEMENTATION.md",
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CODE_REVIEW.json",
+        "refine-logs/contracts/IMPLEMENTATION.md",
+        "refine-logs/contracts/SANITY.json"
+      ],
+      "activities": [
+        "execution/implementation/code: 实现方法、配置开关与baseline接口",
+        "execution/implementation/review: 独立上下文检查实现、评估与数据泄漏",
+        "execution/implementation/sanity: 检查小样本过拟合、梯度、形状和最小全链路"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "execution/implementation"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "execution/implementation/code",
       "parent_id": "execution/implementation",
       "level": 3,
       "title": "code",
-      "objective": "代码实现: code",
+      "objective": "实现方法、配置开关与baseline接口",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "代码revision、入口命令和组件映射完整",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/METHOD_SPEC.md",
+        "refine-logs/contracts/COMPONENTS.json",
+        "refine-logs/contracts/ENVIRONMENT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/IMPLEMENTATION.md"
+      ],
+      "activities": [
+        "实现方法、配置开关与baseline接口",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--implementation--code.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/implementation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/implementation/review",
+          "execution/runs/main"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/implementation/review",
       "parent_id": "execution/implementation",
       "level": 3,
       "title": "review",
-      "objective": "代码实现: review",
+      "objective": "独立上下文检查实现、评估与数据泄漏",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "审查者身份、发现、严重度和关闭证据完整",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/IMPLEMENTATION.md",
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CODE_REVIEW.json"
+      ],
+      "activities": [
+        "独立上下文检查实现、评估与数据泄漏",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--implementation--review.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/implementation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/implementation/sanity"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/implementation/sanity",
       "parent_id": "execution/implementation",
       "level": 3,
       "title": "sanity",
-      "objective": "代码实现: sanity",
+      "objective": "检查小样本过拟合、梯度、形状和最小全链路",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每种实现的实际命令、退出码与判定阈值齐全",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CODE_REVIEW.json",
+        "refine-logs/contracts/EVALUATOR_CHECK.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SANITY.json"
+      ],
+      "activities": [
+        "检查小样本过拟合、梯度、形状和最小全链路",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--implementation--sanity.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/implementation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/runs/approval"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/runs",
@@ -737,76 +2696,392 @@
       "title": "正式运行",
       "objective": "正式运行",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "execution/runs/approval: plan hash、批准人、时间和资源上限一致",
+        "execution/runs/baseline: run ID、seed、revision、退出码和结果引用齐全",
+        "execution/runs/main: 实际进程、配置哈希、成本与结果可核查",
+        "execution/runs/ablation: 控制条件一致且失败重试不冒充新seed",
+        "execution/runs/collection: 每个矩阵单元有状态且文件哈希可核验"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/ABLATION_MATRIX.json",
+        "refine-logs/contracts/ABLATION_RUNS.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json",
+        "refine-logs/contracts/BASELINE_RUNS.json",
+        "refine-logs/contracts/BUDGET_APPROVAL.json",
+        "refine-logs/contracts/EXPERIMENT_SETUP.json",
+        "refine-logs/contracts/IMPLEMENTATION.md",
+        "refine-logs/contracts/MAIN_RUNS.json",
+        "refine-logs/contracts/SANITY.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_RUNS.json",
+        "refine-logs/contracts/BASELINE_RUNS.json",
+        "refine-logs/contracts/BUDGET_APPROVAL.json",
+        "refine-logs/contracts/MAIN_RUNS.json",
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "activities": [
+        "execution/runs/approval: 对冻结计划核对预算并取得运行批准",
+        "execution/runs/baseline: 运行冻结baseline并保留每次attempt",
+        "execution/runs/main: 按冻结主实验矩阵执行和监控",
+        "execution/runs/ablation: 执行消融组合并核对唯一变化",
+        "execution/runs/collection: 收集所有成功、失败和未完成运行"
+      ],
+      "roles": [
+        "executor",
+        "planner"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "execution/runs"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "execution/runs/approval",
       "parent_id": "execution/runs",
       "level": 3,
       "title": "approval",
-      "objective": "正式运行: approval",
+      "objective": "对冻结计划核对预算并取得运行批准",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "plan hash、批准人、时间和资源上限一致",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SANITY.json",
+        "refine-logs/contracts/EXPERIMENT_SETUP.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BUDGET_APPROVAL.json"
+      ],
+      "activities": [
+        "对冻结计划核对预算并取得运行批准",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/execution--runs--approval.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/runs"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/runs/baseline",
+          "execution/runs/main",
+          "execution/runs/ablation"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/runs/baseline",
       "parent_id": "execution/runs",
       "level": 3,
       "title": "baseline",
-      "objective": "正式运行: baseline",
+      "objective": "运行冻结baseline并保留每次attempt",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "run ID、seed、revision、退出码和结果引用齐全",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BUDGET_APPROVAL.json",
+        "refine-logs/contracts/BASELINE_PROTOCOL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/BASELINE_RUNS.json"
+      ],
+      "activities": [
+        "运行冻结baseline并保留每次attempt",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--runs--baseline.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/runs"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/runs/collection"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/runs/main",
       "parent_id": "execution/runs",
       "level": 3,
       "title": "main",
-      "objective": "正式运行: main",
+      "objective": "按冻结主实验矩阵执行和监控",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "实际进程、配置哈希、成本与结果可核查",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BUDGET_APPROVAL.json",
+        "refine-logs/contracts/IMPLEMENTATION.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/MAIN_RUNS.json"
+      ],
+      "activities": [
+        "按冻结主实验矩阵执行和监控",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--runs--main.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/runs"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/runs/collection"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/runs/ablation",
       "parent_id": "execution/runs",
       "level": 3,
       "title": "ablation",
-      "objective": "正式运行: ablation",
+      "objective": "执行消融组合并核对唯一变化",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "控制条件一致且失败重试不冒充新seed",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BUDGET_APPROVAL.json",
+        "refine-logs/contracts/ABLATION_MATRIX.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_RUNS.json"
+      ],
+      "activities": [
+        "执行消融组合并核对唯一变化",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--runs--ablation.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/runs"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "execution/runs/collection"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "execution/runs/collection",
       "parent_id": "execution/runs",
       "level": 3,
       "title": "collection",
-      "objective": "正式运行: collection",
+      "objective": "收集所有成功、失败和未完成运行",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个矩阵单元有状态且文件哈希可核验",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/BASELINE_RUNS.json",
+        "refine-logs/contracts/MAIN_RUNS.json",
+        "refine-logs/contracts/ABLATION_RUNS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "activities": [
+        "收集所有成功、失败和未完成运行",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/execution--runs--collection.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "design/evaluation",
+        "failed_check": "execution/runs"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/statistics/integrity",
+          "analysis/statistics/aggregation",
+          "analysis/interpretation/failures",
+          "internal-review/review/evidence",
+          "acceptance/final/archive"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis",
@@ -851,50 +3126,248 @@
       "title": "统计",
       "objective": "统计",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "analysis/statistics/integrity: 不补零、不挑旧高分attempt、不静默删失败",
+        "analysis/statistics/aggregation: 单seed标准差为空、多seed用样本SD且保留原始值",
+        "analysis/statistics/comparison: 配对单位明确、方向正确、检验假设有依据"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/EXPERIMENT_SETUP.json",
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json",
+        "refine-logs/contracts/METRIC_PROTOCOL.json",
+        "refine-logs/contracts/RESULT_INTEGRITY.json",
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/COMPARISONS.json",
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json",
+        "refine-logs/contracts/RESULT_INTEGRITY.json"
+      ],
+      "activities": [
+        "analysis/statistics/integrity: 检查缺失、重复、配置漂移和评估协议",
+        "analysis/statistics/aggregation: 按数据、配置和seed聚合指标",
+        "analysis/statistics/comparison: 计算协议匹配的配对差值并选择统计方法"
+      ],
+      "roles": [
+        "executor",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "analysis/statistics"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "analysis/statistics/integrity",
       "parent_id": "analysis/statistics",
       "level": 3,
       "title": "integrity",
-      "objective": "统计: integrity",
+      "objective": "检查缺失、重复、配置漂移和评估协议",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "不补零、不挑旧高分attempt、不静默删失败",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/RUN_RECORDS.json",
+        "refine-logs/contracts/EXPERIMENT_SETUP.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/RESULT_INTEGRITY.json"
+      ],
+      "activities": [
+        "检查缺失、重复、配置漂移和评估协议",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--statistics--integrity.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/statistics"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/statistics/aggregation",
+          "analysis/interpretation/audit"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/statistics/aggregation",
       "parent_id": "analysis/statistics",
       "level": 3,
       "title": "aggregation",
-      "objective": "统计: aggregation",
+      "objective": "按数据、配置和seed聚合指标",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "单seed标准差为空、多seed用样本SD且保留原始值",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/RESULT_INTEGRITY.json",
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json"
+      ],
+      "activities": [
+        "按数据、配置和seed聚合指标",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--statistics--aggregation.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/statistics"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/statistics/comparison",
+          "writing/draft/results",
+          "writing/draft/figures"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/statistics/comparison",
       "parent_id": "analysis/statistics",
       "level": 3,
       "title": "comparison",
-      "objective": "统计: comparison",
+      "objective": "计算协议匹配的配对差值并选择统计方法",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "配对单位明确、方向正确、检验假设有依据",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json",
+        "refine-logs/contracts/METRIC_PROTOCOL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/COMPARISONS.json"
+      ],
+      "activities": [
+        "计算协议匹配的配对差值并选择统计方法",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--statistics--comparison.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/statistics"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/interpretation/ablation",
+          "analysis/interpretation/failures",
+          "analysis/interpretation/claims"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/interpretation",
@@ -903,63 +3376,320 @@
       "title": "论证",
       "objective": "论证",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "analysis/interpretation/ablation: 结论不超出控制条件并解释负结果",
+        "analysis/interpretation/failures: 案例选取规则、失效边界和后续行动明确",
+        "analysis/interpretation/claims: 每个结论引用run与证据且保留反证",
+        "analysis/interpretation/audit: 审查身份和阻断项明确且不将缺席视为通过"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/ABLATION_COVERAGE.json",
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/COMPARISONS.json",
+        "refine-logs/contracts/FAILURE_ANALYSIS.md",
+        "refine-logs/contracts/RESULT_INTEGRITY.json",
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_INTERPRETATION.md",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/FAILURE_ANALYSIS.md",
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json"
+      ],
+      "activities": [
+        "analysis/interpretation/ablation: 区分移除效应、顺序增益和交互",
+        "analysis/interpretation/failures: 区分工程失败、方法失效和抽样波动",
+        "analysis/interpretation/claims: 逐项判定支持、部分支持或不支持",
+        "analysis/interpretation/audit: 独立核验统计、归因和选择性报告"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "analysis/interpretation"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "analysis/interpretation/ablation",
       "parent_id": "analysis/interpretation",
       "level": 3,
       "title": "ablation",
-      "objective": "论证: ablation",
+      "objective": "区分移除效应、顺序增益和交互",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "结论不超出控制条件并解释负结果",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/COMPARISONS.json",
+        "refine-logs/contracts/ABLATION_COVERAGE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ABLATION_INTERPRETATION.md"
+      ],
+      "activities": [
+        "区分移除效应、顺序增益和交互",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--interpretation--ablation.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/interpretation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/interpretation/failures",
       "parent_id": "analysis/interpretation",
       "level": 3,
       "title": "failures",
-      "objective": "论证: failures",
+      "objective": "区分工程失败、方法失效和抽样波动",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "案例选取规则、失效边界和后续行动明确",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/RUN_RECORDS.json",
+        "refine-logs/contracts/COMPARISONS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/FAILURE_ANALYSIS.md"
+      ],
+      "activities": [
+        "区分工程失败、方法失效和抽样波动",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--interpretation--failures.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/interpretation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/interpretation/claims",
+          "writing/draft/discussion"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/interpretation/claims",
       "parent_id": "analysis/interpretation",
       "level": 3,
       "title": "claims",
-      "objective": "论证: claims",
+      "objective": "逐项判定支持、部分支持或不支持",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个结论引用run与证据且保留反证",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CLAIMS.json",
+        "refine-logs/contracts/COMPARISONS.json",
+        "refine-logs/contracts/FAILURE_ANALYSIS.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "activities": [
+        "逐项判定支持、部分支持或不支持",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--interpretation--claims.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/interpretation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "analysis/interpretation/audit",
+          "writing/plan/story",
+          "writing/plan/writing-plan",
+          "writing/draft/results",
+          "writing/draft/discussion",
+          "internal-review/review/scientific",
+          "revision/revise/manuscript"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "analysis/interpretation/audit",
       "parent_id": "analysis/interpretation",
       "level": 3,
       "title": "audit",
-      "objective": "论证: audit",
+      "objective": "独立核验统计、归因和选择性报告",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "审查身份和阻断项明确且不将缺席视为通过",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/RESULT_INTEGRITY.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json"
+      ],
+      "activities": [
+        "独立核验统计、归因和选择性报告",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/analysis--interpretation--audit.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "execution/runs",
+        "failed_check": "analysis/interpretation"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "writing/plan/story",
+          "internal-review/review/scientific"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing",
@@ -1005,50 +3735,248 @@
       "title": "写作规划",
       "objective": "写作规划",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "writing/plan/story: 贡献不超过证据支持度并保留局限",
+        "writing/plan/outline: 每节有问题、核心信息和证据来源",
+        "writing/plan/writing-plan: resolved节点无继承标记且审批与当前要求匹配"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/METHOD_SPEC.md",
+        "refine-logs/contracts/OUTLINE.md",
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json",
+        "refine-logs/contracts/STORY.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/OUTLINE.md",
+        "refine-logs/contracts/STORY.md",
+        "refine-logs/contracts/WRITING_PLAN.md"
+      ],
+      "activities": [
+        "writing/plan/story: 围绕合格证据安排贡献与论证顺序",
+        "writing/plan/outline: 定义章节、标题与图表承载的论点",
+        "writing/plan/writing-plan: 创建校验解析writing plan并生成审批视图"
+      ],
+      "roles": [
+        "planner",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "writing/plan"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "writing/plan/story",
       "parent_id": "writing/plan",
       "level": 3,
       "title": "story",
-      "objective": "写作规划: story",
+      "objective": "围绕合格证据安排贡献与论证顺序",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "贡献不超过证据支持度并保留局限",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/STORY.md"
+      ],
+      "activities": [
+        "围绕合格证据安排贡献与论证顺序",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--plan--story.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/plan"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "writing/plan/outline"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/plan/outline",
       "parent_id": "writing/plan",
       "level": 3,
       "title": "outline",
-      "objective": "写作规划: outline",
+      "objective": "定义章节、标题与图表承载的论点",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每节有问题、核心信息和证据来源",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/STORY.md",
+        "refine-logs/contracts/METHOD_SPEC.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/OUTLINE.md"
+      ],
+      "activities": [
+        "定义章节、标题与图表承载的论点",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--plan--outline.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/plan"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "writing/plan/writing-plan"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/plan/writing-plan",
       "parent_id": "writing/plan",
       "level": 3,
       "title": "writing-plan",
-      "objective": "写作规划: writing-plan",
+      "objective": "创建校验解析writing plan并生成审批视图",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "resolved节点无继承标记且审批与当前要求匹配",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/OUTLINE.md",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/WRITING_PLAN.md"
+      ],
+      "activities": [
+        "创建校验解析writing plan并生成审批视图",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--plan--writing-plan.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/plan"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "writing/draft/methods",
+          "writing/draft/results",
+          "writing/draft/discussion",
+          "writing/draft/figures",
+          "writing/draft/citations",
+          "internal-review/review/presentation"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/draft",
@@ -1057,76 +3985,381 @@
       "title": "正文与图表",
       "objective": "正文与图表",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "writing/draft/methods: 数学、伪代码、实现版本与复现实验条件一致",
+        "writing/draft/results: 正文数字、单位、样本量与来源完全对应",
+        "writing/draft/discussion: 区分观察与推断且不补写无证据结论",
+        "writing/draft/figures: 数据到单元格/面板可追踪且编译尺寸和标记正确",
+        "writing/draft/citations: 无虚构引用、缺失键或张冠李戴的结论"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/ENVIRONMENT.json",
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json",
+        "refine-logs/contracts/FAILURE_ANALYSIS.md",
+        "refine-logs/contracts/METHOD_SPEC.md",
+        "refine-logs/contracts/SCREENING.json",
+        "refine-logs/contracts/WRITING_PLAN.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CITATION_AUDIT.json",
+        "refine-logs/contracts/DISCUSSION_REVIEW.md",
+        "refine-logs/contracts/METHODS_REVIEW.md",
+        "refine-logs/contracts/RESULTS_REVIEW.md",
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json"
+      ],
+      "activities": [
+        "writing/draft/methods: 按resolved节点写方法并核对实现",
+        "writing/draft/results: 从冻结统计写结果并引用真实图表",
+        "writing/draft/discussion: 解释机制、替代解释、局限和适用边界",
+        "writing/draft/figures: 生成逐图逐表规格、原生LaTeX与可编辑图源",
+        "writing/draft/citations: 核对bib身份、原始来源与引用支撑关系"
+      ],
+      "roles": [
+        "executor",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "writing/draft"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "writing/draft/methods",
       "parent_id": "writing/draft",
       "level": 3,
       "title": "methods",
-      "objective": "正文与图表: methods",
+      "objective": "按resolved节点写方法并核对实现",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "数学、伪代码、实现版本与复现实验条件一致",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/WRITING_PLAN.md",
+        "refine-logs/contracts/METHOD_SPEC.md",
+        "refine-logs/contracts/ENVIRONMENT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/METHODS_REVIEW.md"
+      ],
+      "activities": [
+        "按resolved节点写方法并核对实现",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--draft--methods.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/draft"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/draft/results",
       "parent_id": "writing/draft",
       "level": 3,
       "title": "results",
-      "objective": "正文与图表: results",
+      "objective": "从冻结统计写结果并引用真实图表",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "正文数字、单位、样本量与来源完全对应",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/WRITING_PLAN.md",
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/RESULTS_REVIEW.md"
+      ],
+      "activities": [
+        "从冻结统计写结果并引用真实图表",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--draft--results.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/draft"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/draft/discussion",
       "parent_id": "writing/draft",
       "level": 3,
       "title": "discussion",
-      "objective": "正文与图表: discussion",
+      "objective": "解释机制、替代解释、局限和适用边界",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "区分观察与推断且不补写无证据结论",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/WRITING_PLAN.md",
+        "refine-logs/contracts/FAILURE_ANALYSIS.md",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/DISCUSSION_REVIEW.md"
+      ],
+      "activities": [
+        "解释机制、替代解释、局限和适用边界",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--draft--discussion.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/draft"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/draft/figures",
       "parent_id": "writing/draft",
       "level": 3,
       "title": "figures",
-      "objective": "正文与图表: figures",
+      "objective": "生成逐图逐表规格、原生LaTeX与可编辑图源",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "数据到单元格/面板可追踪且编译尺寸和标记正确",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/WRITING_PLAN.md",
+        "refine-logs/contracts/EXPERIMENT_STATISTICS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json"
+      ],
+      "activities": [
+        "生成逐图逐表规格、原生LaTeX与可编辑图源",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--draft--figures.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/draft"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/review/evidence",
+          "submission/prepare/materials"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "writing/draft/citations",
       "parent_id": "writing/draft",
       "level": 3,
       "title": "citations",
-      "objective": "正文与图表: citations",
+      "objective": "核对bib身份、原始来源与引用支撑关系",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "无虚构引用、缺失键或张冠李戴的结论",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SCREENING.json",
+        "refine-logs/contracts/WRITING_PLAN.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CITATION_AUDIT.json"
+      ],
+      "activities": [
+        "核对bib身份、原始来源与引用支撑关系",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/writing--draft--citations.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "analysis/interpretation",
+        "failed_check": "writing/draft"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/review/presentation"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review",
@@ -1171,50 +4404,246 @@
       "title": "独立评审",
       "objective": "独立评审",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "internal-review/review/scientific: 每个问题含严重度、定位、证据和关闭条件",
+        "internal-review/review/evidence: 关键数字可回溯且不把格式通过当科学通过",
+        "internal-review/review/presentation: 编译日志、断链、溢出和匿名泄漏均有处置"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CITATION_AUDIT.json",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/RUN_RECORDS.json",
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json",
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json",
+        "refine-logs/contracts/WRITING_PLAN.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EVIDENCE_REVIEW.json",
+        "refine-logs/contracts/PRESENTATION_REVIEW.json",
+        "refine-logs/contracts/SCIENTIFIC_REVIEW.json"
+      ],
+      "activities": [
+        "internal-review/review/scientific: 独立评审问题价值、创新性和因果归因",
+        "internal-review/review/evidence: 核验正文、图表与原始证据一致性",
+        "internal-review/review/presentation: 检查结构、可读性、图表、匿名性与交叉引用"
+      ],
+      "roles": [
+        "research",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "internal-review/review"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "internal-review/review/scientific",
       "parent_id": "internal-review/review",
       "level": 3,
       "title": "scientific",
-      "objective": "独立评审: scientific",
+      "objective": "独立评审问题价值、创新性和因果归因",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每个问题含严重度、定位、证据和关闭条件",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SCIENTIFIC_AUDIT.json",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SCIENTIFIC_REVIEW.json"
+      ],
+      "activities": [
+        "独立评审问题价值、创新性和因果归因",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--review--scientific.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/review"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/revision/experiments",
+          "internal-review/revision/rewrite"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review/review/evidence",
       "parent_id": "internal-review/review",
       "level": 3,
       "title": "evidence",
-      "objective": "独立评审: evidence",
+      "objective": "核验正文、图表与原始证据一致性",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "关键数字可回溯且不把格式通过当科学通过",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/RUN_RECORDS.json",
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EVIDENCE_REVIEW.json"
+      ],
+      "activities": [
+        "核验正文、图表与原始证据一致性",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--review--evidence.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/review"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/revision/experiments",
+          "internal-review/revision/submission-check"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review/review/presentation",
       "parent_id": "internal-review/review",
       "level": 3,
       "title": "presentation",
-      "objective": "独立评审: presentation",
+      "objective": "检查结构、可读性、图表、匿名性与交叉引用",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "编译日志、断链、溢出和匿名泄漏均有处置",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/WRITING_PLAN.md",
+        "refine-logs/contracts/CITATION_AUDIT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/PRESENTATION_REVIEW.json"
+      ],
+      "activities": [
+        "检查结构、可读性、图表、匿名性与交叉引用",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--review--presentation.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/review"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/revision/rewrite"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review/revision",
@@ -1223,50 +4652,240 @@
       "title": "内部修订",
       "objective": "内部修订",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "internal-review/revision/experiments: 新增实验关联意见ID并重新进入design而非直接执行",
+        "internal-review/revision/rewrite: 变更定位、要求失效审批和复审结果可追踪",
+        "internal-review/revision/submission-check: blocking项已关闭或有明确批准的处置"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/EVIDENCE_REVIEW.json",
+        "refine-logs/contracts/PRESENTATION_REVIEW.json",
+        "refine-logs/contracts/REVISION_LOG.md",
+        "refine-logs/contracts/SCIENTIFIC_REVIEW.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/REVISION_LOG.md",
+        "refine-logs/contracts/SUBMISSION_CHECK.json",
+        "refine-logs/contracts/SUPPLEMENT_EXPERIMENT_PLAN.json"
+      ],
+      "activities": [
+        "internal-review/revision/experiments: 将补实验要求转为新设计与预算请求",
+        "internal-review/revision/rewrite: 只修订不合格节点并复审",
+        "internal-review/revision/submission-check: 检查阻断问题、格式和附件闭环"
+      ],
+      "roles": [
+        "planner",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "internal-review/revision"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "internal-review/revision/experiments",
       "parent_id": "internal-review/revision",
       "level": 3,
       "title": "experiments",
-      "objective": "内部修订: experiments",
+      "objective": "将补实验要求转为新设计与预算请求",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "新增实验关联意见ID并重新进入design而非直接执行",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SCIENTIFIC_REVIEW.json",
+        "refine-logs/contracts/EVIDENCE_REVIEW.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUPPLEMENT_EXPERIMENT_PLAN.json"
+      ],
+      "activities": [
+        "将补实验要求转为新设计与预算请求",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--revision--experiments.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/revision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review/revision/rewrite",
       "parent_id": "internal-review/revision",
       "level": 3,
       "title": "rewrite",
-      "objective": "内部修订: rewrite",
+      "objective": "只修订不合格节点并复审",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "变更定位、要求失效审批和复审结果可追踪",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/PRESENTATION_REVIEW.json",
+        "refine-logs/contracts/SCIENTIFIC_REVIEW.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/REVISION_LOG.md"
+      ],
+      "activities": [
+        "只修订不合格节点并复审",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--revision--rewrite.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/revision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "internal-review/revision/submission-check"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "internal-review/revision/submission-check",
       "parent_id": "internal-review/revision",
       "level": 3,
       "title": "submission-check",
-      "objective": "内部修订: submission-check",
+      "objective": "检查阻断问题、格式和附件闭环",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "blocking项已关闭或有明确批准的处置",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/REVISION_LOG.md",
+        "refine-logs/contracts/EVIDENCE_REVIEW.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUBMISSION_CHECK.json"
+      ],
+      "activities": [
+        "检查阻断问题、格式和附件闭环",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/internal-review--revision--submission-check.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "writing/draft",
+        "failed_check": "internal-review/revision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "submission/prepare/venue"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "submission",
@@ -1307,50 +4926,243 @@
       "title": "投稿准备",
       "objective": "投稿准备",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "submission/prepare/venue: 来源、访问时间、track、截止日期与时区明确",
+        "submission/prepare/materials: 文件哈希、页数、字体嵌入和匿名性检查齐全",
+        "submission/prepare/authors: 全部必要作者确认绑定到当前稿件版本"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/SUBMISSION_CHECK.json",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json",
+        "refine-logs/contracts/VENUE_SNAPSHOT.json",
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/AUTHOR_CONFIRMATION.json",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json",
+        "refine-logs/contracts/VENUE_SNAPSHOT.json"
+      ],
+      "activities": [
+        "submission/prepare/venue: 读取目标venue当年官方要求并冻结模板",
+        "submission/prepare/materials: 编译正文补充材料并检查匿名与文件清单",
+        "submission/prepare/authors: 确认作者顺序、贡献、声明与提交权限"
+      ],
+      "roles": [
+        "executor",
+        "planner"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "submission/prepare"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "submission/prepare/venue",
       "parent_id": "submission/prepare",
       "level": 3,
       "title": "venue",
-      "objective": "投稿准备: venue",
+      "objective": "读取目标venue当年官方要求并冻结模板",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "来源、访问时间、track、截止日期与时区明确",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SUBMISSION_CHECK.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/VENUE_SNAPSHOT.json"
+      ],
+      "activities": [
+        "读取目标venue当年官方要求并冻结模板",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/submission--prepare--venue.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "internal-review/revision",
+        "failed_check": "submission/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "submission/prepare/materials",
+          "acceptance/final/camera-ready"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "submission/prepare/materials",
       "parent_id": "submission/prepare",
       "level": 3,
       "title": "materials",
-      "objective": "投稿准备: materials",
+      "objective": "编译正文补充材料并检查匿名与文件清单",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "文件哈希、页数、字体嵌入和匿名性检查齐全",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/VENUE_SNAPSHOT.json",
+        "refine-logs/contracts/VISUAL_ASSET_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "activities": [
+        "编译正文补充材料并检查匿名与文件清单",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/submission--prepare--materials.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "internal-review/revision",
+        "failed_check": "submission/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "submission/prepare/authors",
+          "submission/submit/approval",
+          "revision/revise/resubmit"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "submission/prepare/authors",
       "parent_id": "submission/prepare",
       "level": 3,
       "title": "authors",
-      "objective": "投稿准备: authors",
+      "objective": "确认作者顺序、贡献、声明与提交权限",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "全部必要作者确认绑定到当前稿件版本",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/AUTHOR_CONFIRMATION.json"
+      ],
+      "activities": [
+        "确认作者顺序、贡献、声明与提交权限",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/submission--prepare--authors.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "internal-review/revision",
+        "failed_check": "submission/prepare"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "submission/submit/approval"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "submission/submit",
@@ -1359,37 +5171,171 @@
       "title": "正式提交",
       "objective": "正式提交",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "submission/submit/approval: 批准对象、版本哈希和实际动作范围一致",
+        "submission/submit/receipt: 回执、submission ID与提交文件版本对应"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/AUTHOR_CONFIRMATION.json",
+        "refine-logs/contracts/SUBMISSION_APPROVAL.json",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUBMISSION_APPROVAL.json",
+        "refine-logs/contracts/SUBMISSION_RECEIPT.json"
+      ],
+      "activities": [
+        "submission/submit/approval: 请求正式提交的明确人工批准",
+        "submission/submit/receipt: 由获准操作者提交并保存真实回执"
+      ],
+      "roles": [
+        "executor",
+        "planner"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "submission/submit"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "submission/submit/approval",
       "parent_id": "submission/submit",
       "level": 3,
       "title": "approval",
-      "objective": "正式提交: approval",
+      "objective": "请求正式提交的明确人工批准",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "批准对象、版本哈希和实际动作范围一致",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/AUTHOR_CONFIRMATION.json",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUBMISSION_APPROVAL.json"
+      ],
+      "activities": [
+        "请求正式提交的明确人工批准",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/submission--submit--approval.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "internal-review/revision",
+        "failed_check": "submission/submit"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "submission/submit/receipt"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "submission/submit/receipt",
       "parent_id": "submission/submit",
       "level": 3,
       "title": "receipt",
-      "objective": "正式提交: receipt",
+      "objective": "由获准操作者提交并保存真实回执",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "回执、submission ID与提交文件版本对应",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
       "required_evidence": true,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/SUBMISSION_APPROVAL.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/SUBMISSION_RECEIPT.json"
+      ],
+      "activities": [
+        "由获准操作者提交并保存真实回执",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/submission--submit--receipt.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "internal-review/revision",
+        "failed_check": "submission/submit"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/decision/receipt"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision",
@@ -1436,50 +5382,244 @@
       "title": "外审决定",
       "objective": "外审决定",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "revision/decision/receipt: 原始意见、稿件ID、轮次和时区可核实",
+        "revision/decision/response-matrix: 每条意见有稳定ID且无遗漏合并",
+        "revision/decision/strategy: 每项策略有科学依据、成本、责任人与期限"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/BUDGET.md",
+        "refine-logs/contracts/EDITOR_DECISION.json",
+        "refine-logs/contracts/RESPONSE_MATRIX.json",
+        "refine-logs/contracts/SUBMISSION_RECEIPT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EDITOR_DECISION.json",
+        "refine-logs/contracts/RESPONSE_MATRIX.json",
+        "refine-logs/contracts/REVISION_STRATEGY.md"
+      ],
+      "activities": [
+        "revision/decision/receipt: 登记编辑决定、审稿意见和截止时间",
+        "revision/decision/response-matrix: 逐条拆解意见并关联证据与稿件位置",
+        "revision/decision/strategy: 决定接受、澄清、反驳或补实验的策略"
+      ],
+      "roles": [
+        "planner",
+        "research"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "revision/decision"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "revision/decision/receipt",
       "parent_id": "revision/decision",
       "level": 3,
       "title": "receipt",
-      "objective": "外审决定: receipt",
+      "objective": "登记编辑决定、审稿意见和截止时间",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "原始意见、稿件ID、轮次和时区可核实",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
       "required_evidence": true,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/SUBMISSION_RECEIPT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/EDITOR_DECISION.json"
+      ],
+      "activities": [
+        "登记编辑决定、审稿意见和截止时间",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--decision--receipt.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/decision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/decision/response-matrix",
+          "acceptance/decision/confirm"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/decision/response-matrix",
       "parent_id": "revision/decision",
       "level": 3,
       "title": "response-matrix",
-      "objective": "外审决定: response-matrix",
+      "objective": "逐条拆解意见并关联证据与稿件位置",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每条意见有稳定ID且无遗漏合并",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/EDITOR_DECISION.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/RESPONSE_MATRIX.json"
+      ],
+      "activities": [
+        "逐条拆解意见并关联证据与稿件位置",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--decision--response-matrix.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/decision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/decision/strategy",
+          "revision/revise/experiments",
+          "revision/revise/response"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/decision/strategy",
       "parent_id": "revision/decision",
       "level": 3,
       "title": "strategy",
-      "objective": "外审决定: strategy",
+      "objective": "决定接受、澄清、反驳或补实验的策略",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每项策略有科学依据、成本、责任人与期限",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/RESPONSE_MATRIX.json",
+        "refine-logs/contracts/BUDGET.md"
+      ],
+      "outputs": [
+        "refine-logs/contracts/REVISION_STRATEGY.md"
+      ],
+      "activities": [
+        "决定接受、澄清、反驳或补实验的策略",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "research"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--decision--strategy.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/decision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/revise/experiments",
+          "revision/revise/manuscript"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/revise",
@@ -1488,63 +5628,310 @@
       "title": "返修或转投",
       "objective": "返修或转投",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "revision/revise/experiments: 不绕过协议预算审批且每项对应意见ID",
+        "revision/revise/manuscript: 每处修改关联意见及证据，新增claim重新审计",
+        "revision/revise/response: 回复与最终修订稿一致且未完成事项不称完成",
+        "revision/revise/resubmit: 人工批准、真实回执、revision ID与新版本对应"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/CLAIM_EVIDENCE.json",
+        "refine-logs/contracts/MANUSCRIPT_CHANGES.json",
+        "refine-logs/contracts/RESPONSE_LETTER.md",
+        "refine-logs/contracts/RESPONSE_MATRIX.json",
+        "refine-logs/contracts/REVISION_STRATEGY.md",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/MANUSCRIPT_CHANGES.json",
+        "refine-logs/contracts/RESPONSE_LETTER.md",
+        "refine-logs/contracts/REVISION_EXPERIMENT_PLAN.json",
+        "refine-logs/contracts/REVISION_RECEIPT.json"
+      ],
+      "activities": [
+        "revision/revise/experiments: 为外审补实验建立新周期设计",
+        "revision/revise/manuscript: 逐节点修稿并生成版本差异",
+        "revision/revise/response: 写逐条回复并指向准确页行或节点",
+        "revision/revise/resubmit: 确认返修版本并经批准重投"
+      ],
+      "roles": [
+        "executor",
+        "planner",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "revision/revise"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "revision/revise/experiments",
       "parent_id": "revision/revise",
       "level": 3,
       "title": "experiments",
-      "objective": "返修或转投: experiments",
+      "objective": "为外审补实验建立新周期设计",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "不绕过协议预算审批且每项对应意见ID",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/REVISION_STRATEGY.md",
+        "refine-logs/contracts/RESPONSE_MATRIX.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/REVISION_EXPERIMENT_PLAN.json"
+      ],
+      "activities": [
+        "为外审补实验建立新周期设计",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--revise--experiments.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/revise"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/revise/manuscript",
       "parent_id": "revision/revise",
       "level": 3,
       "title": "manuscript",
-      "objective": "返修或转投: manuscript",
+      "objective": "逐节点修稿并生成版本差异",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "每处修改关联意见及证据，新增claim重新审计",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/REVISION_STRATEGY.md",
+        "refine-logs/contracts/CLAIM_EVIDENCE.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/MANUSCRIPT_CHANGES.json"
+      ],
+      "activities": [
+        "逐节点修稿并生成版本差异",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--revise--manuscript.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/revise"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/revise/response"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/revise/response",
       "parent_id": "revision/revise",
       "level": 3,
       "title": "response",
-      "objective": "返修或转投: response",
+      "objective": "写逐条回复并指向准确页行或节点",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "回复与最终修订稿一致且未完成事项不称完成",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/MANUSCRIPT_CHANGES.json",
+        "refine-logs/contracts/RESPONSE_MATRIX.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/RESPONSE_LETTER.md"
+      ],
+      "activities": [
+        "写逐条回复并指向准确页行或节点",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/revision--revise--response.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/revise"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "revision/revise/resubmit"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "revision/revise/resubmit",
       "parent_id": "revision/revise",
       "level": 3,
       "title": "resubmit",
-      "objective": "返修或转投: resubmit",
+      "objective": "确认返修版本并经批准重投",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "人工批准、真实回执、revision ID与新版本对应",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
       "required_evidence": true,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/RESPONSE_LETTER.md",
+        "refine-logs/contracts/SUBMISSION_MANIFEST.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/REVISION_RECEIPT.json"
+      ],
+      "activities": [
+        "确认返修版本并经批准重投",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/revision--revise--resubmit.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "revision/decision",
+        "failed_check": "revision/revise"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "acceptance",
@@ -1589,24 +5976,99 @@
       "title": "录用确认",
       "objective": "录用确认",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "acceptance/decision/confirm: 不将建议接收或条件接收误记为正式录用"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/EDITOR_DECISION.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ACCEPTANCE_RECORD.json"
+      ],
+      "activities": [
+        "acceptance/decision/confirm: 核验正式录用通知与稿件身份"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "acceptance/decision"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "acceptance/decision/confirm",
       "parent_id": "acceptance/decision",
       "level": 3,
       "title": "confirm",
-      "objective": "录用确认: confirm",
+      "objective": "核验正式录用通知与稿件身份",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "不将建议接收或条件接收误记为正式录用",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
       "required_evidence": true,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/EDITOR_DECISION.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/ACCEPTANCE_RECORD.json"
+      ],
+      "activities": [
+        "核验正式录用通知与稿件身份",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "planner"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/acceptance--decision--confirm.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "acceptance/decision",
+        "failed_check": "acceptance/decision"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "acceptance/final/camera-ready"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "acceptance/final",
@@ -1615,50 +6077,240 @@
       "title": "终稿归档",
       "objective": "终稿归档",
       "acceptance": [
-        "子阶段完成或有跳过理由；提供汇总与交接"
+        "acceptance/final/camera-ready: 终稿与获准版本差异明确且提交证据真实",
+        "acceptance/final/proofs: 修改有定位与确认，不静默新增科学结论",
+        "acceptance/final/archive: 实际文件可读取、哈希可核验且许可和敏感信息已检查"
       ],
       "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "inputs": [
+        "refine-logs/contracts/ACCEPTANCE_RECORD.json",
+        "refine-logs/contracts/CAMERA_READY_RECEIPT.json",
+        "refine-logs/contracts/PROOF_CORRECTIONS.json",
+        "refine-logs/contracts/RUN_RECORDS.json",
+        "refine-logs/contracts/VENUE_SNAPSHOT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CAMERA_READY_RECEIPT.json",
+        "refine-logs/contracts/FINAL_ARCHIVE_INDEX.json",
+        "refine-logs/contracts/PROOF_CORRECTIONS.json"
+      ],
+      "activities": [
+        "acceptance/final/camera-ready: 按出版要求完成终稿作者信息和附件",
+        "acceptance/final/proofs: 逐页核对校样公式、图表、引用和作者信息",
+        "acceptance/final/archive: 归档代码数据环境正文图表与重现命令"
+      ],
+      "roles": [
+        "executor",
+        "writer"
+      ],
+      "approval": "child_gates",
+      "return_to": {
+        "failed_child": "acceptance/final"
+      },
+      "contract_revision": 1,
+      "handoff": {
+        "include": [
+          "child_checkpoints",
+          "artifact_manifest",
+          "open_issues"
+        ],
+        "to": []
+      }
     },
     {
       "id": "acceptance/final/camera-ready",
       "parent_id": "acceptance/final",
       "level": 3,
       "title": "camera-ready",
-      "objective": "终稿归档: camera-ready",
+      "objective": "按出版要求完成终稿作者信息和附件",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "终稿与获准版本差异明确且提交证据真实",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/ACCEPTANCE_RECORD.json",
+        "refine-logs/contracts/VENUE_SNAPSHOT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/CAMERA_READY_RECEIPT.json"
+      ],
+      "activities": [
+        "按出版要求完成终稿作者信息和附件",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/acceptance--final--camera-ready.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "acceptance/decision",
+        "failed_check": "acceptance/final"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "acceptance/final/proofs"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "acceptance/final/proofs",
       "parent_id": "acceptance/final",
       "level": 3,
       "title": "proofs",
-      "objective": "终稿归档: proofs",
+      "objective": "逐页核对校样公式、图表、引用和作者信息",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "修改有定位与确认，不静默新增科学结论",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/CAMERA_READY_RECEIPT.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/PROOF_CORRECTIONS.json"
+      ],
+      "activities": [
+        "逐页核对校样公式、图表、引用和作者信息",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "writer"
+      ],
+      "approval": "human_confirmation",
+      "review_path": ".auto-research/lifecycle/reviews/acceptance--final--proofs.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "acceptance/decision",
+        "failed_check": "acceptance/final"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [
+          "acceptance/final/archive"
+        ],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     },
     {
       "id": "acceptance/final/archive",
       "parent_id": "acceptance/final",
       "level": 3,
       "title": "archive",
-      "objective": "终稿归档: archive",
+      "objective": "归档代码数据环境正文图表与重现命令",
       "acceptance": [
-        "登记输入、实际产物、完成依据与下一步"
+        "实际文件可读取、哈希可核验且许可和敏感信息已检查",
+        "产物包含来源/版本与实际执行记录；示例数据和未完成工作明确标注"
       ],
-      "required_evidence": false,
-      "inputs": [],
-      "outputs": []
+      "required_evidence": true,
+      "inputs": [
+        "refine-logs/contracts/PROOF_CORRECTIONS.json",
+        "refine-logs/contracts/RUN_RECORDS.json"
+      ],
+      "outputs": [
+        "refine-logs/contracts/FINAL_ARCHIVE_INDEX.json"
+      ],
+      "activities": [
+        "归档代码数据环境正文图表与重现命令",
+        "保存来源、版本、实际操作和失败记录；核对下列验收项后提交检查点"
+      ],
+      "roles": [
+        "executor"
+      ],
+      "approval": "auto",
+      "review_path": ".auto-research/lifecycle/reviews/acceptance--final--archive.json",
+      "contract_revision": 1,
+      "return_to": {
+        "invalid_input": "acceptance/decision",
+        "failed_check": "acceptance/final"
+      },
+      "failure_policy": {
+        "retry": "仅瞬时工具错误可在原配置下重试，保留attempt；科学或配置变化建立新cycle",
+        "skip": "仅不适用时记录理由与影响；不得把未执行或缺证据记为完成"
+      },
+      "handoff": {
+        "to": [],
+        "include": [
+          "artifact_paths",
+          "sha256",
+          "review_path",
+          "unresolved_issues",
+          "next_action"
+        ]
+      },
+      "checkpoint": {
+        "events": [
+          "started",
+          "completed",
+          "failed",
+          "blocked",
+          "revised"
+        ],
+        "retain": [
+          "inputs",
+          "outputs",
+          "review",
+          "commands",
+          "actual_model"
+        ],
+        "commit": "通过research_workflow checkpoint提交显式产物；不把命令配置当成已执行"
+      }
     }
   ],
   "phase_details": {
@@ -2175,5 +6827,7 @@
         "content_change": "revision/revise"
       }
     }
-  }
+  },
+  "stage_contract_revision": 1,
+  "enforce_stage_contracts": true
 }

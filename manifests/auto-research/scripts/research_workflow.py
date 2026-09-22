@@ -16,6 +16,8 @@ import tempfile
 import uuid
 
 RUNTIME = Path('.auto-research/lifecycle')
+BRANCH_LOG = RUNTIME / 'branches.jsonl'
+BRANCH_STATE = RUNTIME / 'local/branch-state.json'
 STATES = {'started', 'completed', 'failed', 'blocked', 'paused', 'resumed', 'skipped', 'revised'}
 TERMINAL = {'completed', 'skipped'}
 ACTIVE = {'started', 'resumed', 'revised'}
@@ -80,11 +82,41 @@ def config(root):
             parent = next(x for x in cfg['stages'] if x['id'] == s['parent_id'])
             if parent['level'] != s['level'] - 1: raise Invalid('Invalid stage hierarchy')
         elif s['level'] != 1: raise Invalid('Non-root stage requires parent')
+    b = cfg.get('branching')
+    if b is not None:
+        if not isinstance(b, dict): raise Invalid('branching must be an object')
+        if b.get('merge_strategy', 'no-ff') != 'no-ff': raise Invalid('Only no-ff branch merges are supported')
+        for key in ('integration_branch','branch_template','cycle_branch_template'):
+            if not b.get(key): raise Invalid('Missing branching.' + key)
+    policy = cfg.get('writing_policy')
+    if policy is not None:
+        if not isinstance(policy, dict) or policy.get('scene') != 'research':
+            raise Invalid('writing_policy.scene must be research')
+        if set(policy.get('languages', [])) != {'zh', 'en'}:
+            raise Invalid('writing_policy.languages must include zh and en')
+        if policy.get('engine') != 'latex': raise Invalid('research writing engine must be latex')
+        ci = policy.get('uncertainty_reporting', {})
+        if ci.get('default') != 'omit_95_ci': raise Invalid('research default must omit 95 CI')
+        if policy.get('defensive_writing', {}).get('default') != 'disabled':
+            raise Invalid('research defensive writing must be disabled by default')
+        template = policy.get('latex_template', {})
+        if template.get('style_files') != 'immutable' or not template.get('template_manifest'):
+            raise Invalid('LaTeX template styles must be immutable and manifested')
     return cfg
 
 def events(root):
     p = root / RUNTIME / 'events.jsonl'
     return [json.loads(line) for line in p.read_text().splitlines() if line.strip()] if p.exists() else []
+
+def replace_event(root, replacement):
+    path = root / RUNTIME / 'events.jsonl'
+    rows = events(root)
+    for index, event in enumerate(rows):
+        if event.get('checkpoint_id') == replacement.get('checkpoint_id'):
+            rows[index] = replacement
+            atomic(path, ''.join(json.dumps(row, ensure_ascii=False, sort_keys=True) + '\n' for row in rows))
+            return
+    raise Invalid('Pending checkpoint event not found: ' + str(replacement.get('checkpoint_id')))
 
 def committed(root, checkpoint_id):
     return git(root, 'log', '--all', '--format=%H', '--fixed-strings', '--grep=Checkpoint-ID: ' + checkpoint_id, check=False).splitlines()
@@ -107,6 +139,216 @@ def route(cfg, role, actual=None):
     if actual is not None and actual != binding['model_id']:
         raise Invalid('Actual model differs from verified role binding')
     return {'requested': requested, 'binding': binding}
+
+def branching_cfg(cfg):
+    b = cfg.get('branching') or {}
+    return b if b.get('enabled', False) else None
+
+def branch_slug(value, label='branch value'):
+    value = re.sub(r'[^a-zA-Z0-9]+', '-', str(value).strip()).strip('-').lower()
+    if not value: raise Invalid('Empty ' + label)
+    if len(value) > 63: raise Invalid(label + ' exceeds 63 characters')
+    return value
+
+def branch_ref_ok(name):
+    if not name or name.startswith('-') or name.endswith('/') or name.endswith('.'):
+        raise Invalid('Invalid branch name: ' + name)
+    if any(token in name for token in ('..', '@{', '\\', ' ', '~', '^', ':', '?', '*', '[')):
+        raise Invalid('Invalid branch name: ' + name)
+    if not re.fullmatch(r'[a-zA-Z0-9._/-]+', name): raise Invalid('Invalid branch name: ' + name)
+    return name
+
+def current_branch(root):
+    return git(root, 'branch', '--show-current', check=False) or 'HEAD'
+
+def branch_exists(root, name):
+    return subprocess.run(
+        ['git', '--literal-pathspecs', '-C', str(root), 'show-ref', '--verify', '--quiet', 'refs/heads/' + name],
+        capture_output=True, text=True,
+    ).returncode == 0
+
+def branch_state(root):
+    path = root / BRANCH_STATE
+    if path.exists(): return read(path)
+    return {'version': 1, 'idea_slug': None, 'cycle': None, 'base_branch': None,
+            'integration_branch': None, 'current_branch': current_branch(root), 'stages': {}}
+
+def save_branch_state(root, state):
+    save(root / BRANCH_STATE, state)
+
+def branch_events(root):
+    path = root / BRANCH_LOG
+    return [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line.strip()] if path.exists() else []
+
+def append_branch_event(root, event):
+    path = root / BRANCH_LOG
+    old = path.read_text(encoding='utf-8') if path.exists() else ''
+    atomic(path, old + json.dumps(event, ensure_ascii=False, sort_keys=True) + '\n')
+
+def commit_branch_log(root, message):
+    git(root, 'add', '--', str(BRANCH_LOG))
+    git(root, 'commit', '--only', '-m', message, '--', str(BRANCH_LOG))
+
+def branch_names(cfg, idea, stage_id):
+    b = branching_cfg(cfg)
+    if not b: raise Invalid('Branching is disabled in lifecycle settings')
+    idea = branch_slug(idea, 'idea slug')
+    parts = stage_id.split('/')
+    stage = branch_slug(parts[0], 'stage')
+    substage = branch_slug('-'.join(parts[1:]) if len(parts) > 1 else 'root', 'substage')
+    work = b.get('branch_template', '{idea}/{stage}/{substage}').format(idea=idea, stage=stage, substage=substage)
+    integration = b.get('cycle_branch_template', '{idea}/cycle/integration').format(idea=idea)
+    return branch_ref_ok(work), branch_ref_ok(integration)
+
+def branch_target(cfg, idea, stage_id):
+    st = next(s for s in cfg['stages'] if s['id'] == stage_id)
+    if st['parent_id']:
+        parent, _ = branch_names(cfg, idea, st['parent_id'])
+        return parent
+    return branch_names(cfg, idea, stage_id)[1]
+
+def require_clean(root, action):
+    dirty = '\n'.join(line for line in git(root, 'status', '--porcelain', '--untracked-files=all', check=False).splitlines()
+                        if not line.startswith('?? '))
+    if dirty: raise Invalid('Cannot ' + action + ' with uncommitted changes; reconcile the working tree first')
+
+def _branch_init_unlocked(root, cfg, cycle, idea=None):
+    b = branching_cfg(cfg)
+    if not b: return None
+    state = branch_state(root)
+    idea = branch_slug(idea or state.get('idea_slug') or b.get('idea_slug') or 'research', 'idea slug')
+    base = branch_ref_ok(b.get('integration_branch', 'main'))
+    _, integration = branch_names(cfg, idea, cfg['stages'][0]['id'])
+    if state.get('cycle') == cycle and state.get('integration_branch') == integration and branch_exists(root, integration):
+        state.update({'idea_slug': idea, 'base_branch': base, 'current_branch': current_branch(root)})
+        save_branch_state(root, state)
+        return state
+    if not git(root, 'rev-parse', '--verify', 'HEAD', check=False):
+        for key in ('user.name','user.email'):
+            if not git(root, 'config', '--get', key, check=False):
+                raise Invalid('Configure project Git ' + key + ' before initializing branches')
+        git(root, 'commit', '--allow-empty', '--only', '-m', f'research[{cycle}]: initialize branch baseline')
+    if not branch_exists(root, base):
+        if current_branch(root) != base: git(root, 'branch', base, current_branch(root))
+    if not branch_exists(root, integration): git(root, 'branch', integration, base)
+    git(root, 'switch', integration)
+    state.update({'idea_slug': idea, 'cycle': cycle, 'base_branch': base,
+                  'integration_branch': integration, 'current_branch': integration})
+    save_branch_state(root, state)
+    return state
+
+def branch_init(root, cycle='cycle-001', idea=None):
+    with lock(root):
+        cfg = config(root)
+        state = _branch_init_unlocked(root, cfg, cycle, idea)
+        if state is None: return {'status': 'disabled'}
+        append_branch_event(root, {'event':'cycle_initialized','time':now(),'cycle':cycle,
+                                   'idea_slug':state['idea_slug'],'base_branch':state['base_branch'],
+                                   'integration_branch':state['integration_branch']})
+        commit_branch_log(root, f'research[{cycle}]: initialize branches')
+        return {'status':'initialized','cycle':cycle,'idea_slug':state['idea_slug'],
+                'base_branch':state['base_branch'],'integration_branch':state['integration_branch'],
+                'current_branch':current_branch(root)}
+
+def _branch_start_unlocked(root, cfg, cycle, stage_id, idea=None):
+    if stage_id not in {s['id'] for s in cfg['stages']}: raise Invalid('Unknown stage: ' + stage_id)
+    state = _branch_init_unlocked(root, cfg, cycle, idea)
+    if state is None: return {'status':'disabled'}
+    idea = state['idea_slug']; work, _ = branch_names(cfg, idea, stage_id)
+    target = branch_target(cfg, idea, stage_id)
+    if not branch_exists(root, target): raise Invalid('Parent branch does not exist: ' + target)
+    if not branch_exists(root, work):
+        if current_branch(root) != target: git(root, 'switch', target)
+        git(root, 'switch', '-c', work)
+    else: git(root, 'switch', work)
+    state['current_branch'] = work
+    state['stages'].setdefault(stage_id, {}).update({'branch':work,'target_branch':target,'cycle':cycle})
+    save_branch_state(root, state)
+    append_branch_event(root, {'event':'stage_started','time':now(),'cycle':cycle,'stage_id':stage_id,
+                               'branch':work,'parent_branch':target})
+    return {'status':'started','stage_id':stage_id,'branch':work,'parent_branch':target}
+
+def branch_start(root, cycle, stage_id, idea=None):
+    with lock(root):
+        result = _branch_start_unlocked(root, config(root), cycle, stage_id, idea)
+        if result.get('status') != 'disabled': commit_branch_log(root, f'research[{stage_id}]: start branch')
+        return result
+
+def _merge_stage_unlocked(root, cfg, cycle, stage_id, checkpoint_id=None):
+    b = branching_cfg(cfg)
+    if not b: return {'status':'disabled'}
+    state = branch_state(root); idea = state.get('idea_slug') or b.get('idea_slug') or 'research'
+    work, _ = branch_names(cfg, idea, stage_id); target = branch_target(cfg, idea, stage_id)
+    record = state['stages'].setdefault(stage_id, {})
+    if record.get('merged_commit'): return {'status':'already-merged','merge_commit':record['merged_commit']}
+    if not branch_exists(root, work): raise Invalid('Stage branch does not exist: ' + work)
+    if not branch_exists(root, target): raise Invalid('Merge target branch does not exist: ' + target)
+    require_clean(root, 'merge stage branch')
+    if current_branch(root) != target: git(root, 'switch', target)
+    git(root, 'merge', '--no-ff', '--no-edit', work, check=True)
+    merge_commit = git(root, 'rev-parse', 'HEAD')
+    append_branch_event(root, {'event':'stage_merged','time':now(),'cycle':cycle,'stage_id':stage_id,
+                               'branch':work,'target_branch':target,'merge_commit':merge_commit,
+                               'checkpoint_id':checkpoint_id})
+    commit_branch_log(root, f'research[{stage_id}]: merge branch')
+    state['current_branch'] = target
+    record.update({'branch':work,'target_branch':target,'merged_commit':merge_commit,'merge_commit':merge_commit})
+    save_branch_state(root, state)
+    return {'status':'merged','branch':work,'target_branch':target,'merge_commit':merge_commit}
+
+def branch_merge(root, cycle, stage_id):
+    with lock(root):
+        cfg = config(root); state = latest(root, cycle); event = state.get(stage_id)
+        if not event or event.get('state') not in TERMINAL: raise Invalid('Stage must be completed or skipped before merge')
+        return _merge_stage_unlocked(root, cfg, cycle, stage_id, event.get('checkpoint_id'))
+
+def branch_close(root, cycle):
+    with lock(root):
+        cfg = config(root); b = branching_cfg(cfg)
+        if not b: return {'status':'disabled'}
+        state = branch_state(root); integration = state.get('integration_branch')
+        base = state.get('base_branch') or b.get('integration_branch','main')
+        if not integration or not branch_exists(root, integration): raise Invalid('Cycle integration branch is not initialized')
+        require_clean(root, 'close research cycle')
+        if not branch_exists(root, base): git(root, 'branch', base, integration)
+        if current_branch(root) != base: git(root, 'switch', base)
+        if current_branch(root) != integration: git(root, 'merge', '--no-ff', '--no-edit', integration)
+        merge_commit = git(root, 'rev-parse', 'HEAD')
+        append_branch_event(root, {'event':'cycle_closed','time':now(),'cycle':cycle,
+                                   'integration_branch':integration,'base_branch':base,
+                                   'merge_commit':merge_commit})
+        commit_branch_log(root, f'research[{cycle}]: close cycle')
+        state['current_branch'] = base; state['closed_commit'] = merge_commit; save_branch_state(root, state)
+        return {'status':'closed','cycle':cycle,'integration_branch':integration,'base_branch':base,'merge_commit':merge_commit}
+
+def branch_revision(root, cycle, kind, identifier):
+    with lock(root):
+        cfg = config(root); b = branching_cfg(cfg)
+        if not b: return {'status':'disabled'}
+        state = branch_state(root); idea = state.get('idea_slug') or b.get('idea_slug') or 'research'
+        identifier = branch_slug(identifier, kind + ' id')
+        template = b.get(kind + '_branch_template', '{idea}/' + kind + '/{' + kind + '_id}')
+        name = template.format(idea=idea, submission_id=identifier, revision_id=identifier)
+        name = branch_ref_ok(name)
+        source = current_branch(root)
+        require_clean(root, 'create ' + kind + ' branch')
+        if not branch_exists(root, name): git(root, 'switch', '-c', name)
+        else: git(root, 'switch', name)
+        append_branch_event(root, {'event':kind + '_branch_started','time':now(),'cycle':cycle,
+                                   'branch':name,'source_branch':source,'identifier':identifier})
+        commit_branch_log(root, f'research[{kind}]: start {identifier}')
+        state['current_branch'] = name; save_branch_state(root, state)
+        return {'status':'started','kind':kind,'branch':name,'source_branch':source,'identifier':identifier}
+
+def branch_status(root, cycle):
+    cfg = config(root); b = branching_cfg(cfg)
+    if not b: return {'status':'disabled'}
+    state = branch_state(root)
+    return {'status':'ok','cycle':cycle,'current_branch':current_branch(root),
+            'base_branch':state.get('base_branch') or b.get('integration_branch','main'),
+            'integration_branch':state.get('integration_branch'),
+            'idea_slug':state.get('idea_slug') or b.get('idea_slug'),
+            'stages':state.get('stages',{}),'events':len(branch_events(root))}
 
 def init(root):
     root.mkdir(parents=True, exist_ok=True)
@@ -172,6 +414,11 @@ def checkpoint(root, a):
             if any(state.get(s['id'],{}).get('state') not in TERMINAL for s in children):
                 raise Invalid('Complete or explicitly skip all child stages first')
             if st.get('required_evidence') and not a.artifact: raise Invalid('Receipt/decision evidence required')
+            if cfg.get('enforce_stage_contracts') and st['level'] == 3:
+                from stage_contract import check_stage
+                checked=check_stage(root,st,set(a.artifact))
+                if checked['status'] != 'pass': raise Invalid('; '.join(checked['errors']))
+
         if not a.summary or not a.next: raise Invalid('Summary/reason and next action are required')
         # A missing model is itself recordable; all other events need verified execution identity.
         model = {'requested': cfg['roles'].get(a.role), 'actual_model': a.actual_model}
@@ -183,6 +430,12 @@ def checkpoint(root, a):
         if git(root, 'diff', '--name-only', '--diff-filter=U'): raise Invalid('Resolve Git conflicts before checkpointing')
         for key in ('user.name','user.email'):
             if not git(root,'config','--get',key,check=False): raise Invalid('Configure project Git ' + key)
+        branch_meta = None
+        if branching_cfg(cfg):
+            if git(root, 'rev-parse', '--verify', 'HEAD', check=False):
+                branch_meta = _branch_start_unlocked(root, cfg, a.cycle, a.stage)
+            else:
+                branch_meta = {'status':'pending-bootstrap','branch':None}
         registered = sorted(set(relative(root,n) for n in a.artifact))
         records=[]; cp='cp-' + uuid.uuid4().hex
         snapshot=[]
@@ -205,9 +458,12 @@ def checkpoint(root, a):
                'execution_id':prior['execution_id'] if prior else 'exec-'+uuid.uuid4().hex,
                'cycle':a.cycle,'state':a.state,'time':now(),'role':a.role,'model':model,
                'summary':a.summary,'next':a.next,'inputs':a.input,'artifacts':records,
-               'command':a.command,'run_ids':a.run_id,'submission_id':a.submission_id,'revision_id':a.revision_id}
+               'command':a.command,'run_ids':a.run_id,'submission_id':a.submission_id,'revision_id':a.revision_id,
+               'branch':branch_meta.get('branch') if branch_meta else None,
+               'integration_branch':(branch_state(root).get('integration_branch') if branch_meta else None)}
         check_text(json.dumps(event))
         paths=registered+[str(RUNTIME/'events.jsonl'),str(RUNTIME/'settings.json'),str(RUNTIME/'.gitignore')]+[p for p,_ in snapshot]
+        if branch_meta: paths.append(str(BRANCH_LOG))
         # Existing unrelated index entries remain untouched: commit --only uses an explicit pathspec.
         msg=f'research[{a.stage}]: {a.state}\n\nCheckpoint-ID: {cp}\nCycle: {a.cycle}\n{a.summary}'
         journal={'checkpoint_id':cp,'paths':paths,'message':msg,'event':event,'snapshots':snapshot}
@@ -218,10 +474,22 @@ def finish_pending(root,journal):
     cp=journal['checkpoint_id']; p=root/RUNTIME/'events.jsonl'
     commits=committed(root,cp)
     if not commits:
-        for name,content in journal['snapshots']: atomic(root/name,content)
+        cfg = config(root)
         old=p.read_text(encoding='utf-8') if p.exists() else ''
         if not any(e['checkpoint_id']==cp for e in events(root)):
             atomic(p,old+json.dumps(journal['event'],ensure_ascii=False,sort_keys=True)+'\n')
+        if branching_cfg(cfg) and not git(root, 'rev-parse', '--verify', 'HEAD', check=False):
+            for key in ('user.name','user.email'):
+                if not git(root, 'config', '--get', key, check=False):
+                    raise Invalid('Configure project Git ' + key + ' before initializing branches')
+            git(root, 'commit', '--allow-empty', '--only', '-m', f"research[{journal['event']['cycle']}]: initialize branch baseline")
+            branch_meta = _branch_start_unlocked(root, cfg, journal['event']['cycle'], journal['event']['stage_id'])
+            journal['event']['branch'] = branch_meta.get('branch')
+            journal['event']['integration_branch'] = branch_state(root).get('integration_branch')
+            if str(BRANCH_LOG) not in journal['paths']: journal['paths'].append(str(BRANCH_LOG))
+            replace_event(root, journal['event'])
+            save(root / RUNTIME / 'local/pending.json', journal)
+        for name,content in journal['snapshots']: atomic(root/name,content)
         paths=journal['paths']
         for record in journal['event']['artifacts']:
             artifact=root/record['path']
@@ -231,8 +499,15 @@ def finish_pending(root,journal):
         git(root,'commit','--only','-m',journal['message'],'--',*paths)
         commits=committed(root,cp)
     if not commits: raise Invalid('Checkpoint commit not found')
+    branch_merge_result = None
+    if journal['event'].get('state') in TERMINAL and branching_cfg(config(root)):
+        branch_merge_result = _merge_stage_unlocked(
+            root, config(root), journal['event']['cycle'], journal['event']['stage_id'], cp
+        )
     (root/RUNTIME/'local/pending.json').unlink(missing_ok=True)
-    return {'checkpoint_id':cp,'commit':commits[0],'status':'committed'}
+    result = {'checkpoint_id':cp,'commit':commits[0],'status':'committed'}
+    if branch_merge_result is not None: result['branch_merge'] = branch_merge_result
+    return result
 
 def status(root,cycle):
     cfg=config(root); state=latest(root,cycle)
@@ -249,6 +524,13 @@ def main(argv=None):
     for name in ['status','resume']:
         sp=sub.add_parser(name); sp.add_argument('--cycle',default='cycle-001')
     rp=sub.add_parser('route'); rp.add_argument('role',choices=['research','planner','executor','writer'])
+    bp=sub.add_parser('branch'); bps=bp.add_subparsers(dest='branch_action',required=True)
+    bi=bps.add_parser('init'); bi.add_argument('--cycle',default='cycle-001'); bi.add_argument('--idea')
+    bs=bps.add_parser('start'); bs.add_argument('--cycle',default='cycle-001'); bs.add_argument('--stage',required=True); bs.add_argument('--idea')
+    bm=bps.add_parser('merge'); bm.add_argument('--cycle',default='cycle-001'); bm.add_argument('--stage',required=True)
+    bc=bps.add_parser('close'); bc.add_argument('--cycle',default='cycle-001')
+    br=bps.add_parser('revision'); br.add_argument('--cycle',default='cycle-001'); br.add_argument('--kind',choices=['submission','revision'],required=True); br.add_argument('--id',dest='identifier',required=True)
+    bstatus=bps.add_parser('status'); bstatus.add_argument('--cycle',default='cycle-001')
     cp=sub.add_parser('checkpoint')
     cp.add_argument('--stage',required=True); cp.add_argument('--state',choices=sorted(STATES),required=True)
     cp.add_argument('--cycle',default='cycle-001'); cp.add_argument('--role',choices=['research','planner','executor','writer'],required=True)
@@ -262,6 +544,13 @@ def main(argv=None):
         elif a.action=='route': result=route(config(root),a.role)
         elif a.action=='status': result=status(root,a.cycle)
         elif a.action=='checkpoint': result=checkpoint(root,a)
+        elif a.action=='branch':
+            if a.branch_action=='init': result=branch_init(root,a.cycle,a.idea)
+            elif a.branch_action=='start': result=branch_start(root,a.cycle,a.stage,a.idea)
+            elif a.branch_action=='merge': result=branch_merge(root,a.cycle,a.stage)
+            elif a.branch_action=='close': result=branch_close(root,a.cycle)
+            elif a.branch_action=='revision': result=branch_revision(root,a.cycle,a.kind,a.identifier)
+            else: result=branch_status(root,a.cycle)
         else:
             with lock(root):
                 pending=root/RUNTIME/'local/pending.json'

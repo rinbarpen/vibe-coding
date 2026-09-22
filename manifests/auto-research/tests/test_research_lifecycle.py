@@ -20,6 +20,10 @@ def project(tmp_path):
     rw.git(tmp_path,'config','user.name','Fixture Researcher')
     rw.git(tmp_path,'config','user.email','fixture@example.test')
     cfg=rw.config(tmp_path)
+    # Existing transition fixtures exercise legacy mode, not scientific attestation.
+    cfg['enforce_stage_contracts']=False
+    for stage in cfg['stages']:
+        if stage.get('contract_revision'):stage['required_evidence']=stage['id'] in {'submission/submit/receipt','revision/decision/receipt','revision/revise/resubmit','acceptance/decision/confirm'}
     for role,request in cfg['roles'].items():
         cfg['bindings'][role]={'provider':'fixture','model_id':'fixture-'+role,'service_profile':request['service_profile'],
                                'reasoning_effort':request['reasoning_effort'],'available':True,'verified_at':'2026-09-19'}
@@ -42,6 +46,12 @@ def test_defaults_three_levels_and_requested_models(project):
     assert cfg['roles']['planner']['reasoning_effort']=='medium'
     assert cfg['roles']['executor']['requested_model']=='gpt-5.6-luna'
     assert cfg['roles']['writer']['requested_model']=='gpt-5.5'
+    assert cfg['writing_policy']['scene']=='research'
+    assert cfg['writing_policy']['engine']=='latex'
+    assert cfg['writing_policy']['languages']==['zh','en']
+    assert cfg['writing_policy']['uncertainty_reporting']['default']=='omit_95_ci'
+    assert cfg['writing_policy']['defensive_writing']['default']=='disabled'
+    assert cfg['writing_policy']['latex_template']['style_files']=='immutable'
     assert set(cfg['phase_details']) == {s['id'] for s in cfg['stages'] if s['level']==1}
     for phase_id, detail in cfg['phase_details'].items():
         assert detail['goal'] and detail['inputs'] and detail['outputs']
@@ -107,7 +117,8 @@ def test_pending_commit_failure_and_recovery(project,monkeypatch):
     rw.save(pending,journal)
     again=rw.finish_pending(project,journal)
     assert result['commit']==again['commit']
-    assert rw.git(project,'rev-list','--count','HEAD')=='1'
+    # Branch bootstrap adds one empty baseline commit before the checkpoint.
+    assert rw.git(project,'rev-list','--count','HEAD')=='2'
 
 
 def test_missing_binding_can_be_recorded(project):
@@ -154,7 +165,8 @@ def test_end_to_end_all_stages_submission_revision_acceptance(project):
         if s['level']==1: visit(s)
     assert all(s['state']=='completed' for s in rw.status(project,'cycle-001')['stages'])
     assert len(rw.events(project))==2*len(cfg['stages'])
-    assert int(rw.git(project,'rev-list','--count','HEAD'))==2*len(cfg['stages'])
+    # baseline + checkpoint commits + stage merge commits + branch-log commits
+    assert int(rw.git(project,'rev-list','--count','HEAD'))==1+4*len(cfg['stages'])
 
 
 def experiment_plan():
@@ -263,7 +275,7 @@ def test_installer_preserves_runtime_and_help(tmp_path):
     script=ROOT/'scripts/init-auto-research.sh'
     p=subprocess.run(['bash',str(script),str(tmp_path)],capture_output=True,text=True)
     assert p.returncode==0,p.stderr
-    for name in ['research_workflow.py','experiment_stats.py','writing_plan.py']: assert (tmp_path/'scripts'/name).exists()
+    for name in ['research_workflow.py','experiment_stats.py','writing_plan.py','latex_template_gate.py']: assert (tmp_path/'scripts'/name).exists()
     (tmp_path/'CLAUDE.md').write_text('user changes')
     (tmp_path/'.auto-research/keep.json').write_text('{"keep":true}')
     subprocess.run(['bash',str(script),str(tmp_path)],check=True,capture_output=True)
@@ -272,6 +284,31 @@ def test_installer_preserves_runtime_and_help(tmp_path):
     assert (tmp_path/'.auto-research/keep.json').exists()
     p=subprocess.run(['bash',str(script),'--help'],capture_output=True,text=True)
     assert p.returncode==0 and not p.stderr
+
+
+def test_latex_template_manifest_and_immutable_styles(tmp_path):
+    template=tmp_path/'vendor'/'venue'; template.mkdir(parents=True)
+    (template/'main.tex').write_text('\\documentclass{venue}\n')
+    (template/'references.bib').write_text('@article{fixture, title={Fixture}}\n')
+    (template/'figures').mkdir(); (template/'tables').mkdir()
+    (template/'venue.cls').write_text('% official fixture class\n')
+    requirements=tmp_path/'requirements.json'
+    rw.save(requirements, {'venue':'fixture-venue','source_url':'https://example.test/guide',
+                           'checked_at':'2026-09-19','required_files':['main.tex','references.bib','figures/','tables/'],
+                           'style_globs':['**/*.cls','**/*.sty']})
+    gate=ROOT/'scripts/latex_template_gate.py'
+    manifest=tmp_path/'.auto-research/writing/latex/template-manifest.json'
+    p=subprocess.run([sys.executable,str(gate),'--project-root',str(tmp_path),'manifest',
+                      '--template-root','vendor/venue','--requirements','requirements.json',
+                      '--output','.auto-research/writing/latex/template-manifest.json'],capture_output=True,text=True)
+    assert p.returncode==0,p.stderr
+    p=subprocess.run([sys.executable,str(gate),'--project-root',str(tmp_path),'verify','--manifest',
+                      str(manifest.relative_to(tmp_path))],capture_output=True,text=True)
+    assert p.returncode==0,p.stderr
+    (template/'venue.cls').write_text('% modified fixture class\n')
+    p=subprocess.run([sys.executable,str(gate),'--project-root',str(tmp_path),'verify','--manifest',
+                      str(manifest.relative_to(tmp_path))],capture_output=True,text=True)
+    assert p.returncode==1 and 'sha256_changed' in p.stderr
 
 
 def test_stats_cli_pipeline(tmp_path):

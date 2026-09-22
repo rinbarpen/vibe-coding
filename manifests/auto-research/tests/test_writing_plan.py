@@ -92,6 +92,35 @@ def test_scalar_object_list_append_and_unset_inheritance() -> None:
     assert "optional" not in node["content"]
 
 
+def test_research_writing_policy_is_schema_valid_and_resolved() -> None:
+    plan = minimal_plan()
+    plan["writing_policy"] = {
+        "scene": "research",
+        "languages": ["zh", "en"],
+        "engine": "latex",
+        "defensive_writing": False,
+        "confidence_interval": "omitted_by_default",
+        "template": {
+            "source_url": "https://example.test/venue-template",
+            "checked_at": "2026-09-19",
+            "style_files_immutable": True,
+            "manifest": ".auto-research/writing/latex/template-manifest.json",
+        },
+        "skills": {
+            "anti_defensive_writing": {
+                "enabled": False,
+                "zh": "skills/anti-defensive-writing/SKILL.md",
+                "en": "skills/anti-defensive-writing-en/SKILL.md",
+            },
+            "humanizer": "mine/z-humanizer/SKILL.md",
+        },
+    }
+    assert wp.validate_plan(plan) == []
+    resolved = wp.resolve_plan(plan)
+    assert resolved["writing_policy"]["engine"] == "latex"
+    assert resolved["writing_policy"]["languages"] == ["zh", "en"]
+
+
 def test_multilevel_file_section_heading_figure_resolution() -> None:
     plan = minimal_plan()
     plan["nodes"].extend(

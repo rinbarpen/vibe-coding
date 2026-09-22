@@ -4,6 +4,19 @@ Writing Plan 用稳定节点 ID 把写作要求、审批状态、正文和审查
 
 投稿 venue 与图生成也属于计划事实源：`venue` 选择 `venue-profiles.yaml` 中的要求快照；`presentation.figures` 选择 `figure-types.yaml` 中的图类型和 renderer。resolver 会把 venue 要求和图类型要求注入每个 resolved node，reviewer 据此检查格式、尺寸、caption、alt text、来源和生成命令。
 
+## Research writing policy
+
+`lifecycle/defaults.json.writing_policy` 是 research 场景的默认规则：正文使用 LaTeX，
+中文/英文都可写；95% CI 默认省略，只有 venue、研究方案、作者或审稿意见明确要求时
+才在计划中打开。草稿形成后接入 `mine/z-humanizer` 的 academic/journal/conference
+路由；anti-defensive-writing 的中文/英文目录是可选审计器，默认不自动改写。
+
+官方期刊/会议模板必须先由 venue requirement gate 选定，再记录到
+`.auto-research/writing/latex/template-manifest.json`。模板 `.cls`、`.sty`、字体、
+参考文献、table 和 figure style 文件按 sha256 锁定，不能通过直接编辑 style 文件解决
+正文排版问题。实际必需文件以官方投稿要求为准，而不是由这个通用 schema 猜测；缺失
+文件进入 `artifact_completeness` gate。
+
 ## 命令
 
 ```bash

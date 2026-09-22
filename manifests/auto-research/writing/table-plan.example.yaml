@@ -1,0 +1,41 @@
+version: 1
+id: table-main
+caption: Audited benchmark comparison.
+statistics: results/EXPERIMENT_STATISTICS.json
+protocol: standard
+comparison_group: main
+source_kind: reproduced
+seeds:
+- 42
+layout: double_column
+display: mean_sd
+highlight: best
+rows:
+- id: baseline-a
+  label: Baseline A
+  experiment_id: baseline-a
+  parameters: {}
+- id: candidate
+  label: Candidate
+  experiment_id: candidate
+  parameters: {}
+datasets:
+- id: dataset-a
+  label: Dataset A
+  source: dataset-a
+- id: dataset-b
+  label: Dataset B
+  source: dataset-b
+metrics:
+- id: accuracy
+  label: Accuracy (%)
+  source: accuracy
+  direction: maximize
+  scale: 100
+  precision: 1
+- id: error-rate
+  label: Error (%)
+  source: error
+  direction: minimize
+  scale: 100
+  precision: 1

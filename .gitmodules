@@ -128,3 +128,9 @@
 [submodule "skills/CCFA-Skills"]
 	path = skills/CCFA-Skills
 	url = https://github.com/mikubaka88/CCFA-Skills.git
+[submodule "skills/paper-review"]
+	path = skills/paper-review
+	url = https://github.com/jam-cc/paper-review.skill.git
+[submodule "skills/anti-defensive-writing"]
+	path = skills/anti-defensive-writing
+	url = https://github.com/Adkid-Zephyr/anti-defensive-writing-Skill.git

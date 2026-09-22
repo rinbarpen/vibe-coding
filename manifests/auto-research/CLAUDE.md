@@ -1,6 +1,6 @@
 # Auto-Research Manifest
 
-面向自动化学术研究的 manifest 包。整合 aris（研究编排框架）、paperreview（自动论文评审）、autofigure（自动图表生成）三条能力线。
+面向自动化学术研究的 manifest 包。整合 aris（研究编排框架）、paper-review（证据驱动论文评审）、paperreview（外部自动论文评审）、autofigure（自动图表生成）、anti-defensive-writing（中英文写作原则）与 `mine/z-humanizer`（中英文 humanization）能力线。
 
 ## Commands
 
@@ -13,6 +13,7 @@
 | `aris/paper-illustration "desc"` | AI 论文插图生成 |
 | `aris/paper-figure "results"` | 数据驱动图表生成 |
 | `aris/rebuttal "reviews"` | 自动生成审稿回复 |
+| `paper-review` | 证据驱动的 ML/AI 论文评审与投稿前自审 |
 | `grill-me` | 所有计划类步骤前的逐项追问与方案压力测试；也可随时直接调用 |
 | `mine/paperreview-ai-review "paper.pdf"` | paperreview.ai 自动论文评审 |
 | `aris/research-lit "query"` | 文献调研与综述 |
@@ -32,6 +33,14 @@
 | `mine/paper-version-manager list <dir>` | 列出所有版本和变更日志 |
 | `mine/paper-version-manager diff <dir> --from vX --to vY` | 比较两个版本的差异 |
 | `mine/paper-version-manager rollback <dir> <version>` | 回滚到指定版本 |
+| `python3 scripts/research_workflow.py branch init --idea <slug>` | 初始化 research cycle、`main` 与 integration branch |
+| `python3 scripts/research_workflow.py branch start --stage <stage-id>` | 从父 branch 创建并切换阶段 branch |
+| `python3 scripts/research_workflow.py branch status` | 查看阶段 branch、父 branch、合并状态 |
+| `python3 scripts/research_workflow.py branch merge --stage <stage-id>` | 终态检查点通过后以 `--no-ff` 合并到父 branch |
+| `python3 scripts/research_workflow.py branch revision --kind submission\|revision --id <id>` | 创建投稿或返修 branch |
+| `python3 scripts/research_workflow.py branch close` | 将 cycle integration 合并回配置的 base branch |
+| `python3 scripts/latex_template_gate.py manifest ...` | 从官方 venue 要求生成 LaTeX 模板完整性清单 |
+| `python3 scripts/latex_template_gate.py verify ...` | 校验必需文件与不可变模板 style 哈希 |
 
 ## 仓库结构
 
@@ -51,7 +60,8 @@ auto-research/
 │   ├── paper-review-guide.md     # 自动论文评审
 │   ├── figure-generation.md      # 自动图表生成
 │   ├── venue-requirements.md     # 期刊/会议要求与图规格校验
-│   └── integration-guide.md      # 三线集成
+│   ├── integration-guide.md      # 三线集成
+│   └── research-writing-rules.md  # 中英文写作、LaTeX 模板与统计默认规则
 ├── templates/
 │   ├── RESEARCH_PLAN.md.example
 │   ├── PAPER_OUTLINE.md.example
@@ -76,7 +86,7 @@ auto-research/
 └── README.md
 ```
 
-## 三条核心流水线
+## 四条核心流水线
 
 ### 1. Research Pipeline
 aris/research-pipeline 端到端：文献调研 → 想法生成 → 新颖性检查 → 实验计划 → 论文写作
@@ -96,9 +106,16 @@ aris/research-pipeline 端到端：文献调研 → 想法生成 → 新颖性�
 - review 按节点执行；失败后仅重写不合格节点。`auto_fix: constrained` 不得改变核心结论、证据标准、章节结构或已审批目标。
 - 详细字段、继承和审批语义见 `writing/README.md`。
 
-随后由 aris/auto-review-loop 进行独立论文评审：节点写作与审查 → 论文草稿 → AI 评审 → 改进 → 再审 → 收敛。
+先由 `paper-review` 进行证据驱动的投稿前自审，再由 aris/auto-review-loop 进行独立论文评审：节点写作与审查 → 论文草稿 → 自审 → AI 评审 → 改进 → 再审 → 收敛。
 
-### 3. Auto Figure Pipeline
+### 3. Evidence-based Paper Review
+
+`paper-review` 负责从完整论文、补充材料和相关工作出发，核对贡献、主张、
+baseline、消融、引用和证据链；输出 `review_<id>.txt` 与
+`frontier_<subfield>.md` 到研究项目的 `outputs/`。详细接入和更新规则见
+`references/paper-review-skill.md`。
+
+### 4. Auto Figure Pipeline
 aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG → AI 精修 → 论文集成
 
 ## 关键文件
@@ -135,6 +152,9 @@ aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG 
 - 论文版本管理：每次修改后使用 `mine/paper-version-manager` 创建版本快照，v1/v2 为大改、vx.1/vx.2 为小改
 - Writing Plan 事实源：只修改 `.auto-research/writing-plan.yaml`；写作仅使用 resolved JSON，结构变化后必须重新校验、解析和渲染
 - Writing Plan 职责边界：planner 修改原始 YAML；resolver 生成无继承/无 profile/无 merge marker 的节点配置；writer 一次写一个节点；reviewer 只依据 resolved node plan 检查，不增加要求
+- Research 写作默认使用 LaTeX；95% CI 默认省略，只有官方 venue 要求、研究方案、作者请求或审稿意见要求时才启用并登记理由。
+- 期刊/会议官方模板是唯一排版基线；`.cls`、`.sty`、字体、参考文献样式以及模板 table/figure styles 均不可修改。缺少文件时记录缺项，不以自制 style 替代。
+- 研究场景先接入 `mine/z-humanizer` 的中英文 academic/journal/conference 路由；`anti-defensive-writing` 的中英文目录由 `skills/anti-defensive-writing` 子模块管理，默认作为可选审计器而非自动改写器。
 
 ## 全生命周期运行契约
 
@@ -157,3 +177,11 @@ aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG 
 ### 五类结构图双交付覆盖规则
 
 Arch/Flow/Pipeline/Algo/Concept 使用 gpt-image 视觉版 + GPT 编排、ppt-master 导出的原生可编辑 PPTX。不得使用旧 figure-spec 渲染器静默替代，不将图像嵌入 PPT 冒充可编辑结果。以共享节点/标签/关系规格核对两个版本；缺少实际模型或工具绑定时阻塞。其余数据图继续代码绘制，字体和层级服从 resolved_visual。
+
+### 子阶段执行契约
+
+启动、文献、idea、实验、分析、写作、评审、投稿、返修和录用的叶节点详见 `references/lifecycle-leaf-contracts.md`。新项目完成叶节点前须运行 stage_contract.py 并登记当前输出哈希与逐项审查记录；不得自动填充 pass 或伪造人工确认。已存在实际输出可被交接文件引用，无须重跑。配置身份、真实模型API、远端运行和科学审查仍由执行宿主负责，契约校验不等于科学任务完成。
+
+### 可追踪 LaTeX 主结果表
+
+多数据集、多baseline、多指标数值表使用 `writing/table-plan.schema.json` 和 `scripts/table_plan.py`：先从 experiment_stats 结果解析原始文件/审计/seed，再渲染LaTeX；禁止将示例画廊数值用于论文证据。按 references/table-plan.md 在 Writing Plan 的 presentation.tables 关联计划、resolved和输出目录。正文数值优先使用 ResearchValue 引用并运行单独review；手写数字和科学结论仍需审查。所有生成记录使用已有生命周期检查点归档。
