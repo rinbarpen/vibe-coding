@@ -151,10 +151,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
 # ── Command handlers ──
 
-def _get_repo_paths(args) -> tuple[Path, Path, Path]:
-    """Resolve repo root, manifests dir, and skills dir."""
+def _get_repo_paths(args) -> tuple[Path, Path, tuple[Path, Path]]:
+    """Resolve repo root, manifests dir, and skill roots (skills/ + mine/)."""
     root = find_repo_root()
-    return root, root / "manifests", root / "skills"
+    return root, root / "manifests", (root / "skills", root / "mine")
 
 
 def _cmd_init(args) -> int:
@@ -199,7 +199,7 @@ def _cmd_add_skill(args) -> int:
 
     if args.all:
         if not args.yes and not args.dry_run:
-            skills = discover_skills(skills_root)
+            skills = discover_skills(*skills_root)
             print(f"This will install {len(skills)} skills into {target}/.cursor/skills/")
             response = input("Continue? [y/N] ").strip().lower()
             if response not in ("y", "yes"):
@@ -252,8 +252,8 @@ def _list_manifests(manifests_dir: Path, json_out: bool) -> None:
         print(f"  {m.name:<22} {marker:<6} {m.description}")
 
 
-def _list_skills(skills_root: Path, json_out: bool) -> None:
-    skills = discover_skills(skills_root)
+def _list_skills(skills_root, json_out: bool) -> None:
+    skills = discover_skills(*skills_root)
     if json_out:
         # Only print basic info to keep JSON manageable
         print(json.dumps([

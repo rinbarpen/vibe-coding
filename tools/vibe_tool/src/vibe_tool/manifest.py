@@ -81,10 +81,15 @@ def init_manifest(
     if not dry_run:
         target.mkdir(parents=True, exist_ok=True)
 
+    rc = 0
     if manifest.init_script_path is not None:
-        return _run_init_script(manifest, target, force, dry_run, **kwargs)
+        rc = _run_init_script(manifest, target, force, dry_run, **kwargs)
+    else:
+        rc = _generic_init(manifest, target, force, dry_run)
 
-    return _generic_init(manifest, target, force, dry_run)
+    if rc == 0:
+        _install_required_skills(manifests_dir, manifest, target, force, dry_run)
+    return rc
 
 
 def add_manifest(
@@ -107,10 +112,15 @@ def add_manifest(
         print(f"Error: target directory does not exist: {target}", file=sys.stderr)
         return 1
 
+    rc = 0
     if manifest.init_script_path is not None:
-        return _run_init_script(manifest, target, force, dry_run, **kwargs)
+        rc = _run_init_script(manifest, target, force, dry_run, **kwargs)
+    else:
+        rc = _generic_init(manifest, target, force, dry_run)
 
-    return _generic_init(manifest, target, force, dry_run)
+    if rc == 0:
+        _install_required_skills(manifests_dir, manifest, target, force, dry_run)
+    return rc
 
 
 # ── Script delegation ──
@@ -300,3 +310,42 @@ def _relpath(p: Path, base: Path) -> str:
         return str(p.resolve().relative_to(base.resolve()))
     except ValueError:
         return str(p)
+
+
+def _install_required_skills(
+    manifests_dir: Path,
+    manifest: ManifestInfo,
+    target: Path,
+    force: bool,
+    dry_run: bool,
+) -> int:
+    """Install the skills a manifest declares as required (skills.txt)."""
+    if not manifest.required_skills:
+        return 0
+
+    from .skill import add_skill
+
+    # Skills live both in skills/ and mine/ first-party skills
+    repo_root = manifests_dir.parent
+    roots = (repo_root / "skills", repo_root / "mine")
+
+    missing: list[str] = []
+    installed = 0
+    print(f"\nInstalling {len(manifest.required_skills)} required skills:")
+    for name in manifest.required_skills:
+        try:
+            rc = add_skill(roots, name, target, force=force, dry_run=dry_run)
+            if rc == 1:
+                missing.append(name)
+            else:
+                installed += 1
+        except ValueError:
+            missing.append(name)
+            print(f"  WARN  {name}: not found")
+
+    if missing:
+        print(
+            "  (tip: run 'vibe update' to fetch skill submodules, "
+            "then 'vibe add skill <name>' for any still-missing)"
+        )
+    return 1 if missing else 0

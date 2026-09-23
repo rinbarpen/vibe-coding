@@ -19,7 +19,7 @@ def _is_excluded(path: Path) -> bool:
 
 
 def add_skill(
-    skills_root: Path,
+    skills_root,
     name: str,
     target: Path,
     *,
@@ -34,14 +34,14 @@ def add_skill(
 
 
 def add_all_skills(
-    skills_root: Path,
+    skills_root,
     target: Path,
     *,
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
     """Install all skills from skills_root into target/.cursor/skills/."""
-    skills = discover_skills(skills_root)
+    skills = discover_skills(*skills_root)
     installed = 0
     skipped = 0
     errors = 0

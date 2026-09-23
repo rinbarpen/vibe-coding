@@ -1,0 +1,44 @@
+# Required skills for the auto-research manifest.
+# One skill name per line; '#' starts a comment.
+# Installed by `vibe add manifest auto-research` / `vibe init auto-research`.
+
+# aris research workflow (skills/aris, skills/ACRS, ...)
+grill-me
+research-lit
+idea-discovery
+novelty-check
+research-refine
+experiment-plan
+experiment-bridge
+run-experiment
+monitor-experiment
+analyze-results
+result-to-claim
+ablation-planner
+
+# paper writing & review
+paper-plan
+paper-figure
+paper-write
+paper-compile
+auto-review-loop
+auto-paper-improvement-loop
+citation-audit
+paper-claim-audit
+rebuttal
+
+# figures
+figure-spec
+paper-illustration
+
+# evidence-driven review (skills/paper-review submodule)
+paper-review
+
+# first-party mine/* skills
+paperreview-ai-review
+paper-version-manager
+export-paper-zip
+z-humanizer
+
+# writing audit (skills/anti-defensive-writing submodule)
+anti-defensive-writing
