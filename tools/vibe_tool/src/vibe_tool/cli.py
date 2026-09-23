@@ -200,7 +200,7 @@ def _cmd_add_skill(args) -> int:
     if args.all:
         if not args.yes and not args.dry_run:
             skills = discover_skills(*skills_root)
-            print(f"This will install {len(skills)} skills into {target}/.cursor/skills/")
+            print(f"This will install {len(skills)} skills into {target}/.agents/skills/")
             response = input("Continue? [y/N] ").strip().lower()
             if response not in ("y", "yes"):
                 print("Aborted.")

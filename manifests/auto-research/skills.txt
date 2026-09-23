@@ -31,8 +31,8 @@ rebuttal
 figure-spec
 paper-illustration
 
-# evidence-driven review (skills/paper-review submodule)
-paper-review
+# maintained multi-perspective paper review
+academic-paper-reviewer
 
 # first-party mine/* skills
 paperreview-ai-review

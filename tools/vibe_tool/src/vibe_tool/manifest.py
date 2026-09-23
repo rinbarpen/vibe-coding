@@ -88,7 +88,7 @@ def init_manifest(
         rc = _generic_init(manifest, target, force, dry_run)
 
     if rc == 0:
-        _install_required_skills(manifests_dir, manifest, target, force, dry_run)
+        return _install_required_skills(manifests_dir, manifest, target, force, dry_run)
     return rc
 
 
@@ -119,7 +119,7 @@ def add_manifest(
         rc = _generic_init(manifest, target, force, dry_run)
 
     if rc == 0:
-        _install_required_skills(manifests_dir, manifest, target, force, dry_run)
+        return _install_required_skills(manifests_dir, manifest, target, force, dry_run)
     return rc
 
 

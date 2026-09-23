@@ -26,9 +26,9 @@ def add_skill(
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
-    """Install a single skill into target/.cursor/skills/<name>/."""
+    """Install a single skill into target/.agents/skills/<name>/ ."""
     skill_info = resolve_skill(skills_root, name)
-    dest = target / ".cursor" / "skills" / skill_info.name
+    dest = target / ".agents" / "skills" / skill_info.name
 
     return _install_one(skill_info.source_path, dest, skill_info.name, force, dry_run)
 
@@ -40,14 +40,14 @@ def add_all_skills(
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
-    """Install all skills from skills_root into target/.cursor/skills/."""
+    """Install all skills from skills_root into target/.agents/skills/."""
     skills = discover_skills(*skills_root)
     installed = 0
     skipped = 0
     errors = 0
 
     for skill_info in skills:
-        dest = target / ".cursor" / "skills" / skill_info.name
+        dest = target / ".agents" / "skills" / skill_info.name
         result = _install_one(
             skill_info.source_path, dest, skill_info.name, force, dry_run
         )
