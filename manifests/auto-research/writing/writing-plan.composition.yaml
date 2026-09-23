@@ -1,0 +1,52 @@
+version: 1
+document:
+  id: composition-demo
+  title: Joint writing and layout plan
+  purpose: Demonstrate node-local asset placement, not scientific findings.
+  language: en
+  success_criteria: [Traceable references and explicit visual review]
+defaults:
+  style:
+    profile: technical
+    paragraph_rules:
+      - One main argumentative task per paragraph.
+      - Separate observation, interpretation and untested hypotheses.
+      - Do not repeat every table cell in prose.
+  evidence:
+    citation_density: low
+  approval: auto
+nodes:
+  - id: file-main
+    type: file
+    title: Main paper
+    order: 0
+    output_path: main.tex
+  - id: sec-results
+    type: section
+    title: Main results
+    order: 10
+    parent_id: file-main
+    style:
+      strategy: observation_then_interpretation
+    composition:
+      argument_steps:
+        - State the evaluation question and refer to the main table.
+        - Describe the primary observation and relevant exceptions.
+        - Interpret only within the available evidence.
+      page_budget: 1.5
+      assets:
+        - node_id: tab-main
+          label: tab:main
+          purpose: Exact comparisons supporting the results discussion.
+          first_reference: sec-results
+          discuss_in: [sec-results]
+          scope: main_paper
+          span: two_columns
+          placement_preference: top
+          max_height_fraction: 0.35
+          overflow_policy: [reflow_asset, split_asset, move_to_supplement_after_approval]
+  - id: tab-main
+    type: table
+    title: Main comparison table
+    order: 20
+    parent_id: sec-results

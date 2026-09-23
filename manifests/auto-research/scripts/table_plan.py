@@ -17,6 +17,7 @@ import statistics
 from pathlib import Path
 import yaml
 import jsonschema
+import table_ablation
 from research_workflow import atomic, relative
 
 RESOURCE=Path(__file__).resolve().parents[1]/'writing'
@@ -44,6 +45,7 @@ def validate_plan(p):
     if any(not finite(m['scale']) for m in p['metrics']):raise Invalid('Non-finite metric scale')
     selections=[digest({k:r[k] for k in ['experiment_id','parameters']}) for r in p['rows']]
     if len(selections)!=len(set(selections)):raise Invalid('Duplicate row selection')
+    table_ablation.validate(p)
     return p
 
 def finite(v):return type(v) in (float,int) and math.isfinite(v)
@@ -62,6 +64,7 @@ def resolve(plan,root):
     runs=report['runs'];ids=[r['run_id'] for r in runs]
     if len(ids)!=len(set(ids)):raise Invalid('Duplicate run IDs')
     result={'version':1,'plan':plan,'plan_hash':digest(plan),'statistics_sha256':digest_bytes(raw),'experiment_plan_hash':report.get('plan_hash'),'cells':[],'issues':[]}
+    seed_values={}
     for row in plan['rows']:
         for dataset in plan['datasets']:
             selected=[r for r in runs if r.get('experiment_id')==row['experiment_id'] and r.get('parameters')==row['parameters'] and r.get('dataset')==dataset['source'] and r.get('protocol')==plan['protocol'] and r.get('comparison_group')==plan['comparison_group'] and r.get('source_kind')==plan['source_kind']]
@@ -69,6 +72,7 @@ def resolve(plan,root):
             if len(seeds)!=len(set(seeds)):raise Invalid('Ambiguous run selection: '+row['id']+'/'+dataset['id'])
             for metric in plan['metrics']:
                 cid=':'.join([plan['id'],row['id'],dataset['id'],metric['id']]);issues=[];values=[];provenance=[]
+                seed_values[cid]={}
                 definitions=[s for s in report.get('summary',[]) if s.get('experiment_id')==row['experiment_id'] and s.get('parameters')==row['parameters'] and s.get('dataset')==dataset['source'] and s.get('protocol')==plan['protocol'] and s.get('comparison_group')==plan['comparison_group'] and s.get('source_kind')==plan['source_kind'] and s.get('metric')==metric['source']]
                 if len(definitions)!=1 or definitions[0].get('direction')!=metric['direction']:
                     issues.append('Missing/ambiguous metric definition or direction mismatch')
@@ -86,6 +90,7 @@ def resolve(plan,root):
                     scaled=v*metric['scale']
                     if not finite(scaled):issues.append('Scaled metric is non-finite');continue
                     values.append(scaled)
+                    seed_values[cid][run['seed']]=scaled
                 valid=not issues and len(values)==len(expected)
                 cell={'id':cid,'row_id':row['id'],'dataset_id':dataset['id'],'metric_id':metric['id'],'status':'eligible' if valid else 'blocked','n':len(values),'mean':statistics.mean(values) if valid else None,'std':statistics.stdev(values) if valid and len(values)>1 else None,'sources':provenance,'issues':sorted(set(issues))}
                 result['cells'].append(cell)
@@ -96,6 +101,7 @@ def resolve(plan,root):
             cells=[c for c in result['cells'] if c['dataset_id']==d['id'] and c['metric_id']==m['id'] and c['status']=='eligible']
             vals=sorted({round(c['mean'],m['precision']) for c in cells},reverse=m['direction']=='maximize')
             for c in cells:c['display_rank']=vals.index(round(c['mean'],m['precision']))+1
+    table_ablation.derive(plan,result,seed_values)
     result['status']='blocked' if result['issues'] else 'ready'
     return result
 
@@ -128,7 +134,8 @@ def render(resolved):
     note+=('Mean and sample SD across '+str(len(p['seeds']))+' seeds. ' if p['display']=='mean_sd' and len(p['seeds'])>1 else 'Mean across '+str(len(p['seeds']))+' seed(s); no uncertainty displayed. ')
     if p['highlight']=='best':note+='Bold marks best displayed mean (ties included), not significance.'
     lines +=[r'\bottomrule\end{tabular}\par\smallskip',r'\parbox{\linewidth}{\footnotesize '+tex(note)+'}',r'\endgroup',r'\end{'+env+'}']
-    return '\n'.join(lines)+'\n','\n'.join(vals)+'\n'
+    extra,defs=table_ablation.render_extra(p,resolved,tex,cell_text) if 'ablation' in p else ('','')
+    return '\n'.join(lines)+'\n'+extra,'\n'.join(vals)+'\n'+defs
 
 def verify(resolved,root,output_dir=None,manuscript=None):
     errors=[]
@@ -146,7 +153,7 @@ def verify(resolved,root,output_dir=None,manuscript=None):
         # Ignore normal LaTeX comments; escaped percent is retained.
         content=re.sub(r'(?<!\\)%[^\n]*','',content)
         used=re.findall(r'\\ResearchValue\{([^{}]+)\}',content)
-        known={c['id']:c for c in resolved['cells']}
+        known={c['id']:c for c in resolved['cells']+resolved.get('derived_cells',[])}
         for cid in used:
             if cid not in known or known[cid]['status']!='eligible':errors.append('Unknown or blocked manuscript cell: '+cid)
         if not used:errors.append('No traceable ResearchValue references in manuscript')

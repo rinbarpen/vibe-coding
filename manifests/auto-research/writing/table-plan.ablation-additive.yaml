@@ -1,0 +1,63 @@
+version: 1
+id: table-additive
+caption: 'Ablation: additive'
+statistics: results/EXPERIMENT_STATISTICS.json
+protocol: standard
+comparison_group: main
+source_kind: reproduced
+seeds:
+- 42
+layout: double_column
+display: mean_sd
+highlight: none
+rows:
+- id: config-0
+  label: Config 0
+  experiment_id: ablation-model
+  parameters:
+    width: 32
+    a: false
+    b: false
+- id: config-1
+  label: Config 1
+  experiment_id: ablation-model
+  parameters:
+    width: 32
+    a: true
+    b: false
+- id: config-2
+  label: Config 2
+  experiment_id: ablation-model
+  parameters:
+    width: 32
+    a: true
+    b: true
+datasets:
+- id: dataset-a
+  label: Dataset A
+  source: dataset-a
+- id: dataset-b
+  label: Dataset B
+  source: dataset-b
+metrics:
+- id: accuracy
+  label: Accuracy (%)
+  source: accuracy
+  direction: maximize
+  scale: 100
+  precision: 1
+- id: error-rate
+  label: Error (%)
+  source: error
+  direction: minimize
+  scale: 100
+  precision: 1
+ablation:
+  kind: additive
+  factors:
+  - id: factor-a
+    label: A
+    parameter: a
+  - id: factor-b
+    label: B
+    parameter: b

@@ -185,3 +185,13 @@ Arch/Flow/Pipeline/Algo/Concept 使用 gpt-image 视觉版 + GPT 编排、ppt-ma
 ### 可追踪 LaTeX 主结果表
 
 多数据集、多baseline、多指标数值表使用 `writing/table-plan.schema.json` 和 `scripts/table_plan.py`：先从 experiment_stats 结果解析原始文件/审计/seed，再渲染LaTeX；禁止将示例画廊数值用于论文证据。按 references/table-plan.md 在 Writing Plan 的 presentation.tables 关联计划、resolved和输出目录。正文数值优先使用 ResearchValue 引用并运行单独review；手写数字和科学结论仍需审查。所有生成记录使用已有生命周期检查点归档。
+
+### 章节文风、论证与图表联合规划
+
+写章节前先确定 `style.strategy`、`style.paragraph_rules` 和节点局部
+`composition`：论证顺序、页数预算、图表的用途/归属/首次引用/讨论位置，以及
+栏宽、浮动偏好和溢出策略。图表按证据先准备，正文解释重点而非逐格复述。
+参考 `references/writing-composition.md`。使用 `writing_plan.py packet` 导出
+resolved 单节点任务包；外部宿主另行提供核验后的证据、术语和邻接正文摘要。
+生成后运行节点 review，再编译并视觉检查最终尺寸、标签、浮动距离和页数。
+当前工具仅导出任务包和检查源码引用；视觉 warning 不代表投稿验收通过。

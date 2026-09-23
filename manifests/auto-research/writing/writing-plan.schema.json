@@ -177,6 +177,39 @@
         },
         "prohibited_expressions": {
           "$ref": "#/$defs/value"
+        },
+        "strategy": {
+          "oneOf": [
+            {
+              "enum": [
+                "problem_gap_contribution",
+                "compare_and_position",
+                "define_then_explain",
+                "protocol_first",
+                "observation_then_interpretation",
+                "hypothesis_control_result",
+                "synthesize_and_bound",
+                "concise_summary"
+              ]
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
+        },
+        "paragraph_rules": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            {
+              "$ref": "#/$defs/mergeMarker"
+            }
+          ]
         }
       }
     },
@@ -416,21 +449,55 @@
     "writingPolicy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scene", "languages", "engine"],
+      "required": [
+        "scene",
+        "languages",
+        "engine"
+      ],
       "properties": {
-        "scene": {"const": "research"},
-        "languages": {"type": "array", "uniqueItems": true, "items": {"enum": ["zh", "en"]}, "minItems": 2},
-        "engine": {"const": "latex"},
-        "defensive_writing": {"type": "boolean"},
-        "confidence_interval": {"type": "string", "minLength": 1},
+        "scene": {
+          "const": "research"
+        },
+        "languages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "zh",
+              "en"
+            ]
+          },
+          "minItems": 2
+        },
+        "engine": {
+          "const": "latex"
+        },
+        "defensive_writing": {
+          "type": "boolean"
+        },
+        "confidence_interval": {
+          "type": "string",
+          "minLength": 1
+        },
         "template": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "source_url": {"type": "string", "format": "uri"},
-            "checked_at": {"type": "string", "minLength": 10},
-            "style_files_immutable": {"const": true},
-            "manifest": {"type": "string", "minLength": 1}
+            "source_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "checked_at": {
+              "type": "string",
+              "minLength": 10
+            },
+            "style_files_immutable": {
+              "const": true
+            },
+            "manifest": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         },
         "skills": {
@@ -441,12 +508,23 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "enabled": {"type": "boolean"},
-                "zh": {"type": "string", "minLength": 1},
-                "en": {"type": "string", "minLength": 1}
+                "enabled": {
+                  "type": "boolean"
+                },
+                "zh": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             },
-            "humanizer": {"type": "string", "minLength": 1}
+            "humanizer": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         }
       }
@@ -748,6 +826,9 @@
             "auto",
             "before_write"
           ]
+        },
+        "composition": {
+          "$ref": "#/$defs/composition"
         }
       }
     },
@@ -821,6 +902,99 @@
           }
         }
       }
+    },
+    "composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "argument_steps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "page_budget": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "node_id": {
+                "$ref": "#/$defs/id"
+              },
+              "label": {
+                "type": "string",
+                "pattern": "^(fig|tab):[a-z][a-z0-9:-]*$"
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              },
+              "first_reference": {
+                "$ref": "#/$defs/id"
+              },
+              "discuss_in": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/id"
+                },
+                "minItems": 1
+              },
+              "scope": {
+                "enum": [
+                  "main_paper",
+                  "supplement"
+                ]
+              },
+              "span": {
+                "enum": [
+                  "one_column",
+                  "two_columns"
+                ]
+              },
+              "placement_preference": {
+                "enum": [
+                  "top",
+                  "bottom",
+                  "page",
+                  "here_if_possible"
+                ]
+              },
+              "max_height_fraction": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "overflow_policy": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "reflow_asset",
+                    "split_asset",
+                    "move_to_supplement_after_approval"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "node_id",
+              "label",
+              "purpose",
+              "first_reference",
+              "discuss_in",
+              "scope",
+              "span",
+              "placement_preference"
+            ]
+          }
+        }
+      },
+      "required": []
     }
   }
 }

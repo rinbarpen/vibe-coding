@@ -156,3 +156,13 @@ PPTX 必须保留独立文本和形状，禁止整页位图充当可编辑图；
 `figure_file_error` 新增 PPTX ZIP/XML 及每页原生形状/文本检查，但这仅是最低门禁，不证明全部对象都可编辑或与语义规格一致。
 
 其余数据图保留代码绘图；样例采用 Liberation Sans，轴标签 11 pt、刻度 9.5 pt、图例 9 pt，统计定义下移到图注，减少大标题和轴标签拥挤。文字与科研图几何须在目标输出尺寸重新验收。`figure_smoke.py` 仅渲染剩余 12 类，另写出五类 GPT 待生成请求，不虚构外部调用成功。
+
+## 章节文风与图表联合规划
+
+新增可选 `style.strategy` / `style.paragraph_rules`（继承）和节点独有的
+`composition`（不继承）：论证步骤、页数预算、图表归属、首次引用/讨论节点、
+单栏/双栏及浮动位置偏好。参见 `writing-plan.composition.yaml` 和
+[执行说明](../references/writing-composition.md)。布局不是页码保证。
+`writing_plan.py packet RESOLVED --node NODE --output FILE` 导出单节点任务包；
+校验要求哈希和节点/祖先审批门，但不调用模型。review 检查显式 LaTeX label/ref；
+视觉审查仍为 warning，页数与真实落位需实际编译验收。

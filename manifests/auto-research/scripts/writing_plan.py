@@ -56,7 +56,7 @@ FIGURE_TYPES = (
     "training_curve", "scaling", "distribution", "scatter", "heatmap", "confusion_matrix",
     "qualitative_grid", "attention", "timeline", "map", "concept_illustration",
 )
-IDENTITY_KEYS = ("id", "type", "parent_id", "title", "order", "output_path", "anchor")
+IDENTITY_KEYS = ("id", "type", "parent_id", "title", "order", "output_path", "anchor", "composition")
 ID_PATTERN = re.compile(r"^[a-z][a-z0-9-]{2,63}$")
 ANCHOR_PATTERN = "<!-- node:{node_id}:{boundary} -->"
 UNSET = object()
@@ -334,6 +334,7 @@ def semantic_errors(plan: dict[str, Any]) -> list[dict[str, Any]]:
     for node_id in sorted(plan.get("approvals", {})):
         if node_id not in node_map:
             errors.append(error("orphaned_approval", f"$.approvals.{node_id}", f"approval references missing node {node_id!r}", node_id=node_id))
+    errors.extend(composition_errors(nodes))
     return deduplicate_errors(errors)
 
 
@@ -505,6 +506,8 @@ def resolve_plan(plan: dict[str, Any]) -> dict[str, Any]:
             if "output_path" in ancestor:
                 result["output_path"] = ancestor["output_path"]
         requirement_view = {key: result.get(key) for key in CONFIG_KEYS if key in result}
+        if "composition" in node:
+            requirement_view["composition"] = node["composition"]
         requirement_view["venue"] = venue
         plan_hash = canonical_hash(requirement_view)
         result["resolved_plan_hash"] = plan_hash
@@ -646,6 +649,7 @@ def render_plan(resolved: dict[str, Any]) -> str:
             f"- **内容**：{inline(node.get('content'))}",
             f"- **证据**：{inline(node.get('evidence'))}",
             f"- **呈现**：{inline(node.get('presentation'))}",
+            f"- **论证与布局**：{inline(node.get('composition'))}",
             f"- **投稿要求**：{inline(node.get('venue'))}",
             f"- **验收**：{inline(node.get('acceptance'))}",
             f"- **审批**：`{node.get('approval', 'auto')}` / `{node.get('approval_state', 'not_required')}`",
@@ -1134,6 +1138,7 @@ def review_plan(resolved: dict[str, Any], content_root: Path) -> dict[str, Any]:
         review_figure_specs(result, node, content_root, resolved.get("venue", {}))
         review_table_specs(result, node, content_root)
         results.append(result)
+    review_compositions(nodes, results, content_root)
     counts = Counter(result["status"] for result in results)
     overall = "pass"
     if counts["blocked_missing_evidence"]:
@@ -1245,6 +1250,111 @@ def cmd_review(args: argparse.Namespace) -> int:
     return EXIT_OK if report["overall_status"] in {"pass", "warning"} else EXIT_INVALID
 
 
+def composition_errors(nodes):
+    """Composition is node-local: ownership and placement never inherit."""
+    index={n['id']:n for n in nodes};errors=[];labels=set();assets=set()
+    for n in nodes:
+        for a in n.get('composition',{}).get('assets',[]):
+            p='nodes.'+n['id']+'.composition';target=index.get(a['node_id'])
+            if a['label'] in labels or a['node_id'] in assets:
+                errors.append(error('duplicate_asset',p,'Asset ownership and labels must be unique'))
+            labels.add(a['label']);assets.add(a['node_id'])
+            if not target or target['type'] not in ('figure','table'):
+                errors.append(error('invalid_asset',p,'Asset must reference a figure/table node'))
+            elif not a['label'].startswith('fig:' if target['type']=='figure' else 'tab:'):
+                errors.append(error('invalid_asset_label',p,'Label prefix must match asset type'))
+            for ref in [a['first_reference']]+a['discuss_in']:
+                if ref not in index or index[ref]['type'] not in ('section','heading','paragraph','abstract','appendix'):
+                    errors.append(error('invalid_asset_reference',p,'Reference/discussion must target a prose node: '+ref))
+    return errors
+
+
+def writer_packet(resolved, node_id):
+    nodes=resolved.get('nodes',[]);index={n['id']:n for n in nodes}
+    if node_id not in index:
+        raise PlanInvalid([error('unknown_node',node_id,'Unknown writer node')])
+    if resolved.get('version')!=1 or 'source_version' not in resolved:
+        raise PlanInvalid([error('invalid_resolved',node_id,'Expected resolved Writing Plan v1')])
+    errors=composition_errors(nodes)
+    for item in nodes:
+        requirements={k:item[k] for k in CONFIG_KEYS if k in item}
+        requirements['venue']=item.get('venue',{})
+        if 'composition' in item:requirements['composition']=item['composition']
+        if canonical_hash(requirements)!=item.get('resolved_plan_hash'):
+            errors.append(error('stale_resolved',item['id'],'Resolve the original plan again'))
+    if errors:raise PlanInvalid(errors)
+    node=index[node_id];ancestors=[];cursor=node;seen=set()
+    while cursor:
+        if cursor['id'] in seen:
+            raise PlanInvalid([error('parent_cycle',node_id,'Cycle in resolved input')])
+        seen.add(cursor['id'])
+        requirements={k:cursor[k] for k in CONFIG_KEYS if k in cursor}
+        requirements['venue']=cursor.get('venue',{})
+        if 'composition' in cursor:requirements['composition']=cursor['composition']
+        if canonical_hash(requirements)!=cursor.get('resolved_plan_hash'):
+            raise PlanInvalid([error('stale_resolved',cursor['id'],'Resolve the original plan again')])
+        if cursor.get('approval')=='before_write' and cursor.get('approval_state')!='approved':
+            raise PlanInvalid([error('approval_required',cursor['id'],'Writing gate is not approved')])
+        ancestors.append(cursor)
+        parent=cursor.get('parent_id')
+        if parent and parent not in index:
+            raise PlanInvalid([error('missing_parent',node_id,'Missing resolved parent')])
+        cursor=index.get(parent)
+    related=[]
+    for owner in nodes:
+        for asset in owner.get('composition',{}).get('assets',[]):
+            if owner['id']==node_id or node_id in [asset['node_id'],asset['first_reference']]+asset['discuss_in']:
+                related.append({'owner_id':owner['id'],'placement':copy.deepcopy(asset),'asset_plan':copy.deepcopy(index[asset['node_id']])})
+    siblings=sorted([n for n in nodes if n.get('parent_id')==node.get('parent_id') and n['id']!=node_id],key=lambda n:(n.get('order',0),n['id']))
+    return {'version':1,'node_id':node_id,'resolved_plan_hash':node['resolved_plan_hash'],
+            'node_plan':copy.deepcopy(node),'parent_objective':copy.deepcopy(ancestors[1].get('objective',{})) if len(ancestors)>1 else {},
+            'sibling_planned_summaries':[{'id':n['id'],'title':n['title'],'objective':n.get('objective',{})} for n in siblings],
+            'assets':related,'writing_policy':copy.deepcopy(resolved.get('writing_policy',{})),
+            'execution_status':'prepared_not_written',
+            'required_external_inputs':['verified research evidence','approved terminology','current neighboring text summaries'],
+            'post_write_checks':['node content review','asset references and labels','official LaTeX compilation','final-size visual and float-placement review'],
+            'scope':'Planning handoff only; no model call, evidence retrieval, scientific approval or rendered-page validation.'}
+
+
+def cmd_packet(args):
+    result=writer_packet(load_json(args.resolved_plan),args.node)
+    atomic_write(args.output,json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
+    print_json({'status':'prepared_not_written','node_id':args.node,'output':str(args.output)})
+    return EXIT_OK
+
+
+def review_compositions(nodes,results,root):
+    """Literal LaTeX source checks only; no include expansion or layout inference."""
+    index={n['id']:n for n in nodes};reviews={r['node_id']:r for r in results}
+    cache={}
+    def source(node_id):
+        if node_id not in cache:
+            node=index[node_id];name=node.get('output_path')
+            file=safe_content_path(root,name) if name else None
+            full=file.read_text(encoding='utf-8') if file and file.is_file() else ''
+            # Keep node anchors until extraction, then strip ordinary TeX comments.
+            text,found=extract_node_text(full,node)
+            text=re.sub(r'(?<!\\)%[^\n]*','',text)
+            cache[node_id]=(text,found)
+        return cache[node_id]
+    for owner in nodes:
+        composition=owner.get('composition')
+        if not composition:continue
+        result=reviews[owner['id']]
+        for a in composition.get('assets',[]):
+            label=a['label'];asset_text,found=source(a['node_id'])
+            if not found or not re.search(r'\\label\s*\{'+re.escape(label)+r'\}',asset_text):
+                add_check(result['checks'],'asset_label','fail','Missing label in declared asset node: '+label)
+            for node_id in dict.fromkeys([a['first_reference']]+a['discuss_in']):
+                text,found=source(node_id)
+                references=re.findall(r'\\(?:ref|autoref|[cC]ref|[cC]pageref)\*?\s*\{([^{}]+)\}',text)
+                if not found or not any(label in [v.strip() for v in refs.split(',')] for refs in references):
+                    add_check(result['checks'],'asset_reference','fail',f'{label}: missing explicit reference in {node_id}')
+        add_check(result['checks'],'layout_review','warning','Source checks do not verify first-use order, discussion quality, page budget, float distance or final-size readability; compile and visually review.')
+        refresh_result_status(result)
+
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1275,6 +1385,11 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--json-output", type=Path, required=True)
     review.add_argument("--markdown-output", type=Path, required=True)
     review.set_defaults(func=cmd_review)
+    packet = subparsers.add_parser("packet", help="export one resolved writer task; does not call a model")
+    packet.add_argument("resolved_plan", type=Path)
+    packet.add_argument("--node", required=True)
+    packet.add_argument("--output", type=Path, required=True)
+    packet.set_defaults(func=cmd_packet)
     return parser
 
 

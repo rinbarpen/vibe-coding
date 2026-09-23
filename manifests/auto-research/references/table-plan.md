@@ -65,3 +65,41 @@ In a node's existing `presentation.tables` list, add:
 ```
 
 Native table/table*/longtable environments are recognized by the basic presence check. An external `\input` alone is not proof of table presence; verify linked artifacts and review the appropriate node/file. This is initial LaTeX integration, not a complete TeX parser.
+
+## Four ablation designs (optional v1 extension)
+
+Use `writing/table-plan.ablation-{removal,additive,choices,interaction}.yaml`.
+All four reuse the existing validate → resolve → render → review commands and
+raw-result evidence gates. Examples default to one seed (`[42]`); set the same
+explicit seed list for every configuration to enable paired multi-seed summaries.
+
+`ablation.kind` selects the design; `factors` declares `{id, label, parameter}`
+where parameter is an exact top-level row.parameters key. Every row shares one
+experiment_id and identical non-factor parameters. Declare all relevant controls;
+this check does not establish scientific fairness for unrecorded settings.
+
+| Kind | Required configurations | Derived contrast |
+|---|---|---|
+| removal | all-on reference and exactly one removal per factor | removed variant − reference |
+| additive | all-off base; one new component per ordered row | current − previous |
+| choices | at least two scalar settings of one factor | variant − reference |
+| interaction | two boolean factors, complete 00/10/01/11 | 11 − 10 − 01 + 00 |
+
+`reference_row` is required only for removal and choices. Separate plans express
+separate design-choice factors; automatic multi-factor blocks are not implemented.
+Order-dependent additive gains and interaction signs are descriptive, not causal
+or significance claims. Metric scaling is applied before subtraction; a percentage
+metric gives percentage-point differences. For minimized metrics a negative delta
+means reduction. Interaction sign alone does not establish synergy.
+
+The renderer emits three native booktabs floats: result matrix, factor matrix,
+and contrast matrix. They inherit the document's typography and table/table*
+layout. No rasterization, hard-coded font family, or automatic width fitting.
+Large dataset/metric grids should be split explicitly before final venue review.
+
+Derived cells have stable IDs `TABLE:derived:CONTRAST:DATASET:METRIC`, weighted
+base-cell terms, and per-seed run IDs. The macro file exposes them through
+`\ResearchValue{...}` for manuscript review. Mean and sample SD are calculated
+from weighted **within-seed contrasts**, not from marginal standard deviations.
+A single seed has no SD or significance test. Missing seeds, failed audits, or
+stale raw hashes block dependent contrasts and production rendering.

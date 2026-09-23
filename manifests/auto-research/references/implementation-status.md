@@ -26,3 +26,22 @@
 
 ## 接续顺序
 先接统计结果→Table Plan→LaTeX→正文一致性；再接模型/执行宿主；逐项接通评审、投稿、返修。每项完成必须附真实工具日志、固定夹具回归和对应Git检查点，不以补充说明文档替代集成。
+
+### Paired ablation tables
+- Implemented four validated designs (removal, additive, single-factor choices,
+  full two-factor interaction), paired contrasts, derived-cell manuscript references,
+  factor/results/contrast native LaTeX floats and installer inclusion.
+- Synthetic aggregation fixtures test SD covariance, controls, incomplete designs,
+  missing evidence, stale hashes and compilation. They are not training results.
+- Still pending: automatic width/layout selection, multi-factor choice blocks,
+  significance testing and actual venue-template integration. No causal or synergy
+  conclusion is inferred from a contrast sign.
+
+### Chapter composition and writer handoff
+- Implemented optional inherited strategy/paragraph rules, node-local composition,
+  stable asset/prose links, schema and semantic validation, hash-based invalidation,
+  deterministic packet export and node/ancestor approval gate checks.
+- Source review checks explicit labels and references, retaining a layout warning.
+- Not implemented: automatic prose generation, global first-reference/include-tree
+  analysis, page budget measurement, semantic discussion/style assessment, actual
+  compilation/visual feedback ingestion or automatic layout repair.

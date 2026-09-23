@@ -16,3 +16,7 @@ Preserve prior Writing Plan and all unrelated staged/unstaged changes.
 - [complete] 95 substage contracts and opt-in legacy-compatible / default-new strict leaf completion gate; 81 tests passed.
 
 - [complete] Table Plan v1 benchmark evidence pipeline: schema, raw-result provenance, native LaTeX, explicit manuscript values and Writing Plan links. Other table layouts and full TeX semantics remain pending.
+
+- [complete] Four ablation designs wired to Table Plan: paired delta/interaction, validated controls, derived provenance, native LaTeX; 114 tests passed.
+
+- [complete] Chapter style and asset composition: optional schema, local ownership, writer packet and source checks; 129 tests passed, patch and rollback verified.
