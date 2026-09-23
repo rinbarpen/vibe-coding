@@ -9,6 +9,7 @@
 - **paper-review** — 证据驱动的 ML/AI 论文评审与投稿前自审（由根目录 `skills/paper-review` Git 子模块管理）
 - **paperreview** — 自动论文评审（4 轮自主评审循环、数值声明校验、引用校验）
 - **autofigure** — 自动图表生成（确定性 SVG 架构图、AI 插图、数据驱动图表）
+- **nature-figure** — `skills/nature-skills` 上游子模块中的 Nature 级论文绘图技能，依赖同仓库 `nature-shared`；用于高质量数据图、多面板结果图和 venue-aware figure QA
 - **anti-defensive-writing** — 中英文 anti-defensive writing skill，作为可选写作审计器管理（根目录 `skills/anti-defensive-writing` Git 子模块）
 - **z-humanizer** — `mine/z-humanizer` 的中英文 academic/journal/conference humanization，先接入 research 写作节点
 
@@ -30,7 +31,7 @@
 7. 按 `writing/figure-types.yaml` 为架构图、流程图、对比图、消融图、曲线、热力图、定性图和概念图创建 figure node
 8. 写作后运行 `review`，只局部修订未通过节点，再运行 `aris/auto-review-loop`
 9. 需要投稿前自审时调用 `paper-review`，将问题绑定到论文中的表格、公式、实验设置或引用
-10. 使用 `aris/figure-spec`、`aris/paper-figure` 或 `aris/paper-illustration` 生成论文图表
+10. 按 `CLAUDE.md` 的图表路由选择 `nature-figure`、`aris/figure-spec`、`aris/paper-figure` 或 `aris/paper-illustration`；Nature 级数据图、多面板结果图和 venue-aware QA 优先读取 `nature-figure`
 11. 论文正文使用官方 venue LaTeX 模板；锁定 `.cls`/`.sty`/字体/参考文献/table/figure styles，不修改模板样式文件
 12. 默认省略 95% CI；只有 venue、研究方案、作者或审稿意见明确要求时才启用，并在 Writing Plan 记录理由
 13. 先运行 `mine/z-humanizer` 的中英文 research 写作路由；需要时再运行 `anti-defensive-writing` 的中英文审计目录
@@ -41,6 +42,7 @@
 
 字段、继承、稳定 ID、审批哈希和迁移说明见 [`writing/README.md`](writing/README.md)。
 投稿要求和图生成规则见 [`references/venue-requirements.md`](references/venue-requirements.md)。
+`nature-figure` 随根目录 `skills/nature-skills` Git 子模块提供；更新时保留整个子模块，以满足 `nature-shared` 等相对资源依赖。
 写作默认规则、LaTeX 模板锁定和中英文 skill 接入见 [`references/research-writing-rules.md`](references/research-writing-rules.md)。
 
 ## 全生命周期运行契约

@@ -134,3 +134,6 @@
 [submodule "skills/anti-defensive-writing"]
 	path = skills/anti-defensive-writing
 	url = https://github.com/Adkid-Zephyr/anti-defensive-writing-Skill.git
+[submodule "skills/nature-skills"]
+	path = skills/nature-skills
+	url = https://github.com/Yuan1z0825/nature-skills.git

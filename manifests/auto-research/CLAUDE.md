@@ -101,7 +101,8 @@ aris/research-pipeline 端到端：文献调研 → 想法生成 → 新颖性�
 - 每次节点结构或要求变化后重新 `validate`、`resolve`、`render`。`WRITING_PLAN.md` 是生成视图，不作为输入。
 - 投稿前在 Writing Plan 顶层冻结 `venue.profile`、官方 `source_url` 和 `checked_at`；resolver 将期刊/会议的页数、模板、匿名、图格式、尺寸、分辨率、caption、补充材料与必需声明注入每个 resolved node。要求变化会使审批哈希失效。
 - writer 只消费 `.auto-research/resolved-writing-plan.json` 中当前节点，不直接解释原始 YAML；一次只写一个节点。
-- 图节点只能使用 `writing/figure-types.yaml` 中的类型；结构图走 `figure-spec`，数据图走 `paper-figure`/`plot`，概念图走 `paper-illustration`。每个图记录数据输入、输出格式、caption、alt text、生成命令和 code revision。
+- 图节点只能使用 `writing/figure-types.yaml` 中的类型；结构图走 `figure-spec`，常规数据图走 `paper-figure`/`plot`，Nature 级论文图、多面板结果图或 venue-aware 绘图/QA 走 `nature-figure`，概念图走 `paper-illustration`。每个图记录数据输入、输出格式、caption、alt text、生成命令和 code revision。
+- Nature 级论文数据图、多面板结果图与基于数据/图注/claim 的机制图，优先读取并使用 `nature-figure`（`skills/nature-skills/skills/nature-figure/SKILL.md`）；同时遵循其 figure contract、panel evidence architecture、venue spec 和导出 QA。单纯结构性架构图仍走 `figure-spec`/现有双交付规则，概念性 AI 插图仍走 `paper-illustration`。`nature-figure` 引用的共享资源位于同一子模块的 `skills/nature-shared/`，不要只复制单个 SKILL.md。
 - 只有 resolved 节点的 `approval` 为 `before_write` 且 `approval_state` 不是 `approved` 时暂停。目标、受众、风格或证据等 resolved 要求变化会改变哈希，使旧审批变为 `stale`。
 - review 按节点执行；失败后仅重写不合格节点。`auto_fix: constrained` 不得改变核心结论、证据标准、章节结构或已审批目标。
 - 详细字段、继承和审批语义见 `writing/README.md`。
@@ -169,6 +170,7 @@ aris/figure-spec + aris/paper-illustration：图规格 (JSON) → 确定性 SVG 
 ### Figure 逐类实现与视觉一致性
 
 图生成前读取 `references/figure-implementation-recipes.md` 的对应类型配方。
+数据驱动论文图、多面板结果图或需要 Nature/NMI venue 规范时，另读取 `skills/nature-skills/skills/nature-figure/SKILL.md` 与其按需引用的 backend/QA 资源；先定 figure claim、证据层级、panel 架构、数据完整性与目标 venue，再绘制并执行对齐、碰撞、PDF 字号和统计标注检查。该 skill 不替代本 manifest 对图节点记录、resolved visual、code revision 和人工视觉审查的要求。
 每个 renderer 消费 resolved figure 的 `type_requirements.implementation` 与 `resolved_visual`；
 全论文使用稳定 series_colors，类别同时用线型/形状区分。优先白底、轻网格、无装饰阴影。
 配色预设位于 `writing/figure-palettes.yaml`，允许文档/文件/节点/单图覆盖及自定义 HEX 组合。
