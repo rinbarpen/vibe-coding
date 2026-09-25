@@ -1,5 +1,7 @@
 # Agent Instructions for Unified Development
 
+> 产物记录的唯一账本是项目根目录 [`MANIFEST.md`](MANIFEST.md)；请追加记录，不要在指令文档中复制清单。
+
 Instructions for AI coding agents (Cursor, Claude Code, etc.) working under the **Vibe Coding** unified manifest. Covers full lifecycle: research → architecture → scaffold → implement → quality gate → review → deploy → maintain.
 
 ## Role Definition

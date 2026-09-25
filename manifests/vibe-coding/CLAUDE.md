@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+> 产物记录的唯一账本是项目根目录 [`MANIFEST.md`](MANIFEST.md)；请追加记录，不要在指令文档中复制清单。
+
 Unified Development Manifest — full lifecycle engineering from idea to production deployment. Covers multi-language development, Git/GitHub operations, cloud platform deployment, and enterprise governance.
 
 ## Commands
